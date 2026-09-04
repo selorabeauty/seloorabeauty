@@ -1,0 +1,49 @@
+from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_db
+from app.schemas.order import OrderCreate, OrderResponse, UpsellRequest, UpsellResponse
+from app.services import order_service
+
+router = APIRouter(tags=["orders"])
+
+
+@router.post("/orders", response_model=OrderResponse)
+async def create_order(
+    payload: OrderCreate,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    data = payload.model_dump()
+    # Prefer real client IP from headers
+    data["ip"] = data.get("ip") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or str(request.client.host)
+    order = await order_service.create_order(db, data)
+    return OrderResponse(order_id=order.order_id, total=float(order.total), status=order.status)
+
+
+@router.post("/orders/upsell", response_model=UpsellResponse)
+async def accept_upsell(
+    payload: UpsellRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    if not payload.accepted:
+        return UpsellResponse(order_id=payload.order_id, upsell_total=0, new_total=0)
+    try:
+        order = await order_service.accept_upsell(db, payload.order_id, payload.quantity)
+        return UpsellResponse(
+            order_id=order.order_id,
+            upsell_total=float(order.upsell_total),
+            new_total=float(order.total),
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.get("/orders/{order_id}")
+async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
+    from sqlalchemy import select
+    from app.models.order import Order
+    result = await db.execute(select(Order).where(Order.order_id == order_id))
+    order = result.scalar_one_or_none()
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return {"order_id": order.order_id, "status": order.status, "total": float(order.total)}

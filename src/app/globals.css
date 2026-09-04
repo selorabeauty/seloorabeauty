@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════
+   SELORA BEAUTY — Luxury Design System
+   Palette: warm nude / beige · dark bark · antique gold
+   Font: Tajawal — 700 headlines / 400 body
+═══════════════════════════════════════ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    /* Warm off-white page background */
+    background-color: #FDFAF6;
+    /* Rich dark-brown body text — high contrast */
+    color: #1A0F08;
+    font-family: var(--font-tajawal), 'Tajawal', 'Cairo', 'Segoe UI', Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    @apply antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #1A0F08;
+    line-height: 1.15;
+  }
+
+  p { color: #3D2B1F; }
+
+  ::selection {
+    background: #C4943E;
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #F8F2EA; }
+  ::-webkit-scrollbar-thumb { background: #C4943E; border-radius: 99px; }
+}
+
+/* ═══════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════ */
+@layer components {
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-4 rounded-2xl font-bold text-base
+           transition-all duration-200
+           hover:scale-[1.02] active:scale-[0.97]
+           shadow-md hover:shadow-lg;
+    background-color: #1A0F08;
+    color: #FDFAF6;
+  }
+  .btn-primary:hover { background-color: #2A1C12; }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-4 rounded-2xl font-bold text-base
+           transition-all duration-200
+           hover:scale-[1.02] active:scale-[0.97];
+    background: linear-gradient(135deg, #C4943E 0%, #D4A96A 60%, #C4943E 100%);
+    background-size: 200% auto;
+    /* Dark brown on gold — crisp on all screens including mobile */
+    color: #1A0F08;
+    box-shadow: 0 4px 24px -4px rgba(196,148,62,0.40);
+    letter-spacing: 0.01em;
+  }
+  .btn-gold:hover {
+    background-position: right center;
+    box-shadow: 0 6px 32px -4px rgba(196,148,62,0.55);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-4 rounded-2xl font-bold text-base
+           transition-all duration-200 active:scale-[0.97];
+    border: 2px solid #1A0F08;
+    color: #1A0F08;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background-color: #1A0F08;
+    color: #FDFAF6;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-4 rounded-2xl font-bold text-base
+           transition-all duration-200 active:scale-[0.97];
+    border: 1.5px solid #EFE4D4;
+    color: #3D2B1F;
+    background: #F8F2EA;
+  }
+  .btn-secondary:hover {
+    background-color: #EFE4D4;
+    border-color: #C4943E;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff;
+    border: 1px solid #EFE4D4;
+    @apply rounded-3xl shadow-sm p-6;
+  }
+
+  .product-card {
+    background: #fff;
+    border: 1px solid #EFE4D4;
+    @apply rounded-3xl overflow-hidden
+           shadow-sm hover:shadow-xl transition-all duration-300
+           hover:-translate-y-1 cursor-pointer;
+  }
+
+  /* ── SECTION TYPOGRAPHY ── */
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl leading-tight;
+    font-weight: 800;
+    color: #1A0F08;
+  }
+
+  .section-sub {
+    @apply text-lg mt-3 leading-relaxed max-w-2xl mx-auto;
+    color: #2B1E16;
+    font-weight: 500;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1
+           text-xs font-bold rounded-full;
+    background: #F8F2EA;
+    color: #5A4A3F;
+    border: 1px solid #EFE4D4;
+  }
+
+  .badge-gold {
+    @apply inline-flex items-center gap-1.5 px-3 py-1
+           text-xs font-bold rounded-full;
+    background: #FBF3E3;
+    color: #8A611E;
+    border: 1px solid #E8C98A;
+  }
+
+  .badge-green {
+    @apply inline-flex items-center gap-1.5 px-3 py-1
+           text-xs font-bold rounded-full;
+    background: #EAF5EE;
+    color: #2D6B41;
+    border: 1px solid #A8D8B8;
+  }
+
+  /* ── FORM INPUTS ── */
+  .input {
+    @apply w-full px-4 py-3.5 rounded-xl text-base outline-none transition-all;
+    border: 1.5px solid #EFE4D4;
+    background: #FDFAF6;
+    color: #1A0F08;
+    font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+  }
+  .input::placeholder { color: #C9AF97; }
+  .input:focus {
+    border-color: #C4943E;
+    box-shadow: 0 0 0 3px rgba(196,148,62,0.15);
+  }
+
+  .input-error {
+    border-color: #C0392B;
+  }
+  .input-error:focus {
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+  }
+
+  /* ── STARS ── */
+  .star { color: #C4943E; }
+
+  /* ── DIVIDER ── */
+  .luxury-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #EFE4D4, transparent);
+  }
+}
+
+/* ═══════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════ */
+@layer utilities {
+
+  /* Gold gradient text */
+  .text-gold {
+    background: linear-gradient(90deg, #C4943E, #D4A96A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Luxury warm hero background */
+  .bg-hero {
+    background-color: #FDFAF6;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 85% 5%,  rgba(196,148,62,0.08) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 50% at 15% 95%, rgba(61,43,31,0.04)   0%, transparent 65%);
+  }
+
+  /* Nude section bg */
+  .bg-nude { background-color: #F8F2EA; }
+
+  /* Dark luxury section bg */
+  .bg-bark {
+    background-color: #1A0F08;
+    color: #FDFAF6;
+  }
+
+  /* Float animation */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  /* Gold shimmer on CTA */
+  .animate-shimmer {
+    background-size: 200% auto;
+    animation: shimmer 2.5s linear infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: -200% center; }
+  }
+
+  /* Text clamp */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Muted body text — still legible */
+  .text-muted { color: #6E5C50; }
+  .text-subtle { color: #8C7B6E; }
+}
