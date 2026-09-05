@@ -7,10 +7,23 @@ import { PRODUCTS } from '@/lib/products';
 
 const hero = PRODUCTS[0];
 
+// ── EMOTIONAL + RATIONAL bullets — 2 problems only ──
 const PAIN_BULLETS = [
-  { emoji: '🧬', bold: 'ترميم عميق للتشققات:', rest: 'يحفز إنتاج الكولاجين لتحسين مظهر الخطوط وتشققات الجسم بشكل ملحوظ.' },
-  { emoji: '🚗', bold: 'حماية وترميم اليدين:', rest: 'يعالج اسمرار السواقة والتجاعيد الناتجة عن التعرض للشمس والجفاف.' },
-  { emoji: '✨', bold: 'تجديد مظهر البشرة والوجه:', rest: 'يمنحكِ بشرة مشدودة، موحدة اللون، وأكثر نضارة بدون وعود فارغة.' },
+  {
+    emoji: '💔',
+    bold: 'تشققات الجسم تسرق ثقتكِ:',
+    rest: 'كل مرة تنظرين للمرآة تتمنين لو اختفت — الريتينال المُغلَّف يُرمم النسيج العميق ويُعيد المرونة التي افتقدتِها.',
+  },
+  {
+    emoji: '⏳',
+    bold: 'تجاعيد الوجه لا تنتظر:',
+    rest: 'كل يوم بدون علاج حقيقي يعني خطوطاً أعمق. تركيبتنا تُحفز الكولاجين وتشد البشرة من الأسبوع الأول.',
+  },
+  {
+    emoji: '🔬',
+    bold: 'العلم في صفّكِ — لا المشاعر فقط:',
+    rest: '87% تحسن في التشققات، 91% تقليل التجاعيد — نتائج موثقة في 4 أسابيع.',
+  },
 ];
 
 export default function Hero() {
@@ -76,16 +89,16 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            {/* Line 1 — rich dark brown */}
-            <span style={{ color: '#1A0F08' }}>أكبر من مجرد سيروم..</span>
+            {/* Line 1 — emotional hook */}
+            <span style={{ color: '#1A0F08' }}>وداعاً للتشققات والتجاعيد..</span>
             <br />
-            {/* Line 2 — deep bronze, high contrast, NOT faint gold */}
+            {/* Line 2 — rational promise */}
             <span style={{ color: '#3D2B1F' }}>
-              المرمّم المكثف لتجديد البشرة ومحو التشققات.
+              الريتينال المُغلَّف — تجديد حقيقي من الخلية الأولى.
             </span>
           </h1>
 
-          {/* ── SUB-HEADLINE ── */}
+          {/* ── SUB-HEADLINE — emotional + rational ── */}
           <p
             className="text-lg pb-2"
             style={{
@@ -96,7 +109,7 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            تركيبة ريتينال مركزة تعمل على مستوى الخلايا؛ لشد البشرة، علاج اسمرار وتجاعيد اليدين من القيادة، وإعادة المرونة الكاملة لجسمك.
+            هل تعبتِ من إخفاء تشققات جسمكِ أو تجاعيد وجهكِ؟ تركيبة الريتينال المكثفة تعمل على مستوى الخلايا — تُرمم التشققات وتشد الوجه في نفس الوقت، بدون تهيج.
           </p>
 
           {/* ── PAIN-POINT BULLETS — exact from brief ── */}

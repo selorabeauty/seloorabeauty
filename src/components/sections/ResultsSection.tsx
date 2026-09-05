@@ -5,16 +5,16 @@ import { PRODUCTS, BUNDLES } from '@/lib/products';
 const hero = PRODUCTS[0];
 
 const TIMELINE = [
-  { period: 'الأسبوع ١', result: 'ترطيب عميق وبشرة أكثر نضارة من الغسلة الأولى',        dot: '#EFE4D4' },
-  { period: 'الأسبوع ٢', result: 'بداية تحسن ملحوظ في مظهر التشققات واسمرار اليدين',    dot: '#D4A96A' },
-  { period: 'الأسبوع ٤', result: 'تشققات أفتح، يدان أكثر نعومة، بشرة موحدة ومشرقة',    dot: '#C4943E' },
-  { period: 'الأسبوع ٨', result: 'تحول كامل — بشرة مشدودة، يدان ترممت، مرونة حقيقية',  dot: '#1A0F08' },
+  { period: 'الأسبوع ١', result: 'ترطيب عميق وبشرة الوجه أكثر نضارة من الغسلة الأولى',           dot: '#EFE4D4' },
+  { period: 'الأسبوع ٢', result: 'بداية تحسن ملحوظ في لون التشققات وخطوط الوجه تبدأ بالتخفيف',  dot: '#D4A96A' },
+  { period: 'الأسبوع ٤', result: 'تشققات أفتح وأقل بروزاً، تجاعيد الوجه أخف وبشرة أكثر إشراقاً', dot: '#C4943E' },
+  { period: 'الأسبوع ٨', result: 'تحول حقيقي — تشققات الجسم ترممت، وجه مشدود ومرن، ثقة عالية',   dot: '#1A0F08' },
 ];
 
 const STATS = [
-  { label: 'تحسن مظهر التشققات',       pct: '+87%', sub: 'في ٤ أسابيع' },
-  { label: 'توحيد لون البشرة واليدين', pct: '+94%', sub: 'تحسن ملحوظ' },
-  { label: 'تقليل تجاعيد اليدين',      pct: '+76%', sub: 'بشرة أكثر شباباً' },
+  { label: 'تحسن مظهر تشققات الجسم',  pct: '+87%', sub: 'في ٤ أسابيع' },
+  { label: 'تقليل تجاعيد الوجه',       pct: '+91%', sub: 'بشرة مشدودة' },
+  { label: 'مرونة البشرة العامة',       pct: '+94%', sub: 'تحسن ملحوظ' },
 ];
 
 export default function ResultsSection() {
@@ -41,7 +41,7 @@ export default function ResultsSection() {
 
         <div className="text-center mb-14">
           <h2 className="section-heading">النتائج تتكلم عن نفسها</h2>
-          <p className="section-sub">قبل وبعد حقيقي من عملاء حقيقيات في المملكة</p>
+          <p className="section-sub">تشققات الجسم وتجاعيد الوجه — قبل وبعد حقيقي من عميلات المملكة</p>
         </div>
 
         {/* ── Before / After stat cards ── */}

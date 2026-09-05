@@ -1,11 +1,14 @@
-import { X, ArrowDown } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 
+// ── EMOTIONAL problems — 2 core issues only ──
 const PROBLEMS = [
-  'تشققات لا تختفي رغم كل كريم جربتِه',
-  'يدانِ تُخبران عمرك قبل وجهك — اسمرار وتجاعيد من القيادة اليومية',
-  'بشرة متعبة، باهتة، بلا إشراق رغم كل ما تنفقينه',
-  'بقع داكنة وتفاوت في اللون لا يستجيب للعلاج',
-  'جربتِ كل شيء — ولا منتج أعطاكِ نتيجة حقيقية',
+  // ── تشققات الجسم — emotional ──
+  { emoji: '💔', text: 'تتجنبين ملابس معينة بسبب تشققات جسمكِ' },
+  { emoji: '😔', text: 'جربتِ زيوت وكريمات لا تُعدّ — ولا شيء أثّر في التشققات' },
+  { emoji: '🪞', text: 'تنظرين للمرآة وتتمنين لو عادت بشرتكِ لما كانت عليه' },
+  // ── تجاعيد الوجه — emotional ──
+  { emoji: '⏳', text: 'تجاعيد وجهكِ تكبر كل يوم — وتشعرين أن الوقت يسبقكِ' },
+  { emoji: '😞', text: 'أنفقتِ على كريمات غالية — وما رأيتِ فرقاً حقيقياً' },
 ];
 
 export default function ProblemSection() {
@@ -13,13 +16,15 @@ export default function ProblemSection() {
     <section id="problem" className="py-20" style={{ backgroundColor: '#1A0F08' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
+        {/* ── Emotional headline ── */}
         <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: '#FDFAF6' }}>
-          هل تشعرين بهذا؟
+          نعرف بالضبط كيف تشعرين..
         </h2>
-        <p className="text-base mb-10" style={{ color: '#8C7B6E' }}>
-          إذا كنتِ تعانين من واحدة أو أكثر، فأنتِ لستِ وحدكِ — وهذا ليس ذنبكِ.
+        <p className="text-base mb-10" style={{ color: '#C9AF97' }}>
+          تشققات الجسم وتجاعيد الوجه — مشكلتان حقيقيتان تؤثران على ثقتكِ كل يوم.
         </p>
 
+        {/* ── Problem cards ── */}
         <div className="flex flex-col gap-3 mb-10">
           {PROBLEMS.map((p, i) => (
             <div
@@ -27,19 +32,15 @@ export default function ProblemSection() {
               className="flex items-center gap-4 rounded-2xl px-5 py-4 text-start transition-colors"
               style={{ background: 'rgba(253,250,246,0.04)', border: '1px solid rgba(253,250,246,0.07)' }}
             >
-              <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
-                style={{ background: 'rgba(192,57,43,0.15)' }}
-              >
-                <X size={14} style={{ color: '#e07060' }} />
-              </div>
-              <span className="text-base" style={{ color: '#EFE4D4' }}>{p}</span>
+              <span className="text-2xl flex-shrink-0">{p.emoji}</span>
+              <span className="text-base" style={{ color: '#EFE4D4' }}>{p.text}</span>
             </div>
           ))}
         </div>
 
         <ArrowDown size={26} className="mx-auto mb-6 animate-bounce" style={{ color: '#C4943E' }} />
 
+        {/* ── Rational reassurance ── */}
         <div
           className="rounded-3xl p-8"
           style={{
@@ -53,7 +54,7 @@ export default function ProblemSection() {
               المنتجات التي جربتِها هي المشكلة.
             </span>
             <br />
-            البشرة الجميلة تحتاج علماً حقيقياً — وهذا بالضبط ما صنعناه.
+            التشققات والتجاعيد تحتاج ريتينالاً حقيقياً يصل للخلية — لا مجرد مرطب.
           </p>
         </div>
       </div>
