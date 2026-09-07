@@ -1,0 +1,5 @@
+# Force LF line endings for shell scripts and Python files on all platforms
+*.sh text eol=lf
+*.py text eol=lf
+*.txt text eol=lf
+Dockerfile text eol=lf

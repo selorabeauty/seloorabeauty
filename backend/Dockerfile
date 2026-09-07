@@ -9,10 +9,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy app code
 COPY . .
 
-# Make startup script executable
-RUN chmod +x start.sh
+# Fix Windows line endings (CRLF → LF) and make executable
+RUN apt-get update && apt-get install -y dos2unix && \
+    dos2unix start.sh && \
+    chmod +x start.sh && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8000
 
-# Use startup script — waits for DB, runs migrations, then starts server
 CMD ["sh", "start.sh"]
