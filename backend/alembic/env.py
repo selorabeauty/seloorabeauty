@@ -8,9 +8,10 @@ from app.database import Base
 from app.models import Order  # noqa: F401 — registers models
 
 config = context.config
+_db_url = settings.DATABASE_URL.split("?")[0]  # strip sslmode and other params
 config.set_main_option(
     "sqlalchemy.url",
-    settings.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://").replace("postgresql://", "postgresql+asyncpg://"),
+    _db_url.replace("postgres://", "postgresql+asyncpg://").replace("postgresql://", "postgresql+asyncpg://"),
 )
 
 if config.config_file_name is not None:

@@ -2,10 +2,17 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy app code
 COPY . .
 
-# Run DB migrations then start server
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2"]
+# Make startup script executable
+RUN chmod +x start.sh
+
+EXPOSE 8000
+
+# Use startup script — waits for DB, runs migrations, then starts server
+CMD ["sh", "start.sh"]
