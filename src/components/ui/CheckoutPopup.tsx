@@ -49,7 +49,7 @@ export default function CheckoutPopup() {
     const orderData = {
       orderId, name: name.trim(), phone: phone.trim(),
       items: cartItems.map((i) => ({ name: i.name, quantity: i.bundleQty ?? i.quantity, price: i.bundlePrice ?? i.price })),
-      subtotal: sub, total,
+      subtotal: total, total,
       createdAt: new Date().toISOString(),
     };
 
