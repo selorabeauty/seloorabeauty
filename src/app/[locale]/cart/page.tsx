@@ -43,19 +43,12 @@ export default function CartPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-black text-stone-900 text-base truncate">{item.name}</div>
-                      <div className="text-xs text-stone-400 mt-0.5">30 مل · الريتينال المُغلَّف</div>
+                      <div className="text-xs text-stone-400 mt-0.5">
+                        30 مل · الكمية: {item.bundleQty ?? item.quantity}
+                      </div>
                     </div>
-                    <div className="flex items-center border border-stone-200 rounded-xl overflow-hidden bg-stone-50">
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-3 py-2 hover:bg-stone-100 transition-colors">
-                        <Minus size={14} />
-                      </button>
-                      <span className="px-3 font-black text-base w-10 text-center">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-3 py-2 hover:bg-stone-100 transition-colors">
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                    <div className="font-black text-stone-900 text-base w-24 text-end">
-                      {formatPrice(item.price * item.quantity)}
+                    <div className="font-black text-amber-600 text-lg w-24 text-end">
+                      {formatPrice(item.bundlePrice ?? item.price * item.quantity)}
                     </div>
                     <button onClick={() => removeItem(item.id)} className="text-stone-300 hover:text-red-500 transition-colors p-1">
                       <Trash2 size={16} />
