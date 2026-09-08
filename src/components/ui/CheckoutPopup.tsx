@@ -50,16 +50,16 @@ export default function CheckoutPopup() {
     const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
     const firstCartItem = cartItems[0];
     const orderData = {
-      "date":        dateStr,
-      "order id":    orderId,
-      "country":     "SA",
-      "name":        name.trim(),
-      "phone":       phone.trim(),
-      "product":     firstCartItem?.name ?? 'سيروم الريتينال المُجدِّد',
-      "sku":         "SLR-RETINAL-001",
-      "quantity":    firstCartItem?.bundleQty ?? 1,
-      "total price": total,
-      "statut":      "جديد",
+      date:        dateStr,
+      order_id:    orderId,
+      country:     "SA",
+      name:        name.trim(),
+      phone:       phone.trim(),
+      product:     firstCartItem?.name ?? 'سيروم الريتينال المُجدِّد',
+      sku:         "SLR-RETINAL-001",
+      quantity:    firstCartItem?.bundleQty ?? 1,
+      total_price: total,
+      statut:      "جديد",
     };
 
     try {

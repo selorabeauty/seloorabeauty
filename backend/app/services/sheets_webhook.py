@@ -8,14 +8,14 @@ async def send_to_sheets(order) -> None:
         return
     payload = {
         "date":        datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-        "order id":    order.order_id,
+        "order_id":    order.order_id,
         "country":     "SA",
         "name":        order.name,
         "phone":       order.phone,
         "product":     order.product_name,
         "sku":         order.product_id,
         "quantity":    order.quantity,
-        "total price": float(order.total),
+        "total_price": float(order.total),
         "statut":      "جديد",
     }
     try:
