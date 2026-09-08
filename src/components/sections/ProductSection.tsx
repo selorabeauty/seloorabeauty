@@ -112,53 +112,63 @@ export default function ProductSection() {
                 <div
                   key={b.id}
                   onClick={() => setSelectedBundle(i)}
-                  className="rounded-2xl px-4 py-3.5 cursor-pointer transition-all"
+                  className="rounded-2xl cursor-pointer transition-all overflow-hidden"
                   style={{
-                    border: `2px solid ${selectedBundle === i ? '#C4943E' : '#EFE4D4'}`,
+                    border: `2px solid ${selectedBundle === i ? '#C4943E' : b.highlight ? '#C4943E' : '#EFE4D4'}`,
                     background: selectedBundle === i ? '#FBF3E3' : '#fff',
+                    boxShadow: b.highlight ? '0 4px 16px rgba(196,148,62,0.15)' : 'none',
                   }}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* Radio */}
-                    <div
-                      className="flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center"
-                      style={{
-                        borderColor: selectedBundle === i ? '#C4943E' : '#C9AF97',
-                        background: selectedBundle === i ? '#C4943E' : 'transparent',
-                      }}
-                    >
-                      {selectedBundle === i && <Check size={11} color="#fff" strokeWidth={3} />}
-                    </div>
-
-                    {/* Label + savings */}
-                    <div className="flex-1">
-                      <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{b.label}</div>
-                      {b.savingsLabel && (
-                        <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>{b.savingsLabel}</div>
-                      )}
-                    </div>
-
-                    {/* Price */}
-                    <div className="text-end">
-                      <div className="font-black text-xl" style={{ color: '#1A0F08' }}>{b.totalPrice} <span className="text-base font-bold">ر.س</span></div>
-                      <div className="text-[10px]" style={{ color: '#8C7B6E' }}>{b.perUnitLabel}</div>
-                    </div>
-
-                    {/* Badge */}
-                    {b.badge && (
-                      <span
-                        className="text-[10px] font-bold px-2 py-1 rounded-lg whitespace-nowrap"
-                        style={{ background: b.highlight ? '#C4943E' : '#F8F2EA', color: b.highlight ? '#fff' : '#8A611E', border: b.highlight ? 'none' : '1px solid #E8C98A' }}
-                      >
-                        {b.badge}
-                      </span>
-                    )}
-                  </div>
-                  {b.freeShipping && (
-                    <div className="flex items-center gap-1 mt-2 text-xs font-bold" style={{ color: '#2D6B41' }}>
-                      <Truck size={12} /> شامل الضريبة والشحن
+                  {/* Most Popular ribbon for bundle-3 */}
+                  {b.highlight && (
+                    <div className="w-full text-center py-1.5 text-xs font-black tracking-wide" style={{ background: '#C4943E', color: '#fff' }}>
+                      ⭐ الأكثر مبيعاً — الأفضل قيمة
                     </div>
                   )}
+
+                  <div className="px-4 py-3.5">
+                    <div className="flex items-center gap-3">
+                      {/* Radio */}
+                      <div
+                        className="flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center"
+                        style={{
+                          borderColor: selectedBundle === i ? '#C4943E' : '#C9AF97',
+                          background: selectedBundle === i ? '#C4943E' : 'transparent',
+                        }}
+                      >
+                        {selectedBundle === i && <Check size={11} color="#fff" strokeWidth={3} />}
+                      </div>
+
+                      {/* Label + savings */}
+                      <div className="flex-1">
+                        <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{b.label}</div>
+                        {b.savingsLabel && (
+                          <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>{b.savingsLabel}</div>
+                        )}
+                      </div>
+
+                      {/* Price */}
+                      <div className="text-end">
+                        <div className="font-black text-xl" style={{ color: '#1A0F08' }}>{b.totalPrice} <span className="text-base font-bold">ر.س</span></div>
+                        <div className="text-[10px]" style={{ color: '#8C7B6E' }}>{b.perUnitLabel}</div>
+                      </div>
+
+                      {/* Badge for bundle-2 */}
+                      {b.badge && !b.highlight && (
+                        <span
+                          className="text-[10px] font-bold px-2 py-1 rounded-lg whitespace-nowrap"
+                          style={{ background: '#F8F2EA', color: '#8A611E', border: '1px solid #E8C98A' }}
+                        >
+                          {b.badge}
+                        </span>
+                      )}
+                    </div>
+                    {b.freeShipping && (
+                      <div className="flex items-center gap-1 mt-2 text-xs font-bold" style={{ color: '#2D6B41' }}>
+                        <Truck size={12} /> شامل الضريبة والشحن
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
