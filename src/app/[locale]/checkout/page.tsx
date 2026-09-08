@@ -169,12 +169,8 @@ export default function CheckoutPage() {
                 ))}
 
                 {/* Price breakdown */}
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between" style={{ color: '#2D6B41' }}>
-                    <span className="font-medium">✅ شامل الضريبة والشحن</span>
-                    <span className="font-bold">{formatPrice(sub)}</span>
-                  </div>
-                  <div className="flex justify-between font-bold text-lg pt-3 border-t border-cream-200" style={{ color: '#1A0F08' }}>
+                <div className="pt-2 border-t border-cream-200">
+                  <div className="flex justify-between font-bold text-lg" style={{ color: '#1A0F08' }}>
                     <span>{locale === 'ar' ? 'الإجمالي' : 'Total'}</span>
                     <span style={{ color: '#C4943E' }}>{formatPrice(total)}</span>
                   </div>

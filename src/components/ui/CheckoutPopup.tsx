@@ -123,11 +123,8 @@ export default function CheckoutPopup() {
                   </div>
                 </div>
               ))}
-              <div className="space-y-1.5 text-sm pt-3 border-t" style={{ borderColor: '#EFE4D4' }}>
-                <div className="flex items-center justify-between">
-                  <span className="font-medium" style={{ color: '#2D6B41' }}>✅ شامل الضريبة والشحن</span>
-                </div>
-                <div className="flex justify-between font-bold text-base pt-1.5 border-t" style={{ color: '#1A0F08', borderColor: '#EFE4D4' }}>
+              <div className="pt-3 border-t" style={{ borderColor: '#EFE4D4' }}>
+                <div className="flex justify-between font-bold text-base" style={{ color: '#1A0F08' }}>
                   <span>الإجمالي</span>
                   <span style={{ color: '#C4943E' }}>{formatPrice(total)}</span>
                 </div>

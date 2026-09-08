@@ -20,17 +20,17 @@ export interface Product {
   isNew?: boolean;
 }
 
-// ── Bundle pricing (all prices include VAT + shipping) ──
+// ── Bundle pricing ──
 export interface Bundle {
   id: string;
   qty: number;
   totalPrice: number;
+  originalTotal: number; // crossed-out price
   label: string;
   perUnitLabel: string;
   badge: string | null;
   highlight: boolean;
-  freeShipping: boolean;
-  savingsLabel: string | null;
+  savingsLabel: string;
 }
 
 export const BUNDLES: Bundle[] = [
@@ -38,34 +38,34 @@ export const BUNDLES: Bundle[] = [
     id: 'bundle-1',
     qty: 1,
     totalPrice: 199,
-    label: 'حبة واحدة',
-    perUnitLabel: '199 ر.س للحبة',
+    originalTotal: 299,
+    label: 'قطعة واحدة',
+    perUnitLabel: '199 ر.س / قطعة',
     badge: null,
     highlight: false,
-    freeShipping: true,
-    savingsLabel: null,
+    savingsLabel: 'وفري ١٠٠ ريال',
   },
   {
     id: 'bundle-2',
     qty: 2,
     totalPrice: 249,
-    label: 'حبتين — كورس شهر',
-    perUnitLabel: '124 ر.س للحبة',
+    originalTotal: 398,
+    label: 'قطعتين — كورس شهر',
+    perUnitLabel: '124 ر.س / قطعة',
     badge: '🔥 الأكثر طلباً',
     highlight: false,
-    freeShipping: true,
     savingsLabel: 'وفري ١٤٩ ريال',
   },
   {
     id: 'bundle-3',
     qty: 3,
-    totalPrice: 359,
-    label: '٣ حبات — الكورس الكامل',
-    perUnitLabel: '119 ر.س للحبة',
-    badge: '⭐ الأوفر — الأفضل قيمة',
+    totalPrice: 379,
+    originalTotal: 597,
+    label: '٣ قطع — الكورس الكامل',
+    perUnitLabel: '126 ر.س / قطعة',
+    badge: '⭐ الأفضل قيمة',
     highlight: true,
-    freeShipping: true,
-    savingsLabel: 'وفري ٢٣٨ ريال',
+    savingsLabel: 'وفري ٢١٨ ريال',
   },
 ];
 

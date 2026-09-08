@@ -2,7 +2,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShieldCheck, Truck, Star, Check } from 'lucide-react';
+import { ShieldCheck, Truck, Star, Check } from 'lucide-react'; // Truck used in trust row
 import { useCartStore } from '@/store/cartStore';
 import { PRODUCTS, BUNDLES } from '@/lib/products';
 const PRODUCT = PRODUCTS[0];
@@ -115,11 +115,11 @@ export default function ProductSection() {
                   className="rounded-2xl cursor-pointer transition-all overflow-hidden"
                   style={{
                     border: `2px solid ${selectedBundle === i ? '#C4943E' : b.highlight ? '#C4943E' : '#EFE4D4'}`,
-                    background: selectedBundle === i ? '#FBF3E3' : '#fff',
-                    boxShadow: b.highlight ? '0 4px 16px rgba(196,148,62,0.15)' : 'none',
+                    background: selectedBundle === i ? '#FBF3E3' : b.highlight ? '#FFFBF2' : '#fff',
+                    boxShadow: b.highlight ? '0 4px 20px rgba(196,148,62,0.18)' : 'none',
                   }}
                 >
-                  {/* Most Popular ribbon for bundle-3 */}
+                  {/* Most Popular ribbon */}
                   {b.highlight && (
                     <div className="w-full text-center py-1.5 text-xs font-black tracking-wide" style={{ background: '#C4943E', color: '#fff' }}>
                       ⭐ الأكثر مبيعاً — الأفضل قيمة
@@ -142,32 +142,26 @@ export default function ProductSection() {
                       {/* Label + savings */}
                       <div className="flex-1">
                         <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{b.label}</div>
-                        {b.savingsLabel && (
-                          <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>{b.savingsLabel}</div>
-                        )}
+                        <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>{b.savingsLabel}</div>
                       </div>
 
-                      {/* Price */}
+                      {/* Price + strikethrough */}
                       <div className="text-end">
-                        <div className="font-black text-xl" style={{ color: '#1A0F08' }}>{b.totalPrice} <span className="text-base font-bold">ر.س</span></div>
+                        <div className="text-xs line-through" style={{ color: '#B0998A' }}>{b.originalTotal} ر.س</div>
+                        <div className="font-black text-xl" style={{ color: '#C4943E' }}>{b.totalPrice} <span className="text-base font-bold">ر.س</span></div>
                         <div className="text-[10px]" style={{ color: '#8C7B6E' }}>{b.perUnitLabel}</div>
                       </div>
 
-                      {/* Badge for bundle-2 */}
+                      {/* Badge */}
                       {b.badge && !b.highlight && (
                         <span
                           className="text-[10px] font-bold px-2 py-1 rounded-lg whitespace-nowrap"
-                          style={{ background: '#F8F2EA', color: '#8A611E', border: '1px solid #E8C98A' }}
+                          style={{ background: '#FFF3D0', color: '#8A611E', border: '1px solid #E8C98A' }}
                         >
                           {b.badge}
                         </span>
                       )}
                     </div>
-                    {b.freeShipping && (
-                      <div className="flex items-center gap-1 mt-2 text-xs font-bold" style={{ color: '#2D6B41' }}>
-                        <Truck size={12} /> شامل الضريبة والشحن
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
