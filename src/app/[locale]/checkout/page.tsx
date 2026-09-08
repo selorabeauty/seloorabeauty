@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { useCartStore, VAT_RATE, COD_FEE } from '@/store/cartStore';
+import { useCartStore } from '@/store/cartStore';
 import { PRODUCTS } from '@/lib/products';
 const PRODUCT = PRODUCTS[0];
 import { validateKSAPhone, generateOrderId, formatPrice } from '@/lib/utils';

@@ -5,15 +5,14 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import ProductCard from '@/components/ui/ProductCard';
-import { useCartStore, VAT_RATE, COD_FEE } from '@/store/cartStore';
+import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, BUNDLES } from '@/lib/products';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, subtotal, openCheckout } = useCartStore();
-  const sub = subtotal();
-  const vat = Math.round(sub * VAT_RATE);
-  const total = sub + vat + COD_FEE;
+  const firstItem = items[0];
+  const total = firstItem?.bundlePrice ?? subtotal();
 
   const crossSells = PRODUCTS.filter((p) => !items.find((i) => i.id === p.id)).slice(0, 2);
 
@@ -82,19 +81,7 @@ export default function CartPage() {
                 <div className="card">
                   <h3 className="font-black text-stone-900 mb-5">ملخص الطلب</h3>
                   <div className="space-y-3 text-sm mb-6">
-                    <div className="flex justify-between text-stone-500">
-                      <span>المجموع الفرعي</span>
-                      <span>{formatPrice(sub)}</span>
-                    </div>
-                    <div className="flex justify-between text-stone-500">
-                      <span>ضريبة القيمة المضافة ١٥٪</span>
-                      <span>{formatPrice(vat)}</span>
-                    </div>
-                    <div className="flex justify-between text-stone-500">
-                      <span>رسوم الدفع عند الاستلام</span>
-                      <span>{formatPrice(COD_FEE)}</span>
-                    </div>
-                    <div className="flex justify-between font-black text-lg text-stone-900 pt-3 border-t border-stone-100">
+                    <div className="flex justify-between font-black text-lg text-stone-900 pt-1 border-t border-stone-100">
                       <span>الإجمالي</span>
                       <span className="text-amber-600">{formatPrice(total)}</span>
                     </div>

@@ -27,8 +27,8 @@ interface CartState {
   subtotal: () => number;
 }
 
-export const VAT_RATE = 0.15;
-export const COD_FEE = 20;
+export const VAT_RATE = 0;   // prices are all-inclusive
+export const COD_FEE = 0;    // no COD fee
 
 export const useCartStore = create<CartState>()(
   persist(

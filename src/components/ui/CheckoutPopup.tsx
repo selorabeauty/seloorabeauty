@@ -2,14 +2,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2 } from 'lucide-react';
-import { useCartStore, VAT_RATE, COD_FEE } from '@/store/cartStore';
+import { useCartStore } from '@/store/cartStore';
+import { BUNDLES } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { PRODUCTS } from '@/lib/products';
 
 export default function CheckoutPopup() {
   const router = useRouter();
-  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart } = useCartStore();
+  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setBundle } = useCartStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
@@ -22,14 +23,14 @@ export default function CheckoutPopup() {
 
   if (!isCheckoutOpen) return null;
 
-  const cartItems = items.length > 0 ? items : [{
-    ...PRODUCTS[0], quantity: 1,
-  }];
-
-  // All prices are all-in (VAT + shipping included) — no extra fees
+  const cartItems = items.length > 0 ? items : [{ ...PRODUCTS[0], quantity: 1 }];
   const firstItem = cartItems[0];
-  const sub   = firstItem?.bundlePrice ?? (items.length > 0 ? subtotal() : PRODUCTS[0].price);
-  const total = sub;
+  const currentBundleQty = firstItem?.bundleQty ?? 1;
+  const total = firstItem?.bundlePrice ?? (items.length > 0 ? subtotal() : PRODUCTS[0].price);
+
+  // Upsell: suggest next bundle up
+  const currentBundleIdx = BUNDLES.findIndex((b) => b.qty === currentBundleQty);
+  const upsellBundle = currentBundleIdx < BUNDLES.length - 1 ? BUNDLES[currentBundleIdx + 1] : null;
 
   const validate = () => {
     const e: { name?: string; phone?: string } = {};
@@ -104,6 +105,43 @@ export default function CheckoutPopup() {
           </div>
 
           <div className="px-6 py-5">
+
+            {/* Upsell Banner */}
+            {upsellBundle && (
+              <div
+                className="rounded-2xl p-4 mb-4 cursor-pointer border-2 transition-all"
+                style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
+                onClick={() => {
+                  setBundle({
+                    id: PRODUCTS[0].id + '-' + upsellBundle.id,
+                    slug: PRODUCTS[0].slug,
+                    name: PRODUCTS[0].name + ` ×${upsellBundle.qty}`,
+                    price: PRODUCTS[0].price,
+                    originalPrice: PRODUCTS[0].originalPrice,
+                    imageBg: PRODUCTS[0].imageBg,
+                    bundlePrice: upsellBundle.totalPrice,
+                    bundleQty: upsellBundle.qty,
+                  });
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">⬆️</span>
+                  <div className="flex-1">
+                    <div className="font-black text-sm" style={{ color: '#8A611E' }}>
+                      رقّي طلبك — {upsellBundle.label}
+                    </div>
+                    <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>
+                      {upsellBundle.savingsLabel} · فقط {upsellBundle.totalPrice} ر.س
+                      <span className="line-through mr-1 font-normal" style={{ color: '#B0998A' }}>{upsellBundle.originalTotal} ر.س</span>
+                    </div>
+                  </div>
+                  <div className="text-xs font-black px-3 py-1.5 rounded-xl" style={{ background: '#C4943E', color: '#fff' }}>
+                    أضيفي ←
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Order summary */}
             <div className="rounded-2xl p-4 mb-5 border" style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}>
               <h3 className="font-bold text-sm mb-3" style={{ color: '#1A0F08' }}>ملخص الطلب</h3>
