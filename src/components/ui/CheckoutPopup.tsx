@@ -46,11 +46,20 @@ export default function CheckoutPopup() {
     setSubmitting(true);
 
     const orderId = generateOrderId();
+    const now = new Date();
+    const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
+    const firstCartItem = cartItems[0];
     const orderData = {
-      orderId, name: name.trim(), phone: phone.trim(),
-      items: cartItems.map((i) => ({ name: i.name, quantity: i.bundleQty ?? i.quantity, price: i.bundlePrice ?? i.price })),
-      subtotal: total, total,
-      createdAt: new Date().toISOString(),
+      "date":        dateStr,
+      "order id":    orderId,
+      "country":     "SA",
+      "name":        name.trim(),
+      "phone":       phone.trim(),
+      "product":     firstCartItem?.name ?? 'سيروم الريتينال المُجدِّد',
+      "sku":         "SLR-RETINAL-001",
+      "quantity":    firstCartItem?.bundleQty ?? 1,
+      "total price": total,
+      "statut":      "جديد",
     };
 
     try {

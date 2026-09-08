@@ -17,21 +17,23 @@ def generate_order_id() -> str:
 
 
 async def create_order(db: AsyncSession, data: dict) -> Order:
-    price    = settings.HERO_PRICE
-    qty      = data.get("quantity", 1)
-    subtotal = price * qty
-    vat      = round(subtotal * settings.VAT_RATE, 2)
-    total    = subtotal + vat + settings.COD_FEE
+    qty   = data.get("quantity", 1)
+    # Use bundle price from frontend if provided, else derive from qty
+    total = float(data.get("total", 0)) or (
+        settings.BUNDLE_3_PRICE if qty >= 3 else
+        settings.BUNDLE_2_PRICE if qty >= 2 else
+        settings.HERO_PRICE
+    )
 
     order = Order(
         order_id     = generate_order_id(),
         name         = data["name"],
         phone        = data["phone"],
         quantity     = qty,
-        unit_price   = price,
-        subtotal     = subtotal,
-        vat          = vat,
-        cod_fee      = settings.COD_FEE,
+        unit_price   = settings.HERO_PRICE,
+        subtotal     = total,
+        vat          = 0,
+        cod_fee      = 0,
         total        = total,
         ttclid       = data.get("ttclid"),
         sc_cid       = data.get("sc_cid"),

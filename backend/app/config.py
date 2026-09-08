@@ -10,9 +10,10 @@ class Settings(BaseSettings):
     GOOGLE_SHEETS_WEBHOOK_URL: str = ""
     CORS_ORIGINS: str = "https://seloorabeauty.shop,http://localhost:3000,http://localhost:3001,http://localhost:3002"
     COD_FEE: float = 0.0
-    VAT_RATE: float = 0.15
+    VAT_RATE: float = 0.0
     HERO_PRICE: float = 199.0
-    UPSELL_PRICE: float = 240.0
+    BUNDLE_2_PRICE: float = 249.0
+    BUNDLE_3_PRICE: float = 379.0
     SECRET_KEY: str = "changeme"
     MAXMIND_ACCOUNT_ID: str = ""
     MAXMIND_LICENSE_KEY: str = ""
