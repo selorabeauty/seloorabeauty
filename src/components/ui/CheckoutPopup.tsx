@@ -7,13 +7,19 @@ import { BUNDLES } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { PRODUCTS } from '@/lib/products';
+import { trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
+
+const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
 
 export default function CheckoutPopup() {
   const router = useRouter();
   const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setBundle } = useCartStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+  const [city, setCity] = useState('');
+  const [district, setDistrict] = useState('');
+  const [address, setAddress] = useState('');
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string; address?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -21,21 +27,28 @@ export default function CheckoutPopup() {
     return () => { document.body.style.overflow = ''; };
   }, [isCheckoutOpen]);
 
-  if (!isCheckoutOpen) return null;
-
   const cartItems = items.length > 0 ? items : [{ ...PRODUCTS[0], quantity: 1 }];
   const firstItem = cartItems[0];
   const currentBundleQty = firstItem?.bundleQty ?? 1;
   const total = firstItem?.bundlePrice ?? (items.length > 0 ? subtotal() : PRODUCTS[0].price);
+
+  useEffect(() => {
+    if (isCheckoutOpen) trackInitiateCheckout(total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCheckoutOpen]);
+
+  if (!isCheckoutOpen) return null;
 
   // Upsell: suggest next bundle up
   const currentBundleIdx = BUNDLES.findIndex((b) => b.qty === currentBundleQty);
   const upsellBundle = currentBundleIdx < BUNDLES.length - 1 ? BUNDLES[currentBundleIdx + 1] : null;
 
   const validate = () => {
-    const e: { name?: string; phone?: string } = {};
+    const e: { name?: string; phone?: string; city?: string; address?: string } = {};
     if (!name.trim()) e.name = 'الاسم مطلوب';
     if (!validateKSAPhone(phone)) e.phone = 'رقم الجوال غير صحيح — يجب أن يبدأ بـ 0 ويكون 10 أرقام';
+    if (!city) e.city = 'المدينة مطلوبة';
+    if (!address.trim()) e.address = 'العنوان التفصيلي مطلوب';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -55,6 +68,9 @@ export default function CheckoutPopup() {
       country:     "SA",
       name:        name.trim(),
       phone:       phone.trim(),
+      city:        city,
+      district:    district.trim(),
+      address:     address.trim(),
       product:     firstCartItem?.name ?? 'سيروم الريتينال المُجدِّد',
       sku:         "SLR-RETINAL-001",
       quantity:    firstCartItem?.bundleQty ?? 1,
@@ -74,6 +90,7 @@ export default function CheckoutPopup() {
       }
     } catch { /* fail silently */ }
 
+    trackPurchase(total, orderId);
     clearCart();
     closeCheckout();
     router.push(`/ar/order/success?id=${orderId}&name=${encodeURIComponent(name)}&total=${total}`);
@@ -102,7 +119,7 @@ export default function CheckoutPopup() {
           >
             <div>
               <h2 className="font-bold text-xl" style={{ color: '#1A0F08' }}>أكملي طلبكِ</h2>
-              <p className="text-sm" style={{ color: '#8C7B6E' }}>خطوتان فقط — الدفع عند الاستلام</p>
+              <p className="text-sm" style={{ color: '#8C7B6E' }}>بيانات التوصيل — الدفع عند الاستلام</p>
             </div>
             <button
               onClick={closeCheckout}
@@ -163,10 +180,10 @@ export default function CheckoutPopup() {
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm line-clamp-1" style={{ color: '#1A0F08' }}>{item.name}</div>
-                    <div className="text-xs" style={{ color: '#8C7B6E' }}>الكمية: {item.quantity}</div>
+                    <div className="text-xs" style={{ color: '#8C7B6E' }}>الكمية: {item.bundleQty ?? item.quantity}</div>
                   </div>
                   <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>
-                    {formatPrice(item.price * item.quantity)}
+                    {formatPrice(item.bundlePrice ?? item.price * item.quantity)}
                   </div>
                 </div>
               ))}
@@ -212,6 +229,51 @@ export default function CheckoutPopup() {
                   مثال: 0501234567 — رقم سعودي مكوّن من ١٠ أرقام يبدأ بـ 0
                 </p>
                 {errors.phone && <p className="text-xs mt-0.5" style={{ color: '#C0392B' }}>{errors.phone}</p>}
+              </div>
+
+              {/* City */}
+              <div>
+                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
+                  المدينة <span style={{ color: '#C0392B' }}>*</span>
+                </label>
+                <select
+                  value={city}
+                  onChange={(e) => { setCity(e.target.value); setErrors((p) => ({ ...p, city: undefined })); }}
+                  className={cn('input', errors.city && 'input-error')}
+                >
+                  <option value="">-- اختاري مدينتك --</option>
+                  {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+                {errors.city && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.city}</p>}
+              </div>
+
+              {/* District (optional) */}
+              <div>
+                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
+                  الحي <span className="text-xs font-normal" style={{ color: '#8C7B6E' }}>(اختياري)</span>
+                </label>
+                <input
+                  type="text"
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                  placeholder="مثال: حي النزهة"
+                  className="input"
+                />
+              </div>
+
+              {/* Detailed address */}
+              <div>
+                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
+                  العنوان التفصيلي <span style={{ color: '#C0392B' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: undefined })); }}
+                  placeholder="اسم الشارع، رقم المبنى، أقرب معلم"
+                  className={cn('input', errors.address && 'input-error')}
+                />
+                {errors.address && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.address}</p>}
               </div>
 
               {/* Payment method */}

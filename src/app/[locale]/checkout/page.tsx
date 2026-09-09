@@ -160,10 +160,10 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold text-sm text-charcoal-900">{item.name}</div>
-                      <div className="text-xs text-charcoal-800/50">30 ml · {locale === 'ar' ? 'الكمية:' : 'Qty:'} {item.quantity}</div>
+                      <div className="text-xs text-charcoal-800/50">30 ml · {locale === 'ar' ? 'الكمية:' : 'Qty:'} {item.bundleQty ?? item.quantity}</div>
                     </div>
                     <div className="font-bold text-charcoal-900">
-                      {formatPrice(item.price * item.quantity)}
+                      {formatPrice(item.bundlePrice ?? item.price * item.quantity)}
                     </div>
                   </div>
                 ))}
