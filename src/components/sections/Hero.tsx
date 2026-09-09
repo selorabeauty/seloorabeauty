@@ -138,8 +138,8 @@ export default function Hero() {
             <span className="text-xl line-through" style={{ color: '#C9AF97' }}>{hero.originalPrice}</span>
             <span className="badge-gold">وفري {discount}٪</span>
           </div>
-          <p className="text-sm -mt-3" style={{ color: '#2D6B41', fontWeight: 600 }}>✅ شامل الضريبة والشحن — الدفع عند الاستلام</p>
-          <p className="text-xs -mt-2" style={{ color: '#8C7B6E' }}>حبتين بـ ٢٤٠ ر.س · ٣ حبات بـ ٣٤٩ ر.س فقط</p>
+          <p className="text-sm -mt-3" style={{ color: '#2D6B41', fontWeight: 600 }}>✅ الدفع عند الاستلام</p>
+          <p className="text-xs -mt-2" style={{ color: '#8C7B6E' }}>حبتين بـ ٢٤٩ ر.س · ٣ حبات بـ ٣٧٩ ر.س فقط</p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">

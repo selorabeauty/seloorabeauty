@@ -34,7 +34,7 @@ export default function StickyBuyBar() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
           <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{hero.name}</div>
-          <div className="text-xs" style={{ color: '#8C7B6E' }}>{hero.price} ر.س · شامل الضريبة</div>
+          <div className="text-xs" style={{ color: '#8C7B6E' }}>{hero.price} ر.س · الدفع عند الاستلام</div>
         </div>
         <div className="flex items-center gap-3 flex-1 sm:flex-initial justify-end">
           <span className="text-sm font-bold hidden md:block animate-pulse" style={{ color: '#C0392B' }}>
