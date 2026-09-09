@@ -37,4 +37,4 @@ RUN apk add --no-cache socat
 
 EXPOSE 80
 EXPOSE 3000
-CMD ["sh", "-c", "PORT=3000 node server.js & sleep 2 && socat TCP-LISTEN:80,fork,reuseaddr TCP:127.0.0.1:3000 & wait"]
+CMD ["sh", "-c", "socat TCP-LISTEN:80,fork,reuseaddr TCP:127.0.0.1:3000 & PORT=3000 node server.js"]
