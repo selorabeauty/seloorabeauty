@@ -43,20 +43,28 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <div className="mb-4">
-            <span className="text-2xl font-bold" style={{ color: '#FFFFFF' }}>سيلورا</span>
-            <span className="text-[10px] font-bold tracking-[0.22em] uppercase block"
-              style={{ color: '#C4943E' }}>
-              Beauty
+          <div className="mb-4 flex items-center gap-2">
+            <span
+              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
+            >
+              <span className="text-xs font-bold" style={{ color: '#FDFAF6' }}>S</span>
             </span>
+            <div>
+              <span className="text-2xl font-bold block leading-none" style={{ color: '#FFFFFF' }}>سيلورا بيوتي</span>
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase block"
+                style={{ color: '#C4943E' }}>
+                Sellura Beauty
+              </span>
+            </div>
           </div>
           {/* High-contrast brand tagline */}
           <p className="text-sm leading-relaxed font-medium" style={{ color: '#F5E6C8' }}>
-            علم العناية بالبشرة للمرأة السعودية. تقنية متقدمة. نتائج حقيقية.
+            علاج علمي لتشققات الجسم للمرأة السعودية. زيت اللوز الحلو والأرجان. نتائج حقيقية.
           </p>
           {/* Email clearly visible */}
           <p className="text-sm mt-3 font-semibold" style={{ color: '#F5E6C8' }}>
-            ✉️ hello@selorabeauty.com
+            ✉️ hello@sellurabeauty.com
           </p>
         </div>
 
@@ -103,7 +111,7 @@ export default function Footer() {
                    justify-between gap-2 text-xs font-medium border-t"
         style={{ borderColor: 'rgba(245,230,200,0.12)', color: '#F5E6C8' }}
       >
-        <span>© ٢٠٢٦ سيلورا بيوتي. جميع الحقوق محفوظة.</span>
+        <span>© ٢٠٢٦ Sellura Beauty. جميع الحقوق محفوظة.</span>
         <span>مسجل لدى هيئة الزكاة والضريبة — VAT</span>
       </div>
     </footer>

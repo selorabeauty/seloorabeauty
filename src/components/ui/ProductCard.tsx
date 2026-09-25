@@ -10,17 +10,17 @@ interface Props {
 }
 
 export default function ProductCard({ product, locale = 'ar' }: Props) {
-  const { addItem, openCheckout } = useCartStore();
+  const { setMainSet, openCheckout } = useCartStore();
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
-    addItem({
+    setMainSet({
       id: product.id,
-      slug: product.slug,
       name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,
       imageBg: product.imageBg,
+      sku: product.sku,
     });
     openCheckout();
   };
@@ -41,7 +41,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
             className="w-24 h-36 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg px-2"
             style={{ background: 'rgba(255,255,255,0.10)', backdropFilter: 'blur(4px)' }}
           >
-            <span className="text-xs font-bold tracking-wider" style={{ color: '#D4A96A' }}>SELORA</span>
+            <span className="text-xs font-bold tracking-wider" style={{ color: '#D4A96A' }}>SELLURA</span>
             <span className="text-[8px] font-bold tracking-widest text-center leading-relaxed px-1" style={{ color: 'rgba(253,250,246,0.7)' }}>
               {product.subtitle.split(' ').slice(0, 2).join('\n')}
             </span>
@@ -119,7 +119,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           className="btn-gold w-full flex items-center justify-center gap-2 py-3.5 text-sm"
         >
           <ShoppingBag size={15} />
-          اطلبي الآن
+          أضيفي للسلة
         </button>
 
         <Link

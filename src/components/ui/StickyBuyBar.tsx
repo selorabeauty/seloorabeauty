@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { PRODUCTS } from '@/lib/products';
+import { SET_OPTIONS } from '@/lib/products';
 
-const hero = PRODUCTS[0];
+const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
 
 export default function StickyBuyBar() {
-  const { addItem, openCheckout } = useCartStore();
+  const { setMainSet, openCheckout } = useCartStore();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -19,9 +19,14 @@ export default function StickyBuyBar() {
   if (!visible) return null;
 
   const handleClick = () => {
-    addItem({
-      id: hero.id, slug: hero.slug, name: hero.name,
-      price: hero.price, originalPrice: hero.originalPrice, imageBg: hero.imageBg,
+    setMainSet({
+      id: completeSet.id,
+      name: completeSet.label,
+      price: completeSet.totalPrice,
+      originalPrice: completeSet.originalTotal,
+      imageBg: 'from-bark-800 to-bark-900',
+      includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'],
+      sku: completeSet.sku,
     });
     openCheckout();
   };
@@ -33,8 +38,8 @@ export default function StickyBuyBar() {
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
-          <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{hero.name}</div>
-          <div className="text-xs" style={{ color: '#8C7B6E' }}>{hero.price} ر.س · الدفع عند الاستلام</div>
+          <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{completeSet.label}</div>
+          <div className="text-xs" style={{ color: '#8C7B6E' }}>{completeSet.totalPrice} ر.س · الدفع عند الاستلام</div>
         </div>
         <div className="flex items-center gap-3 flex-1 sm:flex-initial justify-end">
           <span className="text-sm font-bold hidden md:block animate-pulse" style={{ color: '#C0392B' }}>

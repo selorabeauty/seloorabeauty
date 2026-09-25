@@ -7,16 +7,20 @@ async def send_to_sheets(order) -> None:
     if not settings.GOOGLE_SHEETS_WEBHOOK_URL:
         return
     payload = {
-        "date":        datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-        "order_id":    order.order_id,
-        "country":     "SA",
-        "name":        order.name,
-        "phone":       order.phone,
-        "product":     order.product_name,
-        "sku":         order.product_id,
-        "quantity":    order.quantity,
-        "total_price": float(order.total),
-        "statut":      "جديد",
+        "date":           datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+        "order_id":       order.order_id,
+        "country":        "SA",
+        "name":           order.name,
+        "phone":          order.phone,
+        "city":           order.city,
+        "district":       order.district,
+        "address":        order.address,
+        "payment_method": order.payment_method,
+        "product":        order.product_name,
+        "sku":            order.product_id,
+        "quantity":       order.quantity,
+        "total_price":    float(order.total),
+        "statut":         "جديد",
     }
     try:
         async with httpx.AsyncClient(timeout=10) as client:

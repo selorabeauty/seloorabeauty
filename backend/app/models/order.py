@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Numeric, Boolean, Integer, Text, DateTime
+from sqlalchemy import Column, String, Numeric, Boolean, Integer, Text, DateTime, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from app.database import Base
 
@@ -12,13 +12,18 @@ class Order(Base):
     order_id        = Column(String(50), unique=True, nullable=False)
     name            = Column(String(200), nullable=False)
     phone           = Column(String(20), nullable=False)
-    product_id      = Column(String(100), nullable=False, default="retinal-serum-150ml")
-    product_name    = Column(String(200), nullable=False, default="سيروم الريتينال المُجدِّد ١٥٠مل")
+    city            = Column(String(100))
+    district        = Column(String(200))
+    address         = Column(Text)
+    payment_method  = Column(String(50), nullable=False, default="cod")
+    product_id      = Column(String(100), nullable=False, default="set-complete")
+    product_name    = Column(String(300), nullable=False, default="سيروم علاج تشققات الجسم + كريم علاج تشققات الجسم")
+    items           = Column(JSON)  # [{sku, name, quantity, price}, ...]
     quantity        = Column(Integer, nullable=False, default=1)
     unit_price      = Column(Numeric(10, 2), nullable=False)
     subtotal        = Column(Numeric(10, 2), nullable=False)
     vat             = Column(Numeric(10, 2), nullable=False)
-    cod_fee         = Column(Numeric(10, 2), nullable=False, default=20)
+    cod_fee         = Column(Numeric(10, 2), nullable=False, default=0)
     total           = Column(Numeric(10, 2), nullable=False)
     status          = Column(String(50), nullable=False, default="pending")
     upsell_accepted = Column(Boolean, default=False)

@@ -91,8 +91,8 @@ function SuccessContent() {
             </div>
             <p className="text-stone-700 font-medium text-sm">
               انضممتِ لأكثر من{' '}
-              <strong className="text-stone-900">٢٤٠٠ امرأة سعودية</strong>{' '}
-              يثقن بسيلورا — أهلاً بكِ في العائلة!
+              <strong className="text-stone-900">٣٤٠٠ امرأة سعودية</strong>{' '}
+              يثقن بسيلورا بيوتي — أهلاً بكِ في العائلة!
             </p>
           </div>
 

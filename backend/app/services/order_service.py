@@ -18,29 +18,36 @@ def generate_order_id() -> str:
 
 async def create_order(db: AsyncSession, data: dict) -> Order:
     qty   = data.get("quantity", 1)
-    # Use bundle price from frontend if provided, else derive from qty
-    total = float(data.get("total", 0)) or (
-        settings.BUNDLE_3_PRICE if qty >= 3 else
-        settings.BUNDLE_2_PRICE if qty >= 2 else
-        settings.HERO_PRICE
-    )
+    items = data.get("items") or []
+    # Use total provided by the frontend (set price + any upsells), else fall back to the complete-set price
+    total = float(data.get("total") or 0) or settings.COMPLETE_SET_PRICE
+    unit_price = float(items[0]["price"]) if items else total
+    product_name = " + ".join(i["name"] for i in items) if items else "الطقم الكامل — سيروم + كريم"
+    product_id = items[0]["sku"] if items else "set-complete"
 
     order = Order(
-        order_id     = generate_order_id(),
-        name         = data["name"],
-        phone        = data["phone"],
-        quantity     = qty,
-        unit_price   = settings.HERO_PRICE,
-        subtotal     = total,
-        vat          = 0,
-        cod_fee      = 0,
-        total        = total,
-        ttclid       = data.get("ttclid"),
-        sc_cid       = data.get("sc_cid"),
-        event_id     = data.get("event_id"),
-        ip_address   = data.get("ip"),
-        user_agent   = data.get("user_agent"),
-        page_url     = data.get("page_url"),
+        order_id       = generate_order_id(),
+        name           = data["name"],
+        phone          = data["phone"],
+        city           = data.get("city"),
+        district       = data.get("district"),
+        address        = data.get("address"),
+        payment_method = data.get("payment_method", "cod"),
+        product_id     = product_id,
+        product_name   = product_name,
+        items          = items,
+        quantity       = qty,
+        unit_price     = unit_price,
+        subtotal       = total,
+        vat            = 0,
+        cod_fee        = 0,
+        total          = total,
+        ttclid         = data.get("ttclid"),
+        sc_cid         = data.get("sc_cid"),
+        event_id       = data.get("event_id"),
+        ip_address     = data.get("ip"),
+        user_agent     = data.get("user_agent"),
+        page_url       = data.get("page_url"),
     )
     db.add(order)
     await db.commit()

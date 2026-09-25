@@ -14,8 +14,8 @@ import ProductCard from '@/components/ui/ProductCard';
 import { PRODUCTS } from '@/lib/products';
 
 export const metadata = {
-  title: 'سيلورا بيوتي | سيروم الريتينال المجدد للبشرة',
-  description: 'سيروم الريتينال المتقدم من سيلورا — يقلص المسام، يوحد البشرة، ويمحو علامات التقدم في السن. دفع عند الاستلام. شحن سريع داخل المملكة.',
+  title: 'سيلورا بيوتي | طقم علاج تشققات الجسم — سيروم وكريم اللوز والأرجان',
+  description: 'طقم سيلورا لعلاج تشققات الجسم بزيت اللوز الحلو والأرجان المغربي — يفتح لون التشققات ويستعيد مرونة البشرة خلال ٤ أسابيع. دفع عند الاستلام. شحن سريع داخل المملكة.',
 };
 
 export default function HomePage({ params }: { params: { locale: string } }) {
@@ -35,8 +35,8 @@ export default function HomePage({ params }: { params: { locale: string } }) {
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12">
-              <h2 className="section-heading">اكتشفي مجموعتنا</h2>
-              <p className="section-sub">كل سيروم صُمم لنتيجة واحدة محددة — اختاري ما يناسب بشرتك</p>
+              <h2 className="section-heading">اكتشفي منتجاتنا</h2>
+              <p className="section-sub">روتين خطوتين متكامل — السيروم لترميم الأنسجة، والكريم لإغلاق الرطوبة</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {PRODUCTS.map((product) => (

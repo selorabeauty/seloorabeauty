@@ -7,12 +7,11 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import ProductCard from '@/components/ui/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
-import { PRODUCTS, BUNDLES } from '@/lib/products';
+import { PRODUCTS } from '@/lib/products';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, subtotal, openCheckout } = useCartStore();
-  const firstItem = items[0];
-  const total = firstItem?.bundlePrice ?? subtotal();
+  const total = subtotal();
 
   const crossSells = PRODUCTS.filter((p) => !items.find((i) => i.id === p.id)).slice(0, 2);
 
@@ -44,11 +43,11 @@ export default function CartPage() {
                     <div className="flex-1 min-w-0">
                       <div className="font-black text-stone-900 text-base truncate">{item.name}</div>
                       <div className="text-xs text-stone-400 mt-0.5">
-                        30 مل · الكمية: {item.bundleQty ?? item.quantity}
+                        {item.includes && item.includes.length > 0 ? item.includes.join(' + ') : `الكمية: ${item.quantity}`}
                       </div>
                     </div>
                     <div className="font-black text-amber-600 text-lg w-24 text-end">
-                      {formatPrice(item.bundlePrice ?? item.price * item.quantity)}
+                      {formatPrice(item.price * item.quantity)}
                     </div>
                     <button onClick={() => removeItem(item.id)} className="text-stone-300 hover:text-red-500 transition-colors p-1">
                       <Trash2 size={16} />

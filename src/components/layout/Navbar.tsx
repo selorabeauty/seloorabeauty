@@ -1,14 +1,16 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, Sparkles } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { cn } from '@/lib/utils';
+
+// Cart icon links straight to the /cart page — no drawer/pop-up.
 
 const NAV_LINKS = [
   { href: '/ar',              label: 'الرئيسية' },
   { href: '/ar/products',     label: 'المنتجات' },
-  { href: '/ar#ingredients',  label: 'المكونات' },
+  { href: '/ar#ingredients',  label: 'الروتين' },
   { href: '/ar#reviews',      label: 'آراء العملاء' },
   { href: '/ar/contact',      label: 'تواصلي معنا' },
 ];
@@ -17,8 +19,11 @@ export default function Navbar() {
   const totalItems = useCartStore((s) => s.totalItems());
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Cart count is persisted in localStorage, so it must only render after mount to avoid SSR/CSR hydration mismatch.
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -49,19 +54,27 @@ export default function Navbar() {
       {/* ── Main nav ── */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-        {/* Logo */}
-        <Link href="/ar" className="flex flex-col leading-none select-none group">
+        {/* Logo — brand-color circular icon + wordmark */}
+        <Link href="/ar" className="flex items-center gap-2.5 select-none group">
           <span
-            className="text-xl font-bold tracking-tight transition-colors"
-            style={{ color: '#1A0F08' }}
+            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
           >
-            سيلورا
+            <Sparkles size={16} style={{ color: '#FDFAF6' }} />
           </span>
-          <span
-            className="text-[9px] font-bold tracking-[0.28em] uppercase"
-            style={{ color: '#C4943E' }}
-          >
-            Beauty
+          <span className="flex flex-col leading-none">
+            <span
+              className="text-xl font-bold tracking-tight transition-colors"
+              style={{ color: '#1A0F08', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
+            >
+              سيلورا بيوتي
+            </span>
+            <span
+              className="text-[9px] font-bold tracking-[0.28em] uppercase"
+              style={{ color: '#C4943E' }}
+            >
+              Sellura Beauty
+            </span>
           </span>
         </Link>
 
@@ -93,7 +106,7 @@ export default function Navbar() {
           >
             <ShoppingBag size={16} />
             <span className="hidden sm:inline">السلة</span>
-            {totalItems > 0 && (
+            {mounted && totalItems > 0 && (
               <span
                 className="absolute -top-2 -end-2 w-5 h-5 flex items-center justify-center
                            text-white text-[10px] font-bold rounded-full shadow"

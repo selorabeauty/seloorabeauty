@@ -25,7 +25,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: assiaalbader/seloorabeauty-backend:latest
+          tags: assiaalbader/sellurabeauty-backend:latest
 
   build-frontend:
     name: Build Frontend Image
@@ -46,7 +46,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: assiaalbader/seloorabeauty-frontend:latest
+          tags: assiaalbader/sellurabeauty-frontend:latest
           build-args: |
-            NEXT_PUBLIC_API_URL=https://api.seloorabeauty.shop
-            NEXT_PUBLIC_SITE_URL=https://seloorabeauty.shop
+            NEXT_PUBLIC_API_URL=https://api.sellurabeauty.shop
+            NEXT_PUBLIC_SITE_URL=https://sellurabeauty.shop

@@ -1,20 +1,20 @@
 'use client';
 import { notFound } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import ProductCard from '@/components/ui/ProductCard';
-import { getProduct, getCrossSells, PRODUCTS } from '@/lib/products';
+import { getProduct, getCrossSells, SET_OPTIONS, getSetProducts } from '@/lib/products';
 import { useCartStore } from '@/store/cartStore';
 import { useState } from 'react';
-import { Star, ShoppingBag, ShieldCheck, Truck, RotateCcw, ChevronDown, Plus, Minus } from 'lucide-react';
+import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { formatPrice } from '@/lib/utils';
 
 const REVIEWS = [
-  { name: 'سارة م. — الرياض', rating: 5, text: 'بعد أسبوعين المسامات تصغرت وبشرتي أصبحت أكثر إشراقاً. مستحيل أرجع لأي منتج ثاني.' },
-  { name: 'نورة الغامدي — جدة', rating: 5, text: 'ما أعطى تهيج أبداً. بشرتي نعمت وبدأت أشوف فرق في الخطوط الدقيقة.' },
-  { name: 'منى الشمري — الدمام', rating: 5, text: 'البقع الداكنة بدأت تخف بشكل واضح. الشحن وصل بسرعة والتغليف فخم.' },
+  { name: 'سارة م. — الرياض', rating: 5, text: 'تشققات الحمل بدأت تخف بشكل واضح بعد أسبوعين من استخدام الطقم الكامل. قوامه الزبدي يمتص بسرعة ويريح البشرة جداً.' },
+  { name: 'نورة الغامدي — جدة', rating: 5, text: 'ما أعطى أي تهيج أبداً. البشرة نعمت وصار لون التشققات أفتح بكثير. معتمد من الغذاء والدواء وهذا طمأنني جداً.' },
+  { name: 'منى الشمري — الدمام', rating: 5, text: 'جربت منتجات كثير قبل كذا وما أثرت. هذا الروتين فرق حقيقي — التغلغل سريع وملمس البشرة اختلف تماماً.' },
 ];
 
 export default function ProductPage({ params }: { params: { slug: string; locale: string } }) {
@@ -22,27 +22,38 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   if (!product) notFound();
 
   const crossSells = getCrossSells(params.slug);
-  const { addItem, openCheckout } = useCartStore();
-  const [qty, setQty] = useState(1);
+  const router = useRouter();
+  const { setMainSet, openCheckout } = useCartStore();
+  const [selectedSetId, setSelectedSetId] = useState('set-complete');
   const [activeTab, setActiveTab] = useState<'benefits' | 'ingredients' | 'howto'>('benefits');
   const [added, setAdded] = useState(false);
 
+  const selectedSet = SET_OPTIONS.find((s) => s.id === selectedSetId)!;
+  const setProducts = getSetProducts(selectedSet);
+  const includesLabels = setProducts.map((p) => p.name);
+
+  const buildCartItem = () => ({
+    id: selectedSet.id,
+    name: selectedSet.label,
+    price: selectedSet.totalPrice,
+    originalPrice: selectedSet.originalTotal,
+    imageBg: product.imageBg,
+    includes: includesLabels.length > 1 ? includesLabels : undefined,
+    sku: selectedSet.sku,
+  });
+
   const handleBuyNow = () => {
-    for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, slug: product.slug, name: product.name, price: product.price, originalPrice: product.originalPrice, imageBg: product.imageBg });
-    }
+    setMainSet(buildCartItem());
     openCheckout();
   };
 
   const handleAddToCart = () => {
-    for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, slug: product.slug, name: product.name, price: product.price, originalPrice: product.originalPrice, imageBg: product.imageBg });
-    }
+    setMainSet(buildCartItem());
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => { setAdded(false); router.push(`/${params.locale}/cart`); }, 900);
   };
 
-  const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+  const discount = Math.round((1 - selectedSet.totalPrice / selectedSet.originalTotal) * 100);
 
   return (
     <>
@@ -62,32 +73,31 @@ export default function ProductPage({ params }: { params: { slug: string; locale
           {/* ── Main grid ── */}
           <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
 
-            {/* Image */}
+            {/* Image gallery — 3 placeholders per product */}
             <div className="md:sticky md:top-24">
               <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-square flex items-center justify-center overflow-hidden">
                 <div className={`w-40 h-56 bg-gradient-to-b ${product.imageBg} rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-2 px-3`}>
-                  <span className="text-white text-sm font-black tracking-widest">SELORA</span>
+                  <span className="text-white text-sm font-black tracking-widest">SELLURA</span>
                   <span className="text-amber-300 text-[10px] font-bold tracking-wider text-center leading-relaxed">
                     {product.subtitle.toUpperCase()}
                   </span>
-                  <span className="text-white/30 text-[9px] mt-1">30 ml</span>
+                  <span className="text-white/30 text-[9px] mt-1">100 ml</span>
                 </div>
 
                 {/* Badges */}
                 <div className="absolute top-4 start-4 flex flex-col gap-1.5">
-                  {product.isBestseller && <span className="bg-amber-500 text-white text-xs font-black px-2.5 py-1.5 rounded-xl shadow">{product.badge}</span>}
-                  {product.isNew && <span className="bg-emerald-500 text-white text-xs font-black px-2.5 py-1.5 rounded-xl shadow">{product.badge}</span>}
+                  <span className="bg-amber-500 text-white text-xs font-black px-2.5 py-1.5 rounded-xl shadow">{product.badge}</span>
                 </div>
                 <div className="absolute top-4 end-4 bg-red-500 text-white text-sm font-black px-2.5 py-1.5 rounded-xl shadow">
                   -{discount}%
                 </div>
               </div>
 
-              {/* Mini thumbs */}
-              <div className="grid grid-cols-4 gap-2 mt-3">
-                {product.benefits.slice(0, 4).map((b, i) => (
-                  <div key={i} className="bg-white rounded-xl border border-stone-100 aspect-square flex items-center justify-center p-2 hover:border-amber-300 transition-colors cursor-pointer">
-                    <span className="text-[8px] text-stone-500 text-center font-medium leading-tight">{b.split(' ').slice(0, 2).join(' ')}</span>
+              {/* 3 image placeholders — replace with real product photography */}
+              <div className="grid grid-cols-3 gap-2 mt-3">
+                {product.images.map((_, i) => (
+                  <div key={i} className={`bg-gradient-to-b ${product.imageBg} rounded-xl border border-stone-100 aspect-square flex items-center justify-center p-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer`}>
+                    <span className="text-[8px] text-white/70 text-center font-medium leading-tight">صورة {i + 1}</span>
                   </div>
                 ))}
               </div>
@@ -112,36 +122,50 @@ export default function ProductPage({ params }: { params: { slug: string; locale
               {/* Description */}
               <p className="text-base text-stone-600 leading-relaxed">{product.description}</p>
 
-              {/* Price */}
-              <div className="bg-stone-50 rounded-2xl p-5 border border-stone-100">
-                <div className="flex items-baseline gap-3 mb-1">
-                  <span className="text-4xl font-black text-stone-900">{product.price} <span className="text-2xl">ر.س</span></span>
-                  <span className="text-xl text-stone-400 line-through">{product.originalPrice}</span>
-                  <span className="badge-gold">وفري {discount}%</span>
-                </div>
-                <p className="text-sm text-stone-400">شامل ضريبة القيمة المضافة ١٥٪</p>
-                <p className="text-sm text-stone-500 font-medium mt-1">💳 الدفع عند الاستلام — لا بطاقة مطلوبة</p>
+              {/* ── Pricing tiers — the 4 set options ── */}
+              <div className="flex flex-col gap-2.5">
+                <span className="font-bold text-stone-900">اختاري الطقم المناسب لكِ:</span>
+                {SET_OPTIONS.map((set) => (
+                  <button
+                    key={set.id}
+                    onClick={() => setSelectedSetId(set.id)}
+                    className={cn(
+                      'flex items-center gap-4 rounded-2xl p-4 border-2 text-start transition-all relative',
+                      selectedSetId === set.id ? 'border-amber-500 bg-amber-50' : 'border-stone-100 bg-white hover:border-amber-200'
+                    )}
+                  >
+                    {set.badge && (
+                      <span className="absolute -top-2.5 start-4 bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">
+                        {set.badge}
+                      </span>
+                    )}
+                    <div
+                      className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+                      style={{ borderColor: selectedSetId === set.id ? '#C4943E' : '#D6C6B4' }}
+                    >
+                      {selectedSetId === set.id && <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#C4943E' }} />}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-black text-sm text-stone-900">{set.label}</div>
+                      <div className="text-xs text-emerald-600 font-bold mt-0.5">{set.savingsLabel} · {set.perUnitLabel}</div>
+                    </div>
+                    <div className="text-end">
+                      <div className="font-black text-lg text-stone-900">{set.totalPrice} <span className="text-xs">ر.س</span></div>
+                      <div className="text-xs text-stone-400 line-through">{set.originalTotal}</div>
+                    </div>
+                  </button>
+                ))}
               </div>
 
-              {/* Quantity */}
-              <div className="flex items-center gap-4">
-                <span className="font-bold text-stone-900">الكمية:</span>
-                <div className="flex items-center border border-stone-200 rounded-xl overflow-hidden bg-white">
-                  <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="px-4 py-2.5 hover:bg-stone-50 transition-colors"><Minus size={15} /></button>
-                  <span className="px-4 font-black text-lg w-12 text-center">{qty}</span>
-                  <button onClick={() => setQty((q) => Math.min(10, q + 1))} className="px-4 py-2.5 hover:bg-stone-50 transition-colors"><Plus size={15} /></button>
-                </div>
-                {qty >= 2 && (
-                  <span className="text-sm text-emerald-600 font-bold">
-                    🎁 وفري {formatPrice((product.originalPrice - product.price) * qty)}
-                  </span>
-                )}
+              <div className="bg-stone-50 rounded-2xl p-4 border border-stone-100">
+                <p className="text-sm text-stone-500">شامل ضريبة القيمة المضافة ١٥٪</p>
+                <p className="text-sm text-stone-500 font-medium mt-1">💳 دفع عند الاستلام · Tabby/Tamara · Apple Pay/مدى</p>
               </div>
 
               {/* CTAs */}
               <div className="flex flex-col gap-3">
                 <button onClick={handleBuyNow} className="btn-gold w-full text-lg py-5 animate-cta-pulse">
-                  اطلبي الآن — الدفع عند الاستلام
+                  اطلبي الآن — {selectedSet.totalPrice} ر.س
                 </button>
                 <button
                   onClick={handleAddToCart}
@@ -160,7 +184,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
               {/* Trust */}
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { i: <ShieldCheck size={13} />, t: 'دفع عند الاستلام' },
+                  { i: <ShieldCheck size={13} />, t: 'دفع آمن' },
                   { i: <Truck size={13} />, t: 'شحن ١-٣ أيام' },
                   { i: <RotateCcw size={13} />, t: 'ضمان ٣٠ يوم' },
                 ].map((x, idx) => (
@@ -251,15 +275,19 @@ export default function ProductPage({ params }: { params: { slug: string; locale
           </div>
 
           {/* ── Cross-sells ── */}
-          <div>
-            <h2 className="text-2xl font-black text-stone-900 mb-2">قد يعجبكِ أيضاً</h2>
-            <p className="text-stone-400 text-sm mb-8">منتجات تعمل بشكل مثالي مع {product.name}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-2xl">
-              {crossSells.map((p) => (
-                <ProductCard key={p.id} product={p} locale={params.locale} />
-              ))}
+          {crossSells.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-black text-stone-900 mb-2">أكملي روتينكِ</h2>
+              <p className="text-stone-400 text-sm mb-8">
+                <Check size={14} className="inline text-emerald-600" /> يعمل بشكل مثالي مع {product.name}
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-2xl">
+                {crossSells.map((p) => (
+                  <ProductCard key={p.id} product={p} locale={params.locale} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
       <Footer />

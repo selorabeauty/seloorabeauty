@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         </section>
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٥. التواصل</h2>
-          <p>لأي استفسار حول خصوصيتك: hello@selorabeauty.com</p>
+          <p>لأي استفسار حول خصوصيتك: hello@sellurabeauty.com</p>
         </section>
       </div>
     </PolicyLayout>

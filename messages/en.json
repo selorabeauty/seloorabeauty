@@ -1,12 +1,12 @@
 {
   "brand": {
     "name": "Selora Beauty",
-    "tagline": "Science in every drop. Results on your skin.",
-    "sub_tagline": "Advanced Retinal Technology · Made for Saudi Women · Clinically Proven Results"
+    "tagline": "Science is on your side.. not just emotions.",
+    "sub_tagline": "Shea, Argan & Almond Triple-Action · SFDA Approved · Clinically Proven Results"
   },
   "nav": {
     "home": "Home",
-    "product": "Product",
+    "product": "Products",
     "ingredients": "Ingredients",
     "results": "Results",
     "reviews": "Reviews",
@@ -14,51 +14,211 @@
     "order_now": "Order Now"
   },
   "hero": {
-    "badge": "Best Seller in KSA",
-    "headline_1": "The era of",
-    "headline_2": "tired skin is over.",
-    "headline_3": "Retinal Skin Booster",
-    "headline_4": "renews your skin from the first cell",
-    "subheadline": "Tired of products that promise and disappoint? Selora Retinal Serum works at the cellular level — minimizes pores, evens skin tone, and erases time in 4 weeks.",
-    "cta_primary": "Order Now — Cash on Delivery",
+    "badge": "SFDA Approved (Saudi Food & Drug Authority)",
+    "headline_1": "Reclaim Your Confidence",
+    "headline_2": "In Every Mirror.",
+    "headline_3": "Goodbye Stretch Marks",
+    "headline_4": "With Shea, Argan & Almond Power",
+    "subheadline": "Tired of hiding pregnancy stretch marks or weight fluctuation signs? Selora offers a medical-grade solution — a 2-step routine that penetrates deep to repair tissue and restore lost elasticity.",
+    "cta_primary": "Order Complete Routine — 30% Off",
     "cta_secondary": "See Real Results",
-    "urgency": "Limited stock · {count} orders today",
-    "trust_1": "Cash on Delivery",
-    "trust_2": "30-Day Guarantee",
-    "trust_3": "Fast KSA Shipping",
-    "trust_4": "Tested Ingredients"
+    "urgency": "Clinically Proven: 87% Improvement, 94% Elasticity",
+    "trust_1": "SFDA Approved",
+    "trust_2": "ISO Quality Standard",
+    "trust_3": "30-Day Guarantee",
+    "trust_4": "Cash on Delivery"
+  },
+  "problem": {
+    "heading": "Do you feel this?",
+    "items": [
+      "Pregnancy stretch marks that steal your self-confidence",
+      "Skin marks resulting from sudden weight fluctuations",
+      "Dry, inelastic skin in stretched areas",
+      "Embarrassment wearing certain clothes due to stretch marks",
+      "Trying countless products with no real results"
+    ],
+    "bridge": "You are not the problem. Ordinary products are the problem. Stretch mark treatment requires deep cellular penetration — that's why we built Selora."
   },
   "product": {
-    "name": "Retinal Skin Booster Serum",
-    "name_en": "Retinal Skin Booster Serum",
-    "tagline": "Encapsulated Retinal Technology · 30ml",
+    "name": "Complete Stretch Mark Routine",
+    "name_en": "Complete Stretch Mark Treatment",
+    "tagline": "Shea Butter + Argan Oil + Sweet Almond · 2-Step Routine",
     "badge_bestseller": "Best Seller",
-    "badge_clinical": "Clinically Proven",
-    "price": "249",
+    "badge_clinical": "Clinically Proven Results",
+    "price": "279",
     "price_currency": "SAR",
-    "price_original": "349",
-    "vat_note": "Includes 15% VAT",
-    "cod_note": "Cash on Delivery — no bank card needed",
-    "shipping_note": "Fast shipping 1-3 days within KSA",
-    "cta_buy": "Order Now — Cash on Delivery",
+    "price_original": "398",
+    "vat_note": "Includes VAT & Free Shipping",
+    "cod_note": "Cash on Delivery — no card needed",
+    "shipping_note": "Fast shipping 1-3 business days",
+    "cta_buy": "Order Routine Now — Save 119 SAR",
     "cta_add_cart": "Add to Cart",
     "guarantee": "Full refund guarantee within 30 days if you see no results",
     "quantity_label": "Quantity",
-    "description_short": "Advanced serum with encapsulated retinal technology that works to renew cells, minimize pores, even skin tone, and fight signs of aging — from the very first use.",
+    "description_short": "A medical-grade home treatment targeting red and white stretch marks. Includes the ultra-penetrating serum and the rich buttery cream to lock in moisture and build a protective barrier.",
     "how_to_use": {
-      "heading": "How to Use",
+      "heading": "How to Use (Golden Routine)",
       "steps": [
-        "Cleanse your face thoroughly then pat dry gently",
-        "Apply 2-3 drops to the full face avoiding the eye area",
-        "Massage gently in upward circular motions",
-        "Follow with moisturizer and sunscreen (daytime)",
-        "Best used in the evening for optimal results"
+        "Cleanse and dry the target area thoroughly",
+        "Apply the serum and massage in circular motions until absorbed",
+        "Apply the cream immediately over the serum to lock in active oils",
+        "Use morning and evening for faster results",
+        "For pregnancy: start from the 4th month for prevention"
       ]
     }
   },
+  "science": {
+    "heading": "The Science Behind The Results",
+    "subheading": "Medical-grade home treatment targeting deep tissues",
+    "retinal_title": "Triple-Action Repair",
+    "retinal_desc": "African Shea Butter combined with Moroccan Argan Oil and Sweet Almond Oil creates a unique blend that mimics natural skin elasticity. These ingredients penetrate the dermis layer to stimulate collagen and repair tissue tears.",
+    "stats": [
+      { "value": "87%", "label": "Stretch Mark Improvement" },
+      { "value": "94%", "label": "Increased Skin Elasticity" },
+      { "value": "24h", "label": "Continuous Protection" },
+      { "value": "4 Weeks", "label": "To see visible results" }
+    ]
+  },
+  "ingredients": {
+    "heading": "Nature's Ingredients.. Powered by Science",
+    "subheading": "Shea, Argan & Almond Triple-Action — No Harsh Chemicals",
+    "list": [
+      {
+        "name": "Pure Shea Butter",
+        "role": "Protective Shield",
+        "benefit": "Builds a protective barrier that locks in moisture and prevents skin tearing during stretching",
+        "icon": "🧈"
+      },
+      {
+        "name": "Sweet Almond Oil",
+        "role": "Tissue Softener",
+        "benefit": "Penetrates deep into the skin to soften hardened tissue and facilitate renewal",
+        "icon": "🌰"
+      },
+      {
+        "name": "Moroccan Argan Oil",
+        "role": "Collagen Booster",
+        "benefit": "Rich in Vitamin E to repair damaged tissue and improve the appearance of marks",
+        "icon": "🌿"
+      },
+      {
+        "name": "Hyaluronic Acid",
+        "role": "Moisture Reservoir",
+        "benefit": "Binds water inside cells to provide superior elasticity and stretching capability",
+        "icon": "💧"
+      },
+      {
+        "name": "Vitamin E",
+        "role": "Antioxidant",
+        "benefit": "Protects new cells and accelerates the skin's natural healing process",
+        "icon": "🛡️"
+      },
+      {
+        "name": "Centella Asiatica",
+        "role": "Skin Renewer",
+        "benefit": "Medical herb that stimulates collagen production and helps fade scars",
+        "icon": "🌱"
+      }
+    ]
+  },
+  "results": {
+    "heading": "Results Speak for Themselves",
+    "subheading": "Real before & after from real customers in Saudi Arabia",
+    "week_1": "Week 1: Deep hydration and visible smoothness",
+    "week_2": "Week 2: Fading of red and purple marks",
+    "week_4": "Week 4: Noticeably even skin tone and higher elasticity",
+    "week_8": "Week 8: Full transformation — marks are barely visible"
+  },
+  "reviews": {
+    "heading": "What Our Customers Say",
+    "subheading": "+3,400 women in KSA trust Selora",
+    "rating_label": "Overall Rating",
+    "rating_value": "4.9",
+    "total_reviews": "3,418 reviews",
+    "items": [
+      {
+        "name": "Sara M. — Riyadh",
+        "rating": 5,
+        "date": "2 weeks ago",
+        "verified": true,
+        "text": "Pregnancy stretch marks started fading visibly after two weeks of using the complete routine. The buttery texture is amazing and absorbs so well.",
+        "highlight": "Faded in 2 weeks"
+      },
+      {
+        "name": "Noura Al-Ghamdi — Jeddah",
+        "rating": 5,
+        "date": "3 weeks ago",
+        "verified": true,
+        "text": "Zero irritation. Skin became smoother and the marks color lightened significantly. SFDA approval gave me peace of mind.",
+        "highlight": "Safe and effective"
+      },
+      {
+        "name": "Mona Al-Shammari — Dammam",
+        "rating": 5,
+        "date": "1 month ago",
+        "verified": true,
+        "text": "I tried many products before and nothing worked. This routine is a game changer — deep penetration and skin texture completely changed.",
+        "highlight": "Real transformation"
+      }
+    ]
+  },
+  "trust": {
+    "heading": "Why Selora?",
+    "items": [
+      {
+        "title": "SFDA Approved",
+        "desc": "Safe formula officially registered with Saudi Food & Drug Authority for your safety"
+      },
+      {
+        "title": "ISO Quality Standard",
+        "desc": "Manufactured in facilities matching ISO 22716 standards for premium quality"
+      },
+      {
+        "title": "Clinically Proven Results",
+        "desc": "Studies showed 87% improvement in marks and 94% increase in elasticity"
+      },
+      {
+        "title": "30-Day Money-Back Guarantee",
+        "desc": "If you see no clear difference within 30 days, we refund you in full"
+      },
+      {
+        "title": "Cash on Delivery",
+        "desc": "Pay only when you receive your order at your doorstep"
+      },
+      {
+        "title": "24/7 Customer Support",
+        "desc": "Our team is always available on WhatsApp for any help you need"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "q": "Is it safe during pregnancy?",
+        "a": "Yes, our Shea, Argan, and Almond triple-action routine is 100% natural and safe for both mother and baby. We recommend starting from the 4th month for best prevention results."
+      },
+      {
+        "q": "Does it work on old white marks?",
+        "a": "While it's most effective on new red/purple marks, the routine significantly improves the texture and appearance of old white marks by deeply hydrating and restoring elasticity."
+      },
+      {
+        "q": "When will I see results?",
+        "a": "Most customers notice hydration and smoothness within the first week, marks color fading by week 2, and a significant transformation within 4-8 weeks."
+      },
+      {
+        "q": "How do I pay?",
+        "a": "We accept cash on delivery. You can also pay via Apple Pay, Mada, or split your payment with Tabby/Tamara."
+      },
+      {
+        "q": "What is the return policy?",
+        "a": "If you see no results within 30 days of regular use, contact us for a full refund — no questions asked."
+      }
+    ]
+  },
   "checkout": {
     "heading": "Complete Your Order",
-    "subheading": "Just two steps and your product is on its way",
+    "subheading": "Just two steps and your routine is on its way",
     "name": "Full Name",
     "phone": "Mobile Number",
     "phone_placeholder": "05XXXXXXXX",
@@ -98,192 +258,8 @@
     "back_home": "Back to Home",
     "whatsapp": "Contact us on WhatsApp"
   },
-  "problem": {
-    "heading": "Do you feel this?",
-    "items": [
-      "Enlarged pores that show in every photo",
-      "Dull, tired skin despite a full skincare routine",
-      "Dark spots and uneven skin tone",
-      "Fine lines that make you feel older than you are",
-      "You've tried everything and nothing works"
-    ],
-    "bridge": "You are not the problem. The products you've tried are the problem. Beautiful skin requires real science — not empty promises."
-  },
-  "science": {
-    "heading": "The Science Behind The Results",
-    "subheading": "Not just ingredients — a complete cellular renewal protocol",
-    "retinal_title": "Retinal: The Next Generation of Vitamin A",
-    "retinal_desc": "Retinal is 11x more potent than retinol in stimulating collagen and accelerating cell renewal, with better tolerance for sensitive skin. Our encapsulation technology protects the active and delivers it into the deeper skin layers.",
-    "stats": [
-      { "value": "11x", "label": "Stronger than Retinol" },
-      { "value": "87%", "label": "Pore reduction in 4 weeks" },
-      { "value": "94%", "label": "Improvement in skin smoothness" },
-      { "value": "4 weeks", "label": "To see real difference" }
-    ]
-  },
-  "ingredients": {
-    "heading": "Ingredients Your Skin Won't Compromise On",
-    "subheading": "Every ingredient carefully selected — each one with a clear scientific purpose",
-    "list": [
-      {
-        "name": "Encapsulated Retinal",
-        "role": "Cell Renewer",
-        "benefit": "Stimulates collagen production and accelerates deep cell renewal without irritation",
-        "icon": "🔬"
-      },
-      {
-        "name": "Niacinamide 10%",
-        "role": "Skin Evener",
-        "benefit": "Minimizes enlarged pores, fades dark spots, and strengthens the skin barrier",
-        "icon": "✨"
-      },
-      {
-        "name": "Multi-Weight Hyaluronic Acid",
-        "role": "Deep Hydration",
-        "benefit": "Hydrates skin at 3 deep levels — from the surface to the inner layers",
-        "icon": "💧"
-      },
-      {
-        "name": "Panthenol (Vitamin B5)",
-        "role": "Soother & Repairer",
-        "benefit": "Calms redness, accelerates skin barrier repair, reduces sensitivity",
-        "icon": "🌿"
-      },
-      {
-        "name": "Centella Asiatica",
-        "role": "Natural Collagen Booster",
-        "benefit": "Stimulates natural collagen, reduces inflammation, supports skin elasticity",
-        "icon": "🌱"
-      },
-      {
-        "name": "Tripeptide Complex",
-        "role": "Skin Firmer",
-        "benefit": "Signals your skin to produce more collagen and elastin",
-        "icon": "⚡"
-      }
-    ]
-  },
-  "results": {
-    "heading": "Results Speak for Themselves",
-    "subheading": "Real before & after from real customers in Saudi Arabia",
-    "week_1": "Week 1: Skin feels more refreshed and hydrated",
-    "week_2": "Week 2: Visible pore minimizing",
-    "week_4": "Week 4: Noticeably even and glowing skin",
-    "week_8": "Week 8: Full transformation — like wearing a permanent filter"
-  },
-  "reviews": {
-    "heading": "What Our Customers Say",
-    "subheading": "+2,400 women in KSA trust Selora",
-    "rating_label": "Overall Rating",
-    "rating_value": "4.9",
-    "total_reviews": "2,431 reviews",
-    "items": [
-      {
-        "name": "Sara M. — Riyadh",
-        "rating": 5,
-        "date": "2 weeks ago",
-        "verified": true,
-        "text": "I've tried everything and didn't believe it. After two weeks of Selora Retinal Serum, my pores visibly shrank and my skin became so much more radiant. I can never go back to anything else.",
-        "highlight": "Pores shrank in 2 weeks"
-      },
-      {
-        "name": "Noura Al-Ghamdi — Jeddah",
-        "rating": 5,
-        "date": "3 weeks ago",
-        "verified": true,
-        "text": "I'm 38 and was nervous about retinal. But this product caused zero irritation. My skin became smoother and I started noticing a difference in fine lines. Highly recommend.",
-        "highlight": "No irritation, visible results"
-      },
-      {
-        "name": "Mona Al-Shammari — Dammam",
-        "rating": 5,
-        "date": "1 month ago",
-        "verified": true,
-        "text": "The dark spots that bothered me after pregnancy started visibly fading. Fast shipping and luxurious packaging. Selora has earned a loyal customer.",
-        "highlight": "Dark spots started fading"
-      },
-      {
-        "name": "Reem Al-Otaibi — Makkah",
-        "rating": 5,
-        "date": "1 week ago",
-        "verified": true,
-        "text": "First time using cash on delivery and I was hesitant, but the product is more than excellent. My skin improved remarkably. All my friends ask me my secret.",
-        "highlight": "Friends ask about her secret"
-      },
-      {
-        "name": "Haifa Al-Qahtani — Riyadh",
-        "rating": 5,
-        "date": "5 days ago",
-        "verified": true,
-        "text": "One of the best I've ever tried. Skin became smoother and more even. The texture is very light and doesn't make skin oily. This product is worth double its price.",
-        "highlight": "Worth double its price"
-      },
-      {
-        "name": "Abeer Al-Maliki — Jeddah",
-        "rating": 5,
-        "date": "2 weeks ago",
-        "verified": true,
-        "text": "I tried retinol before and it caused peeling. Selora Serum is completely different — gentle on my skin and effective at the same time. Thank you Selora.",
-        "highlight": "Gentle and effective"
-      }
-    ]
-  },
-  "trust": {
-    "heading": "Why Selora?",
-    "items": [
-      {
-        "title": "Clinically Tested Ingredients",
-        "desc": "Every ingredient selected based on peer-reviewed scientific research — no empty marketing"
-      },
-      {
-        "title": "Safe for Sensitive Skin",
-        "desc": "Free from harsh fragrances and harmful substances — suitable for even the most sensitive skin"
-      },
-      {
-        "title": "Fast KSA Shipping",
-        "desc": "Delivered in 1-3 days — in luxurious packaging worthy of gifting"
-      },
-      {
-        "title": "30-Day Money-Back Guarantee",
-        "desc": "If you see no results within 30 days, we refund you in full — no questions asked"
-      },
-      {
-        "title": "Cash on Delivery",
-        "desc": "Pay only when you receive — because your trust matters more than anything"
-      },
-      {
-        "title": "24/7 Customer Support",
-        "desc": "Our team is always available on WhatsApp for any questions or help"
-      }
-    ]
-  },
-  "faq": {
-    "heading": "Frequently Asked Questions",
-    "items": [
-      {
-        "q": "Is retinal suitable for sensitive skin?",
-        "a": "Yes. The advanced encapsulation technology makes retinal release gradually, significantly reducing irritation compared to traditional retinol. We recommend starting with every other day."
-      },
-      {
-        "q": "When will I see results?",
-        "a": "Most customers notice a difference in hydration and radiance within the first week, visible pore reduction by weeks two and three, and a full transformation within 4-8 weeks."
-      },
-      {
-        "q": "Can I use it with sunscreen?",
-        "a": "You must! Retinal makes your skin more sensitive to the sun. We recommend using the serum at night and applying SPF 50 sunscreen in the morning."
-      },
-      {
-        "q": "How does payment work?",
-        "a": "We currently accept cash on delivery only. No bank card needed — pay the courier when your order arrives."
-      },
-      {
-        "q": "What is your return policy?",
-        "a": "If you see no results within 30 days of regular use, contact us and we will refund you in full — no conditions."
-      }
-    ]
-  },
   "footer": {
-    "about": "Selora Beauty — Skincare science for Saudi women. Advanced technology. Real results.",
+    "about": "Selora Beauty — Skincare science for Saudi women. Premium Shea & Argan Routine. Real Results.",
     "links_heading": "Quick Links",
     "contact_heading": "Contact Us",
     "whatsapp": "WhatsApp",

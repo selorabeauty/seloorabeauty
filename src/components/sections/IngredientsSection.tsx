@@ -1,6 +1,10 @@
 import { PRODUCTS } from '@/lib/products';
 
-const INGREDIENTS = PRODUCTS[0].ingredients;
+// Combine unique ingredients from both the serum and the cream
+const ALL_INGREDIENTS = [...PRODUCTS[0].ingredients, ...PRODUCTS[1].ingredients];
+const INGREDIENTS = ALL_INGREDIENTS.filter(
+  (ing, i) => ALL_INGREDIENTS.findIndex((x) => x.name === ing.name) === i
+);
 
 export default function IngredientsSection() {
   return (

@@ -28,14 +28,14 @@ async def fire_tiktok_purchase(order) -> None:
                 "ip": order.ip_address or "",
                 "user_agent": order.user_agent or "",
             },
-            "page": {"url": order.page_url or "https://seloorabeauty.shop/ar"},
+            "page": {"url": order.page_url or "https://sellurabeauty.shop/ar"},
             "properties": {
                 "currency": "SAR",
                 "value": float(order.total),
                 "content_type": "product",
                 "contents": [{
-                    "content_id": "retinal-serum-150ml",
-                    "content_name": "سيروم الريتينال المُجدِّد ١٥٠مل",
+                    "content_id": order.product_id,
+                    "content_name": order.product_name,
                     "quantity": order.quantity,
                     "price": float(order.unit_price),
                 }],

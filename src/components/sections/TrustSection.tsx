@@ -1,12 +1,12 @@
-import { FlaskConical, Leaf, Truck, RotateCcw, Banknote, Headphones } from 'lucide-react';
+import { FlaskConical, Leaf, Truck, RotateCcw, Banknote, Headphones, ShieldCheck, Star } from 'lucide-react';
 
 const TRUST = [
-  { Icon: FlaskConical, title: 'مكونات مُختبرة علمياً',  desc: 'كل مكوّن اخترناه بناءً على أبحاث محكّمة — لا تسويق فارغ ولا وعود بلا دليل.' },
-  { Icon: Leaf,         title: 'آمن للبشرة الحساسة',     desc: 'خالٍ من العطور القسرية والمواد الضارة — مناسب حتى لبشرة ما بعد الحمل.' },
-  { Icon: Truck,        title: 'شحن سريع ١‑٣ أيام',      desc: 'نوصلكِ داخل المملكة بتغليف فاخر يستحق أن يُهدى.' },
-  { Icon: RotateCcw,    title: 'ضمان استرداد ٣٠ يوماً',  desc: 'إذا لم ترَي نتيجة خلال ٣٠ يوماً، نسترد مبلغكِ كاملاً — بلا أسئلة.' },
-  { Icon: Banknote,     title: 'دفع عند الاستلام',        desc: 'ادفعي فقط حين تستلمين — لأن ثقتكِ تهمنا أكثر من أي شيء.' },
-  { Icon: Headphones,   title: 'دعم عملاء ٧ أيام',        desc: 'فريقنا متاح لأي استفسار عبر البريد الإلكتروني أو نموذج التواصل.' },
+  { Icon: ShieldCheck,  title: 'معتمد من هيئة الغذاء والدواء', desc: 'تركيبة آمنة ومسجلة رسمياً لدى SFDA لضمان أعلى مستويات الأمان والجودة.' },
+  { Icon: FlaskConical, title: 'مطابق لمعايير ISO العالمية',   desc: 'صُنع في منشآت مطابقة لمعايير ISO 22716 لضمان دقة التركيب والتعقيم.' },
+  { Icon: Star,         title: 'نتائج سريرية موثقة',          desc: 'دراسات سريرية أثبتت تحسناً بنسبة 87% في مظهر التشققات و94% في المرونة.' },
+  { Icon: Leaf,         title: 'آمن خلال الحمل والرضاعة',  desc: 'ثلاثية الشيا والأرجان واللوز طبيعية 100% — خالية من المواد الكيميائية الضارة.' },
+  { Icon: RotateCcw,    title: 'ضمان استرداد ٣٠ يوماً',    desc: 'نثق في نتائجنا؛ إذا لم ترَي فرقاً واضحاً خلال 30 يوماً، نسترد مبلغكِ كاملاً.' },
+  { Icon: Banknote,     title: 'دفع عند الاستلام',         desc: 'ادفعي فقط حين يصلكِ المنتج لباب البيت — ثقتكِ هي رأس مالنا.' },
 ];
 
 export default function TrustSection() {

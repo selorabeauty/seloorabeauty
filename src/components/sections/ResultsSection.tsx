@@ -1,36 +1,34 @@
 'use client';
 import { useCartStore } from '@/store/cartStore';
-import { PRODUCTS, BUNDLES } from '@/lib/products';
+import { SET_OPTIONS } from '@/lib/products';
 
-const hero = PRODUCTS[0];
+const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
 
 const TIMELINE = [
-  { period: 'الأسبوع ١', result: 'ترطيب عميق وبشرة الوجه أكثر نضارة من الغسلة الأولى',           dot: '#EFE4D4' },
-  { period: 'الأسبوع ٢', result: 'بداية تحسن ملحوظ في لون التشققات وخطوط الوجه تبدأ بالتخفيف',  dot: '#D4A96A' },
-  { period: 'الأسبوع ٤', result: 'تشققات أفتح وأقل بروزاً، تجاعيد الوجه أخف وبشرة أكثر إشراقاً', dot: '#C4943E' },
-  { period: 'الأسبوع ٨', result: 'تحول حقيقي — تشققات الجسم ترممت، وجه مشدود ومرن، ثقة عالية',   dot: '#1A0F08' },
+  { period: 'الأسبوع ١', result: 'ترطيب عميق ونعومة ملحوظة في منطقة التشققات من الاستخدام الأول',    dot: '#EFE4D4' },
+  { period: 'الأسبوع ٢', result: 'بداية تحسن ملحوظ في لون التشققات الحمراء والبنفسجية',             dot: '#D4A96A' },
+  { period: 'الأسبوع ٤', result: 'تشققات أفتح وأقل بروزاً، ومرونة أعلى في البشرة المحيطة',           dot: '#C4943E' },
+  { period: 'الأسبوع ٨', result: 'تحول حقيقي — تشققات باهتة وشبه غير ملحوظة، بشرة موحدة وواثقة',    dot: '#1A0F08' },
 ];
 
 const STATS = [
-  { label: 'تحسن مظهر تشققات الجسم',  pct: '+87%', sub: 'في ٤ أسابيع' },
-  { label: 'تقليل تجاعيد الوجه',       pct: '+91%', sub: 'بشرة مشدودة' },
-  { label: 'مرونة البشرة العامة',       pct: '+94%', sub: 'تحسن ملحوظ' },
+  { label: 'تحسن مظهر التشققات',        pct: '+87%', sub: 'في ٤ أسابيع' },
+  { label: 'تفتيح لون التشققات الحمراء', pct: '+82%', sub: 'خلال أسبوعين' },
+  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ' },
 ];
 
 export default function ResultsSection() {
-  const { setBundle, openCheckout } = useCartStore();
+  const { setMainSet, openCheckout } = useCartStore();
 
   const handleBuyNow = () => {
-    const b = BUNDLES[0]; // default: single unit
-    setBundle({
-      id: hero.id + '-' + b.id,
-      slug: hero.slug,
-      name: hero.name,
-      price: hero.price,
-      originalPrice: hero.originalPrice,
-      imageBg: hero.imageBg,
-      bundlePrice: b.totalPrice,
-      bundleQty: b.qty,
+    setMainSet({
+      id: completeSet.id,
+      name: completeSet.label,
+      price: completeSet.totalPrice,
+      originalPrice: completeSet.originalTotal,
+      imageBg: 'from-bark-800 to-bark-900',
+      includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'],
+      sku: completeSet.sku,
     });
     openCheckout();
   };
@@ -41,7 +39,7 @@ export default function ResultsSection() {
 
         <div className="text-center mb-14">
           <h2 className="section-heading">النتائج تتكلم عن نفسها</h2>
-          <p className="section-sub">تشققات الجسم وتجاعيد الوجه — قبل وبعد حقيقي من عميلات المملكة</p>
+          <p className="section-sub">تشققات الجسم — قبل وبعد حقيقي من عميلات المملكة</p>
         </div>
 
         {/* ── Before / After stat cards ── */}

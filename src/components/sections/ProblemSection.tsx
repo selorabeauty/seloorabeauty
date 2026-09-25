@@ -1,14 +1,12 @@
 import { ArrowDown } from 'lucide-react';
 
-// ── EMOTIONAL problems — 2 core issues only ──
+// ── EMOTIONAL problems — stretch marks pain points ──
 const PROBLEMS = [
-  // ── تشققات الجسم — emotional ──
-  { emoji: '💔', text: 'تتجنبين ملابس معينة بسبب تشققات جسمكِ' },
-  { emoji: '😔', text: 'جربتِ زيوت وكريمات لا تُعدّ — ولا شيء أثّر في التشققات' },
+  { emoji: '💔', text: 'تتجنبين المايوه والملابس الكاشفة بسبب تشققات جسمكِ' },
+  { emoji: '🤰', text: 'تشققات الحمل ظهرت بسرعة ولم تختفِ بعد الولادة' },
+  { emoji: '😔', text: 'جربتِ زيوتاً وكريمات لا تُعدّ — ولا شيء أثّر في التشققات' },
+  { emoji: '⚖️', text: 'تشققات النحافة أو زيادة الوزن غيّرت شكل بشرتكِ' },
   { emoji: '🪞', text: 'تنظرين للمرآة وتتمنين لو عادت بشرتكِ لما كانت عليه' },
-  // ── تجاعيد الوجه — emotional ──
-  { emoji: '⏳', text: 'تجاعيد وجهكِ تكبر كل يوم — وتشعرين أن الوقت يسبقكِ' },
-  { emoji: '😞', text: 'أنفقتِ على كريمات غالية — وما رأيتِ فرقاً حقيقياً' },
 ];
 
 export default function ProblemSection() {
@@ -21,7 +19,7 @@ export default function ProblemSection() {
           نعرف بالضبط كيف تشعرين..
         </h2>
         <p className="text-base mb-10" style={{ color: '#C9AF97' }}>
-          تشققات الجسم وتجاعيد الوجه — مشكلتان حقيقيتان تؤثران على ثقتكِ كل يوم.
+          تشققات الجسم — مشكلة حقيقية تؤثر على ثقتكِ كل يوم، ونحن هنا لحلّها من جذورها.
         </p>
 
         {/* ── Problem cards ── */}
@@ -51,10 +49,10 @@ export default function ProblemSection() {
           <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#FDFAF6' }}>
             أنتِ لستِ المشكلة.{' '}
             <span className="font-bold" style={{ color: '#D4A96A' }}>
-              المنتجات التي جربتِها هي المشكلة.
+              المنتجات العادية التي جربتِها هي المشكلة.
             </span>
             <br />
-            التشققات والتجاعيد تحتاج ريتينالاً حقيقياً يصل للخلية — لا مجرد مرطب.
+            علاج التشققات يتطلب علماً حقيقياً وتغلغلاً خلوياً عميقاً يصل لتمزقات الأنسجة — ثلاثية سيلورا (شيا، أرجان، لوز) هي العلم في صفكِ لاستعادة بشرتكِ.
           </p>
         </div>
       </div>

@@ -1,24 +1,38 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { X, ShieldCheck, Truck, RotateCcw, Loader2 } from 'lucide-react';
+import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { BUNDLES } from '@/lib/products';
-import { validateKSAPhone, generateOrderId, formatPrice } from '@/lib/utils';
-import { cn } from '@/lib/utils';
-import { PRODUCTS } from '@/lib/products';
+import { SET_OPTIONS, getSetProducts } from '@/lib/products';
+import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
 
+const PAYMENT_METHODS = [
+  { id: 'cod', label: 'الدفع عند الاستلام', sub: 'ادفعي للمندوب عند وصول طلبكِ', Icon: Banknote },
+  { id: 'tabby_tamara', label: 'قسّطي مع Tabby أو Tamara', sub: 'بدون فوائد — قسمي المبلغ على ٤ دفعات', Icon: CreditCard },
+  { id: 'apple_pay_mada', label: 'Apple Pay / مدى', sub: 'ادفعي فوراً وبأمان عبر بطاقتكِ', Icon: Smartphone },
+] as const;
+
+type PaymentMethod = typeof PAYMENT_METHODS[number]['id'];
+
+// Only ever suggest an upgrade to a bigger *real* bundle — never a made-up product
+const UPSELL_UPGRADE: Record<string, string> = {
+  'set-serum-only': 'set-complete',
+  'set-cream-only': 'set-complete',
+  'set-complete': 'set-double',
+};
+
 export default function CheckoutPopup() {
   const router = useRouter();
-  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setBundle } = useCartStore();
+  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setMainSet } = useCartStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
   const [district, setDistrict] = useState('');
   const [address, setAddress] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
   const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string; address?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,10 +41,28 @@ export default function CheckoutPopup() {
     return () => { document.body.style.overflow = ''; };
   }, [isCheckoutOpen]);
 
-  const cartItems = items.length > 0 ? items : [{ ...PRODUCTS[0], quantity: 1 }];
-  const firstItem = cartItems[0];
-  const currentBundleQty = firstItem?.bundleQty ?? 1;
-  const total = firstItem?.bundlePrice ?? (items.length > 0 ? subtotal() : PRODUCTS[0].price);
+  const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
+  const cartItems = items.length > 0
+    ? items
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-bark-800 to-bark-900', includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'], sku: fallbackSet.sku }];
+  const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
+
+  const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];
+  const upsellSet = upsellSetId ? SET_OPTIONS.find((s) => s.id === upsellSetId) : undefined;
+
+  const handleUpgrade = () => {
+    if (!upsellSet) return;
+    const includedProducts = getSetProducts(upsellSet);
+    setMainSet({
+      id: upsellSet.id,
+      name: upsellSet.label,
+      price: upsellSet.totalPrice,
+      originalPrice: upsellSet.originalTotal,
+      imageBg: 'from-bark-800 to-bark-900',
+      includes: includedProducts.length > 1 ? includedProducts.map((p) => p.name) : undefined,
+      sku: upsellSet.sku,
+    });
+  };
 
   useEffect(() => {
     if (isCheckoutOpen) trackInitiateCheckout(total);
@@ -38,10 +70,6 @@ export default function CheckoutPopup() {
   }, [isCheckoutOpen]);
 
   if (!isCheckoutOpen) return null;
-
-  // Upsell: suggest next bundle up
-  const currentBundleIdx = BUNDLES.findIndex((b) => b.qty === currentBundleQty);
-  const upsellBundle = currentBundleIdx < BUNDLES.length - 1 ? BUNDLES[currentBundleIdx + 1] : null;
 
   const validate = () => {
     const e: { name?: string; phone?: string; city?: string; address?: string } = {};
@@ -59,36 +87,31 @@ export default function CheckoutPopup() {
     setSubmitting(true);
 
     const orderId = generateOrderId();
-    const now = new Date();
-    const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
-    const firstCartItem = cartItems[0];
+    const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
+
     const orderData = {
-      date:        dateStr,
-      order_id:    orderId,
-      country:     "SA",
-      name:        name.trim(),
-      phone:       phone.trim(),
-      city:        city,
-      district:    district.trim(),
-      address:     address.trim(),
-      product:     firstCartItem?.name ?? 'سيروم الريتينال المُجدِّد',
-      sku:         "SLR-RETINAL-001",
-      quantity:    firstCartItem?.bundleQty ?? 1,
-      total_price: total,
-      statut:      "جديد",
+      name:            name.trim(),
+      phone:           phone.trim(),
+      city,
+      district:        district.trim(),
+      address:         address.trim(),
+      payment_method:  paymentMethod,
+      quantity:        totalQty,
+      total,
+      items:           cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price })),
+      page_url:        typeof window !== 'undefined' ? window.location.href : undefined,
     };
 
     try {
-      const webhookUrl = process.env.NEXT_PUBLIC_ORDER_WEBHOOK_URL;
-      if (webhookUrl) {
-        await fetch(webhookUrl, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      if (apiUrl) {
+        await fetch(`${apiUrl}/api/orders`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData),
-          mode: 'no-cors',
         });
       }
-    } catch { /* fail silently */ }
+    } catch { /* fail silently — never block the thank-you page on network errors */ }
 
     trackPurchase(total, orderId);
     clearCart();
@@ -132,40 +155,30 @@ export default function CheckoutPopup() {
 
           <div className="px-6 py-5">
 
-            {/* Upsell Banner */}
-            {upsellBundle && (
-              <div
-                className="rounded-2xl p-4 mb-4 cursor-pointer border-2 transition-all"
+            {/* Upgrade banner — only ever a real bundle from SET_OPTIONS */}
+            {upsellSet && (
+              <button
+                type="button"
+                onClick={handleUpgrade}
+                className="w-full rounded-2xl p-4 mb-4 border-2 text-start transition-all"
                 style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
-                onClick={() => {
-                  setBundle({
-                    id: PRODUCTS[0].id + '-' + upsellBundle.id,
-                    slug: PRODUCTS[0].slug,
-                    name: PRODUCTS[0].name + ` ×${upsellBundle.qty}`,
-                    price: PRODUCTS[0].price,
-                    originalPrice: PRODUCTS[0].originalPrice,
-                    imageBg: PRODUCTS[0].imageBg,
-                    bundlePrice: upsellBundle.totalPrice,
-                    bundleQty: upsellBundle.qty,
-                  });
-                }}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">⬆️</span>
                   <div className="flex-1">
                     <div className="font-black text-sm" style={{ color: '#8A611E' }}>
-                      رقّي طلبك — {upsellBundle.label}
+                      رقّي طلبك إلى {upsellSet.label}
                     </div>
                     <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>
-                      {upsellBundle.savingsLabel} · فقط {upsellBundle.totalPrice} ر.س
-                      <span className="line-through mr-1 font-normal" style={{ color: '#B0998A' }}>{upsellBundle.originalTotal} ر.س</span>
+                      {upsellSet.savingsLabel} · فقط {upsellSet.totalPrice} ر.س
+                      <span className="line-through mr-1 font-normal" style={{ color: '#B0998A' }}>{upsellSet.originalTotal} ر.س</span>
                     </div>
                   </div>
                   <div className="text-xs font-black px-3 py-1.5 rounded-xl" style={{ background: '#C4943E', color: '#fff' }}>
-                    أضيفي ←
+                    رقّي ←
                   </div>
                 </div>
-              </div>
+              </button>
             )}
 
             {/* Order summary */}
@@ -176,14 +189,18 @@ export default function CheckoutPopup() {
                   <div
                     className={`w-12 h-12 bg-gradient-to-b ${item.imageBg} rounded-xl flex-shrink-0 flex items-center justify-center`}
                   >
-                    <span className="text-[7px] font-bold text-center leading-tight" style={{ color: '#D4A96A' }}>SLR</span>
+                    <span className="text-[7px] font-bold text-center leading-tight" style={{ color: '#D4A96A' }}>SELLURA</span>
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm line-clamp-1" style={{ color: '#1A0F08' }}>{item.name}</div>
-                    <div className="text-xs" style={{ color: '#8C7B6E' }}>الكمية: {item.bundleQty ?? item.quantity}</div>
+                    {'includes' in item && item.includes && item.includes.length > 0 ? (
+                      <div className="text-xs" style={{ color: '#8C7B6E' }}>{item.includes.join(' + ')}</div>
+                    ) : (
+                      <div className="text-xs" style={{ color: '#8C7B6E' }}>الكمية: {item.quantity}</div>
+                    )}
                   </div>
                   <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>
-                    {formatPrice(item.bundlePrice ?? item.price * item.quantity)}
+                    {formatPrice(item.price * item.quantity)}
                   </div>
                 </div>
               ))}
