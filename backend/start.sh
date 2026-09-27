@@ -19,34 +19,39 @@ async def check():
         print('❌ DATABASE_URL not set')
         sys.exit(1)
     
-    # Standardize url for urlparse (asyncpg uses postgresql://)
     standard_url = db_url.replace('postgres://', 'postgresql://')
     parsed = urlparse(standard_url)
-    
     db_name = parsed.path.lstrip('/')
-    # Connection string to the 'postgres' default database to create our target db
-    base_url = f'postgresql://{parsed.username}:{parsed.password}@{parsed.hostname}:{parsed.port or 5432}/postgres'
+    
+    # Try common administrative database 'postgres' as fallback for creation
+    base_urls = [
+        f'postgresql://{parsed.username}:{parsed.password}@{parsed.hostname}:{parsed.port or 5432}/postgres',
+        f'postgresql://{parsed.username}:{parsed.password}@{parsed.hostname}:{parsed.port or 5432}/template1'
+    ]
 
     try:
-        # 1. Try connecting to the actual database
+        # 1. Try connecting to the target database directly
+        print(f'🔍 Attempting to connect to database \"{db_name}\"...')
         conn = await asyncpg.connect(dsn=standard_url)
         await conn.close()
         print(f'✅ Database \"{db_name}\" is ready')
         return True
     except asyncpg.InvalidCatalogNameError:
-        # 2. Database does not exist, try to create it
-        print(f'⚠️ Database \"{db_name}\" does not exist. Attempting to create...')
-        try:
-            conn = await asyncpg.connect(dsn=base_url)
-            await conn.execute(f'CREATE DATABASE {db_name}')
-            await conn.close()
-            print(f'✨ Database \"{db_name}\" created successfully')
-            return True
-        except Exception as e:
-            print(f'❌ Failed to create database: {e}')
-            return False
+        # 2. Database does not exist, try to create it using base connections
+        print(f'⚠️ Database \"{db_name}\" does not exist. Trying to create it...')
+        for base_url in base_urls:
+            try:
+                print(f'⚙️ Connecting to admin DB: {base_url.split("@")[-1]}')
+                conn = await asyncpg.connect(dsn=base_url)
+                await conn.execute(f'CREATE DATABASE {db_name}')
+                await conn.close()
+                print(f'✨ Database \"{db_name}\" created successfully!')
+                return True
+            except Exception as e:
+                print(f'❌ Could not create via {base_url.split("/")[-1]}: {e}')
+        return False
     except Exception as e:
-        print(f'⏳ DB not ready yet: {e}')
+        print(f'⏳ Database service not ready yet: {e}')
         return False
 
 success = asyncio.run(check())
