@@ -54,11 +54,11 @@ if not success:
     sys.exit(1)
 "
 
-until python -c "$python_check_and_create" 2>/dev/null; do
+until python -c "$python_check_and_create"; do
     COUNT=$((COUNT + 1))
     if [ $COUNT -ge $MAX_RETRIES ]; then
         echo "❌ Database setup failed after $MAX_RETRIES retries."
-        break
+        exit 1
     fi
     echo "⏳ Retrying database setup $COUNT/$MAX_RETRIES..."
     sleep 3
