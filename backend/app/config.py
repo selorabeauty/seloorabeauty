@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgres://sellurabeauty:sellurabeauty@sellurabeauty_database:5432/sellurabeauty?sslmode=disable"
+    DATABASE_URL: str = "postgres://selorabeauty:selorabeauty@database:5432/selorabeauty?sslmode=disable"
     TIKTOK_ACCESS_TOKEN: str = ""
     TIKTOK_PIXEL_ID: str = ""
     SNAPCHAT_ACCESS_TOKEN: str = ""
