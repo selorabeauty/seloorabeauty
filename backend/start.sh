@@ -70,7 +70,8 @@ until python -c "$python_check_and_create"; do
 done
 
 echo "✅ Running database migrations..."
-alembic upgrade head || echo "⚠️ Migration failed or already up to date"
+export PYTHONPATH=$PYTHONPATH:.
+alembic upgrade head
 
 echo "🚀 Starting Seloora Beauty API..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
