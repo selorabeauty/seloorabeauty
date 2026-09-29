@@ -1,19 +1,20 @@
 import os
+import re
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
-# Use DATABASE_URL from environment directly, just fix the scheme for asyncpg
-_raw = os.environ.get(
-    "DATABASE_URL",
-    "postgres://selorabeauty:selorabeauty@database:5432/seloorabeauty"
-).split("?")[0]
 
-DB_URL = _raw.replace("postgres://", "postgresql+asyncpg://").replace(
-    "postgresql://", "postgresql+asyncpg://"
-)
+def _get_db_url() -> str:
+    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/selorabeauty")
+    raw = raw.split("?")[0]
+    raw = raw.replace("postgres://", "postgresql+asyncpg://").replace("postgresql://", "postgresql+asyncpg://")
+    # Always use selorabeauty as DB name regardless of what DATABASE_URL says
+    raw = re.sub(r"/[^/]+$", "/selorabeauty", raw)
+    print(f"[DB] Connection URL: {raw}")
+    return raw
 
-print(f"[DB] Using connection: {DB_URL}")
 
+DB_URL = _get_db_url()
 engine = create_async_engine(DB_URL, echo=False, pool_pre_ping=True)
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 

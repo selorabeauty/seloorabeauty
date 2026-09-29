@@ -24,49 +24,78 @@ app.include_router(orders.router, prefix="/api")
 
 
 def _db_params():
-    """Parse DATABASE_URL and return connection params as-is."""
-    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/seloorabeauty")
+    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/selorabeauty")
     raw = raw.split("?")[0].replace("postgres://", "postgresql://")
     m = re.match(r"postgresql://([^:]+):([^@]+)@([^:]+):(\d+)/(.+)", raw)
     if m:
-        user, password, host, port, dbname = m.groups()
-        return host, int(port), user, password, dbname
-    return "database", 5432, "selorabeauty", "selorabeauty", "seloorabeauty"
+        user, password, host, port, _ = m.groups()
+    else:
+        user, password, host, port = "selorabeauty", "selorabeauty", "database", "5432"
+    return host, int(port), user, password
 
 
 async def _ensure_tables():
-    host, port, user, password, dbname = _db_params()
-    logger.info(f"[startup] host={host} port={port} user={user} dbname={dbname}")
+    host, port, user, password = _db_params()
+    target_db = "selorabeauty"
 
-    # Try connecting — try target DB first, then postgres, then template1
-    conn = None
-    for try_db in [dbname, "postgres", "template1"]:
+    logger.info(f"[startup] host={host} port={port} user={user} target_db={target_db}")
+
+    # Try ALL possible admin databases to find one that works
+    admin_dbs = ["postgres", "template1", "selorabeauty", "seloorabeauty", user]
+    admin_conn = None
+    working_admin_db = None
+
+    for try_db in admin_dbs:
         try:
-            conn = await asyncpg.connect(host=host, port=port, user=user, password=password, database=try_db, timeout=8)
-            logger.info(f"[startup] Connected via db='{try_db}'")
-            if try_db != dbname:
-                exists = await conn.fetchval("SELECT 1 FROM pg_database WHERE datname=$1", dbname)
-                if not exists:
-                    await conn.execute(f'CREATE DATABASE "{dbname}"')
-                    logger.info(f"[startup] Created database '{dbname}'")
-                await conn.close()
-                conn = await asyncpg.connect(host=host, port=port, user=user, password=password, database=dbname, timeout=8)
+            c = await asyncpg.connect(
+                host=host, port=port, user=user, password=password,
+                database=try_db, timeout=5
+            )
+            await c.close()
+            working_admin_db = try_db
+            logger.info(f"[startup] ✅ PostgreSQL reachable via db='{try_db}'")
             break
         except asyncpg.InvalidCatalogNameError:
-            if conn:
-                await conn.close()
-            conn = None
+            logger.info(f"[startup] db='{try_db}' does not exist, trying next...")
+            continue
+        except asyncpg.InvalidPasswordError:
+            logger.error(f"[startup] ❌ Wrong password for user='{user}'")
+            return
         except Exception as e:
-            logger.warning(f"[startup] Could not connect via '{try_db}': {e}")
-            if conn:
-                await conn.close()
-            conn = None
+            logger.warning(f"[startup] db='{try_db}' error: {type(e).__name__}: {e}")
+            continue
 
-    if conn is None:
-        logger.error("[startup] ❌ Cannot connect to PostgreSQL!")
+    if working_admin_db is None:
+        logger.error("[startup] ❌ Cannot reach PostgreSQL with any known database name!")
+        logger.error(f"[startup] Tried: {admin_dbs}")
         return
 
+    # If we found a working db that isn't the target, create target
+    if working_admin_db != target_db:
+        try:
+            admin_conn = await asyncpg.connect(
+                host=host, port=port, user=user, password=password,
+                database=working_admin_db, timeout=5
+            )
+            exists = await admin_conn.fetchval("SELECT 1 FROM pg_database WHERE datname=$1", target_db)
+            if not exists:
+                await admin_conn.execute(f'CREATE DATABASE "{target_db}"')
+                logger.info(f"[startup] ✨ Created database '{target_db}'")
+            else:
+                logger.info(f"[startup] ✅ Database '{target_db}' already exists")
+            await admin_conn.close()
+        except Exception as e:
+            logger.error(f"[startup] ❌ Could not create database: {e}")
+            if admin_conn:
+                await admin_conn.close()
+            return
+
+    # Connect to target and create tables
     try:
+        conn = await asyncpg.connect(
+            host=host, port=port, user=user, password=password,
+            database=target_db, timeout=8
+        )
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS orders (
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -98,17 +127,15 @@ async def _ensure_tables():
         await conn.execute("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL PRIMARY KEY)")
         await conn.execute("INSERT INTO alembic_version (version_num) VALUES ('002') ON CONFLICT DO NOTHING")
         result = await conn.fetchval("SELECT to_regclass('public.orders')")
-        logger.info(f"[startup] ✅ orders table: {result}")
+        logger.info(f"[startup] ✅ Table 'orders' ready: {result}")
+        await conn.close()
     except Exception as e:
         logger.error(f"[startup] ❌ Table creation failed: {e}")
-    finally:
-        await conn.close()
 
 
 @app.on_event("startup")
 async def startup():
-    db_url = os.environ.get("DATABASE_URL", "NOT SET")
-    logger.info(f"[startup] DATABASE_URL = {db_url}")
+    logger.info(f"[startup] DATABASE_URL = {os.environ.get('DATABASE_URL', 'NOT SET')}")
     await _ensure_tables()
 
 
