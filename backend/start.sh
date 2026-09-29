@@ -5,7 +5,6 @@ echo "================================================"
 echo " Seloora Beauty Backend - Startup"
 echo "================================================"
 
-# ── Parse DATABASE_URL ────────────────────────────────────────────────────────
 DB_HOST="database"
 DB_PORT="5432"
 DB_NAME="selorabeauty"
@@ -21,8 +20,7 @@ if [ -n "$DATABASE_URL" ]; then
     DB_HOST="${_u%%:*}"
     _u="${_u#*:}"
     DB_PORT="${_u%%/*}"
-    _u="${_u#*/}"
-    DB_NAME="${_u%%\?*}"
+    DB_NAME="selorabeauty"
 fi
 
 echo "DB_HOST : $DB_HOST"
@@ -31,146 +29,85 @@ echo "DB_NAME : $DB_NAME"
 echo "DB_USER : $DB_USER"
 echo "================================================"
 
-# ── Step 1: Wait for PostgreSQL + ensure DB exists ───────────────────────────
-echo "[1/4] Waiting for PostgreSQL and ensuring database '$DB_NAME' exists..."
+echo "[1/3] Waiting for PostgreSQL and creating tables..."
 
-python - "$DB_HOST" "$DB_PORT" "$DB_USER" "$DB_PASS" "$DB_NAME" <<'PYEOF'
-import asyncio, asyncpg, sys, time
+python - <<PYEOF
+import asyncio, asyncpg, sys
 
-HOST, PORT, APP_USER, APP_PASS, TARGET_DB = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4], sys.argv[5]
+HOST, PORT, USER, PASS, DB = "$DB_HOST", $DB_PORT, "$DB_USER", "$DB_PASS", "$DB_NAME"
 
-# Possible superuser accounts EasyPanel might use
-SUPER_CANDIDATES = [
-    (APP_USER,  APP_PASS),
-    ("postgres", APP_PASS),
-    ("postgres", "postgres"),
-    ("postgres", ""),
-]
-
-# System databases that always exist (for admin connections)
-SYSTEM_DBS = ["postgres", "template1"]
-
-async def wait_for_pg(max_wait=90):
-    """Wait until PostgreSQL accepts ANY connection."""
-    deadline = time.time() + max_wait
-    while time.time() < deadline:
-        for user, pw in SUPER_CANDIDATES:
-            for sysdb in SYSTEM_DBS:
-                try:
-                    conn = await asyncpg.connect(host=HOST, port=PORT, user=user, password=pw, database=sysdb, timeout=4)
-                    await conn.close()
-                    print(f"✅ PostgreSQL reachable as user='{user}' db='{sysdb}'")
-                    return user, pw
-                except asyncpg.InvalidPasswordError:
-                    continue  # wrong password, try next
-                except asyncpg.InvalidCatalogNameError:
-                    # server is up but this sysdb doesn't exist — try direct target
-                    try:
-                        conn = await asyncpg.connect(host=HOST, port=PORT, user=user, password=pw, database=TARGET_DB, timeout=4)
-                        await conn.close()
-                        print(f"✅ Target DB '{TARGET_DB}' already accessible as '{user}'")
-                        return user, pw
-                    except Exception:
-                        continue
-                except Exception:
-                    continue
-        print("⏳ PostgreSQL not ready yet, retrying in 3s...")
-        await asyncio.sleep(3)
-    print("❌ PostgreSQL did not become ready in time.")
-    sys.exit(1)
-
-async def ensure_db(admin_user, admin_pass):
-    """Make sure TARGET_DB exists, create it if not."""
-    # Try to connect directly first
-    try:
-        conn = await asyncpg.connect(host=HOST, port=PORT, user=APP_USER, password=APP_PASS, database=TARGET_DB, timeout=5)
-        await conn.close()
-        print(f"✅ Database '{TARGET_DB}' exists and is accessible")
-        return
-    except asyncpg.InvalidCatalogNameError:
-        print(f"⚠️  Database '{TARGET_DB}' does not exist. Will create it.")
-    except asyncpg.InvalidPasswordError:
-        print(f"⚠️  App user '{APP_USER}' password rejected on '{TARGET_DB}'. Will try admin.")
-    except Exception as e:
-        print(f"⚠️  Direct connect to '{TARGET_DB}' failed: {e}. Will try admin.")
-
-    # Connect via admin to create DB and user
-    for sysdb in SYSTEM_DBS:
-        try:
-            conn = await asyncpg.connect(host=HOST, port=PORT, user=admin_user, password=admin_pass, database=sysdb, timeout=5)
-
-            # Create role/user if needed
-            role_exists = await conn.fetchval("SELECT 1 FROM pg_roles WHERE rolname = $1", APP_USER)
-            if not role_exists:
-                await conn.execute(f"CREATE ROLE \"{APP_USER}\" WITH LOGIN PASSWORD '{APP_PASS}'")
-                print(f"✨ Created PostgreSQL role '{APP_USER}'")
-            else:
-                # Make sure password is correct
-                await conn.execute(f"ALTER ROLE \"{APP_USER}\" WITH PASSWORD '{APP_PASS}'")
-
-            # Create database if needed
-            db_exists = await conn.fetchval("SELECT 1 FROM pg_database WHERE datname = $1", TARGET_DB)
-            if not db_exists:
-                await conn.execute(f'CREATE DATABASE "{TARGET_DB}" OWNER "{APP_USER}"')
-                print(f"✨ Created database '{TARGET_DB}'")
-            else:
-                # Grant access just in case
-                await conn.execute(f'GRANT ALL PRIVILEGES ON DATABASE "{TARGET_DB}" TO "{APP_USER}"')
-                print(f"✅ Granted privileges on existing database '{TARGET_DB}' to '{APP_USER}'")
-
-            await conn.close()
-            return
-        except asyncpg.InvalidCatalogNameError:
-            continue
-        except Exception as e:
-            print(f"   Could not admin via '{sysdb}': {e}")
-            continue
-
-    print(f"❌ Could not ensure database '{TARGET_DB}'. Check PostgreSQL service settings in EasyPanel.")
-    sys.exit(1)
+CREATE_ORDERS = """
+CREATE TABLE IF NOT EXISTS orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    product_id VARCHAR(100) NOT NULL DEFAULT 'retinal-serum-150ml',
+    product_name VARCHAR(200) NOT NULL DEFAULT 'serum',
+    quantity INTEGER NOT NULL DEFAULT 1,
+    unit_price NUMERIC(10,2) NOT NULL,
+    subtotal NUMERIC(10,2) NOT NULL,
+    vat NUMERIC(10,2) NOT NULL DEFAULT 0,
+    cod_fee NUMERIC(10,2) NOT NULL DEFAULT 0,
+    total NUMERIC(10,2) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'pending',
+    upsell_accepted BOOLEAN DEFAULT false,
+    upsell_qty INTEGER DEFAULT 0,
+    upsell_total NUMERIC(10,2) DEFAULT 0,
+    ttclid VARCHAR(500),
+    sc_cid VARCHAR(500),
+    event_id VARCHAR(200),
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    page_url TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+)
+"""
 
 async def main():
-    admin_user, admin_pass = await wait_for_pg()
-    await ensure_db(admin_user, admin_pass)
+    # Step 1: wait for postgres and ensure DB exists
+    for attempt in range(30):
+        for try_db in [DB, "postgres", "template1"]:
+            try:
+                conn = await asyncpg.connect(host=HOST, port=PORT, user=USER, password=PASS, database=try_db, timeout=5)
+                print(f"✅ Connected via db='{try_db}'")
+                if try_db != DB:
+                    exists = await conn.fetchval("SELECT 1 FROM pg_database WHERE datname=\$1", DB)
+                    if not exists:
+                        await conn.execute(f'CREATE DATABASE "{DB}"')
+                        print(f"✨ Created database '{DB}'")
+                    else:
+                        print(f"✅ Database '{DB}' exists")
+                    await conn.close()
+                    conn = await asyncpg.connect(host=HOST, port=PORT, user=USER, password=PASS, database=DB, timeout=5)
+                
+                # Create tables
+                await conn.execute(CREATE_ORDERS)
+                await conn.execute("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL PRIMARY KEY)")
+                await conn.execute("INSERT INTO alembic_version (version_num) VALUES ('002') ON CONFLICT DO NOTHING")
+                result = await conn.fetchval("SELECT to_regclass('public.orders')")
+                print(f"✅ Table 'orders' confirmed: {result}")
+                await conn.close()
+                return True
+            except asyncpg.InvalidCatalogNameError:
+                continue
+            except asyncpg.InvalidPasswordError as e:
+                print(f"❌ Wrong password: {e}")
+                sys.exit(1)
+            except Exception as e:
+                print(f"⏳ Attempt {attempt+1}/30 - {type(e).__name__}: {e}")
+                break
+        import time; time.sleep(3)
+    
+    print("❌ Could not connect to PostgreSQL after 30 attempts")
+    sys.exit(1)
 
 asyncio.run(main())
 PYEOF
 
-echo "[1/4] ✅ Database ready."
-
-# ── Step 2: Run Alembic migrations ───────────────────────────────────────────
+echo "[2/3] ✅ Database and tables ready."
 echo ""
-echo "[2/4] Running Alembic migrations..."
+echo "[3/3] Starting Seloora Beauty API..."
 export PYTHONPATH=/app
-
-alembic upgrade head
-echo "[2/4] ✅ Migrations applied."
-
-# ── Step 3: Verify orders table ──────────────────────────────────────────────
-echo ""
-echo "[3/4] Verifying 'orders' table..."
-
-python - "$DB_HOST" "$DB_PORT" "$DB_USER" "$DB_PASS" "$DB_NAME" <<'PYEOF'
-import asyncio, asyncpg, sys
-
-HOST, PORT, USER, PASS, DB = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4], sys.argv[5]
-
-async def verify():
-    conn = await asyncpg.connect(host=HOST, port=PORT, user=USER, password=PASS, database=DB, timeout=5)
-    result = await conn.fetchval("SELECT to_regclass('public.orders')")
-    await conn.close()
-    if result:
-        print(f"✅ Table 'orders' confirmed in '{DB}'")
-    else:
-        print("❌ Table 'orders' NOT FOUND — migrations may have failed silently!")
-        sys.exit(1)
-
-asyncio.run(verify())
-PYEOF
-
-echo "[3/4] ✅ Schema verified."
-
-# ── Step 4: Start API ─────────────────────────────────────────────────────────
-echo ""
-echo "[4/4] Starting Seloora Beauty API on 0.0.0.0:8000..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
