@@ -21,7 +21,7 @@ async def fire_snapchat_purchase(order) -> None:
             "event_time": int(time.time()),
             "event_id": order.event_id or str(order.id),
             "action_source": "WEB",
-            "event_source_url": order.page_url or "https://sellurabeauty.shop/ar",
+            "event_source_url": order.page_url or "https://seloorabeauty.shop/ar",
             "user_data": {
                 "ph": [sha256(phone_e164)],
                 "client_ip_address": order.ip_address or "",

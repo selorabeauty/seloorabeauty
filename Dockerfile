@@ -7,10 +7,10 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-ARG NEXT_PUBLIC_API_URL=https://api.sellurabeauty.shop
+ARG NEXT_PUBLIC_API_URL=https://api.seloorabeauty.shop
 ARG NEXT_PUBLIC_TIKTOK_PIXEL_ID
 ARG NEXT_PUBLIC_SNAPCHAT_PIXEL_ID
-ARG NEXT_PUBLIC_SITE_URL=https://sellurabeauty.shop
+ARG NEXT_PUBLIC_SITE_URL=https://seloorabeauty.shop
 
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_TIKTOK_PIXEL_ID=$NEXT_PUBLIC_TIKTOK_PIXEL_ID

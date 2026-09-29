@@ -28,7 +28,7 @@ async def fire_tiktok_purchase(order) -> None:
                 "ip": order.ip_address or "",
                 "user_agent": order.user_agent or "",
             },
-            "page": {"url": order.page_url or "https://sellurabeauty.shop/ar"},
+            "page": {"url": order.page_url or "https://seloorabeauty.shop/ar"},
             "properties": {
                 "currency": "SAR",
                 "value": float(order.total),

@@ -48,5 +48,5 @@ jobs:
           push: true
           tags: assiaalbader/sellurabeauty-frontend:latest
           build-args: |
-            NEXT_PUBLIC_API_URL=https://api.sellurabeauty.shop
-            NEXT_PUBLIC_SITE_URL=https://sellurabeauty.shop
+            NEXT_PUBLIC_API_URL=https://api.seloorabeauty.shop
+            NEXT_PUBLIC_SITE_URL=https://seloorabeauty.shop

@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     SNAPCHAT_ACCESS_TOKEN: str = ""
     SNAPCHAT_PIXEL_ID: str = ""
     GOOGLE_SHEETS_WEBHOOK_URL: str = ""
-    CORS_ORIGINS: str = "https://sellurabeauty.shop,http://localhost:3000,http://localhost:3001,http://localhost:3002"
+    CORS_ORIGINS: str = "https://seloorabeauty.shop,http://localhost:3000,http://localhost:3001,http://localhost:3002"
     COD_FEE: float = 0.0
     VAT_RATE: float = 0.0
     SINGLE_PRICE: float = 199.0
