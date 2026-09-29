@@ -17,6 +17,7 @@ def generate_order_id() -> str:
 
 
 async def create_order(db: AsyncSession, data: dict) -> Order:
+    print(f"🚀 New order received for: {data.get('name')}")
     qty   = data.get("quantity", 1)
     items = data.get("items") or []
     # Use total provided by the frontend (set price + any upsells), else fall back to the complete-set price
