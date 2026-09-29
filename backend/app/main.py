@@ -119,6 +119,7 @@ async def _ensure_db_and_tables():
 
 @app.on_event("startup")
 async def startup():
+    logger.info(f"DATABASE_URL in use: {settings.DATABASE_URL}")
     await _ensure_db_and_tables()
 
 
