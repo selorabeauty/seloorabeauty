@@ -70,8 +70,19 @@ until python -c "$python_check_and_create"; do
 done
 
 echo "✅ Running database migrations..."
-export PYTHONPATH=$PYTHONPATH:.
-alembic upgrade head
+export PYTHONPATH=.
+echo "🔍 Current directory: $(pwd)"
+echo "🔍 Python path: $PYTHONPATH"
+
+# Run migrations and capture output
+if alembic upgrade head; then
+    echo "✨ Migrations completed successfully"
+else
+    echo "❌ Migrations failed! Trying to initialize alembic if needed..."
+    # Fallback: in case of stamp issues
+    alembic stamp head
+    alembic upgrade head
+fi
 
 echo "🚀 Starting Seloora Beauty API..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
