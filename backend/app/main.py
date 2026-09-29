@@ -1,9 +1,10 @@
+import os
+import re
 import logging
 import asyncpg
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routers import orders
 
 logger = logging.getLogger("seloora")
 logging.basicConfig(level=logging.INFO)
@@ -23,54 +24,78 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from app.routers import orders
 app.include_router(orders.router, prefix="/api")
 
 
+def _parse_db_params():
+    """Parse DB connection params, always forcing DB name to selorabeauty."""
+    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/selorabeauty")
+    raw = raw.split("?")[0]
+    raw = raw.replace("postgres://", "postgresql://").replace("postgresql://", "postgresql://")
+
+    # Extract parts manually to avoid urlparse issues with special chars in password
+    # Format: postgresql://user:pass@host:port/dbname
+    match = re.match(r"postgresql://([^:]+):([^@]+)@([^:]+):(\d+)/(.+)", raw)
+    if match:
+        user, password, host, port, dbname = match.groups()
+    else:
+        user, password, host, port, dbname = "selorabeauty", "selorabeauty", "database", "5432", "selorabeauty"
+
+    # ALWAYS force correct DB name regardless of what DATABASE_URL says
+    dbname = "selorabeauty"
+
+    logger.info(f"[DB] host={host} port={port} user={user} dbname={dbname}")
+    return host, int(port), user, password, dbname
+
+
 async def _ensure_db_and_tables():
-    """Create the database and orders table if they don't exist."""
-    from urllib.parse import urlparse
+    host, port, user, password, dbname = _parse_db_params()
 
-    raw = settings.DATABASE_URL.split("?")[0]
-    parsed = urlparse(raw.replace("postgres://", "postgresql://"))
-    host = parsed.hostname
-    port = parsed.port or 5432
-    user = parsed.username
-    password = parsed.password
-    dbname = parsed.path.lstrip("/")
+    logger.info(f"🔍 Connecting to PostgreSQL at {host}:{port}, DB={dbname}")
 
-    logger.info(f"🔍 Ensuring database '{dbname}' and tables exist...")
-
-    # Try to connect; if DB missing, create it via postgres/template1
-    for attempt_db in [dbname, "postgres", "template1"]:
+    # Step 1: Try to connect to target DB directly
+    conn = None
+    for try_db in [dbname, "postgres", "template1"]:
         try:
             conn = await asyncpg.connect(
                 host=host, port=port, user=user, password=password,
-                database=attempt_db, timeout=5
+                database=try_db, timeout=8
             )
-            if attempt_db != dbname:
-                # We're on an admin DB — create target DB
-                exists = await conn.fetchval(
-                    "SELECT 1 FROM pg_database WHERE datname=$1", dbname
-                )
+            logger.info(f"✅ Connected via database='{try_db}'")
+            if try_db != dbname:
+                # Create target DB if missing
+                exists = await conn.fetchval("SELECT 1 FROM pg_database WHERE datname=$1", dbname)
                 if not exists:
                     await conn.execute(f'CREATE DATABASE "{dbname}"')
                     logger.info(f"✨ Created database '{dbname}'")
                 else:
                     logger.info(f"✅ Database '{dbname}' already exists")
-            await conn.close()
+                await conn.close()
+                # Now connect to the actual target DB
+                conn = await asyncpg.connect(
+                    host=host, port=port, user=user, password=password,
+                    database=dbname, timeout=8
+                )
             break
         except asyncpg.InvalidCatalogNameError:
+            if conn:
+                await conn.close()
+            conn = None
             continue
         except Exception as e:
-            logger.warning(f"Could not connect via '{attempt_db}': {e}")
+            logger.warning(f"Could not connect via '{try_db}': {e}")
+            if conn:
+                await conn.close()
+            conn = None
             continue
 
-    # Now connect to target DB and create tables directly via SQL
+    if conn is None:
+        logger.error("❌ Could not connect to PostgreSQL at all!")
+        return
+
+    # Step 2: Create orders table
     try:
-        conn = await asyncpg.connect(
-            host=host, port=port, user=user, password=password,
-            database=dbname, timeout=10
-        )
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS orders (
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -99,27 +124,27 @@ async def _ensure_db_and_tables():
                 updated_at TIMESTAMP DEFAULT NOW()
             )
         """)
-        # Also insert alembic_version so alembic thinks it's up to date
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS alembic_version (
                 version_num VARCHAR(32) NOT NULL PRIMARY KEY
             )
         """)
         await conn.execute("""
-            INSERT INTO alembic_version (version_num)
-            VALUES ('002')
+            INSERT INTO alembic_version (version_num) VALUES ('002')
             ON CONFLICT DO NOTHING
         """)
-        await conn.close()
-        logger.info("✅ Table 'orders' is ready.")
+        result = await conn.fetchval("SELECT to_regclass('public.orders')")
+        logger.info(f"✅ Table 'orders' confirmed: {result}")
     except Exception as e:
         logger.error(f"❌ Failed to create tables: {e}")
-        raise
+    finally:
+        await conn.close()
 
 
 @app.on_event("startup")
 async def startup():
-    logger.info(f"DATABASE_URL in use: {settings.DATABASE_URL}")
+    raw_url = os.environ.get("DATABASE_URL", "NOT SET")
+    logger.info(f"DATABASE_URL from environment: {raw_url}")
     await _ensure_db_and_tables()
 
 
