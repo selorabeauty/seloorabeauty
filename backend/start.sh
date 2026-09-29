@@ -42,8 +42,13 @@ CREATE TABLE IF NOT EXISTS orders (
     order_id VARCHAR(50) UNIQUE NOT NULL,
     name VARCHAR(200) NOT NULL,
     phone VARCHAR(20) NOT NULL,
+    city VARCHAR(200),
+    district VARCHAR(200),
+    address TEXT,
+    payment_method VARCHAR(50) DEFAULT 'cod',
     product_id VARCHAR(100) NOT NULL DEFAULT 'retinal-serum-150ml',
     product_name VARCHAR(200) NOT NULL DEFAULT 'serum',
+    items JSON,
     quantity INTEGER NOT NULL DEFAULT 1,
     unit_price NUMERIC(10,2) NOT NULL,
     subtotal NUMERIC(10,2) NOT NULL,
@@ -65,6 +70,14 @@ CREATE TABLE IF NOT EXISTS orders (
 )
 """
 
+ALTER_ORDERS = [
+    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS city VARCHAR(200)",
+    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS district VARCHAR(200)",
+    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS address TEXT",
+    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_method VARCHAR(50) DEFAULT 'cod'",
+    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS items JSON",
+]
+
 async def main():
     # Step 1: wait for postgres and ensure DB exists
     for attempt in range(30):
@@ -84,6 +97,12 @@ async def main():
                 
                 # Create tables
                 await conn.execute(CREATE_ORDERS)
+                # Add any missing columns to existing table
+                for alter_sql in ALTER_ORDERS:
+                    try:
+                        await conn.execute(alter_sql)
+                    except Exception as ae:
+                        print(f"  (alter skipped: {ae})")
                 await conn.execute("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL PRIMARY KEY)")
                 await conn.execute("INSERT INTO alembic_version (version_num) VALUES ('002') ON CONFLICT DO NOTHING")
                 result = await conn.fetchval("SELECT to_regclass('public.orders')")
