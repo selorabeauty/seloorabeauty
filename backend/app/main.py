@@ -9,16 +9,11 @@ from app.config import settings
 logger = logging.getLogger("seloora")
 logging.basicConfig(level=logging.INFO)
 
-app = FastAPI(
-    title="Seloora Beauty API",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
-)
+app = FastAPI(title="Seloora Beauty API", version="1.0.0", docs_url="/docs", redoc_url="/redoc")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin.strip() for origin in settings.CORS_ORIGINS.split(",")],
+    allow_origins=[o.strip() for o in settings.CORS_ORIGINS.split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,73 +23,49 @@ from app.routers import orders
 app.include_router(orders.router, prefix="/api")
 
 
-def _parse_db_params():
-    """Parse DB connection params, always forcing DB name to selorabeauty."""
-    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/selorabeauty")
-    raw = raw.split("?")[0]
-    raw = raw.replace("postgres://", "postgresql://").replace("postgresql://", "postgresql://")
-
-    # Extract parts manually to avoid urlparse issues with special chars in password
-    # Format: postgresql://user:pass@host:port/dbname
-    match = re.match(r"postgresql://([^:]+):([^@]+)@([^:]+):(\d+)/(.+)", raw)
-    if match:
-        user, password, host, port, dbname = match.groups()
-    else:
-        user, password, host, port, dbname = "selorabeauty", "selorabeauty", "database", "5432", "selorabeauty"
-
-    # ALWAYS force correct DB name regardless of what DATABASE_URL says
-    dbname = "selorabeauty"
-
-    logger.info(f"[DB] host={host} port={port} user={user} dbname={dbname}")
-    return host, int(port), user, password, dbname
+def _db_params():
+    """Parse DATABASE_URL and return connection params as-is."""
+    raw = os.environ.get("DATABASE_URL", "postgres://selorabeauty:selorabeauty@database:5432/seloorabeauty")
+    raw = raw.split("?")[0].replace("postgres://", "postgresql://")
+    m = re.match(r"postgresql://([^:]+):([^@]+)@([^:]+):(\d+)/(.+)", raw)
+    if m:
+        user, password, host, port, dbname = m.groups()
+        return host, int(port), user, password, dbname
+    return "database", 5432, "selorabeauty", "selorabeauty", "seloorabeauty"
 
 
-async def _ensure_db_and_tables():
-    host, port, user, password, dbname = _parse_db_params()
+async def _ensure_tables():
+    host, port, user, password, dbname = _db_params()
+    logger.info(f"[startup] host={host} port={port} user={user} dbname={dbname}")
 
-    logger.info(f"🔍 Connecting to PostgreSQL at {host}:{port}, DB={dbname}")
-
-    # Step 1: Try to connect to target DB directly
+    # Try connecting — try target DB first, then postgres, then template1
     conn = None
     for try_db in [dbname, "postgres", "template1"]:
         try:
-            conn = await asyncpg.connect(
-                host=host, port=port, user=user, password=password,
-                database=try_db, timeout=8
-            )
-            logger.info(f"✅ Connected via database='{try_db}'")
+            conn = await asyncpg.connect(host=host, port=port, user=user, password=password, database=try_db, timeout=8)
+            logger.info(f"[startup] Connected via db='{try_db}'")
             if try_db != dbname:
-                # Create target DB if missing
                 exists = await conn.fetchval("SELECT 1 FROM pg_database WHERE datname=$1", dbname)
                 if not exists:
                     await conn.execute(f'CREATE DATABASE "{dbname}"')
-                    logger.info(f"✨ Created database '{dbname}'")
-                else:
-                    logger.info(f"✅ Database '{dbname}' already exists")
+                    logger.info(f"[startup] Created database '{dbname}'")
                 await conn.close()
-                # Now connect to the actual target DB
-                conn = await asyncpg.connect(
-                    host=host, port=port, user=user, password=password,
-                    database=dbname, timeout=8
-                )
+                conn = await asyncpg.connect(host=host, port=port, user=user, password=password, database=dbname, timeout=8)
             break
         except asyncpg.InvalidCatalogNameError:
             if conn:
                 await conn.close()
             conn = None
-            continue
         except Exception as e:
-            logger.warning(f"Could not connect via '{try_db}': {e}")
+            logger.warning(f"[startup] Could not connect via '{try_db}': {e}")
             if conn:
                 await conn.close()
             conn = None
-            continue
 
     if conn is None:
-        logger.error("❌ Could not connect to PostgreSQL at all!")
+        logger.error("[startup] ❌ Cannot connect to PostgreSQL!")
         return
 
-    # Step 2: Create orders table
     try:
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS orders (
@@ -124,28 +95,21 @@ async def _ensure_db_and_tables():
                 updated_at TIMESTAMP DEFAULT NOW()
             )
         """)
-        await conn.execute("""
-            CREATE TABLE IF NOT EXISTS alembic_version (
-                version_num VARCHAR(32) NOT NULL PRIMARY KEY
-            )
-        """)
-        await conn.execute("""
-            INSERT INTO alembic_version (version_num) VALUES ('002')
-            ON CONFLICT DO NOTHING
-        """)
+        await conn.execute("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL PRIMARY KEY)")
+        await conn.execute("INSERT INTO alembic_version (version_num) VALUES ('002') ON CONFLICT DO NOTHING")
         result = await conn.fetchval("SELECT to_regclass('public.orders')")
-        logger.info(f"✅ Table 'orders' confirmed: {result}")
+        logger.info(f"[startup] ✅ orders table: {result}")
     except Exception as e:
-        logger.error(f"❌ Failed to create tables: {e}")
+        logger.error(f"[startup] ❌ Table creation failed: {e}")
     finally:
         await conn.close()
 
 
 @app.on_event("startup")
 async def startup():
-    raw_url = os.environ.get("DATABASE_URL", "NOT SET")
-    logger.info(f"DATABASE_URL from environment: {raw_url}")
-    await _ensure_db_and_tables()
+    db_url = os.environ.get("DATABASE_URL", "NOT SET")
+    logger.info(f"[startup] DATABASE_URL = {db_url}")
+    await _ensure_tables()
 
 
 @app.get("/health")

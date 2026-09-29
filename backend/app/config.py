@@ -2,40 +2,8 @@ import os
 from pydantic_settings import BaseSettings
 
 
-def _build_db_url() -> str:
-    """
-    Build the database URL from individual parts if available,
-    or fall back to DATABASE_URL env var, or the hardcoded default.
-    This ensures the correct database name is always used.
-    """
-    # Individual overrides take priority (set these in EasyPanel if needed)
-    db_host = os.environ.get("DB_HOST", "database")
-    db_port = os.environ.get("DB_PORT", "5432")
-    db_name = os.environ.get("DB_NAME", "selorabeauty")
-    db_user = os.environ.get("DB_USER", "selorabeauty")
-    db_pass = os.environ.get("DB_PASS", "selorabeauty")
-
-    # If any individual part is explicitly set, build URL from parts
-    if any(k in os.environ for k in ["DB_HOST", "DB_NAME", "DB_USER", "DB_PASS"]):
-        return f"postgres://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}?sslmode=disable"
-
-    # Use DATABASE_URL if set, but fix common naming mistake (seloorabeauty -> selorabeauty)
-    raw_url = os.environ.get("DATABASE_URL", "")
-    if raw_url:
-        # Fix the double-O typo that appeared in EasyPanel config
-        fixed = raw_url.replace("seloorabeauty?", "selorabeauty?") \
-                       .replace("/seloorabeauty?", "/selorabeauty?") \
-                       .replace("/seloorabeauty", "/selorabeauty")
-        if fixed != raw_url:
-            print(f"⚠️  DATABASE_URL auto-corrected: seloorabeauty → selorabeauty")
-        return fixed
-
-    # Hardcoded default
-    return f"postgres://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}?sslmode=disable"
-
-
 class Settings(BaseSettings):
-    DATABASE_URL: str = _build_db_url()
+    DATABASE_URL: str = "postgres://selorabeauty:selorabeauty@database:5432/seloorabeauty?sslmode=disable"
     TIKTOK_ACCESS_TOKEN: str = ""
     TIKTOK_PIXEL_ID: str = ""
     SNAPCHAT_ACCESS_TOKEN: str = ""
@@ -57,9 +25,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-# Always enforce correct DB name regardless of what was loaded
-if "seloorabeauty" in settings.DATABASE_URL.split("@")[-1]:
-    settings.DATABASE_URL = settings.DATABASE_URL.replace(
-        "/seloorabeauty", "/selorabeauty"
-    ).replace("seloorabeauty?", "selorabeauty?")
-    print(f"⚠️  DATABASE_URL corrected at runtime: {settings.DATABASE_URL}")
