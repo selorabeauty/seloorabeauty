@@ -104,14 +104,20 @@ export default function CheckoutPopup() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      console.log("🛒 Attempting to send order to API:", apiUrl);
       if (apiUrl) {
-        await fetch(`${apiUrl}/api/orders`, {
+        const response = await fetch(`${apiUrl}/api/orders`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData),
         });
+        console.log("📡 API Response status:", response.status);
+      } else {
+        console.error("❌ NEXT_PUBLIC_API_URL is not defined!");
       }
-    } catch { /* fail silently — never block the thank-you page on network errors */ }
+    } catch (err) {
+      console.error("❌ Failed to send order:", err);
+    }
 
     trackPurchase(total, orderId);
     clearCart();
