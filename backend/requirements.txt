@@ -8,5 +8,7 @@ pydantic==2.7.4
 pydantic-settings==2.3.4
 python-dotenv==1.0.1
 google-auth==2.29.0
+google-auth[requests]==2.29.0
+requests==2.31.0
 cryptography==42.0.8
 
