@@ -144,6 +144,20 @@ async def health():
     return {"status": "ok", "service": "seloora-beauty-api"}
 
 
+@app.get("/debug/sheets")
+async def debug_sheets():
+    import os
+    sa_exists = os.path.exists("/app/service-account.json")
+    sa_size = os.path.getsize("/app/service-account.json") if sa_exists else 0
+    return {
+        "sa_file_exists": sa_exists,
+        "sa_file_size": sa_size,
+        "GOOGLE_SPREADSHEET_ID": os.environ.get("GOOGLE_SPREADSHEET_ID", "NOT SET"),
+        "GOOGLE_SA_CLIENT_EMAIL": os.environ.get("GOOGLE_SA_CLIENT_EMAIL", "NOT SET"),
+        "settings_spreadsheet_id": settings.GOOGLE_SPREADSHEET_ID,
+    }
+
+
 @app.get("/")
 async def root():
     return {"message": "Seloora Beauty API", "docs": "/docs"}
