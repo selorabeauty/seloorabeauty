@@ -144,39 +144,6 @@ async def health():
     return {"status": "ok", "service": "seloora-beauty-api"}
 
 
-@app.get("/debug/sheets")
-async def debug_sheets():
-    import os, json, traceback
-    sa_path = "/app/service-account.json"
-    sa_exists = os.path.exists(sa_path)
-    sa_size = os.path.getsize(sa_path) if sa_exists else 0
-    result = {
-        "sa_file_exists": sa_exists,
-        "sa_file_size": sa_size,
-        "GOOGLE_SPREADSHEET_ID": os.environ.get("GOOGLE_SPREADSHEET_ID", "NOT SET"),
-        "settings_spreadsheet_id": settings.GOOGLE_SPREADSHEET_ID,
-        "auth_test": None,
-        "write_test": None,
-    }
-    if sa_exists:
-        try:
-            from google.oauth2 import service_account
-            import google.auth.transport.requests, httpx
-            with open(sa_path) as f:
-                sa_info = json.load(f)
-            creds = service_account.Credentials.from_service_account_info(
-                sa_info, scopes=["https://www.googleapis.com/auth/spreadsheets"]
-            )
-            creds.refresh(google.auth.transport.requests.Request())
-            result["auth_test"] = "OK — token obtained"
-            # Try writing a test row
-            sid = settings.GOOGLE_SPREADSHEET_ID or "1MryK9DrpLRKQ2PeIf2jc160_WhRVNGqzrACnwou54q8"
-            url = f"https://sheets.googleapis.com/v4/spreadsheets/{sid}/values/A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS"
-            resp = httpx.post(url, json={"values": [["DEBUG-TEST","debug","debug","966500000000","Riyadh","test","KSA","test","1","SKU-1","","SAR",1]]}, headers={"Authorization": f"Bearer {creds.token}"}, timeout=10)
-            result["write_test"] = f"HTTP {resp.status_code}: {resp.text[:100]}"
-        except Exception as e:
-            result["auth_test"] = f"ERROR: {traceback.format_exc()[-300:]}"
-    return result
 
 
 @app.get("/")
