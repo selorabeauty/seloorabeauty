@@ -1,38 +1,21 @@
 """
 Direct Google Sheets API v4 integration via service account.
-Credentials are loaded from environment variables — no JSON file needed.
+service-account.json is written by start.sh at container startup.
 """
 import asyncio
 import json
+import os
 from datetime import datetime, timezone
 
 import httpx
 
 from app.config import settings
 
+_SA_PATH = "/app/service-account.json"
 _cached_token: dict = {"token": None, "expires_at": 0}
 
 
-def _get_sa_info() -> dict:
-    """Build service account dict from individual env vars."""
-    pk = settings.GOOGLE_SA_PRIVATE_KEY
-    # Handle escaped newlines stored in env var
-    if "\\n" in pk:
-        pk = pk.replace("\\n", "\n")
-    return {
-        "type": "service_account",
-        "project_id": "selora-beauty",
-        "private_key_id": settings.GOOGLE_SA_PRIVATE_KEY_ID,
-        "private_key": pk,
-        "client_email": settings.GOOGLE_SA_CLIENT_EMAIL,
-        "client_id": settings.GOOGLE_SA_CLIENT_ID,
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-    }
-
-
 async def _get_access_token() -> str:
-    """Return a cached OAuth2 access token, refreshing when expired."""
     import time
     if _cached_token["token"] and time.time() < _cached_token["expires_at"] - 60:
         return _cached_token["token"]
@@ -40,8 +23,11 @@ async def _get_access_token() -> str:
     from google.oauth2 import service_account
     import google.auth.transport.requests
 
+    with open(_SA_PATH) as f:
+        sa_info = json.load(f)
+
     creds = service_account.Credentials.from_service_account_info(
-        _get_sa_info(),
+        sa_info,
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
     )
     loop = asyncio.get_event_loop()
@@ -96,10 +82,13 @@ def _build_row(order) -> list:
 
 
 async def send_to_sheets(order) -> None:
-    """Write order directly to Google Sheets via Sheets API v4."""
     spreadsheet_id = settings.GOOGLE_SPREADSHEET_ID
-    if not spreadsheet_id or not settings.GOOGLE_SA_CLIENT_EMAIL:
-        print(f"⚠️  Google Sheets not configured — skipping sync for {order.order_id}")
+    if not spreadsheet_id:
+        print(f"⚠️  GOOGLE_SPREADSHEET_ID not set — skipping {order.order_id}")
+        return
+
+    if not os.path.exists(_SA_PATH):
+        print(f"⚠️  service-account.json not found — skipping {order.order_id}")
         return
 
     try:
@@ -120,7 +109,7 @@ async def send_to_sheets(order) -> None:
 
         if resp.status_code == 200:
             updated = resp.json().get("updates", {}).get("updatedRange", "")
-            print(f"✅ Order {order.order_id} written to Google Sheets → {updated}")
+            print(f"✅ Order {order.order_id} → Google Sheets {updated}")
         else:
             print(f"⚠️  Sheets API {resp.status_code} for {order.order_id}: {resp.text[:200]}")
 
