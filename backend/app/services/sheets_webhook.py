@@ -12,6 +12,7 @@ import httpx
 from app.config import settings
 
 _SA_PATH = "/app/service-account.json"
+_SPREADSHEET_ID = "1MryK9DrpLRKQ2PeIf2jc160_WhRVNGqzrACnwou54q8"  # hardcoded fallback
 _cached_token: dict = {"token": None, "expires_at": 0}
 
 
@@ -82,13 +83,11 @@ def _build_row(order) -> list:
 
 
 async def send_to_sheets(order) -> None:
-    spreadsheet_id = settings.GOOGLE_SPREADSHEET_ID
-    if not spreadsheet_id:
-        print(f"⚠️  GOOGLE_SPREADSHEET_ID not set — skipping {order.order_id}")
-        return
+    # Use env var if set, otherwise fall back to hardcoded ID
+    spreadsheet_id = settings.GOOGLE_SPREADSHEET_ID or _SPREADSHEET_ID
 
     if not os.path.exists(_SA_PATH):
-        print(f"⚠️  service-account.json not found — skipping {order.order_id}")
+        print(f"⚠️  service-account.json not found at {_SA_PATH} — skipping {order.order_id}")
         return
 
     try:
