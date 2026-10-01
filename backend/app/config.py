@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "changeme"
     MAXMIND_ACCOUNT_ID: str = ""
     MAXMIND_LICENSE_KEY: str = ""
+    ADMIN_USER: str = "admin"
+    ADMIN_PASSWORD: str = "changeme"
 
     class Config:
         env_file = ".env"

@@ -20,8 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from app.routers import orders
+from app.routers import orders, admin, dashboard
 app.include_router(orders.router, prefix="/api")
+app.include_router(admin.router)
+app.include_router(dashboard.router)
 
 
 def _db_params():
@@ -127,6 +129,23 @@ async def _ensure_tables():
         """)
         await conn.execute("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL PRIMARY KEY)")
         await conn.execute("INSERT INTO alembic_version (version_num) VALUES ('002') ON CONFLICT DO NOTHING")
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS page_views (
+                id         BIGSERIAL PRIMARY KEY,
+                session_id VARCHAR(64),
+                event      VARCHAR(50)  NOT NULL DEFAULT 'pageview',
+                page_url   TEXT,
+                referrer   TEXT,
+                ip_address VARCHAR(45),
+                country    VARCHAR(10),
+                is_ksa     BOOLEAN DEFAULT FALSE,
+                is_vpn     BOOLEAN DEFAULT FALSE,
+                user_agent TEXT,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """)
+        await conn.execute("CREATE INDEX IF NOT EXISTS idx_pv_created ON page_views (created_at DESC)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT")
         result = await conn.fetchval("SELECT to_regclass('public.orders')")
         logger.info(f"[startup] ✅ Table 'orders' ready: {result}")
         await conn.close()
@@ -152,8 +171,8 @@ async def root():
     return {"message": "Seloora Beauty API", "docs": "/docs"}
 
 
-@app.get("/admin/orders", response_class=fastapi.responses.HTMLResponse)
-async def admin_orders():
+@app.get("/admin/orders-legacy", response_class=fastapi.responses.HTMLResponse)
+async def admin_orders_legacy():
     return """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>

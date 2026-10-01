@@ -3,8 +3,25 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.schemas.order import OrderCreate, OrderResponse, UpsellRequest, UpsellResponse
 from app.services import order_service
+from app.services.tracking import record_event
 
 router = APIRouter(tags=["orders"])
+
+
+@router.post("/track")
+async def track_event(request: Request, db: AsyncSession = Depends(get_db)):
+    try:
+        body       = await request.json()
+        ip         = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or str(request.client.host)
+        session_id = body.get("session_id", "")
+        event      = body.get("event", "pageview")
+        page_url   = body.get("page_url", "")
+        referrer   = body.get("referrer", "")
+        user_agent = request.headers.get("User-Agent", "")
+        await record_event(db, event, ip, session_id, page_url, referrer, user_agent)
+        return {"ok": True}
+    except Exception:
+        return {"ok": False}
 
 
 @router.post("/orders", response_model=OrderResponse)
