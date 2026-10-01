@@ -38,6 +38,29 @@ async def accept_upsell(
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@router.get("/orders")
+async def list_orders(db: AsyncSession = Depends(get_db)):
+    from sqlalchemy import select, desc
+    from app.models.order import Order
+    result = await db.execute(select(Order).order_by(desc(Order.created_at)).limit(200))
+    orders = result.scalars().all()
+    return [
+        {
+            "order_id":      o.order_id,
+            "name":          o.name,
+            "phone":         o.phone,
+            "city":          o.city,
+            "address":       o.address,
+            "items":         o.items,
+            "total":         float(o.total),
+            "status":        o.status,
+            "payment":       o.payment_method,
+            "created_at":    o.created_at.isoformat() if o.created_at else None,
+        }
+        for o in orders
+    ]
+
+
 @router.get("/orders/{order_id}")
 async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
     from sqlalchemy import select
@@ -46,4 +69,6 @@ async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
     order = result.scalar_one_or_none()
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
-    return {"order_id": order.order_id, "status": order.status, "total": float(order.total)}
+    return {"order_id": order.order_id, "name": order.name, "phone": order.phone,
+            "city": order.city, "address": order.address, "items": order.items,
+            "total": float(order.total), "status": order.status, "created_at": order.created_at.isoformat() if order.created_at else None}

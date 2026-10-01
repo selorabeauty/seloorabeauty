@@ -2,6 +2,7 @@ import os
 import re
 import logging
 import asyncpg
+import fastapi.responses
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
@@ -149,3 +150,63 @@ async def health():
 @app.get("/")
 async def root():
     return {"message": "Seloora Beauty API", "docs": "/docs"}
+
+
+@app.get("/admin/orders", response_class=fastapi.responses.HTMLResponse)
+async def admin_orders():
+    return """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selora Beauty — الطلبات</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  h1 { color: #333; text-align: center; }
+  #count { text-align: center; color: #666; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+  th { background: #222; color: #fff; padding: 10px 8px; font-size: 13px; }
+  td { padding: 9px 8px; border-bottom: 1px solid #eee; font-size: 13px; vertical-align: top; }
+  tr:hover td { background: #f9f9f9; }
+  .badge { padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .pending { background: #fff3cd; color: #856404; }
+  .total { font-weight: bold; color: #198754; }
+  #loading { text-align: center; padding: 40px; color: #888; }
+</style>
+</head>
+<body>
+<h1>Selora Beauty — الطلبات</h1>
+<div id="count"></div>
+<div id="loading">جاري التحميل...</div>
+<table id="tbl" style="display:none">
+  <thead><tr>
+    <th>#</th><th>رقم الطلب</th><th>الاسم</th><th>الهاتف</th>
+    <th>المدينة</th><th>المنتجات</th><th>الإجمالي</th><th>الحالة</th><th>التاريخ</th>
+  </tr></thead>
+  <tbody id="tbody"></tbody>
+</table>
+<script>
+fetch('/api/orders').then(r=>r.json()).then(orders=>{
+  document.getElementById('loading').style.display='none';
+  document.getElementById('tbl').style.display='table';
+  document.getElementById('count').textContent = 'إجمالي الطلبات: ' + orders.length;
+  const tbody = document.getElementById('tbody');
+  orders.forEach((o,i) => {
+    const items = (o.items||[]).map(it=>it.name+' x'+it.quantity).join(' / ') || '-';
+    const date = o.created_at ? new Date(o.created_at).toLocaleString('ar-SA',{timeZone:'Asia/Riyadh'}) : '-';
+    tbody.innerHTML += '<tr>' +
+      '<td>'+(i+1)+'</td>' +
+      '<td><b>'+o.order_id+'</b></td>' +
+      '<td>'+o.name+'</td>' +
+      '<td>'+o.phone+'</td>' +
+      '<td>'+(o.city||'-')+'</td>' +
+      '<td>'+items+'</td>' +
+      '<td class="total">'+o.total+' ر.س</td>' +
+      '<td><span class="badge pending">'+o.status+'</span></td>' +
+      '<td>'+date+'</td>' +
+    '</tr>';
+  });
+}).catch(()=>{ document.getElementById('loading').textContent='فشل تحميل الطلبات'; });
+</script>
+</body>
+</html>"""
