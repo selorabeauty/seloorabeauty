@@ -16,6 +16,10 @@ build/
 .env.production.local
 backend/.env
 
+# Google service account key — contains private key, never commit
+backend/service-account.json
+**/service-account*.json
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

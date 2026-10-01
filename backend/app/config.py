@@ -8,7 +8,13 @@ class Settings(BaseSettings):
     TIKTOK_PIXEL_ID: str = ""
     SNAPCHAT_ACCESS_TOKEN: str = ""
     SNAPCHAT_PIXEL_ID: str = ""
-    GOOGLE_SHEETS_WEBHOOK_URL: str = ""
+    # Google Sheets direct API
+    GOOGLE_SPREADSHEET_ID: str = ""
+    GOOGLE_SA_CLIENT_EMAIL: str = ""
+    GOOGLE_SA_PRIVATE_KEY: str = ""
+    GOOGLE_SA_PRIVATE_KEY_ID: str = ""
+    GOOGLE_SA_CLIENT_ID: str = ""
+    GOOGLE_SHEETS_WEBHOOK_URL: str = ""  # legacy, unused
     CORS_ORIGINS: str = "https://seloorabeauty.shop,https://www.seloorabeauty.shop,http://localhost:3000,http://localhost:3001,http://localhost:3002"
     COD_FEE: float = 0.0
     VAT_RATE: float = 0.0
