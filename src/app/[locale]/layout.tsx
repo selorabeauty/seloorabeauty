@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Tajawal } from 'next/font/google';
 import Script from 'next/script';
 import '../globals.css';
+import TrackPageView from '@/components/ui/TrackPageView';
 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
 const SNAPCHAT_PIXEL_ID = process.env.NEXT_PUBLIC_SNAPCHAT_PIXEL_ID;
@@ -29,6 +30,7 @@ export default function LocaleLayout({
   return (
     <html lang="ar" dir="rtl" className={tajawal.variable}>
       <body className="font-arabic antialiased">
+        <TrackPageView />
         {children}
 
         {/* ── TikTok Pixel ── */}

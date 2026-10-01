@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
+import { track } from '@/lib/track';
 
 const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
 
@@ -19,6 +20,7 @@ export default function StickyBuyBar() {
   if (!visible) return null;
 
   const handleClick = () => {
+    track.addToCart();
     setMainSet({
       id: completeSet.id,
       name: completeSet.label,

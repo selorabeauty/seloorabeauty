@@ -6,6 +6,7 @@ import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
+import { track } from '@/lib/track';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
 
@@ -65,7 +66,10 @@ export default function CheckoutPopup() {
   };
 
   useEffect(() => {
-    if (isCheckoutOpen) trackInitiateCheckout(total);
+    if (isCheckoutOpen) {
+      trackInitiateCheckout(total);
+      track.checkoutStart();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheckoutOpen]);
 
@@ -120,6 +124,7 @@ export default function CheckoutPopup() {
     }
 
     trackPurchase(total, orderId);
+    track.purchase(orderId);
     clearCart();
     closeCheckout();
     router.push(`/ar/order/success?id=${orderId}&name=${encodeURIComponent(name)}&total=${total}`);
