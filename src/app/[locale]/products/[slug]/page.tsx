@@ -77,7 +77,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
             {/* Image gallery — 3 placeholders per product */}
             <div className="md:sticky md:top-24">
-              <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-[4/5] flex items-center justify-center overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-[3/4] flex items-center justify-center overflow-hidden">
                 <img
                   src={activeImg}
                   alt={product.name}
@@ -105,7 +105,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         activeImg === src ? 'border-amber-500 ring-2 ring-amber-500/30' : 'border-stone-100 opacity-70 hover:opacity-100'
                       }`}
                     >
-                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" />
                     </button>
                   ))}
                 </div>
