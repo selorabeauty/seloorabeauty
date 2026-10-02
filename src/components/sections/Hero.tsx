@@ -234,19 +234,14 @@ export default function Hero() {
               className="absolute inset-6 rounded-full flex items-center justify-center"
               style={{ background: '#fff', boxShadow: '0 8px 48px -6px rgba(58,40,24,0.18)' }}
             >
-              <div className="flex gap-3 px-4">
+              <div className="flex gap-3 px-4 items-end">
                 {PRODUCTS.map((p) => (
-                  <div
+                  <img
                     key={p.id}
-                    className={`w-24 h-40 rounded-2xl flex flex-col items-center justify-center gap-2 px-2 bg-gradient-to-b ${p.imageBg}`}
-                    style={{ boxShadow: '0 8px 32px rgba(26,15,8,0.35)' }}
-                  >
-                    <span className="text-[10px] font-bold tracking-[0.14em]" style={{ color: '#D4A96A' }}>SELLURA</span>
-                    <span className="text-[7px] font-bold tracking-wider text-center leading-relaxed" style={{ color: '#C9AF97' }}>
-                      {p.subtitle.toUpperCase()}
-                    </span>
-                    <span className="text-[7px] mt-1" style={{ color: 'rgba(253,250,246,0.4)' }}>100 ml</span>
-                  </div>
+                    src={p.images[0]}
+                    alt={p.name}
+                    className="w-28 h-44 md:w-32 md:h-52 object-contain drop-shadow-xl"
+                  />
                 ))}
               </div>
             </div>

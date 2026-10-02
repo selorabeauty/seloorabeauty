@@ -134,7 +134,7 @@ export const PRODUCTS: Product[] = [
       'اتبعيه مباشرة بكريم علاج التشققات لإغلاق الرطوبة ومضاعفة الفعالية.',
       'استخدميه صباحاً ومساءً للنتائج الأمثل خلال ٤-٨ أسابيع.',
     ],
-    images: ['/images/stretch-serum-1.jpg', '/images/stretch-serum-2.jpg', '/images/stretch-serum-3.jpg'],
+    images: ['/images/stretch-serum-1.png'],
     imageBg: 'from-bark-800 to-bark-900',
     isBestseller: true,
   },
@@ -174,7 +174,7 @@ export const PRODUCTS: Product[] = [
       'للحوامل: ابدئي من الشهر الرابع على البطن والأرداف والصدر يومياً.',
       'نتائج ملحوظة خلال ٤ أسابيع، وتحول كامل خلال ٨-١٢ أسبوعاً.',
     ],
-    images: ['/images/stretch-cream-1.jpg', '/images/stretch-cream-2.jpg', '/images/stretch-cream-3.jpg'],
+    images: ['/images/stretch-cream-1.png'],
     imageBg: 'from-emerald-800 to-bark-900',
   },
 ];
@@ -185,4 +185,14 @@ export function getProduct(slug: string): Product | undefined {
 
 export function getCrossSells(currentSlug: string): Product[] {
   return PRODUCTS.filter((p) => p.slug !== currentSlug);
+}
+
+/** Map any product/set/cart item identifier to its image path(s). */
+export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
+  const k = `${item.id || ''} ${item.sku || ''} ${item.name || ''}`.toLowerCase();
+  const serum = '/images/stretch-serum-1.png';
+  const cream = '/images/stretch-cream-1.png';
+  if (k.includes('complete') || k.includes('double')) return [serum, cream];
+  if (k.includes('cream') || k.includes('كريم')) return [cream];
+  return [serum];
 }

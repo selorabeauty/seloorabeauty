@@ -7,7 +7,7 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import ProductCard from '@/components/ui/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, itemImages } from '@/lib/products';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, subtotal, openCheckout } = useCartStore();
@@ -37,8 +37,10 @@ export default function CartPage() {
               <div className="flex flex-col gap-4">
                 {items.map((item) => (
                   <div key={item.id} className="card flex items-center gap-5">
-                    <div className={`w-16 h-16 bg-gradient-to-b ${item.imageBg} rounded-xl flex-shrink-0 flex items-center justify-center`}>
-                      <span className="text-white text-[7px] font-black text-center leading-tight">SLR</span>
+                    <div className="w-16 h-16 bg-white rounded-xl flex-shrink-0 flex items-center justify-center border border-stone-100 overflow-hidden">
+                      {itemImages(item).map((src) => (
+                        <img key={src} src={src} alt={item.name} className="h-full object-contain" />
+                      ))}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-black text-stone-900 text-base truncate">{item.name}</div>

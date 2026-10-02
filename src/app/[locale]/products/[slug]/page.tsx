@@ -76,13 +76,11 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             {/* Image gallery — 3 placeholders per product */}
             <div className="md:sticky md:top-24">
               <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-square flex items-center justify-center overflow-hidden">
-                <div className={`w-40 h-56 bg-gradient-to-b ${product.imageBg} rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-2 px-3`}>
-                  <span className="text-white text-sm font-black tracking-widest">SELLURA</span>
-                  <span className="text-amber-300 text-[10px] font-bold tracking-wider text-center leading-relaxed">
-                    {product.subtitle.toUpperCase()}
-                  </span>
-                  <span className="text-white/30 text-[9px] mt-1">100 ml</span>
-                </div>
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-contain p-8"
+                />
 
                 {/* Badges */}
                 <div className="absolute top-4 start-4 flex flex-col gap-1.5">
@@ -93,14 +91,16 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 </div>
               </div>
 
-              {/* 3 image placeholders — replace with real product photography */}
-              <div className="grid grid-cols-3 gap-2 mt-3">
-                {product.images.map((_, i) => (
-                  <div key={i} className={`bg-gradient-to-b ${product.imageBg} rounded-xl border border-stone-100 aspect-square flex items-center justify-center p-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer`}>
-                    <span className="text-[8px] text-white/70 text-center font-medium leading-tight">صورة {i + 1}</span>
-                  </div>
-                ))}
-              </div>
+              {/* Thumbnails */}
+              {product.images.length > 1 && (
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  {product.images.map((src, i) => (
+                    <div key={i} className="bg-white rounded-xl border border-stone-100 aspect-square flex items-center justify-center p-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Info */}

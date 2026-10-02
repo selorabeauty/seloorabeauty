@@ -36,19 +36,13 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
     >
       {/* Image area */}
       <Link href={`/${locale}/products/${product.slug}`} className="block relative">
-        <div
-          className={`aspect-square bg-gradient-to-b ${product.imageBg} flex items-center justify-center`}
-        >
-          <div
-            className="w-24 h-36 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg px-2"
-            style={{ background: 'rgba(255,255,255,0.10)', backdropFilter: 'blur(4px)' }}
-          >
-            <span className="text-xs font-bold tracking-wider" style={{ color: '#D4A96A' }}>SELLURA</span>
-            <span className="text-[8px] font-bold tracking-widest text-center leading-relaxed px-1" style={{ color: 'rgba(253,250,246,0.7)' }}>
-              {product.subtitle.split(' ').slice(0, 2).join('\n')}
-            </span>
-            <span className="text-[7px] mt-0.5" style={{ color: 'rgba(253,250,246,0.3)' }}>30 ml</span>
-          </div>
+        <div className="aspect-square flex items-center justify-center overflow-hidden" style={{ background: '#fff' }}>
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+          />
         </div>
 
         {/* Badges */}

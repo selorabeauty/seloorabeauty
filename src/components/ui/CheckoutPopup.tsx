@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { SET_OPTIONS, getSetProducts } from '@/lib/products';
+import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
@@ -198,9 +198,12 @@ export default function CheckoutPopup() {
               {cartItems.map((item, i) => (
                 <div key={i} className="flex items-center gap-3 mb-3">
                   <div
-                    className={`w-12 h-12 bg-gradient-to-b ${item.imageBg} rounded-xl flex-shrink-0 flex items-center justify-center`}
+                    className="w-12 h-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden"
+                    style={{ border: '1px solid #EFE4D4' }}
                   >
-                    <span className="text-[7px] font-bold text-center leading-tight" style={{ color: '#D4A96A' }}>SELLURA</span>
+                    {itemImages(item).map((src) => (
+                      <img key={src} src={src} alt={item.name} className="h-full object-contain" />
+                    ))}
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm line-clamp-1" style={{ color: '#1A0F08' }}>{item.name}</div>
