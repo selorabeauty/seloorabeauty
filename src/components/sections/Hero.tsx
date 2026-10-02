@@ -219,9 +219,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── LEFT: product visual (image placeholder) ── */}
+        {/* ── LEFT: product visual ── */}
         <div className="order-1 md:order-2 flex justify-center">
-          <div className="relative w-72 h-72 md:w-[400px] md:h-[400px]">
+          <div className="relative w-72 h-96 md:w-[360px] md:h-[480px]">
 
             {/* Glow ring */}
             <div
@@ -229,21 +229,16 @@ export default function Hero() {
               style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.12) 0%, transparent 70%)' }}
             />
 
-            {/* Hero image placeholder — replace with real product photography */}
+            {/* Hero image — routine duo shot */}
             <div
-              className="absolute inset-6 rounded-full flex items-center justify-center"
+              className="absolute inset-6 rounded-[2.5rem] overflow-hidden"
               style={{ background: '#fff', boxShadow: '0 8px 48px -6px rgba(58,40,24,0.18)' }}
             >
-              <div className="flex gap-3 px-4 items-end">
-                {PRODUCTS.map((p) => (
-                  <img
-                    key={p.id}
-                    src={p.images[0]}
-                    alt={p.name}
-                    className="w-28 h-44 md:w-32 md:h-52 object-contain drop-shadow-xl"
-                  />
-                ))}
-              </div>
+              <img
+                src="/images/routine-duo.jpg"
+                alt="طقم الروتين المتكامل"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Floating chip: stretch marks */}

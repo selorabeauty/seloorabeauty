@@ -24,7 +24,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   const crossSells = getCrossSells(params.slug);
   const router = useRouter();
   const { setMainSet, openCheckout } = useCartStore();
-  const gallery = Array.from(new Set([product.heroImage, ...product.images].filter(Boolean))) as string[];
+  const gallery = Array.from(new Set([...product.images.filter(i => i !== product.heroImage), product.heroImage].filter(Boolean))) as string[];
   const [activeImg, setActiveImg] = useState(gallery[0]);
   const [selectedSetId, setSelectedSetId] = useState('set-complete');
   const [activeTab, setActiveTab] = useState<'benefits' | 'ingredients' | 'howto'>('benefits');
