@@ -55,21 +55,21 @@ async def metrics(
     df_pv  = _date_filter("pv.created_at", start, end)
     df_ord = _date_filter("o.created_at",  start, end)
 
-    # Unique valid sessions (KSA, not VPN)
-    visits_q = await db.execute(text(f"""
-        SELECT COUNT(DISTINCT session_id)
-        FROM page_views pv
-        WHERE {df_pv} AND is_ksa = TRUE AND is_vpn = FALSE
-    """))
-    visits = visits_q.scalar() or 0
-
-    # Add-to-cart events (KSA, not VPN)
-    atc_q = await db.execute(text(f"""
+    # Page views (KSA, not VPN)
+    pv_q = await db.execute(text(f"""
         SELECT COUNT(*)
         FROM page_views pv
-        WHERE {df_pv} AND event = 'add_to_cart' AND is_ksa = TRUE AND is_vpn = FALSE
+        WHERE {df_pv} AND event = 'pageview' AND is_ksa = TRUE AND is_vpn = FALSE
     """))
-    add_to_cart = atc_q.scalar() or 0
+    page_views = pv_q.scalar() or 0
+
+    # Clicks = buy/add-to-cart clicks (KSA, not VPN)
+    click_q = await db.execute(text(f"""
+        SELECT COUNT(*)
+        FROM page_views pv
+        WHERE {df_pv} AND event IN ('add_to_cart','click') AND is_ksa = TRUE AND is_vpn = FALSE
+    """))
+    clicks = click_q.scalar() or 0
 
     # Checkout starts
     co_q = await db.execute(text(f"""
@@ -79,15 +79,19 @@ async def metrics(
     """))
     checkout_starts = co_q.scalar() or 0
 
-    # Orders
+    # Confirmed orders = everything except cancelled
     ord_q = await db.execute(text(f"""
         SELECT COUNT(*), COALESCE(SUM(o.total),0)
         FROM orders o
-        WHERE {df_ord}
+        WHERE {df_ord} AND o.status != 'cancelled'
     """))
-    row = ord_q.fetchone()
-    order_count   = row[0] or 0
-    revenue       = float(row[1] or 0)
+    row              = ord_q.fetchone()
+    confirmed_orders = row[0] or 0
+    revenue          = float(row[1] or 0)
+
+    # Total orders incl. cancelled (for take-rate denominator)
+    tot_q = await db.execute(text(f"SELECT COUNT(*) FROM orders o WHERE {df_ord}"))
+    total_orders = tot_q.scalar() or 0
 
     # Upsells
     up_q = await db.execute(text(f"""
@@ -99,59 +103,80 @@ async def metrics(
     upsell_count = up_row[0] or 0
     upsell_rev   = float(up_row[1] or 0)
 
-    # Daily chart (visits + orders)
+    # Daily trend (page views + confirmed orders + revenue)
     chart_q = await db.execute(text(f"""
         SELECT d.day,
-               COALESCE(v.visits, 0)   AS visits,
+               COALESCE(v.views, 0)    AS views,
                COALESCE(o.orders, 0)   AS orders,
                COALESCE(o.revenue, 0)  AS revenue
         FROM (
             SELECT generate_series('{start}'::date, '{end}'::date, '1 day'::interval)::date AS day
         ) d
         LEFT JOIN (
-            SELECT DATE(created_at) AS day, COUNT(DISTINCT session_id) AS visits
+            SELECT DATE(created_at) AS day, COUNT(*) AS views
             FROM page_views
-            WHERE is_ksa = TRUE AND is_vpn = FALSE
+            WHERE event = 'pageview' AND is_ksa = TRUE AND is_vpn = FALSE
             GROUP BY 1
         ) v ON v.day = d.day
         LEFT JOIN (
             SELECT DATE(created_at) AS day, COUNT(*) AS orders, SUM(total) AS revenue
             FROM orders
+            WHERE status != 'cancelled'
             GROUP BY 1
         ) o ON o.day = d.day
         ORDER BY d.day
     """))
     chart = [
-        {"date": str(r[0]), "visits": r[1], "orders": r[2], "revenue": float(r[3])}
+        {"date": str(r[0]), "views": r[1], "orders": r[2], "revenue": float(r[3])}
         for r in chart_q.fetchall()
     ]
 
-    # City breakdown (from orders)
+    # Top products — unnest the items JSON array
+    prod_q = await db.execute(text(f"""
+        SELECT it->>'name' AS product_name,
+               SUM((it->>'quantity')::int)           AS qty,
+               SUM((it->>'price')::numeric *
+                   (it->>'quantity')::int)           AS rev
+        FROM orders o,
+             jsonb_array_elements(o.items::jsonb) it
+        WHERE {df_ord} AND o.status != 'cancelled' AND o.items IS NOT NULL
+        GROUP BY 1 ORDER BY rev DESC LIMIT 10
+    """))
+    top_products = [
+        {"name": r[0] or "—", "qty": r[1], "revenue": float(r[2])}
+        for r in prod_q.fetchall()
+    ]
+
+    # City breakdown (confirmed orders)
     city_q = await db.execute(text(f"""
         SELECT city, COUNT(*) AS cnt
         FROM orders o
-        WHERE {df_ord} AND city IS NOT NULL
+        WHERE {df_ord} AND o.status != 'cancelled' AND city IS NOT NULL
         GROUP BY city ORDER BY cnt DESC LIMIT 10
     """))
     cities = [{"city": r[0], "orders": r[1]} for r in city_q.fetchall()]
 
-    conversion = round(order_count / visits * 100, 2) if visits else 0
-    atc_rate   = round(add_to_cart / visits * 100, 2) if visits else 0
+    conversion  = round(confirmed_orders / page_views * 100, 2)      if page_views      else 0
+    co_cvr      = round(confirmed_orders / checkout_starts * 100, 2) if checkout_starts else 0
+    upsell_rate = round(upsell_count    / total_orders * 100, 2)     if total_orders    else 0
 
     return {
-        "period":          {"start": str(start), "end": str(end)},
-        "visits":          visits,
-        "add_to_cart":     add_to_cart,
-        "atc_rate":        atc_rate,
-        "checkout_starts": checkout_starts,
-        "orders":          order_count,
-        "revenue":         revenue,
-        "conversion_rate": conversion,
-        "aov":             round(revenue / order_count, 2) if order_count else 0,
-        "upsells":         upsell_count,
-        "upsell_revenue":  upsell_rev,
-        "chart":           chart,
-        "cities":          cities,
+        "period":           {"start": str(start), "end": str(end)},
+        "revenue":          revenue,
+        "confirmed_orders": confirmed_orders,
+        "total_orders":     total_orders,
+        "conversion_rate":  conversion,
+        "checkout_cvr":     co_cvr,
+        "page_views":       page_views,
+        "clicks":           clicks,
+        "checkout_starts":  checkout_starts,
+        "aov":              round(revenue / confirmed_orders, 2) if confirmed_orders else 0,
+        "upsells":          upsell_count,
+        "upsell_revenue":   upsell_rev,
+        "upsell_take_rate": upsell_rate,
+        "chart":            chart,
+        "top_products":     top_products,
+        "cities":           cities,
     }
 
 

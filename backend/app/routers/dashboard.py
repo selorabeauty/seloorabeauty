@@ -120,28 +120,36 @@ input:focus,select:focus{border-color:var(--gold)}
     <button class="btn" onclick="loadMetrics()">تحديث</button>
   </div>
 
-  <div class="kpi-grid" id="kpi-grid">
-    <div class="kpi"><div class="kpi-label">زوار KSA (بدون VPN)</div><div class="kpi-value" id="k-visits"><span class="spinner"></span></div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">الطلبات</div><div class="kpi-value" id="k-orders">—</div></div>
-    <div class="kpi kpi-blue"><div class="kpi-label">الإيرادات</div><div class="kpi-value" id="k-revenue">—</div><div class="kpi-sub" id="k-aov"></div></div>
-    <div class="kpi kpi-purple"><div class="kpi-label">نسبة التحويل</div><div class="kpi-value" id="k-cvr">—</div></div>
-    <div class="kpi"><div class="kpi-label">إضافة للسلة</div><div class="kpi-value" id="k-atc">—</div><div class="kpi-sub" id="k-atcr"></div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">Upsell مقبول</div><div class="kpi-value" id="k-upsell">—</div><div class="kpi-sub" id="k-upsell-rev"></div></div>
+  <div class="kpi-grid">
+    <div class="kpi kpi-green"><div class="kpi-label">الإيرادات (ر.س)</div><div class="kpi-value" id="k-revenue">0</div></div>
+    <div class="kpi"><div class="kpi-label">الطلبات المؤكدة</div><div class="kpi-value" id="k-orders">0</div><div class="kpi-sub" id="k-orders-total"></div></div>
+    <div class="kpi kpi-purple"><div class="kpi-label">نسبة التحويل %</div><div class="kpi-value" id="k-cvr">0%</div></div>
+    <div class="kpi kpi-blue"><div class="kpi-label">تحويل الدفع %</div><div class="kpi-value" id="k-co-cvr">0%</div><div class="kpi-sub" id="k-co-count"></div></div>
+    <div class="kpi"><div class="kpi-label">مشاهدات الصفحة</div><div class="kpi-value" id="k-views">0</div></div>
+    <div class="kpi"><div class="kpi-label">النقرات</div><div class="kpi-value" id="k-clicks">0</div></div>
+    <div class="kpi kpi-blue"><div class="kpi-label">متوسط الطلب (ر.س)</div><div class="kpi-value" id="k-aov">0</div></div>
+    <div class="kpi kpi-green"><div class="kpi-label">نسبة الـ Upsell %</div><div class="kpi-value" id="k-upsell">0%</div><div class="kpi-sub" id="k-upsell-rev"></div></div>
   </div>
 
   <div class="chart-card">
-    <div class="chart-title">الزوار والطلبات يومياً</div>
+    <div class="chart-title">الاتجاه اليومي — مشاهدات وطلبات</div>
     <div class="chart-wrap"><canvas id="main-chart"></canvas></div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-    <div class="chart-card">
-      <div class="chart-title">الإيرادات اليومية (ر.س)</div>
-      <div class="chart-wrap" style="height:180px"><canvas id="rev-chart"></canvas></div>
+    <div class="table-card">
+      <div class="table-header"><h3>أفضل المنتجات</h3></div>
+      <table>
+        <thead><tr><th>المنتج</th><th>الكمية</th><th>الإيراد</th></tr></thead>
+        <tbody id="products-tbody"></tbody>
+      </table>
     </div>
     <div class="table-card">
       <div class="table-header"><h3>أفضل المدن</h3></div>
-      <table><tbody id="cities-tbody"></tbody></table>
+      <table>
+        <thead><tr><th>المدينة</th><th>الطلبات</th></tr></thead>
+        <tbody id="cities-tbody"></tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -331,31 +339,35 @@ async function loadMetrics() {
   const e = document.getElementById('ov-end').value;
   const d = await api(`/admin/metrics?start=${s}&end=${e}`);
 
-  document.getElementById('k-visits').textContent  = d.visits.toLocaleString('ar');
-  document.getElementById('k-orders').textContent  = d.orders.toLocaleString('ar');
-  document.getElementById('k-revenue').textContent = d.revenue.toLocaleString('ar') + ' ر.س';
-  document.getElementById('k-aov').textContent     = 'متوسط الطلب: ' + d.aov + ' ر.س';
-  document.getElementById('k-cvr').textContent     = d.conversion_rate + '%';
-  document.getElementById('k-atc').textContent     = d.add_to_cart.toLocaleString('ar');
-  document.getElementById('k-atcr').textContent    = 'معدل الإضافة: ' + d.atc_rate + '%';
-  document.getElementById('k-upsell').textContent  = d.upsells.toLocaleString('ar');
-  document.getElementById('k-upsell-rev').textContent = '+' + d.upsell_revenue.toLocaleString('ar') + ' ر.س';
+  document.getElementById('k-revenue').textContent      = d.revenue.toLocaleString('ar');
+  document.getElementById('k-orders').textContent       = d.confirmed_orders.toLocaleString('ar');
+  document.getElementById('k-orders-total').textContent = 'إجمالي: ' + d.total_orders.toLocaleString('ar');
+  document.getElementById('k-cvr').textContent          = d.conversion_rate + '%';
+  document.getElementById('k-co-cvr').textContent       = d.checkout_cvr + '%';
+  document.getElementById('k-co-count').textContent     = 'بدء الدفع: ' + d.checkout_starts.toLocaleString('ar');
+  document.getElementById('k-views').textContent        = d.page_views.toLocaleString('ar');
+  document.getElementById('k-clicks').textContent       = d.clicks.toLocaleString('ar');
+  document.getElementById('k-aov').textContent          = d.aov.toLocaleString('ar');
+  document.getElementById('k-upsell').textContent       = d.upsell_take_rate + '%';
+  document.getElementById('k-upsell-rev').textContent   = '+' + d.upsell_revenue.toLocaleString('ar') + ' ر.س';
 
-  // charts
+  // daily trend chart
   const labels = d.chart.map(r=>r.date);
-  const visits = d.chart.map(r=>r.visits);
+  const views  = d.chart.map(r=>r.views);
   const orders = d.chart.map(r=>r.orders);
-  const revenue= d.chart.map(r=>r.revenue);
 
   setTimeout(()=>{
     drawChart(document.getElementById('main-chart'), labels, [
-      {label:'زوار', data:visits, color:'#3b82f6'},
-      {label:'طلبات', data:orders, color:'#22c55e'},
-    ]);
-    drawChart(document.getElementById('rev-chart'), labels, [
-      {label:'إيرادات', data:revenue, color:'#c9a84c'},
+      {label:'مشاهدات', data:views,  color:'#3b82f6'},
+      {label:'طلبات',   data:orders, color:'#22c55e'},
     ]);
   }, 50);
+
+  // top products table
+  const ptbody = document.getElementById('products-tbody');
+  ptbody.innerHTML = d.top_products.length ? d.top_products.map(p=>
+    `<tr><td>${p.name}</td><td>${p.qty}</td><td style="color:var(--gold);font-weight:600">${p.revenue.toLocaleString('ar')} ر.س</td></tr>`
+  ).join('') : '<tr><td colspan="3" class="empty">لا بيانات بعد</td></tr>';
 
   // cities table
   const tbody = document.getElementById('cities-tbody');
