@@ -24,6 +24,8 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   const crossSells = getCrossSells(params.slug);
   const router = useRouter();
   const { setMainSet, openCheckout } = useCartStore();
+  const gallery = Array.from(new Set([product.heroImage, ...product.images].filter(Boolean))) as string[];
+  const [activeImg, setActiveImg] = useState(gallery[0]);
   const [selectedSetId, setSelectedSetId] = useState('set-complete');
   const [activeTab, setActiveTab] = useState<'benefits' | 'ingredients' | 'howto'>('benefits');
   const [added, setAdded] = useState(false);
@@ -75,11 +77,11 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
             {/* Image gallery — 3 placeholders per product */}
             <div className="md:sticky md:top-24">
-              <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-square flex items-center justify-center overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-[4/5] flex items-center justify-center overflow-hidden">
                 <img
-                  src={product.images[0]}
+                  src={activeImg}
                   alt={product.name}
-                  className="w-full h-full object-contain p-8"
+                  className={`w-full h-full ${activeImg.endsWith('.png') ? 'object-contain p-8' : 'object-cover'}`}
                 />
 
                 {/* Badges */}
@@ -92,12 +94,19 @@ export default function ProductPage({ params }: { params: { slug: string; locale
               </div>
 
               {/* Thumbnails */}
-              {product.images.length > 1 && (
+              {gallery.length > 1 && (
                 <div className="grid grid-cols-3 gap-2 mt-3">
-                  {product.images.map((src, i) => (
-                    <div key={i} className="bg-white rounded-xl border border-stone-100 aspect-square flex items-center justify-center p-2 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
-                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" />
-                    </div>
+                  {gallery.map((src, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setActiveImg(src)}
+                      className={`bg-white rounded-xl border aspect-square flex items-center justify-center p-1.5 overflow-hidden transition-all cursor-pointer ${
+                        activeImg === src ? 'border-amber-500 ring-2 ring-amber-500/30' : 'border-stone-100 opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                    </button>
                   ))}
                 </div>
               )}

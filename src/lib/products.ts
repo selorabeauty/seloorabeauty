@@ -15,7 +15,8 @@ export interface Product {
   benefits: string[];
   ingredients: { name: string; role: string; benefit: string; icon: string }[];
   howToUse: string[];
-  images: string[]; // 3 image placeholders per product
+  images: string[]; // product images
+  heroImage?: string; // large routine/duo shot shown on product detail page
   imageBg: string;
   isBestseller?: boolean;
   isNew?: boolean;
@@ -134,7 +135,8 @@ export const PRODUCTS: Product[] = [
       'اتبعيه مباشرة بكريم علاج التشققات لإغلاق الرطوبة ومضاعفة الفعالية.',
       'استخدميه صباحاً ومساءً للنتائج الأمثل خلال ٤-٨ أسابيع.',
     ],
-    images: ['/images/stretch-serum-1.png'],
+    images: ['/images/stretch-serum-1.png', '/images/routine-duo.jpg'],
+    heroImage: '/images/routine-duo.jpg',
     imageBg: 'from-bark-800 to-bark-900',
     isBestseller: true,
   },
@@ -174,7 +176,8 @@ export const PRODUCTS: Product[] = [
       'للحوامل: ابدئي من الشهر الرابع على البطن والأرداف والصدر يومياً.',
       'نتائج ملحوظة خلال ٤ أسابيع، وتحول كامل خلال ٨-١٢ أسبوعاً.',
     ],
-    images: ['/images/stretch-cream-1.png'],
+    images: ['/images/stretch-cream-1.png', '/images/routine-duo.jpg'],
+    heroImage: '/images/routine-duo.jpg',
     imageBg: 'from-emerald-800 to-bark-900',
   },
 ];
