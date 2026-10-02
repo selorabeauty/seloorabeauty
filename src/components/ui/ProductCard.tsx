@@ -40,7 +40,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-105"
+            className={`w-full h-full transition-transform duration-300 hover:scale-105 ${product.images[0].includes('stretch-') ? 'object-contain p-6' : 'object-cover'}`}
             loading="lazy"
           />
         </div>
