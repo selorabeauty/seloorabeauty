@@ -195,7 +195,8 @@ export function itemImages(item: { id?: string; sku?: string; name?: string }): 
   const k = `${item.id || ''} ${item.sku || ''} ${item.name || ''}`.toLowerCase();
   const serum = '/images/stretch-serum-1.png';
   const cream = '/images/stretch-cream-1.png';
-  if (k.includes('complete') || k.includes('double')) return [serum, cream];
+  const duo   = '/images/routine-duo.jpg';
+  if (k.includes('complete') || k.includes('double')) return [duo];
   if (k.includes('cream') || k.includes('كريم')) return [cream];
   return [serum];
 }

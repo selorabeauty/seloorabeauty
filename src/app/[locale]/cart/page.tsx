@@ -39,7 +39,7 @@ export default function CartPage() {
                   <div key={item.id} className="card flex items-center gap-5">
                     <div className="w-16 h-16 bg-white rounded-xl flex-shrink-0 flex items-center justify-center border border-stone-100 overflow-hidden">
                       {itemImages(item).map((src) => (
-                        <img key={src} src={src} alt={item.name} className="h-full object-contain" />
+                        <img key={src} src={src} alt={item.name} className={src.endsWith('.png') ? 'h-full object-contain' : 'w-full h-full object-cover'} />
                       ))}
                     </div>
                     <div className="flex-1 min-w-0">
