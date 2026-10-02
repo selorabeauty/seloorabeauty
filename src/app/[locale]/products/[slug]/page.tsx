@@ -81,7 +81,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 <img
                   src={activeImg}
                   alt={product.name}
-                  className={`w-full h-full ${activeImg.endsWith('.png') ? 'object-contain p-8' : 'object-cover'}`}
+                  className={`w-full h-full ${activeImg.includes('stretch-') ? 'object-contain p-8' : 'object-cover'}`}
                 />
 
                 {/* Badges */}

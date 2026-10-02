@@ -202,7 +202,7 @@ export default function CheckoutPopup() {
                     style={{ border: '1px solid #EFE4D4' }}
                   >
                     {itemImages(item).map((src) => (
-                      <img key={src} src={src} alt={item.name} className={src.endsWith('.png') ? 'h-full object-contain' : 'w-full h-full object-cover'} />
+                      <img key={src} src={src} alt={item.name} className={src.includes('stretch-') ? 'h-full object-contain' : 'w-full h-full object-cover'} />
                     ))}
                   </div>
                   <div className="flex-1">

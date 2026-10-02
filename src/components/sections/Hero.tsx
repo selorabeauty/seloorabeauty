@@ -235,7 +235,7 @@ export default function Hero() {
               style={{ background: '#fff', boxShadow: '0 8px 48px -6px rgba(58,40,24,0.18)' }}
             >
               <img
-                src="/images/routine-duo.jpg"
+                src="/images/routine-duo.webp"
                 alt="طقم الروتين المتكامل"
                 className="w-full h-full object-cover"
               />

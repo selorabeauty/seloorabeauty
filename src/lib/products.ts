@@ -51,7 +51,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-SERUM-1',
-    image: '/images/stretch-serum-1.png',
+    image: '/images/stretch-serum-1.webp',
   },
   {
     id: 'set-cream-only',
@@ -65,7 +65,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-CREAM-1',
-    image: '/images/stretch-cream-1.png',
+    image: '/images/stretch-cream-1.webp',
   },
   {
     id: 'set-complete',
@@ -79,7 +79,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: true,
     savingsLabel: 'وفري ١١٩ ريال',
     sku: 'SLR-SET-COMPLETE',
-    image: '/images/routine-duo.jpg',
+    image: '/images/routine-duo.webp',
   },
   {
     id: 'set-double',
@@ -93,7 +93,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٤٠٧ ريال',
     sku: 'SLR-SET-DOUBLE',
-    image: '/images/economy-pack.jpg',
+    image: '/images/economy-pack.webp',
   },
 ];
 
@@ -140,8 +140,8 @@ export const PRODUCTS: Product[] = [
       'اتبعيه مباشرة بكريم علاج التشققات لإغلاق الرطوبة ومضاعفة الفعالية.',
       'استخدميه صباحاً ومساءً للنتائج الأمثل خلال ٤-٨ أسابيع.',
     ],
-    images: ['/images/stretch-serum-1.png', '/images/routine-duo.jpg'],
-    heroImage: '/images/routine-duo.jpg',
+    images: ['/images/stretch-serum-1.webp', '/images/routine-duo.webp'],
+    heroImage: '/images/routine-duo.webp',
     imageBg: 'from-bark-800 to-bark-900',
     isBestseller: true,
   },
@@ -181,8 +181,8 @@ export const PRODUCTS: Product[] = [
       'للحوامل: ابدئي من الشهر الرابع على البطن والأرداف والصدر يومياً.',
       'نتائج ملحوظة خلال ٤ أسابيع، وتحول كامل خلال ٨-١٢ أسبوعاً.',
     ],
-    images: ['/images/stretch-cream-1.png', '/images/routine-duo.jpg'],
-    heroImage: '/images/routine-duo.jpg',
+    images: ['/images/stretch-cream-1.webp', '/images/routine-duo.webp'],
+    heroImage: '/images/routine-duo.webp',
     imageBg: 'from-emerald-800 to-bark-900',
   },
 ];
@@ -196,18 +196,18 @@ export function getCrossSells(currentSlug: string): Product[] {
 }
 
 const SET_IMAGES: Record<string, string> = {
-  'set-serum-only': '/images/stretch-serum-1.png',
-  'set-cream-only': '/images/stretch-cream-1.png',
-  'set-complete':   '/images/routine-duo.jpg',
-  'set-double':     '/images/economy-pack.jpg',
+  'set-serum-only': '/images/stretch-serum-1.webp',
+  'set-cream-only': '/images/stretch-cream-1.webp',
+  'set-complete':   '/images/routine-duo.webp',
+  'set-double':     '/images/economy-pack.webp',
 };
 
 /** Map any product/set/cart item identifier to its image path(s). */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
   if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
   const k = `${item.id || ''} ${item.sku || ''} ${item.name || ''}`.toLowerCase();
-  if (k.includes('double'))   return ['/images/economy-pack.jpg'];
-  if (k.includes('complete')) return ['/images/routine-duo.jpg'];
-  if (k.includes('cream') || k.includes('كريم')) return ['/images/stretch-cream-1.png'];
-  return ['/images/stretch-serum-1.png'];
+  if (k.includes('double'))   return ['/images/economy-pack.webp'];
+  if (k.includes('complete')) return ['/images/routine-duo.webp'];
+  if (k.includes('cream') || k.includes('كريم')) return ['/images/stretch-cream-1.webp'];
+  return ['/images/stretch-serum-1.webp'];
 }
