@@ -35,6 +35,7 @@ export interface SetOption {
   highlight: boolean;
   savingsLabel: string;
   sku: string;
+  image: string; // thumbnail for this pack
 }
 
 export const SET_OPTIONS: SetOption[] = [
@@ -50,6 +51,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-SERUM-1',
+    image: '/images/stretch-serum-1.png',
   },
   {
     id: 'set-cream-only',
@@ -63,6 +65,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-CREAM-1',
+    image: '/images/stretch-cream-1.png',
   },
   {
     id: 'set-complete',
@@ -76,6 +79,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: true,
     savingsLabel: 'وفري ١١٩ ريال',
     sku: 'SLR-SET-COMPLETE',
+    image: '/images/routine-duo.jpg',
   },
   {
     id: 'set-double',
@@ -89,6 +93,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٤٠٧ ريال',
     sku: 'SLR-SET-DOUBLE',
+    image: '/images/economy-pack.jpg',
   },
 ];
 
@@ -190,13 +195,19 @@ export function getCrossSells(currentSlug: string): Product[] {
   return PRODUCTS.filter((p) => p.slug !== currentSlug);
 }
 
+const SET_IMAGES: Record<string, string> = {
+  'set-serum-only': '/images/stretch-serum-1.png',
+  'set-cream-only': '/images/stretch-cream-1.png',
+  'set-complete':   '/images/routine-duo.jpg',
+  'set-double':     '/images/economy-pack.jpg',
+};
+
 /** Map any product/set/cart item identifier to its image path(s). */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
+  if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
   const k = `${item.id || ''} ${item.sku || ''} ${item.name || ''}`.toLowerCase();
-  const serum = '/images/stretch-serum-1.png';
-  const cream = '/images/stretch-cream-1.png';
-  const duo   = '/images/routine-duo.jpg';
-  if (k.includes('complete') || k.includes('double')) return [duo];
-  if (k.includes('cream') || k.includes('كريم')) return [cream];
-  return [serum];
+  if (k.includes('double'))   return ['/images/economy-pack.jpg'];
+  if (k.includes('complete')) return ['/images/routine-duo.jpg'];
+  if (k.includes('cream') || k.includes('كريم')) return ['/images/stretch-cream-1.png'];
+  return ['/images/stretch-serum-1.png'];
 }

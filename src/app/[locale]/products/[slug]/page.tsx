@@ -148,6 +148,11 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         {set.badge}
                       </span>
                     )}
+                    <img
+                      src={set.image}
+                      alt={set.label}
+                      className="w-12 h-12 rounded-xl object-cover border border-stone-100 flex-shrink-0"
+                    />
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
                       style={{ borderColor: selectedSetId === set.id ? '#C4943E' : '#D6C6B4' }}

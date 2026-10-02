@@ -175,7 +175,7 @@ export default function CheckoutPopup() {
                 style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">⬆️</span>
+                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} />
                   <div className="flex-1">
                     <div className="font-black text-sm" style={{ color: '#8A611E' }}>
                       رقّي طلبك إلى {upsellSet.label}
