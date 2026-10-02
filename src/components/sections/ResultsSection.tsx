@@ -12,9 +12,9 @@ const TIMELINE = [
 ];
 
 const STATS = [
-  { label: 'تحسن مظهر التشققات',        pct: '+87%', sub: 'في ٤ أسابيع' },
-  { label: 'تفتيح لون التشققات الحمراء', pct: '+82%', sub: 'خلال أسبوعين' },
-  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ' },
+  { label: 'تحسن مظهر التشققات',        pct: '+87%', sub: 'في ٤ أسابيع',       img: '/images/before-after-1.webp' },
+  { label: 'تفتيح لون التشققات الحمراء', pct: '+82%', sub: 'خلال أسبوعين',      img: '/images/before-after-2.webp' },
+  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ',        img: null },
 ];
 
 export default function ResultsSection() {
@@ -50,33 +50,35 @@ export default function ResultsSection() {
               className="rounded-3xl border overflow-hidden"
               style={{ borderColor: '#EFE4D4', boxShadow: '0 2px 16px -2px rgba(58,40,24,0.07)' }}
             >
-              {/* Visual pair */}
-              <div className="grid grid-cols-2 gap-px" style={{ background: '#EFE4D4' }}>
-                {['قبل', 'بعد'].map((label, j) => (
-                  <div
-                    key={j}
-                    className="flex flex-col items-center justify-center gap-3 py-6 px-3"
-                    style={{ background: '#F8F2EA' }}
-                  >
-                    {/* Larger circle: w-24 h-24 on mobile (was w-16 h-16) */}
+              {/* Visual: real before/after photo or fallback pair */}
+              {item.img ? (
+                <img
+                  src={item.img}
+                  alt={`قبل وبعد — ${item.label}`}
+                  className="w-full aspect-[4/5] object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="grid grid-cols-2 gap-px" style={{ background: '#EFE4D4' }}>
+                  {['قبل', 'بعد'].map((label, j) => (
                     <div
-                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white shadow-md"
-                      style={{
-                        background: j === 0
-                          ? 'radial-gradient(circle, #D5C0AA 0%, #B89880 100%)'
-                          : 'radial-gradient(circle, #FBF3E3 0%, #D4A96A 100%)',
-                      }}
-                    />
-                    {/* Bold, clearly readable label */}
-                    <span
-                      className="text-sm font-bold"
-                      style={{ color: '#1A0F08' }}
+                      key={j}
+                      className="flex flex-col items-center justify-center gap-3 py-6 px-3"
+                      style={{ background: '#F8F2EA' }}
                     >
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                      <div
+                        className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white shadow-md"
+                        style={{
+                          background: j === 0
+                            ? 'radial-gradient(circle, #D5C0AA 0%, #B89880 100%)'
+                            : 'radial-gradient(circle, #FBF3E3 0%, #D4A96A 100%)',
+                        }}
+                      />
+                      <span className="text-sm font-bold" style={{ color: '#1A0F08' }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Stat info */}
               <div className="p-4 text-center" style={{ background: '#fff' }}>

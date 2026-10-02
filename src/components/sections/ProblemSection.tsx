@@ -22,6 +22,16 @@ export default function ProblemSection() {
           تشققات الجسم — مشكلة حقيقية تؤثر على ثقتكِ كل يوم، ونحن هنا لحلّها من جذورها.
         </p>
 
+        {/* ── Real problem photo ── */}
+        <div className="mb-10 rounded-3xl overflow-hidden mx-auto max-w-lg" style={{ boxShadow: '0 16px 48px -12px rgba(0,0,0,0.5)' }}>
+          <img
+            src="/images/problem-belly.webp"
+            alt="تشققات الحمل على البطن"
+            className="w-full aspect-[4/5] object-cover"
+            loading="lazy"
+          />
+        </div>
+
         {/* ── Problem cards ── */}
         <div className="flex flex-col gap-3 mb-10">
           {PROBLEMS.map((p, i) => (

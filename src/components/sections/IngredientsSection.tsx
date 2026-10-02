@@ -11,9 +11,19 @@ export default function IngredientsSection() {
     <section id="ingredients" className="py-24" style={{ backgroundColor: '#F8F2EA' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <h2 className="section-heading">مكونات لا تتنازل عنها بشرتكِ</h2>
           <p className="section-sub">كل مكوّن اخترناه بعناية — ولكل واحد دور علمي واضح</p>
+        </div>
+
+        {/* ── Real ingredients flat-lay ── */}
+        <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-3xl" style={{ boxShadow: '0 16px 48px -12px rgba(58,40,24,0.20)' }}>
+          <img
+            src="/images/ingredients-flatlay.webp"
+            alt="زبدة الشيا والأرجان واللوز الحلو وسنتيلا أسياتيكا"
+            className="w-full aspect-[16/9] object-cover"
+            loading="lazy"
+          />
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
