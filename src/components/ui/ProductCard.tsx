@@ -42,6 +42,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
             alt={product.name}
             className={`w-full h-full transition-transform duration-300 hover:scale-105 ${product.images[0].includes('stretch-') ? 'object-contain p-6' : 'object-cover'}`}
             loading="lazy"
+            decoding="async"
           />
         </div>
 

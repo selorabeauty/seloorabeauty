@@ -11,7 +11,7 @@ const PROBLEMS = [
 
 export default function ProblemSection() {
   return (
-    <section id="problem" className="py-20" style={{ backgroundColor: '#1A0F08' }}>
+    <section id="problem" className="py-20 cv-auto" style={{ backgroundColor: '#1A0F08' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
         {/* ── Emotional headline ── */}
@@ -29,6 +29,7 @@ export default function ProblemSection() {
             alt="تشققات الحمل على البطن"
             className="w-full aspect-[4/5] object-cover"
             loading="lazy"
+            decoding="async"
           />
         </div>
 

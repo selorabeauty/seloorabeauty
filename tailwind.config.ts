@@ -59,8 +59,8 @@ const config: Config = {
           '100%':{ backgroundPosition: '-200% center' },
         },
         'cta-pulse': {
-          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 24px -4px rgba(196,148,62,0.45)' },
-          '50%':      { transform: 'scale(1.04)', boxShadow: '0 8px 36px -4px rgba(196,148,62,0.75)' },
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%':      { transform: 'scale(1.04)' },
         },
         'cta-glow': {
           '0%, 100%': { opacity: '1' },

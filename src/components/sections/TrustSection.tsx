@@ -11,7 +11,7 @@ const TRUST = [
 
 export default function TrustSection() {
   return (
-    <section className="py-24" style={{ backgroundColor: '#fff' }}>
+    <section className="py-24 cv-auto" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
           <h2 className="section-heading">لماذا سيلورا؟</h2>

@@ -30,7 +30,7 @@ export default function ReviewsSection() {
   ];
 
   return (
-    <section id="reviews" className="py-24" style={{ backgroundColor: '#F8F2EA' }}>
+    <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-14">

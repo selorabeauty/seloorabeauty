@@ -217,23 +217,54 @@
     color: #FDFAF6;
   }
 
-  /* Float animation */
+  /* Float animation — transform only, GPU-composited */
   .animate-float {
     animation: float 4s ease-in-out infinite;
+    will-change: transform;
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(-8px); }
   }
 
-  /* Gold shimmer on CTA */
-  .animate-shimmer {
-    background-size: 200% auto;
-    animation: shimmer 2.5s linear infinite;
+  /* CTA pulse — hint compositor so scaling stays off the main thread */
+  .animate-cta-pulse {
+    will-change: transform;
   }
-  @keyframes shimmer {
-    0%   { background-position: 0% center; }
-    100% { background-position: -200% center; }
+
+  /* Gold shimmer on CTA — translated pseudo-element (compositor-only,
+     no background-position repaints) */
+  .animate-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .animate-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.45) 50%, transparent 60%);
+    transform: translateX(-150%);
+    animation: shimmer-sweep 2.5s linear infinite;
+  }
+  @keyframes shimmer-sweep {
+    to { transform: translateX(150%); }
+  }
+
+  /* Skip rendering off-screen sections — big scroll-perf win on long pages */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 700px;
+  }
+
+  /* Respect reduced-motion — also frees the compositor */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
   }
 
   /* Text clamp */

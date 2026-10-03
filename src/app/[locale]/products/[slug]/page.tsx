@@ -82,6 +82,8 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                   src={activeImg}
                   alt={product.name}
                   className={`w-full h-full ${activeImg.includes('stretch-') ? 'object-contain p-8' : 'object-cover'}`}
+                  fetchPriority="high"
+                  decoding="async"
                 />
 
                 {/* Badges */}
@@ -105,7 +107,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         activeImg === src ? 'border-amber-500 ring-2 ring-amber-500/30' : 'border-stone-100 opacity-70 hover:opacity-100'
                       }`}
                     >
-                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" />
+                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" loading="lazy" decoding="async" />
                     </button>
                   ))}
                 </div>
@@ -152,6 +154,8 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                       src={set.image}
                       alt={set.label}
                       className="w-12 h-12 rounded-xl object-cover border border-stone-100 flex-shrink-0"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"

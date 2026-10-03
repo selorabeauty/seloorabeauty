@@ -238,6 +238,8 @@ export default function Hero() {
                 src="/images/routine-duo.webp"
                 alt="طقم الروتين المتكامل"
                 className="w-full h-full object-cover"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
 

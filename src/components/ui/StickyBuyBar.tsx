@@ -35,7 +35,7 @@ export default function StickyBuyBar() {
 
   return (
     <div
-      className="fixed bottom-0 inset-x-0 z-40 backdrop-blur-md border-t"
+      className="fixed bottom-0 inset-x-0 z-40 backdrop-blur-sm border-t"
       style={{ background: 'rgba(253,250,246,0.97)', borderColor: '#EFE4D4', boxShadow: '0 -4px 32px rgba(58,40,24,0.10)' }}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">

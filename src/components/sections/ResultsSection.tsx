@@ -34,7 +34,7 @@ export default function ResultsSection() {
   };
 
   return (
-    <section id="results" className="py-24" style={{ backgroundColor: '#fff' }}>
+    <section id="results" className="py-24 cv-auto" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-14">
@@ -57,6 +57,7 @@ export default function ResultsSection() {
                   alt={`قبل وبعد — ${item.label}`}
                   className="w-full aspect-[4/5] object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <div className="grid grid-cols-2 gap-px" style={{ background: '#EFE4D4' }}>

@@ -175,7 +175,7 @@ export default function CheckoutPopup() {
                 style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
               >
                 <div className="flex items-center gap-3">
-                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} />
+                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} decoding="async" />
                   <div className="flex-1">
                     <div className="font-black text-sm" style={{ color: '#8A611E' }}>
                       رقّي طلبك إلى {upsellSet.label}
@@ -202,7 +202,7 @@ export default function CheckoutPopup() {
                     style={{ border: '1px solid #EFE4D4' }}
                   >
                     {itemImages(item).map((src) => (
-                      <img key={src} src={src} alt={item.name} className={src.includes('stretch-') ? 'h-full object-contain' : 'w-full h-full object-cover'} />
+                      <img key={src} src={src} alt={item.name} className={src.includes('stretch-') ? 'h-full object-contain' : 'w-full h-full object-cover'} decoding="async" />
                     ))}
                   </div>
                   <div className="flex-1">

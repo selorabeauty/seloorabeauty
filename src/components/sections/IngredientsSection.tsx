@@ -8,7 +8,7 @@ const INGREDIENTS = ALL_INGREDIENTS.filter(
 
 export default function IngredientsSection() {
   return (
-    <section id="ingredients" className="py-24" style={{ backgroundColor: '#F8F2EA' }}>
+    <section id="ingredients" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-10">
@@ -23,6 +23,7 @@ export default function IngredientsSection() {
             alt="زبدة الشيا والأرجان واللوز الحلو وسنتيلا أسياتيكا"
             className="w-full aspect-[16/9] object-cover"
             loading="lazy"
+            decoding="async"
           />
         </div>
 

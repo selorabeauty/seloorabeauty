@@ -16,7 +16,7 @@ export default function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24" style={{ backgroundColor: '#F8F2EA' }}>
+    <section id="faq" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
           <h2 className="section-heading">أسئلة شائعة</h2>
