@@ -181,7 +181,7 @@ export const PRODUCTS: Product[] = [
       'للحوامل: ابدئي من الشهر الرابع على البطن والأرداف والصدر يومياً.',
       'نتائج ملحوظة خلال ٤ أسابيع، وتحول كامل خلال ٨-١٢ أسبوعاً.',
     ],
-    images: ['/images/cream-hero.webp', '/images/cream-in-use.webp', '/images/stretch-cream-1.webp', '/images/routine-duo.webp'],
+    images: ['/images/cream-hero.webp', '/images/cream-thigh.webp', '/images/cream-in-use.webp', '/images/stretch-cream-1.webp', '/images/routine-duo.webp'],
     heroImage: '/images/routine-duo.webp',
     imageBg: 'from-emerald-800 to-bark-900',
   },
