@@ -14,7 +14,7 @@ const TIMELINE = [
 const STATS = [
   { label: 'تحسن مظهر التشققات',        pct: '+87%', sub: 'في ٤ أسابيع',       img: '/images/before-after-1.webp' },
   { label: 'تفتيح لون التشققات الحمراء', pct: '+82%', sub: 'خلال أسبوعين',      img: '/images/before-after-2.webp' },
-  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ',        img: null },
+  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ',        img: '/images/before-after-3.webp' },
 ];
 
 export default function ResultsSection() {

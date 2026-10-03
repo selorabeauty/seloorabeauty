@@ -1,7 +1,7 @@
 import { Star, BadgeCheck } from 'lucide-react';
 
 const REVIEWS = [
-  { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل كانت تضايقني كثير. بعد أسبوعين من استخدام السيروم والكريم مع بعض، لاحظت أن لونها بدأ يخف بشكل واضح.',                     highlight: 'تشققات الحمل خفّت في أسبوعين' },
+  { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, img: '/images/review-selfie-1.webp', text: 'تشققات الحمل كانت تضايقني كثير. بعد أسبوعين من استخدام السيروم والكريم مع بعض، لاحظت أن لونها بدأ يخف بشكل واضح.',                     highlight: 'تشققات الحمل خفّت في أسبوعين' },
   { name: 'نورة الغامدي',  city: 'جدة',     rating: 5, date: 'قبل ٣ أسابيع', verified: true, text: 'نزلت وزن بسرعة وطلعت عندي تشققات بالأرداف والبطن. بعد شهر واحد من الطقم الكامل صارت أفتح بكثير والبشرة أكثر مرونة.',                    highlight: 'تشققات النحافة تحسّنت بشهر' },
   { name: 'منى الشمري',    city: 'الدمام',  rating: 5, date: 'قبل شهر',      verified: true, text: 'التشققات اللي كانت تزعجني بعد الولادة بدأت تخف بشكل واضح. ريحة زيت اللوز والأرجان راقية جداً والتغليف فخم.',                             highlight: 'تشققات ما بعد الولادة خفت' },
   { name: 'ريم العتيبي',   city: 'مكة',     rating: 5, date: 'قبل أسبوع',   verified: true, text: 'أول مرة أجرب دفع عند الاستلام وأنا خايفة، بس المنتج أكثر من ممتاز. البشرة صارت ناعمة من أول استخدام.',                                    highlight: 'ناعمة من أول استخدام' },
@@ -66,6 +66,14 @@ export default function ReviewsSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {REVIEWS.map((r, i) => (
             <div key={i} className="card flex flex-col gap-3 hover:shadow-luxury transition-shadow">
+              {r.img && (
+                <img
+                  src={r.img}
+                  alt={`صورة العميلة ${r.name}`}
+                  className="w-full aspect-[4/3] object-cover rounded-2xl"
+                  loading="lazy"
+                />
+              )}
               <div className="badge-gold text-xs self-start">✨ {r.highlight}</div>
               <div className="flex items-center gap-2">
                 <Stars count={r.rating} />
