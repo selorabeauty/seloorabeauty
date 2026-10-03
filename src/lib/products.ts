@@ -140,7 +140,7 @@ export const PRODUCTS: Product[] = [
       'اتبعيه مباشرة بكريم علاج التشققات لإغلاق الرطوبة ومضاعفة الفعالية.',
       'استخدميه صباحاً ومساءً للنتائج الأمثل خلال ٤-٨ أسابيع.',
     ],
-    images: ['/images/serum-hero.webp', '/images/serum-in-use.webp', '/images/stretch-serum-1.webp', '/images/routine-duo.webp'],
+    images: ['/images/serum-hero.webp', '/images/serum-thigh.webp', '/images/serum-in-use.webp', '/images/stretch-serum-1.webp', '/images/routine-duo.webp'],
     heroImage: '/images/routine-duo.webp',
     imageBg: 'from-bark-800 to-bark-900',
     isBestseller: true,
