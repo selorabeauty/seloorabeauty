@@ -118,6 +118,7 @@ input:focus,select:focus{border-color:var(--gold)}
     <label style="font-size:13px;color:#888">إلى</label>
     <input type="date" id="ov-end">
     <button class="btn" onclick="loadMetrics()">تحديث</button>
+    <button class="btn" style="background:#B3392E;color:#fff" onclick="resetData()">🗑️ تصفير البيانات</button>
   </div>
 
   <div class="kpi-grid">
@@ -226,6 +227,13 @@ async function api(path, opts={}) {
   const r = await fetch(path, { headers: { Authorization: AUTH, 'Content-Type': 'application/json' }, ...opts });
   if (r.status === 401) { localStorage.removeItem('slr_auth'); location.reload(); }
   return r.json();
+}
+
+async function resetData() {
+  if (!confirm('⚠️ سيحذف كل الطلبات وكل بيانات التتبع نهائياً. متأكد؟')) return;
+  if (!confirm('تأكيد أخير — هذا الإجراء لا يمكن التراجع عنه.')) return;
+  const r = await api('/admin/reset-data', { method: 'POST' });
+  if (r.ok) { alert('✅ تم تصفير البيانات — المقاييس صارت صفر'); loadMetrics(); }
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────

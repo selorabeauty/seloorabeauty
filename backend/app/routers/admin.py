@@ -180,6 +180,21 @@ async def metrics(
     }
 
 
+# ── DATA RESET ───────────────────────────────────────────────────
+
+@router.post("/reset-data")
+async def reset_data(
+    db: AsyncSession = Depends(get_db),
+    _=Depends(_auth),
+):
+    """Delete all orders + tracked events. Used to clear test data.
+    Protected by admin auth. Irreversible."""
+    await db.execute(text("DELETE FROM page_views"))
+    await db.execute(text("DELETE FROM orders"))
+    await db.commit()
+    return {"ok": True, "orders": 0, "events": 0}
+
+
 # ── ORDERS LIST ──────────────────────────────────────────────────
 
 @router.get("/orders")
