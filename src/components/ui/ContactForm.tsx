@@ -46,7 +46,7 @@ export default function ContactForm() {
       } else {
         // Fallback: open mailto if no webhook configured
         window.location.href =
-          `mailto:hello@sellurabeauty.com` +
+          `mailto:support@seloorabeauty.shop` +
           `?subject=${encodeURIComponent(subject || 'رسالة من الموقع')}` +
           `&body=${encodeURIComponent(`الاسم: ${name}\nالبريد: ${email}\nرقم الطلب: ${orderId}\n\n${message}`)}`;
       }

@@ -64,7 +64,7 @@ export default function Footer() {
           </p>
           {/* Email clearly visible */}
           <p className="text-sm mt-3 font-semibold" style={{ color: '#F5E6C8' }}>
-            ✉️ hello@sellurabeauty.com
+            ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline">support@seloorabeauty.shop</a>
           </p>
         </div>
 

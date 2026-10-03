@@ -25,7 +25,7 @@ const INFO_CARDS = [
     bg: '#FBF3E3',
     border: '#E8C98A',
     label: 'البريد الإلكتروني',
-    value: 'hello@sellurabeauty.com',
+    value: 'support@seloorabeauty.shop',
     sub: 'نرد خلال ٢٤ ساعة',
     isWhatsapp: false,
   },
