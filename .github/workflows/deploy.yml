@@ -1,0 +1,21 @@
+name: Deploy to EasyPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    name: Trigger EasyPanel deploy (backend)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call backend deploy webhook
+        run: curl -fsSL -X POST "${{ secrets.EASYPANEL_BACKEND_WEBHOOK }}"
+
+  deploy-frontend:
+    name: Trigger EasyPanel deploy (frontend)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call frontend deploy webhook
+        run: curl -fsSL -X POST "${{ secrets.EASYPANEL_FRONTEND_WEBHOOK }}"
