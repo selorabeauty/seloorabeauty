@@ -27,6 +27,8 @@ async def fire_snapchat_purchase(order) -> None:
         user_data["client_user_agent"] = order.user_agent
     if order.sc_cid:
         user_data["sc_click_id"] = order.sc_cid
+    if order.sc_cookie1:
+        user_data["sc_cookie1"] = order.sc_cookie1
 
     dedup_id = order.event_id or order.order_id
     payload = {

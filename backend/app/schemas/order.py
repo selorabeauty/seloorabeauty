@@ -24,6 +24,8 @@ class OrderCreate(BaseModel):
     items: list[OrderItem] = []
     ttclid: str | None = None
     sc_cid: str | None = None
+    ttp: str | None = None
+    sc_cookie1: str | None = None
     event_id: str | None = None
     ip: str | None = None
     user_agent: str | None = None

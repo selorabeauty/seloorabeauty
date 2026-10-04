@@ -114,27 +114,28 @@ export default function CheckoutPopup() {
     };
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      console.log("🛒 Attempting to send order to API:", apiUrl);
-      if (apiUrl) {
-        const response = await fetch(`${apiUrl}/api/orders`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(orderData),
-        });
-        console.log("📡 API Response status:", response.status);
-      } else {
-        console.error("❌ NEXT_PUBLIC_API_URL is not defined!");
-      }
-    } catch (err) {
-      console.error("❌ Failed to send order:", err);
-    }
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.seloorabeauty.shop';
+      const response = await fetch(`${apiUrl}/api/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
 
-    trackPurchase(total, orderId, eventId);
-    track.purchase(orderId);
-    clearCart();
-    closeCheckout();
-    router.push(`/ar/order/success?id=${orderId}&name=${encodeURIComponent(name)}&total=${total}`);
+      if (!response.ok) throw new Error(`API ${response.status}`);
+      const result = await response.json();
+      const serverOrderId = result.order_id || orderId;
+
+      // Purchase pixels fire ONLY on confirmed success — browser + CAPI share eventId for dedup
+      trackPurchase(total, serverOrderId, eventId);
+      track.purchase(serverOrderId);
+      clearCart();
+      closeCheckout();
+      router.push(`/ar/order/success?id=${serverOrderId}&name=${encodeURIComponent(name)}&total=${total}`);
+    } catch (err) {
+      console.error("❌ Order failed:", err);
+      setSubmitting(false);
+      setErrors({ name: 'تعذر إرسال الطلب — تأكدي من الاتصال وحاولي مرة أخرى' });
+    }
   };
 
   return (

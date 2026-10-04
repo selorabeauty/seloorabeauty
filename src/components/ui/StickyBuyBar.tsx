@@ -4,6 +4,7 @@ import { ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
 import { track } from '@/lib/track';
+import { trackAddToCart } from '@/lib/pixels';
 
 const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
 
@@ -21,6 +22,7 @@ export default function StickyBuyBar() {
 
   const handleClick = () => {
     track.addToCart();
+    trackAddToCart({ id: completeSet.id, name: completeSet.label, price: completeSet.totalPrice });
     setMainSet({
       id: completeSet.id,
       name: completeSet.label,

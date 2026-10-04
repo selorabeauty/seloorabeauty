@@ -26,6 +26,8 @@ async def fire_tiktok_purchase(order) -> None:
     }
     if order.ttclid:
         user["ttclid"] = order.ttclid
+    if order.ttp:
+        user["ttp"] = order.ttp
     if order.ip_address:
         user["ip"] = order.ip_address
     if order.user_agent:

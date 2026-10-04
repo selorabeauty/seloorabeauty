@@ -7,7 +7,8 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import ProductCard from '@/components/ui/ProductCard';
 import { getProduct, getCrossSells, SET_OPTIONS, getSetProducts } from '@/lib/products';
 import { useCartStore } from '@/store/cartStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackAddToCart, trackViewContent } from '@/lib/pixels';
 import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,12 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   const [activeTab, setActiveTab] = useState<'benefits' | 'ingredients' | 'howto'>('benefits');
   const [added, setAdded] = useState(false);
 
+  // Pixel: ViewContent on product page load
+  useEffect(() => {
+    trackViewContent({ id: product.id, name: product.name, price: product.price });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id]);
+
   const selectedSet = SET_OPTIONS.find((s) => s.id === selectedSetId)!;
   const setProducts = getSetProducts(selectedSet);
   const includesLabels = setProducts.map((p) => p.name);
@@ -46,10 +53,11 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
   const handleBuyNow = () => {
     setMainSet(buildCartItem());
-    openCheckout();
+    openCheckout();   // InitiateCheckout fires via the popup's open effect
   };
 
   const handleAddToCart = () => {
+    trackAddToCart({ id: selectedSet.id, name: selectedSet.label, price: selectedSet.totalPrice });
     setMainSet(buildCartItem());
     setAdded(true);
     setTimeout(() => { setAdded(false); router.push(`/${params.locale}/cart`); }, 900);

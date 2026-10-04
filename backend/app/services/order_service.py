@@ -45,6 +45,8 @@ async def create_order(db: AsyncSession, data: dict) -> Order:
         total          = total,
         ttclid         = data.get("ttclid"),
         sc_cid         = data.get("sc_cid"),
+        ttp            = data.get("ttp"),
+        sc_cookie1     = data.get("sc_cookie1"),
         event_id       = data.get("event_id"),
         ip_address     = data.get("ip"),
         user_agent     = data.get("user_agent"),

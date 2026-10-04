@@ -32,6 +32,8 @@ class Order(Base):
     # Pixel tracking
     ttclid          = Column(String(500))
     sc_cid          = Column(String(500))
+    ttp             = Column(String(500))   # TikTok _ttp first-party cookie
+    sc_cookie1      = Column(String(500))   # Snap _scid first-party cookie
     event_id        = Column(String(200))
     ip_address      = Column(String(45))
     user_agent      = Column(Text)

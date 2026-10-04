@@ -149,6 +149,8 @@ async def _ensure_tables():
         # Pixel/CAPI columns
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ttclid VARCHAR(500)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS sc_cid VARCHAR(500)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ttp VARCHAR(500)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS sc_cookie1 VARCHAR(500)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS event_id VARCHAR(200)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ip_address VARCHAR(45)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS user_agent TEXT")
@@ -163,6 +165,8 @@ async def _ensure_tables():
 @app.on_event("startup")
 async def startup():
     logger.info(f"[startup] DATABASE_URL = {os.environ.get('DATABASE_URL', 'NOT SET')}")
+    logger.info(f"[startup] TikTok CAPI: {'configured' if settings.TIKTOK_ACCESS_TOKEN and settings.TIKTOK_PIXEL_ID else 'NOT CONFIGURED (set TIKTOK_ACCESS_TOKEN + TIKTOK_PIXEL_ID)'}")
+    logger.info(f"[startup] Snap CAPI:   {'configured' if settings.SNAPCHAT_ACCESS_TOKEN and settings.SNAPCHAT_PIXEL_ID else 'NOT CONFIGURED (set SNAPCHAT_ACCESS_TOKEN + SNAPCHAT_PIXEL_ID)'}")
     await _ensure_tables()
 
 
