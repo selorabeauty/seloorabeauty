@@ -5,7 +5,7 @@ import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartp
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
-import { trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
+import { captureClickIds, getClickIds, trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
@@ -66,6 +66,10 @@ export default function CheckoutPopup() {
   };
 
   useEffect(() => {
+    captureClickIds();
+  }, []);
+
+  useEffect(() => {
     if (isCheckoutOpen) {
       trackInitiateCheckout(total);
       track.checkoutStart();
@@ -91,6 +95,7 @@ export default function CheckoutPopup() {
     setSubmitting(true);
 
     const orderId = generateOrderId();
+    const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
     const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
 
     const orderData = {
@@ -104,6 +109,8 @@ export default function CheckoutPopup() {
       total,
       items:           cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price })),
       page_url:        typeof window !== 'undefined' ? window.location.href : undefined,
+      event_id:        eventId,
+      ...getClickIds(),
     };
 
     try {
@@ -123,7 +130,7 @@ export default function CheckoutPopup() {
       console.error("❌ Failed to send order:", err);
     }
 
-    trackPurchase(total, orderId);
+    trackPurchase(total, orderId, eventId);
     track.purchase(orderId);
     clearCart();
     closeCheckout();

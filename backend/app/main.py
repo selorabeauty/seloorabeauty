@@ -146,6 +146,13 @@ async def _ensure_tables():
         """)
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_pv_created ON page_views (created_at DESC)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT")
+        # Pixel/CAPI columns
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ttclid VARCHAR(500)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS sc_cid VARCHAR(500)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS event_id VARCHAR(200)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ip_address VARCHAR(45)")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS user_agent TEXT")
+        await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS page_url TEXT")
         result = await conn.fetchval("SELECT to_regclass('public.orders')")
         logger.info(f"[startup] ✅ Table 'orders' ready: {result}")
         await conn.close()

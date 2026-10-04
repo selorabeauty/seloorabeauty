@@ -31,8 +31,9 @@ async def create_order(
     db: AsyncSession = Depends(get_db),
 ):
     data = payload.model_dump()
-    # Prefer real client IP from headers
+    # Prefer real client IP + UA from headers (needed for CAPI match quality)
     data["ip"] = data.get("ip") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or str(request.client.host)
+    data["user_agent"] = data.get("user_agent") or request.headers.get("User-Agent", "")
     order = await order_service.create_order(db, data)
     return OrderResponse(order_id=order.order_id, total=float(order.total), status=order.status)
 

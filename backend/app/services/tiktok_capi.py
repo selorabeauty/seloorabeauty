@@ -1,7 +1,10 @@
 import hashlib
+import logging
 import time
 import httpx
 from app.config import settings
+
+logger = logging.getLogger(__name__)
 
 TIKTOK_CAPI_URL = "https://business-api.tiktok.com/open_api/v1.3/event/track/"
 
@@ -12,22 +15,30 @@ def sha256(value: str) -> str:
 
 async def fire_tiktok_purchase(order) -> None:
     if not settings.TIKTOK_ACCESS_TOKEN or not settings.TIKTOK_PIXEL_ID:
+        logger.info("[tiktok-capi] skipped — token or pixel id not configured")
         return
     # Normalize KSA phone to E.164: 05XXXXXXXX → +9665XXXXXXXX
     phone_e164 = "+966" + order.phone[1:]
+
+    # Build user object — omit empty values (they hurt match quality / validation)
+    user = {
+        "phone": sha256(phone_e164),
+    }
+    if order.ttclid:
+        user["ttclid"] = order.ttclid
+    if order.ip_address:
+        user["ip"] = order.ip_address
+    if order.user_agent:
+        user["user_agent"] = order.user_agent
+
     payload = {
         "event_source": "web",
         "event_source_id": settings.TIKTOK_PIXEL_ID,
         "data": [{
             "event": "CompletePayment",
             "event_time": int(time.time()),
-            "event_id": order.event_id or str(order.id),
-            "user": {
-                "ttclid": order.ttclid or "",
-                "phone": sha256(phone_e164),
-                "ip": order.ip_address or "",
-                "user_agent": order.user_agent or "",
-            },
+            "event_id": order.event_id or order.order_id,
+            "user": user,
             "page": {"url": order.page_url or "https://seloorabeauty.shop/ar"},
             "properties": {
                 "currency": "SAR",
@@ -45,10 +56,14 @@ async def fire_tiktok_purchase(order) -> None:
     }
     try:
         async with httpx.AsyncClient(timeout=10) as client:
-            await client.post(
+            resp = await client.post(
                 TIKTOK_CAPI_URL,
                 json=payload,
                 headers={"Access-Token": settings.TIKTOK_ACCESS_TOKEN},
             )
-    except Exception:
-        pass  # fail silently — never block the order
+            if resp.status_code == 200:
+                logger.info(f"[tiktok-capi] ✅ CompletePayment fired for {order.order_id}")
+            else:
+                logger.warning(f"[tiktok-capi] ❌ {resp.status_code} for {order.order_id}: {resp.text[:500]}")
+    except Exception as e:
+        logger.error(f"[tiktok-capi] ❌ request failed for {order.order_id}: {e}")
