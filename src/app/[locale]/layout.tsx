@@ -4,9 +4,6 @@ import Script from 'next/script';
 import '../globals.css';
 import TrackPageView from '@/components/ui/TrackPageView';
 
-const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
-const SNAPCHAT_PIXEL_ID = process.env.NEXT_PUBLIC_SNAPCHAT_PIXEL_ID;
-
 const tajawal = Tajawal({
   subsets: ['arabic', 'latin'],
   variable: '--font-tajawal',
@@ -27,6 +24,13 @@ export default function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  // Read server-side at REQUEST time — works with plain runtime env vars
+  // (TIKTOK_PIXEL_ID) OR build-time NEXT_PUBLIC_* vars. No rebuild needed.
+  const TIKTOK_PIXEL_ID =
+    process.env.TIKTOK_PIXEL_ID || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+  const SNAPCHAT_PIXEL_ID =
+    process.env.SNAPCHAT_PIXEL_ID || process.env.NEXT_PUBLIC_SNAPCHAT_PIXEL_ID;
+
   return (
     <html lang="ar" dir="rtl" className={tajawal.variable}>
       <body className="font-arabic antialiased">

@@ -172,7 +172,14 @@ async def startup():
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": "seloora-beauty-api"}
+    return {
+        "status": "ok",
+        "service": "seloora-beauty-api",
+        "capi": {
+            "tiktok": bool(settings.TIKTOK_ACCESS_TOKEN and settings.TIKTOK_PIXEL_ID),
+            "snapchat": bool(settings.SNAPCHAT_ACCESS_TOKEN and settings.SNAPCHAT_PIXEL_ID),
+        },
+    }
 
 
 
