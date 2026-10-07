@@ -1,5 +1,6 @@
 import hashlib
 import logging
+import os
 import time
 import httpx
 from app.config import settings
@@ -8,9 +9,58 @@ logger = logging.getLogger(__name__)
 
 TIKTOK_CAPI_URL = "https://business-api.tiktok.com/open_api/v1.3/event/track/"
 
+# Optional: set TIKTOK_TEST_EVENT_CODE to route events into Events Manager
+# "Test Events" tab instead of production reporting (from Events Manager →
+# pixel → Test Events → generate code).
+TEST_EVENT_CODE = os.environ.get("TIKTOK_TEST_EVENT_CODE", "")
+
 
 def sha256(value: str) -> str:
     return hashlib.sha256(value.strip().lower().encode()).hexdigest()
+
+
+async def _post(payload: dict, label: str) -> None:
+    """POST to TikTok Events API — reads the real result code from the body.
+
+    TikTok returns HTTP 200 even for failed requests; success is code == 0
+    in the JSON body. Anything else logs the actual error message.
+    """
+    if TEST_EVENT_CODE:
+        payload["test_event_code"] = TEST_EVENT_CODE
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                TIKTOK_CAPI_URL,
+                json=payload,
+                headers={"Access-Token": settings.TIKTOK_ACCESS_TOKEN},
+            )
+        try:
+            body = resp.json()
+        except Exception:
+            body = {}
+        code = body.get("code")
+        if resp.status_code == 200 and code == 0:
+            logger.info(f"[tiktok-capi] ✅ {label} delivered")
+        else:
+            logger.warning(
+                f"[tiktok-capi] ❌ {label} http={resp.status_code} "
+                f"code={code} msg={body.get('message', resp.text[:300])}"
+            )
+    except Exception as e:
+        logger.error(f"[tiktok-capi] ❌ {label} request failed: {e}")
+
+
+def _base_user(ip: str, ua: str, ttclid: str | None, ttp: str | None) -> dict:
+    user = {}
+    if ttclid:
+        user["ttclid"] = ttclid
+    if ttp:
+        user["ttp"] = ttp
+    if ip:
+        user["ip"] = ip
+    if ua:
+        user["user_agent"] = ua
+    return user
 
 
 async def fire_tiktok_purchase(order) -> None:
@@ -20,18 +70,9 @@ async def fire_tiktok_purchase(order) -> None:
     # Normalize KSA phone to E.164: 05XXXXXXXX → +9665XXXXXXXX
     phone_e164 = "+966" + order.phone[1:]
 
-    # Build user object — omit empty values (they hurt match quality / validation)
-    user = {
-        "phone": sha256(phone_e164),
-    }
-    if order.ttclid:
-        user["ttclid"] = order.ttclid
-    if order.ttp:
-        user["ttp"] = order.ttp
-    if order.ip_address:
-        user["ip"] = order.ip_address
-    if order.user_agent:
-        user["user_agent"] = order.user_agent
+    user = {"phone": sha256(phone_e164)}
+    user.update(_base_user(order.ip_address or "", order.user_agent or "",
+                           order.ttclid, order.ttp))
 
     payload = {
         "event_source": "web",
@@ -56,19 +97,7 @@ async def fire_tiktok_purchase(order) -> None:
             },
         }],
     }
-    try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.post(
-                TIKTOK_CAPI_URL,
-                json=payload,
-                headers={"Access-Token": settings.TIKTOK_ACCESS_TOKEN},
-            )
-            if resp.status_code == 200:
-                logger.info(f"[tiktok-capi] ✅ CompletePayment fired for {order.order_id}")
-            else:
-                logger.warning(f"[tiktok-capi] ❌ {resp.status_code} for {order.order_id}: {resp.text[:500]}")
-    except Exception as e:
-        logger.error(f"[tiktok-capi] ❌ request failed for {order.order_id}: {e}")
+    await _post(payload, f"CompletePayment {order.order_id}")
 
 
 # Map internal funnel event names → TikTok standard events
@@ -86,18 +115,10 @@ async def fire_tiktok_event(event: str, event_id: str, click_ids: dict,
     if not settings.TIKTOK_ACCESS_TOKEN or not settings.TIKTOK_PIXEL_ID:
         return
     tt_event = TT_EVENTS.get(event)
-    if not tt_event:
+    if not tt_event or not event_id:
         return
 
-    user = {}
-    if click_ids.get("ttclid"):
-        user["ttclid"] = click_ids["ttclid"]
-    if click_ids.get("ttp"):
-        user["ttp"] = click_ids["ttp"]
-    if ip:
-        user["ip"] = ip
-    if ua:
-        user["user_agent"] = ua
+    user = _base_user(ip, ua, click_ids.get("ttclid"), click_ids.get("ttp"))
 
     properties = {"currency": "SAR"}
     if value:
@@ -118,16 +139,4 @@ async def fire_tiktok_event(event: str, event_id: str, click_ids: dict,
             "properties": properties,
         }],
     }
-    try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.post(
-                TIKTOK_CAPI_URL,
-                json=payload,
-                headers={"Access-Token": settings.TIKTOK_ACCESS_TOKEN},
-            )
-            if resp.status_code == 200:
-                logger.info(f"[tiktok-capi] ✅ {tt_event} mirrored ({event_id})")
-            else:
-                logger.warning(f"[tiktok-capi] ❌ {tt_event} {resp.status_code}: {resp.text[:300]}")
-    except Exception as e:
-        logger.error(f"[tiktok-capi] ❌ {tt_event} request failed: {e}")
+    await _post(payload, f"{tt_event} {event_id}")
