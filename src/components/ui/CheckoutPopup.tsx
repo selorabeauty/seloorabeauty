@@ -5,7 +5,7 @@ import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartp
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
-import { captureClickIds, getClickIds, trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
+import { captureClickIds, getClickIds, identifyUser, trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
@@ -124,6 +124,8 @@ export default function CheckoutPopup() {
       const result = await response.json();
       const serverOrderId = result.order_id || orderId;
 
+      // Advanced matching: identify with SHA-256-hashed phone before purchase
+      await identifyUser(phone.trim());
       // Purchase pixels fire ONLY on confirmed success — browser + CAPI share eventId for dedup
       trackPurchase(total, serverOrderId, eventId);
       track.purchase(serverOrderId);

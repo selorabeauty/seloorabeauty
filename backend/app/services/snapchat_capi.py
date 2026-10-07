@@ -3,6 +3,7 @@ import logging
 import time
 import httpx
 from app.config import settings
+from app.services import capi_log
 
 logger = logging.getLogger(__name__)
 
@@ -61,12 +62,16 @@ async def fire_snapchat_purchase(order) -> None:
                 json=payload,
                 headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
             )
-            if resp.status_code in (200, 202):
+            ok = resp.status_code in (200, 202)
+            if ok:
                 logger.info(f"[snapchat-capi] ✅ PURCHASE fired for {order.order_id}")
             else:
                 logger.warning(f"[snapchat-capi] ❌ {resp.status_code} for {order.order_id}: {resp.text[:500]}")
+            capi_log.record("snapchat", "PURCHASE", order.order_id, ok,
+                            {"http": resp.status_code, "body": resp.text[:300]})
     except Exception as e:
         logger.error(f"[snapchat-capi] ❌ request failed for {order.order_id}: {e}")
+        capi_log.record("snapchat", "PURCHASE", order.order_id, False, {"error": str(e)})
 
 
 async def diagnose() -> dict:
@@ -155,9 +160,13 @@ async def fire_snap_event(event: str, event_id: str, click_ids: dict,
                 json=payload,
                 headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
             )
-            if resp.status_code in (200, 202):
+            ok = resp.status_code in (200, 202)
+            if ok:
                 logger.info(f"[snapchat-capi] ✅ {snap_event} mirrored ({event_id})")
             else:
                 logger.warning(f"[snapchat-capi] ❌ {snap_event} {resp.status_code}: {resp.text[:300]}")
+            capi_log.record("snapchat", snap_event, event_id, ok,
+                            {"http": resp.status_code, "body": resp.text[:300]})
     except Exception as e:
         logger.error(f"[snapchat-capi] ❌ {snap_event} request failed: {e}")
+        capi_log.record("snapchat", snap_event, event_id, False, {"error": str(e)})

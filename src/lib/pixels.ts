@@ -10,8 +10,37 @@ declare global {
     ttq?: {
       track: (event: string, data?: Record<string, unknown>, opts?: Record<string, unknown>) => void;
       page?: () => void;
+      identify?: (props: Record<string, string>) => void;
     };
     snaptr?: (action: string, event: string, data?: Record<string, unknown>) => void;
+    __snapPixelId?: string;
+  }
+}
+
+/** SHA-256 hex digest — required for pixel advanced-matching fields. */
+async function sha256Hex(value: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Advanced Matching — call once we have the customer's phone (checkout).
+ * TikTok: ttq.identify({ phone_number: sha256(e164) })
+ * Snap:   re-init with user_hashed_phone_number (Snap hashes plain values
+ *         natively, but passing the hash is equivalent and safer)
+ */
+export async function identifyUser(phone: string) {
+  if (typeof window === 'undefined' || !phone) return;
+  const digits = phone.replace(/\D/g, '');
+  const e164 = digits.startsWith('966') ? `+${digits}` : `+966${digits.slice(1)}`;
+  try {
+    const hashed = await sha256Hex(e164.toLowerCase().trim());
+    window.ttq?.identify?.({ phone_number: hashed });
+    if (window.snaptr && window.__snapPixelId) {
+      window.snaptr('init', window.__snapPixelId, { user_hashed_phone_number: hashed });
+    }
+  } catch {
+    // crypto.subtle unavailable — skip silently
   }
 }
 

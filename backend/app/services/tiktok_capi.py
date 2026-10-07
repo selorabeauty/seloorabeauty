@@ -4,6 +4,7 @@ import os
 import time
 import httpx
 from app.config import settings
+from app.services import capi_log
 
 logger = logging.getLogger(__name__)
 
@@ -69,15 +70,20 @@ async def _post(payload: dict, label: str) -> None:
         except Exception:
             body = {}
         code = body.get("code")
-        if resp.status_code == 200 and code == 0:
+        ok = resp.status_code == 200 and code == 0
+        detail = {"http": resp.status_code, "code": code,
+                  "message": body.get("message") if isinstance(body, dict) else resp.text[:300]}
+        if ok:
             logger.info(f"[tiktok-capi] ✅ {label} delivered")
         else:
             logger.warning(
                 f"[tiktok-capi] ❌ {label} http={resp.status_code} "
-                f"code={code} msg={body.get('message', resp.text[:300])}"
+                f"code={code} msg={detail['message']}"
             )
+        capi_log.record("tiktok", label.split()[0], label.split()[-1], ok, detail)
     except Exception as e:
         logger.error(f"[tiktok-capi] ❌ {label} request failed: {e}")
+        capi_log.record("tiktok", label.split()[0], label.split()[-1], False, {"error": str(e)})
 
 
 def _base_user(ip: str, ua: str, ttclid: str | None, ttp: str | None) -> dict:
