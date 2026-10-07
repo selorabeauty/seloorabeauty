@@ -5,7 +5,7 @@ import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartp
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
-import { captureClickIds, getClickIds, identifyUser, trackInitiateCheckout, trackPurchase } from '@/lib/pixels';
+import { captureClickIds, getClickIds, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
@@ -92,6 +92,7 @@ export default function CheckoutPopup() {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
+    trackAddPaymentInfo(total);   // payment method chosen → AddPaymentInfo / ADD_BILLING
 
     const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id

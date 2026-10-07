@@ -13,7 +13,7 @@ router = APIRouter(tags=["orders"])
 
 # Events mirrored server-side to CAPI (deduped vs browser via shared event_id).
 # 'purchase' is intentionally excluded — it fires from the order itself.
-FUNNEL_EVENTS = {"view_content", "add_to_cart", "checkout_start", "pageview"}
+FUNNEL_EVENTS = {"view_content", "add_to_cart", "checkout_start", "add_payment_info", "pageview"}
 
 
 @router.post("/track")

@@ -110,10 +110,11 @@ async def diagnose() -> dict:
 
 # Map internal funnel event names → Snap standard events
 SNAP_EVENTS = {
-    "view_content":   "VIEW_CONTENT",
-    "add_to_cart":    "ADD_CART",
-    "checkout_start": "START_CHECKOUT",
-    "pageview":       "PAGE_VIEW",
+    "view_content":     "VIEW_CONTENT",
+    "add_to_cart":      "ADD_CART",
+    "checkout_start":   "START_CHECKOUT",
+    "add_payment_info": "ADD_BILLING",
+    "pageview":         "PAGE_VIEW",
 }
 
 

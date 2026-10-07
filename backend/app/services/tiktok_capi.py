@@ -110,28 +110,31 @@ async def fire_tiktok_purchase(order) -> None:
     user.update(_base_user(order.ip_address or "", order.user_agent or "",
                            order.ttclid, order.ttp))
 
+    # COD orders are "placed", not paid online — send both standard events.
+    # Same event_id dedupes each against its browser-pixel counterpart.
+    _event = lambda name: {
+        "event": name,
+        "event_time": int(time.time()),
+        "event_id": order.event_id or order.order_id,
+        "user": user,
+        "page": {"url": order.page_url or "https://seloorabeauty.shop/ar"},
+        "properties": {
+            "currency": "SAR",
+            "value": float(order.total),
+            "content_type": "product",
+            "contents": [{
+                "content_id": order.product_id,
+                "content_name": order.product_name,
+                "quantity": order.quantity,
+                "price": float(order.unit_price),
+            }],
+            "order_id": order.order_id,
+        },
+    }
     payload = {
         "event_source": "web",
         "event_source_id": settings.TIKTOK_PIXEL_ID,
-        "data": [{
-            "event": "CompletePayment",
-            "event_time": int(time.time()),
-            "event_id": order.event_id or order.order_id,
-            "user": user,
-            "page": {"url": order.page_url or "https://seloorabeauty.shop/ar"},
-            "properties": {
-                "currency": "SAR",
-                "value": float(order.total),
-                "content_type": "product",
-                "contents": [{
-                    "content_id": order.product_id,
-                    "content_name": order.product_name,
-                    "quantity": order.quantity,
-                    "price": float(order.unit_price),
-                }],
-                "order_id": order.order_id,
-            },
-        }],
+        "data": [_event("CompletePayment"), _event("PlaceAnOrder")],
     }
     await _post(payload, f"CompletePayment {order.order_id}")
 
@@ -140,10 +143,11 @@ async def fire_tiktok_purchase(order) -> None:
 # PageView is deduped: ttq.page({event_id}) carries the same id the
 # CAPI mirror sends, so browser+server count once.
 TT_EVENTS = {
-    "pageview":       "PageView",
-    "view_content":   "ViewContent",
-    "add_to_cart":    "AddToCart",
-    "checkout_start": "InitiateCheckout",
+    "pageview":         "PageView",
+    "view_content":     "ViewContent",
+    "add_to_cart":      "AddToCart",
+    "checkout_start":   "InitiateCheckout",
+    "add_payment_info": "AddPaymentInfo",
 }
 
 

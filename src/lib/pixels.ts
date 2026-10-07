@@ -112,7 +112,7 @@ function mirrorToBackend(event: string, eventId: string, extra: Record<string, u
   }).catch(() => {});
 }
 
-type FunnelEvent = 'view_content' | 'add_to_cart' | 'checkout_start' | 'purchase';
+type FunnelEvent = 'view_content' | 'add_to_cart' | 'checkout_start' | 'add_payment_info' | 'purchase';
 
 /** Dual-fire one funnel event: browser pixel + server CAPI, same event_id. */
 function fireFunnel(
@@ -192,18 +192,31 @@ export function trackInitiateCheckout(value: number) {
   );
 }
 
+/** Payment info provided — fires when the checkout form is submitted. */
+export function trackAddPaymentInfo(value: number) {
+  fireFunnel(
+    'add_payment_info',
+    'AddPaymentInfo',
+    'ADD_BILLING',
+    { value, currency: 'SAR' },
+    { price: value, currency: 'SAR' },
+    { value },
+  );
+}
+
 /**
  * Browser-side purchase — call ONLY after the order API confirms.
  * The backend also fires CAPI purchase from the order itself (richer: has
  * phone hash). `eventId` must equal the event_id sent in the order payload.
+ * Both CompletePayment + PlaceAnOrder are sent — COD orders are "placed",
+ * not paid online, and TikTok's ecommerce diagnostics expect PlaceAnOrder.
  */
 export function trackPurchase(value: number, orderId: string, eventId?: string) {
   if (typeof window === 'undefined') return;
-  window.ttq?.track(
-    'CompletePayment',
-    { value, currency: 'SAR', content_id: orderId },
-    eventId ? { event_id: eventId } : undefined,
-  );
+  const opts = eventId ? { event_id: eventId } : undefined;
+  const data = { value, currency: 'SAR', content_id: orderId };
+  window.ttq?.track('CompletePayment', data, opts);
+  window.ttq?.track('PlaceAnOrder', data, opts);
   window.snaptr?.('track', 'PURCHASE', {
     price: value,
     currency: 'SAR',
