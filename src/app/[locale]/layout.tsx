@@ -23,12 +23,14 @@ export default function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  // Read server-side at REQUEST time — works with plain runtime env vars
-  // (TIKTOK_PIXEL_ID) OR build-time NEXT_PUBLIC_* vars. No rebuild needed.
+  // Pixel IDs are public (visible in page source anyway) — hardcoded
+  // fallbacks guarantee pixels always fire regardless of env config.
   const TIKTOK_PIXEL_ID =
-    process.env.TIKTOK_PIXEL_ID || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+    process.env.TIKTOK_PIXEL_ID || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID
+    || 'DB186MJC77UCLKF28K40';
   const SNAPCHAT_PIXEL_ID =
-    process.env.SNAPCHAT_PIXEL_ID || process.env.NEXT_PUBLIC_SNAPCHAT_PIXEL_ID;
+    process.env.SNAPCHAT_PIXEL_ID || process.env.NEXT_PUBLIC_SNAPCHAT_PIXEL_ID
+    || '69bd7e07-0a73-407c-9be4-993fcae37ccb';
 
   return (
     <html lang="ar" dir="rtl" className={tajawal.variable}>
