@@ -1,11 +1,18 @@
+import asyncio
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.schemas.order import OrderCreate, OrderResponse, UpsellRequest, UpsellResponse
 from app.services import order_service
 from app.services.tracking import record_event
+from app.services.tiktok_capi import fire_tiktok_event
+from app.services.snapchat_capi import fire_snap_event
 
 router = APIRouter(tags=["orders"])
+
+# Events mirrored server-side to CAPI (deduped vs browser via shared event_id).
+# 'purchase' is intentionally excluded — it fires from the order itself.
+FUNNEL_EVENTS = {"view_content", "add_to_cart", "checkout_start", "pageview"}
 
 
 @router.post("/track")
@@ -19,6 +26,20 @@ async def track_event(request: Request, db: AsyncSession = Depends(get_db)):
         referrer   = body.get("referrer", "")
         user_agent = request.headers.get("User-Agent", "")
         await record_event(db, event, ip, session_id, page_url, referrer, user_agent)
+
+        # Mirror funnel events to CAPI — survives ad blockers, deduped by event_id
+        if event in FUNNEL_EVENTS:
+            event_id  = body.get("event_id") or ""
+            click_ids = {
+                "ttclid":    body.get("ttclid"),
+                "ttp":       body.get("ttp"),
+                "sc_cid":    body.get("sc_cid"),
+                "sc_cookie1": body.get("sc_cookie1"),
+            }
+            value      = body.get("value")
+            product_id = body.get("product_id")
+            asyncio.create_task(fire_tiktok_event(event, event_id, click_ids, ip, user_agent, page_url, value, product_id))
+            asyncio.create_task(fire_snap_event(event, event_id, click_ids, ip, user_agent, page_url, value, product_id))
         return {"ok": True}
     except Exception:
         return {"ok": False}

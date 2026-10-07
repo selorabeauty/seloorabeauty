@@ -67,3 +67,66 @@ async def fire_snapchat_purchase(order) -> None:
                 logger.warning(f"[snapchat-capi] ❌ {resp.status_code} for {order.order_id}: {resp.text[:500]}")
     except Exception as e:
         logger.error(f"[snapchat-capi] ❌ request failed for {order.order_id}: {e}")
+
+
+# Map internal funnel event names → Snap standard events
+SNAP_EVENTS = {
+    "view_content":   "VIEW_CONTENT",
+    "add_to_cart":    "ADD_CART",
+    "checkout_start": "START_CHECKOUT",
+    "pageview":       "PAGE_VIEW",
+}
+
+
+async def fire_snap_event(event: str, event_id: str, click_ids: dict,
+                          ip: str, ua: str, url: str, value: float | None = None,
+                          product_id: str | None = None) -> None:
+    """Server-side mirror of a browser funnel event — same event_id = deduped."""
+    if not settings.SNAPCHAT_ACCESS_TOKEN or not settings.SNAPCHAT_PIXEL_ID:
+        return
+    snap_event = SNAP_EVENTS.get(event)
+    if not snap_event:
+        return
+
+    user_data = {}
+    if ip:
+        user_data["client_ip_address"] = ip
+    if ua:
+        user_data["client_user_agent"] = ua
+    if click_ids.get("sc_cid"):
+        user_data["sc_click_id"] = click_ids["sc_cid"]
+    if click_ids.get("sc_cookie1"):
+        user_data["sc_cookie1"] = click_ids["sc_cookie1"]
+
+    custom_data = {"currency": "SAR"}
+    if value:
+        custom_data["value"] = str(float(value))
+    if product_id:
+        custom_data["item_ids"] = [product_id]
+
+    payload = {
+        "pixel_id": settings.SNAPCHAT_PIXEL_ID,
+        "data": [{
+            "event_name": snap_event,
+            "event_time": int(time.time() * 1000),   # Snap prefers epoch ms
+            "event_id": event_id,
+            "client_dedup_id": event_id,
+            "action_source": "WEB",
+            "event_source_url": url or "https://seloorabeauty.shop/ar",
+            "user_data": user_data,
+            "custom_data": custom_data,
+        }],
+    }
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                SNAP_CAPI_URL,
+                json=payload,
+                headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
+            )
+            if resp.status_code in (200, 202):
+                logger.info(f"[snapchat-capi] ✅ {snap_event} mirrored ({event_id})")
+            else:
+                logger.warning(f"[snapchat-capi] ❌ {snap_event} {resp.status_code}: {resp.text[:300]}")
+    except Exception as e:
+        logger.error(f"[snapchat-capi] ❌ {snap_event} request failed: {e}")

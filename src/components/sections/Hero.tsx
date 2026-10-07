@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { ShieldCheck, Truck, RotateCcw, Star, ArrowDown } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { PRODUCTS, SET_OPTIONS } from '@/lib/products';
-import { track } from '@/lib/track';
 import { trackAddToCart } from '@/lib/pixels';
 
 const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
@@ -43,7 +42,6 @@ export default function Hero() {
   const selectedSet = selectedSetId === 'set-complete' ? completeSet : singleSet;
 
   const handleBuyNow = () => {
-    track.addToCart();
     trackAddToCart({ id: selectedSet.id, name: selectedSet.label, price: selectedSet.totalPrice });
     setMainSet({
       id: selectedSet.id,

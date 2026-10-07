@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Star, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import type { Product } from '@/lib/products';
-import { track } from '@/lib/track';
 import { trackAddToCart } from '@/lib/pixels';
 
 interface Props {
@@ -16,7 +15,6 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
-    track.addToCart();
     trackAddToCart({ id: product.id, name: product.name, price: product.price });
     setMainSet({
       id: product.id,

@@ -71,8 +71,7 @@ export default function CheckoutPopup() {
 
   useEffect(() => {
     if (isCheckoutOpen) {
-      trackInitiateCheckout(total);
-      track.checkoutStart();
+      trackInitiateCheckout(total);   // fires pixel + CAPI mirror with shared event_id
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheckoutOpen]);
