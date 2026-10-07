@@ -19,6 +19,36 @@ def sha256(value: str) -> str:
     return hashlib.sha256(value.strip().lower().encode()).hexdigest()
 
 
+async def diagnose() -> dict:
+    """Fire a synthetic ViewContent and return TikTok's real API response —
+    used by /api/debug/pixels to surface the exact error without log access."""
+    if not settings.TIKTOK_ACCESS_TOKEN or not settings.TIKTOK_PIXEL_ID:
+        return {"configured": False, "reason": "TIKTOK_ACCESS_TOKEN or TIKTOK_PIXEL_ID not set"}
+    payload = {
+        "event_source": "web",
+        "event_source_id": settings.TIKTOK_PIXEL_ID,
+        "data": [{
+            "event": "ViewContent",
+            "event_time": int(time.time()),
+            "event_id": f"diag-{int(time.time())}",
+            "user": {"ip": "8.8.8.8"},
+            "page": {"url": "https://seloorabeauty.shop/ar"},
+            "properties": {"currency": "SAR", "value": 1},
+        }],
+    }
+    if TEST_EVENT_CODE:
+        payload["test_event_code"] = TEST_EVENT_CODE
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                TIKTOK_CAPI_URL, json=payload,
+                headers={"Access-Token": settings.TIKTOK_ACCESS_TOKEN},
+            )
+        return {"configured": True, "http": resp.status_code, "tiktok_response": resp.json()}
+    except Exception as e:
+        return {"configured": True, "error": str(e)}
+
+
 async def _post(payload: dict, label: str) -> None:
     """POST to TikTok Events API — reads the real result code from the body.
 

@@ -7,6 +7,7 @@ from app.services import order_service
 from app.services.tracking import record_event
 from app.services.tiktok_capi import fire_tiktok_event
 from app.services.snapchat_capi import fire_snap_event
+from app.services import tiktok_capi, snapchat_capi
 
 router = APIRouter(tags=["orders"])
 
@@ -43,6 +44,16 @@ async def track_event(request: Request, db: AsyncSession = Depends(get_db)):
         return {"ok": True}
     except Exception:
         return {"ok": False}
+
+
+@router.get("/debug/pixels")
+async def debug_pixels():
+    """Fires one synthetic event to each CAPI and returns the platforms'
+    real responses — surfaces token/payload errors without log access."""
+    return {
+        "tiktok": await tiktok_capi.diagnose(),
+        "snapchat": await snapchat_capi.diagnose(),
+    }
 
 
 @router.post("/orders", response_model=OrderResponse)

@@ -69,6 +69,37 @@ async def fire_snapchat_purchase(order) -> None:
         logger.error(f"[snapchat-capi] ❌ request failed for {order.order_id}: {e}")
 
 
+async def diagnose() -> dict:
+    """Fire a synthetic PAGE_VIEW and return Snap's real API response."""
+    if not settings.SNAPCHAT_ACCESS_TOKEN or not settings.SNAPCHAT_PIXEL_ID:
+        return {"configured": False, "reason": "SNAPCHAT_ACCESS_TOKEN or SNAPCHAT_PIXEL_ID not set"}
+    payload = {
+        "pixel_id": settings.SNAPCHAT_PIXEL_ID,
+        "data": [{
+            "event_name": "PAGE_VIEW",
+            "event_time": int(time.time() * 1000),
+            "event_id": f"diag-{int(time.time())}",
+            "action_source": "WEB",
+            "event_source_url": "https://seloorabeauty.shop/ar",
+            "user_data": {"client_ip_address": "8.8.8.8"},
+            "custom_data": {"currency": "SAR"},
+        }],
+    }
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                SNAP_CAPI_URL, json=payload,
+                headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
+            )
+        try:
+            body = resp.json()
+        except Exception:
+            body = resp.text[:300]
+        return {"configured": True, "http": resp.status_code, "snap_response": body}
+    except Exception as e:
+        return {"configured": True, "error": str(e)}
+
+
 # Map internal funnel event names → Snap standard events
 SNAP_EVENTS = {
     "view_content":   "VIEW_CONTENT",
