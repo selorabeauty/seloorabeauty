@@ -136,7 +136,9 @@ async def fire_tiktok_purchase(order) -> None:
     await _post(payload, f"CompletePayment {order.order_id}")
 
 
-# Map internal funnel event names → TikTok standard events
+# Map internal funnel event names → TikTok standard events.
+# PageView is intentionally excluded: ttq.page() can't carry an event_id,
+# so a CAPI mirror could never dedupe → double counting. Browser-only.
 TT_EVENTS = {
     "view_content":   "ViewContent",
     "add_to_cart":    "AddToCart",

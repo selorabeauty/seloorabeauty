@@ -132,8 +132,10 @@ function fireFunnel(
 /** Fires on SPA route changes (the <head> snippet fires the initial one). */
 export function trackPixelPageView() {
   if (typeof window === 'undefined') return;
+  const eventId = crypto.randomUUID();
   window.ttq?.page?.();
-  window.snaptr?.('track', 'PAGE_VIEW');
+  window.snaptr?.('track', 'PAGE_VIEW', { client_dedup_id: eventId });
+  mirrorToBackend('pageview', eventId);
 }
 
 export function trackViewContent(product: { id: string; name: string; price: number }) {
