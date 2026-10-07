@@ -7,7 +7,10 @@ from app.services import capi_log
 
 logger = logging.getLogger(__name__)
 
-SNAP_CAPI_URL = "https://tr.snapchat.com/v2/conversion"
+# CAPI v3 — matches the data[]/event_name/action_source/event_time payload
+# shape (v2 expects flat event_type/event_conversion_type/timestamp fields
+# and rejects v3 payloads with "Missing event type" errors).
+SNAP_CAPI_URL = "https://tr.snapchat.com/v3/conversion"
 
 
 def sha256(value: str) -> str:
