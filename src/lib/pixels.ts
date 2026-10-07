@@ -9,11 +9,12 @@ declare global {
   interface Window {
     ttq?: {
       track: (event: string, data?: Record<string, unknown>, opts?: Record<string, unknown>) => void;
-      page?: () => void;
+      page?: (opts?: Record<string, unknown>) => void;
       identify?: (props: Record<string, string>) => void;
     };
     snaptr?: (action: string, event: string, data?: Record<string, unknown>) => void;
     __snapPixelId?: string;
+    __ttPvId?: string;
   }
 }
 
@@ -133,9 +134,18 @@ function fireFunnel(
 export function trackPixelPageView() {
   if (typeof window === 'undefined') return;
   const eventId = crypto.randomUUID();
-  window.ttq?.page?.();
+  window.ttq?.page?.({ event_id: eventId });
   window.snaptr?.('track', 'PAGE_VIEW', { client_dedup_id: eventId });
   mirrorToBackend('pageview', eventId);
+}
+
+/**
+ * Mirrors the INITIAL pageview to CAPI using the same event_id the <head>
+ * snippet gave ttq.page()/snaptr — deduped browser+server PageView.
+ */
+export function mirrorInitialPageView() {
+  if (typeof window === 'undefined') return;
+  if (window.__ttPvId) mirrorToBackend('pageview', window.__ttPvId);
 }
 
 export function trackViewContent(product: { id: string; name: string; price: number }) {

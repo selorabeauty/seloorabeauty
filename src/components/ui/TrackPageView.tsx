@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { track } from '@/lib/track';
-import { captureClickIds, trackPixelPageView } from '@/lib/pixels';
+import { captureClickIds, trackPixelPageView, mirrorInitialPageView } from '@/lib/pixels';
 
 export default function TrackPageView() {
   const pathname = usePathname();
@@ -12,10 +12,11 @@ export default function TrackPageView() {
     captureClickIds();          // persist ttclid/ScCid from landing URLs
     track.pageview();           // internal analytics on every route
 
-    // The <head> pixel snippets already fire the initial PageView —
-    // only fire pixel pageview on subsequent SPA route changes.
+    // The <head> snippet already fired the browser PageView with a shared
+    // event_id — just mirror it to CAPI so blocked browsers still count.
     if (firstRun.current) {
       firstRun.current = false;
+      mirrorInitialPageView();
       return;
     }
     trackPixelPageView();

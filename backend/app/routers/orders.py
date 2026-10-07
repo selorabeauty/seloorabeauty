@@ -39,7 +39,7 @@ async def track_event(request: Request, db: AsyncSession = Depends(get_db)):
             }
             value      = body.get("value")
             product_id = body.get("product_id")
-            asyncio.create_task(fire_tiktok_event(event, event_id, click_ids, ip, user_agent, page_url, value, product_id))
+            asyncio.create_task(fire_tiktok_event(event, event_id, click_ids, ip, user_agent, page_url, value, product_id, session_id))
             asyncio.create_task(fire_snap_event(event, event_id, click_ids, ip, user_agent, page_url, value, product_id))
         return {"ok": True}
     except Exception:

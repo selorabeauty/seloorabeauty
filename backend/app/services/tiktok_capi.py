@@ -137,9 +137,10 @@ async def fire_tiktok_purchase(order) -> None:
 
 
 # Map internal funnel event names → TikTok standard events.
-# PageView is intentionally excluded: ttq.page() can't carry an event_id,
-# so a CAPI mirror could never dedupe → double counting. Browser-only.
+# PageView is deduped: ttq.page({event_id}) carries the same id the
+# CAPI mirror sends, so browser+server count once.
 TT_EVENTS = {
+    "pageview":       "PageView",
     "view_content":   "ViewContent",
     "add_to_cart":    "AddToCart",
     "checkout_start": "InitiateCheckout",
@@ -148,7 +149,8 @@ TT_EVENTS = {
 
 async def fire_tiktok_event(event: str, event_id: str, click_ids: dict,
                             ip: str, ua: str, url: str, value: float | None = None,
-                            product_id: str | None = None) -> None:
+                            product_id: str | None = None,
+                            session_id: str | None = None) -> None:
     """Server-side mirror of a browser funnel event — same event_id = deduped."""
     if not settings.TIKTOK_ACCESS_TOKEN or not settings.TIKTOK_PIXEL_ID:
         return
@@ -157,6 +159,8 @@ async def fire_tiktok_event(event: str, event_id: str, click_ids: dict,
         return
 
     user = _base_user(ip, ua, click_ids.get("ttclid"), click_ids.get("ttp"))
+    if session_id:
+        user["external_id"] = sha256(session_id)   # advanced-matching boost
 
     properties = {"currency": "SAR"}
     if value:
