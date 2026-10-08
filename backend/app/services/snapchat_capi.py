@@ -7,10 +7,31 @@ from app.services import capi_log
 
 logger = logging.getLogger(__name__)
 
-# CAPI v3 — matches the data[]/event_name/action_source/event_time payload
-# shape (v2 expects flat event_type/event_conversion_type/timestamp fields
-# and rejects v3 payloads with "Missing event type" errors).
-SNAP_CAPI_URL = "https://tr.snapchat.com/v3/conversion"
+# Snap CAPI v3 — pixel_id goes in the URL PATH, access token is a query
+# param, event_time is epoch SECONDS, body is {"data": [...]}.
+SNAP_CAPI_URL = "https://tr.snapchat.com/v3/{pixel_id}/events"
+
+
+async def _post(event: dict, label: str) -> None:
+    """POST one event to Snap CAPI v3; 200/202 = accepted."""
+    url = SNAP_CAPI_URL.format(pixel_id=settings.SNAPCHAT_PIXEL_ID)
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                url,
+                params={"access_token": settings.SNAPCHAT_ACCESS_TOKEN},
+                json={"data": [event]},
+            )
+        ok = resp.status_code in (200, 202)
+        if ok:
+            logger.info(f"[snapchat-capi] ✅ {label} delivered")
+        else:
+            logger.warning(f"[snapchat-capi] ❌ {label} {resp.status_code}: {resp.text[:300]}")
+        capi_log.record("snapchat", label.split()[0], label.split()[-1], ok,
+                        {"http": resp.status_code, "body": resp.text[:300]})
+    except Exception as e:
+        logger.error(f"[snapchat-capi] ❌ {label} request failed: {e}")
+        capi_log.record("snapchat", label.split()[0], label.split()[-1], False, {"error": str(e)})
 
 
 def sha256(value: str) -> str:
@@ -35,69 +56,47 @@ async def fire_snapchat_purchase(order) -> None:
         user_data["sc_cookie1"] = order.sc_cookie1
 
     dedup_id = order.event_id or order.order_id
-    payload = {
-        "pixel_id": settings.SNAPCHAT_PIXEL_ID,
-        "data": [{
-            "event_name": "PURCHASE",
-            # Snap CAPI requires epoch MILLISECONDS (not seconds)
-            "event_time": int(time.time() * 1000),
-            "event_id": dedup_id,
-            "client_dedup_id": dedup_id,
-            "action_source": "WEB",
-            "event_source_url": order.page_url or "https://seloorabeauty.shop/ar",
-            "user_data": user_data,
-            "custom_data": {
-                "currency": "SAR",
-                "value": str(float(order.total)),
-                "order_id": order.order_id,
-                "contents": [{
-                    "id": order.product_id,
-                    "quantity": str(order.quantity),
-                    "item_price": str(float(order.unit_price)),
-                }],
-            },
-        }],
+    event = {
+        "event_name": "PURCHASE",
+        "event_time": int(time.time()),   # v3 uses epoch SECONDS
+        "event_id": dedup_id,
+        "client_dedup_id": dedup_id,
+        "action_source": "WEB",
+        "event_source_url": order.page_url or "https://seloorabeauty.shop/ar",
+        "user_data": user_data,
+        "custom_data": {
+            "currency": "SAR",
+            "value": str(float(order.total)),
+            "order_id": order.order_id,
+            "contents": [{
+                "id": order.product_id,
+                "quantity": str(order.quantity),
+                "item_price": str(float(order.unit_price)),
+            }],
+        },
     }
-    try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.post(
-                SNAP_CAPI_URL,
-                json=payload,
-                headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
-            )
-            ok = resp.status_code in (200, 202)
-            if ok:
-                logger.info(f"[snapchat-capi] ✅ PURCHASE fired for {order.order_id}")
-            else:
-                logger.warning(f"[snapchat-capi] ❌ {resp.status_code} for {order.order_id}: {resp.text[:500]}")
-            capi_log.record("snapchat", "PURCHASE", order.order_id, ok,
-                            {"http": resp.status_code, "body": resp.text[:300]})
-    except Exception as e:
-        logger.error(f"[snapchat-capi] ❌ request failed for {order.order_id}: {e}")
-        capi_log.record("snapchat", "PURCHASE", order.order_id, False, {"error": str(e)})
+    await _post(event, f"PURCHASE {order.order_id}")
 
 
 async def diagnose() -> dict:
     """Fire a synthetic PAGE_VIEW and return Snap's real API response."""
     if not settings.SNAPCHAT_ACCESS_TOKEN or not settings.SNAPCHAT_PIXEL_ID:
         return {"configured": False, "reason": "SNAPCHAT_ACCESS_TOKEN or SNAPCHAT_PIXEL_ID not set"}
-    payload = {
-        "pixel_id": settings.SNAPCHAT_PIXEL_ID,
-        "data": [{
-            "event_name": "PAGE_VIEW",
-            "event_time": int(time.time() * 1000),
-            "event_id": f"diag-{int(time.time())}",
-            "action_source": "WEB",
-            "event_source_url": "https://seloorabeauty.shop/ar",
-            "user_data": {"client_ip_address": "8.8.8.8"},
-            "custom_data": {"currency": "SAR"},
-        }],
-    }
+    url = SNAP_CAPI_URL.format(pixel_id=settings.SNAPCHAT_PIXEL_ID)
+    payload = {"data": [{
+        "event_name": "PAGE_VIEW",
+        "event_time": int(time.time()),
+        "event_id": f"diag-{int(time.time())}",
+        "action_source": "WEB",
+        "event_source_url": "https://seloorabeauty.shop/ar",
+        "user_data": {"client_ip_address": "8.8.8.8"},
+        "custom_data": {"currency": "SAR"},
+    }]}
     try:
         async with httpx.AsyncClient(timeout=10) as client:
             resp = await client.post(
-                SNAP_CAPI_URL, json=payload,
-                headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
+                url, json=payload,
+                params={"access_token": settings.SNAPCHAT_ACCESS_TOKEN},
             )
         try:
             body = resp.json()
@@ -144,33 +143,14 @@ async def fire_snap_event(event: str, event_id: str, click_ids: dict,
     if product_id:
         custom_data["item_ids"] = [product_id]
 
-    payload = {
-        "pixel_id": settings.SNAPCHAT_PIXEL_ID,
-        "data": [{
-            "event_name": snap_event,
-            "event_time": int(time.time() * 1000),   # Snap prefers epoch ms
-            "event_id": event_id,
-            "client_dedup_id": event_id,
-            "action_source": "WEB",
-            "event_source_url": url or "https://seloorabeauty.shop/ar",
-            "user_data": user_data,
-            "custom_data": custom_data,
-        }],
+    event = {
+        "event_name": snap_event,
+        "event_time": int(time.time()),   # v3: epoch seconds
+        "event_id": event_id,
+        "client_dedup_id": event_id,
+        "action_source": "WEB",
+        "event_source_url": url or "https://seloorabeauty.shop/ar",
+        "user_data": user_data,
+        "custom_data": custom_data,
     }
-    try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.post(
-                SNAP_CAPI_URL,
-                json=payload,
-                headers={"Authorization": f"Bearer {settings.SNAPCHAT_ACCESS_TOKEN}"},
-            )
-            ok = resp.status_code in (200, 202)
-            if ok:
-                logger.info(f"[snapchat-capi] ✅ {snap_event} mirrored ({event_id})")
-            else:
-                logger.warning(f"[snapchat-capi] ❌ {snap_event} {resp.status_code}: {resp.text[:300]}")
-            capi_log.record("snapchat", snap_event, event_id, ok,
-                            {"http": resp.status_code, "body": resp.text[:300]})
-    except Exception as e:
-        logger.error(f"[snapchat-capi] ❌ {snap_event} request failed: {e}")
-        capi_log.record("snapchat", snap_event, event_id, False, {"error": str(e)})
+    await _post(event, f"{snap_event} {event_id}")
