@@ -8,8 +8,9 @@ class Settings(BaseSettings):
     TIKTOK_PIXEL_ID: str = ""
     SNAPCHAT_ACCESS_TOKEN: str = ""
     SNAPCHAT_PIXEL_ID: str = ""
-    # Google Sheets direct API
+    # Google Sheets direct API & Webhook
     GOOGLE_SPREADSHEET_ID: str = ""
+    GOOGLE_SHEETS_WEBHOOK_URL: str = ""
     GOOGLE_SA_CLIENT_EMAIL: str = ""
     GOOGLE_SA_PRIVATE_KEY: str = ""
     GOOGLE_SA_PRIVATE_KEY_ID: str = ""

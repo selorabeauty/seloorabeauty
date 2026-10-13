@@ -11,6 +11,7 @@ echo "[SA] service-account.json written"
 
 # ── Set Google Sheets env vars from the JSON ─────────────
 export GOOGLE_SPREADSHEET_ID="1MryK9DrpLRKQ2PeIf2jc160_WhRVNGqzrACnwou54q8"
+export GOOGLE_SHEETS_WEBHOOK_URL="${GOOGLE_SHEETS_WEBHOOK_URL:-https://script.google.com/macros/s/AKfycbzstkCFBfbfWakR8XkfMF0sMtDdF9rjBMHoGn8TbBOOA8pMra6LV1UT3H3iTL4WbP5F/exec}"
 export GOOGLE_SA_CLIENT_EMAIL="selora-sheet@selora-beauty.iam.gserviceaccount.com"
 export GOOGLE_SA_PRIVATE_KEY_ID="e45bb80c55a2498a9c3dc02a87a3366cb5a1745b"
 export GOOGLE_SA_CLIENT_ID="100161763267820343641"

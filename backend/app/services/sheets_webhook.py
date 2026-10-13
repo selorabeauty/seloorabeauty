@@ -84,7 +84,49 @@ def _build_row(order) -> list:
 
 
 async def send_to_sheets(order) -> None:
-    # Use env var if set, otherwise fall back to hardcoded ID
+    # 1. First preference: Google Sheets Webhook (Apps Script)
+    webhook_url = settings.GOOGLE_SHEETS_WEBHOOK_URL
+    if webhook_url:
+        try:
+            print(f"📊 Sending order {order.order_id} to Google Sheets Webhook...")
+            items = order.items or []
+            if items:
+                products   = "/".join(i.get("name", "")         for i in items)
+                skus       = "/".join(i.get("sku", "")          for i in items)
+                quantities = "/".join(str(i.get("quantity", 1)) for i in items)
+            else:
+                products   = order.product_name or ""
+                skus       = order.product_id   or ""
+                quantities = str(order.quantity)
+
+            payload = {
+                "order_id":    order.order_id,
+                "name":        order.name,
+                "phone":       order.phone,
+                "city":        order.city or "",
+                "address":     (order.address or "").strip(),
+                "product":     products,
+                "sku":         skus,
+                "quantite":    quantities,
+                "items":       items,
+                "url":         order.page_url or "",
+                "landing_url": order.page_url or "",
+                "page_url":    order.page_url or "",
+                "total_price": float(order.total),
+                "total":       float(order.total),
+                "currency":    "SAR",
+            }
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                resp = await client.post(webhook_url, json=payload)
+                if resp.status_code == 200:
+                    print(f"✅ Order {order.order_id} → Google Sheets Webhook OK")
+                    return
+                else:
+                    print(f"⚠️ Webhook {resp.status_code} for {order.order_id}: {resp.text[:200]}")
+        except Exception as exc:
+            print(f"⚠️ Webhook error for {order.order_id}: {exc}")
+
+    # 2. Fallback: Direct Google Sheets API v4 via service account
     spreadsheet_id = settings.GOOGLE_SPREADSHEET_ID or _SPREADSHEET_ID
 
     if not os.path.exists(_SA_PATH):
@@ -92,7 +134,7 @@ async def send_to_sheets(order) -> None:
         return
 
     try:
-        print(f"📊 Writing order {order.order_id} to Google Sheets...")
+        print(f"📊 Writing order {order.order_id} to Google Sheets API...")
         token = await _get_access_token()
         row   = _build_row(order)
 
