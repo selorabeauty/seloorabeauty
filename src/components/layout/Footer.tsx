@@ -21,7 +21,12 @@ const POLICY_LINKS = [
   { href: '/ar/shipping', label: 'سياسة الشحن' },
 ];
 
-export default function Footer() {
+interface FooterProps {
+  customTagline?: string;
+  hideTagline?: boolean;
+}
+
+export default function Footer({ customTagline, hideTagline }: FooterProps = {}) {
   return (
     <footer style={{ backgroundColor: '#1A0F08' }}>
 
@@ -58,10 +63,12 @@ export default function Footer() {
               </span>
             </div>
           </div>
-          {/* High-contrast brand tagline */}
-          <p className="text-sm leading-relaxed font-medium" style={{ color: '#F5E6C8' }}>
-            علاج علمي لتشققات الجسم للمرأة السعودية. زيت اللوز الحلو والأرجان. نتائج حقيقية.
-          </p>
+          {/* Brand tagline (customizable for compliance pages) */}
+          {!hideTagline && (
+            <p className="text-sm leading-relaxed font-medium" style={{ color: '#F5E6C8' }}>
+              {customTagline || 'علاج علمي لتشققات الجسم للمرأة السعودية. زيت اللوز الحلو والأرجان. نتائج حقيقية.'}
+            </p>
+          )}
           {/* Email clearly visible */}
           <p className="text-sm mt-3 font-semibold" style={{ color: '#F5E6C8' }}>
             ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline">support@seloorabeauty.shop</a>

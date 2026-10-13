@@ -20,10 +20,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from app.routers import orders, admin, dashboard
+from app.routers import orders, admin, dashboard, links
 app.include_router(orders.router, prefix="/api")
+app.include_router(links.router, prefix="/api")
 app.include_router(admin.router)
 app.include_router(dashboard.router)
+
+
+@app.get("/selora-links")
+async def selora_links_redirect():
+    return fastapi.responses.RedirectResponse("https://seloorabeauty.shop/selora-links")
 
 
 def _db_params():
@@ -145,6 +151,19 @@ async def _ensure_tables():
             )
         """)
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_pv_created ON page_views (created_at DESC)")
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS redirect_links (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                slug VARCHAR(100) UNIQUE NOT NULL,
+                destination TEXT NOT NULL,
+                title VARCHAR(200),
+                is_active BOOLEAN DEFAULT TRUE,
+                clicks INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW()
+            )
+        """)
+        await conn.execute("CREATE INDEX IF NOT EXISTS idx_redirect_slug ON redirect_links (slug)")
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT")
         # Pixel/CAPI columns
         await conn.execute("ALTER TABLE orders ADD COLUMN IF NOT EXISTS ttclid VARCHAR(500)")

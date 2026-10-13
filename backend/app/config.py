@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     MAXMIND_LICENSE_KEY: str = ""
     ADMIN_USER: str = "admin"
     ADMIN_PASSWORD: str = "changeme"
+    LINKS_ADMIN_PASSWORD: str = "selora-links-2026"
 
     class Config:
         env_file = ".env"

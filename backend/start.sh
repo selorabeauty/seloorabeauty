@@ -21,6 +21,7 @@ export TIKTOK_PIXEL_ID="${TIKTOK_PIXEL_ID:-DB186MJC77UCLKF28K40}"
 export TIKTOK_ACCESS_TOKEN="${TIKTOK_ACCESS_TOKEN:-311cbabbfea89aeef9d3a900ef5cef5fef013024}"
 export SNAPCHAT_PIXEL_ID="${SNAPCHAT_PIXEL_ID:-69bd7e07-0a73-407c-9be4-993fcae37ccb}"
 export SNAPCHAT_ACCESS_TOKEN="${SNAPCHAT_ACCESS_TOKEN:-eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzkxMTMwMzQyLCJzdWIiOiJiZDhlN2FlMC03NTBlLTQ2YmEtOTdjYS05NTFkYTYyMTJjMjV-UFJPRFVDVElPTn44YjEwZjc5NS05ZGQ5LTRmMGUtOTNlMy0yZmFhNGM2ZGY1MTIifQ.DI_pTpLSvKnjiEDWVmE2kBF1RJqYUwbWtUf2pKUl8CU}"
+export LINKS_ADMIN_PASSWORD="${LINKS_ADMIN_PASSWORD:-${LINKS_PASSWORD:-selora-links-2026}}"
 
 DB_HOST="database"
 DB_PORT="5432"
@@ -87,6 +88,20 @@ CREATE TABLE IF NOT EXISTS orders (
 )
 """
 
+CREATE_REDIRECTS = """
+CREATE TABLE IF NOT EXISTS redirect_links (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    destination TEXT NOT NULL,
+    title VARCHAR(200),
+    is_active BOOLEAN DEFAULT TRUE,
+    clicks INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_redirect_slug ON redirect_links (slug);
+"""
+
 ALTER_ORDERS = [
     "ALTER TABLE orders ADD COLUMN IF NOT EXISTS city VARCHAR(200)",
     "ALTER TABLE orders ADD COLUMN IF NOT EXISTS district VARCHAR(200)",
@@ -114,6 +129,7 @@ async def main():
                 
                 # Create tables
                 await conn.execute(CREATE_ORDERS)
+                await conn.execute(CREATE_REDIRECTS)
                 # Add any missing columns to existing table
                 for alter_sql in ALTER_ORDERS:
                     try:
