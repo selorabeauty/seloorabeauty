@@ -30,6 +30,7 @@ class OrderCreate(BaseModel):
     ip: str | None = None
     user_agent: str | None = None
     page_url: str | None = None
+    landing_url: str | None = None
 
     @field_validator("phone")
     @classmethod

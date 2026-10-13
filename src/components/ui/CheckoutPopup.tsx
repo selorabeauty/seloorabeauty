@@ -5,7 +5,7 @@ import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartp
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
-import { captureClickIds, getClickIds, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
+import { captureClickIds, getClickIds, getLandingUrl, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
 
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
@@ -97,6 +97,7 @@ export default function CheckoutPopup() {
     const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
     const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
+    const landingUrl = getLandingUrl() || (typeof window !== 'undefined' ? window.location.href : undefined);
 
     const orderData = {
       name:            name.trim(),
@@ -108,7 +109,8 @@ export default function CheckoutPopup() {
       quantity:        totalQty,
       total,
       items:           cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price })),
-      page_url:        typeof window !== 'undefined' ? window.location.href : undefined,
+      page_url:        landingUrl,
+      landing_url:     landingUrl,
       event_id:        eventId,
       ...getClickIds(),
     };

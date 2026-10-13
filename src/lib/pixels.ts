@@ -53,9 +53,32 @@ function getCookie(name: string): string {
   return m ? decodeURIComponent(m[1]) : '';
 }
 
-/** Persist ad click IDs from the landing URL so they survive navigation. */
+/** Persist the FIRST landing URL with parameters so it survives SPA navigation. */
+export function captureLandingUrl() {
+  if (typeof window === 'undefined') return;
+  const currentUrl = window.location.href;
+  const existingLanding = localStorage.getItem('slr_landing_url');
+
+  if (!existingLanding) {
+    localStorage.setItem('slr_landing_url', currentUrl);
+  } else if (window.location.search) {
+    // If user arrives with new campaign/tracking parameters, refresh the landing URL
+    const hasParams = /[\?&](utm_|ttclid|sccid|sc_cid|fbclid|gclid)/i.test(window.location.search);
+    if (hasParams) {
+      localStorage.setItem('slr_landing_url', currentUrl);
+    }
+  }
+}
+
+export function getLandingUrl(): string {
+  if (typeof window === 'undefined') return '';
+  return localStorage.getItem('slr_landing_url') || window.location.href;
+}
+
+/** Persist ad click IDs & landing URL from the landing URL so they survive navigation. */
 export function captureClickIds() {
   if (typeof window === 'undefined') return;
+  captureLandingUrl();
   const params = new URLSearchParams(window.location.search);
   const ttclid = params.get('ttclid');
   const scCid = params.get('ScCid') || params.get('sc_cid');
@@ -68,18 +91,33 @@ export function captureClickIds() {
  * - ttclid / ScCid  → ad click attribution
  * - _ttp cookie     → TikTok pixel's tracker cookie (big match-quality boost)
  * - _scid cookie    → Snap pixel's tracker cookie (sc_cookie1)
+ * - landing_url     → the original entry page with UTM/ad parameters
  */
-export function getClickIds(): { ttclid?: string; sc_cid?: string; ttp?: string; sc_cookie1?: string } {
+export function getClickIds(): {
+  ttclid?: string;
+  sc_cid?: string;
+  ttp?: string;
+  sc_cookie1?: string;
+  landing_url?: string;
+} {
   if (typeof window === 'undefined') return {};
-  const out: { ttclid?: string; sc_cid?: string; ttp?: string; sc_cookie1?: string } = {};
+  const out: {
+    ttclid?: string;
+    sc_cid?: string;
+    ttp?: string;
+    sc_cookie1?: string;
+    landing_url?: string;
+  } = {};
   const ttclid = localStorage.getItem('slr_ttclid');
   const scCid = localStorage.getItem('slr_sccid');
   const ttp = getCookie('_ttp');
   const scCookie = getCookie('_scid');
+  const landingUrl = getLandingUrl();
   if (ttclid) out.ttclid = ttclid;
   if (scCid) out.sc_cid = scCid;
   if (ttp) out.ttp = ttp;
   if (scCookie) out.sc_cookie1 = scCookie;
+  if (landingUrl) out.landing_url = landingUrl;
   return out;
 }
 

@@ -66,19 +66,20 @@ def _build_row(order) -> list:
         quantities = str(order.quantity)
 
     return [
-        now_sa.strftime("%d/%m/%Y"),
-        order.order_id,
-        order.name,
-        _format_phone(order.phone),
-        order.city     or "",
-        (order.address or "").strip(),
-        "KSA",
-        products,
-        quantities,
-        skus,
-        "",
-        "SAR",
-        float(order.total),
+        now_sa.strftime("%d/%m/%Y"),    # A: date
+        order.order_id,                 # B: order id
+        order.name,                     # C: name
+        _format_phone(order.phone),     # D: phone
+        order.city or "",               # E: city
+        (order.address or "").strip(),  # F: adress
+        "KSA",                          # G: country
+        products,                       # H: product
+        quantities,                     # I: quantite
+        "",                             # J: test
+        skus,                           # K: sku
+        order.page_url or "",           # L: url (first landing URL with parameters)
+        "SAR",                          # M: curancy
+        float(order.total),             # N: total price
     ]
 
 

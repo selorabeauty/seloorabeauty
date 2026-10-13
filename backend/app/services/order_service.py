@@ -50,7 +50,7 @@ async def create_order(db: AsyncSession, data: dict) -> Order:
         event_id       = data.get("event_id"),
         ip_address     = data.get("ip"),
         user_agent     = data.get("user_agent"),
-        page_url       = data.get("page_url"),
+        page_url       = data.get("landing_url") or data.get("page_url"),
     )
     db.add(order)
     await db.commit()
