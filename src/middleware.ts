@@ -9,6 +9,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/ar', request.url));
   }
 
+  // Handle redirects dashboard aliases
+  if (
+    pathname === '/selora-link' ||
+    pathname === '/ar/selora-links' ||
+    pathname === '/ar/selora-link'
+  ) {
+    return NextResponse.redirect(new URL('/selora-links', request.url));
+  }
+
   return NextResponse.next();
 }
 
