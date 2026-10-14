@@ -10,7 +10,24 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams;
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.seloorabeauty.shop';
-  const siteUrl = request.nextUrl.origin || process.env.NEXT_PUBLIC_SITE_URL || 'https://seloorabeauty.shop';
+
+  // Compute public site URL safely behind reverse proxy / Cloudflare
+  const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host');
+  let cleanHost = 'seloorabeauty.shop';
+  if (
+    forwardedHost &&
+    !forwardedHost.includes('0.0.0.0') &&
+    !forwardedHost.includes('127.0.0.1') &&
+    !forwardedHost.includes('localhost')
+  ) {
+    cleanHost = forwardedHost.split(',')[0].trim();
+  } else if (process.env.NEXT_PUBLIC_SITE_URL) {
+    try {
+      cleanHost = new URL(process.env.NEXT_PUBLIC_SITE_URL).host;
+    } catch {}
+  }
+  const proto = request.headers.get('x-forwarded-proto') || 'https';
+  const siteUrl = `${proto}://${cleanHost}`;
 
   let destination = '/ar';
 
