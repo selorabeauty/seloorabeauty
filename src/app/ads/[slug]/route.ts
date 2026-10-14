@@ -10,7 +10,7 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams;
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.seloorabeauty.shop';
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://seloorabeauty.shop';
+  const siteUrl = request.nextUrl.origin || process.env.NEXT_PUBLIC_SITE_URL || 'https://seloorabeauty.shop';
 
   let destination = '/ar';
 
@@ -22,7 +22,11 @@ export async function GET(
       if (res.ok) {
         const data = await res.json();
         if (data && data.destination && typeof data.destination === 'string') {
-          destination = data.destination.trim();
+          const candidate = data.destination.trim();
+          // Loop prevention: avoid redirecting to the same /ads/[slug]
+          if (!candidate.toLowerCase().includes(`/ads/${rawSlug}`)) {
+            destination = candidate;
+          }
         }
       }
     } catch (err) {

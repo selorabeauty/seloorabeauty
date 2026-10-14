@@ -146,12 +146,10 @@ export function captureLandingUrl() {
 
   if (!existingLanding) {
     localStorage.setItem('slr_landing_url', currentUrl);
-  } else if (window.location.search) {
-    // If user arrives with new campaign/tracking parameters, refresh the landing URL
-    const hasParams = /[\?&](utm_|ttclid|sccid|sc_cid|fbclid|gclid)/i.test(window.location.search);
-    if (hasParams) {
-      localStorage.setItem('slr_landing_url', currentUrl);
-    }
+  } else if (window.location.search && window.location.search.length > 1) {
+    // If arriving with query parameters (e.g. ?platform=snapchat or ?utm_source=tiktok),
+    // update so the fresh campaign attribution is captured
+    localStorage.setItem('slr_landing_url', currentUrl);
   }
 }
 
