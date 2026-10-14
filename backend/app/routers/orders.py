@@ -32,10 +32,13 @@ async def track_event(request: Request, db: AsyncSession = Depends(get_db)):
         if event in FUNNEL_EVENTS:
             event_id  = body.get("event_id") or ""
             click_ids = {
-                "ttclid":    body.get("ttclid"),
-                "ttp":       body.get("ttp"),
-                "sc_cid":    body.get("sc_cid"),
+                "ttclid":     body.get("ttclid"),
+                "ttp":        body.get("ttp"),
+                "sc_cid":     body.get("sc_cid"),
                 "sc_cookie1": body.get("sc_cookie1"),
+                "user_phone": body.get("user_phone"),
+                "user_name":  body.get("user_name"),
+                "user_email": body.get("user_email"),
             }
             value      = body.get("value")
             product_id = body.get("product_id")

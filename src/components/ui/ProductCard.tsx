@@ -15,7 +15,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
-    trackAddToCart({ id: product.id, name: product.name, price: product.price });
+    trackAddToCart({ id: product.id, sku: product.sku, name: product.name, price: product.price });
     setMainSet({
       id: product.id,
       name: product.name,

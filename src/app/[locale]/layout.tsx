@@ -64,7 +64,18 @@ export default function LocaleLayout({
                 (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u)})(window,document,'https://sc-static.net/scevent.min.js');
                 var __pvId = window.__ttPvId || (window.__ttPvId = crypto.randomUUID ? crypto.randomUUID() : 'pv' + Date.now());
                 window.__snapPixelId='${SNAPCHAT_PIXEL_ID}';
-                snaptr('init', '${SNAPCHAT_PIXEL_ID}');
+                var __snapInit = {};
+                try {
+                  var sp = localStorage.getItem('slr_user_phone');
+                  if (sp) { __snapInit.user_phone_number = sp; }
+                  var sem = localStorage.getItem('slr_user_email');
+                  if (sem) { __snapInit.user_email = sem; }
+                } catch(e) {}
+                if (Object.keys(__snapInit).length > 0) {
+                  snaptr('init', '${SNAPCHAT_PIXEL_ID}', __snapInit);
+                } else {
+                  snaptr('init', '${SNAPCHAT_PIXEL_ID}');
+                }
                 snaptr('track', 'PAGE_VIEW', {client_dedup_id: __pvId});
               `,
             }}

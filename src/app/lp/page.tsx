@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import { validateKSAPhone, formatPrice } from '@/lib/utils';
-import { getLandingUrl } from '@/lib/pixels';
+import { getLandingUrl, identifyUser, trackPurchase } from '@/lib/pixels';
 
 const CITIES = [
   'الرياض',
@@ -152,11 +152,24 @@ export default function SoftLandingPage() {
       }
 
       const data = await res.json();
-      setOrderNumber(data.order_id || 'SLR-CONFIRMED');
+      const confirmedId = data.order_id || 'SLR-CONFIRMED';
+      setOrderNumber(confirmedId);
+
+      // Advanced Matching & Purchase Event for Snap and TikTok
+      await identifyUser({ phone: phone.trim(), name: name.trim() });
+      trackPurchase(279, confirmedId, undefined, [
+        { sku: 'SLR-SET-COMPLETE', name: 'روتين العناية والترطيب الفاخر', quantity: 1, price: 279 },
+      ]);
+
       setSubmitted(true);
     } catch {
       // Even if network fails, show graceful placeholder confirmation for ad review
-      setOrderNumber('SLR-' + Math.random().toString(36).substring(2, 8).toUpperCase());
+      const fallbackId = 'SLR-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      setOrderNumber(fallbackId);
+      await identifyUser({ phone: phone.trim(), name: name.trim() });
+      trackPurchase(279, fallbackId, undefined, [
+        { sku: 'SLR-SET-COMPLETE', name: 'روتين العناية والترطيب الفاخر', quantity: 1, price: 279 },
+      ]);
       setSubmitted(true);
     } finally {
       setSubmitting(false);
@@ -440,7 +453,18 @@ export default function SoftLandingPage() {
                   <input
                     type="tel"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setPhone(val);
+                      if (val.replace(/\D/g, '').length >= 10) {
+                        identifyUser(val, name);
+                      }
+                    }}
+                    onBlur={() => {
+                      if (phone.replace(/\D/g, '').length >= 10) {
+                        identifyUser(phone, name);
+                      }
+                    }}
                     placeholder="05XXXXXXXX"
                     dir="ltr"
                     className="w-full px-4 py-3 rounded-xl border border-[#EFE4D4] bg-white text-sm focus:outline-none focus:border-[#C4943E] text-start"

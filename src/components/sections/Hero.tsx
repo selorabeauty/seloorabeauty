@@ -42,7 +42,7 @@ export default function Hero() {
   const selectedSet = selectedSetId === 'set-complete' ? completeSet : singleSet;
 
   const handleBuyNow = () => {
-    trackAddToCart({ id: selectedSet.id, name: selectedSet.label, price: selectedSet.totalPrice });
+    trackAddToCart({ id: selectedSet.id, sku: selectedSet.sku, name: selectedSet.label, price: selectedSet.totalPrice });
     setMainSet({
       id: selectedSet.id,
       name: selectedSet.label,

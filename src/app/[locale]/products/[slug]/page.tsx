@@ -57,7 +57,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   };
 
   const handleAddToCart = () => {
-    trackAddToCart({ id: selectedSet.id, name: selectedSet.label, price: selectedSet.totalPrice });
+    trackAddToCart({ id: selectedSet.id, sku: selectedSet.sku, name: selectedSet.label, price: selectedSet.totalPrice });
     setMainSet(buildCartItem());
     setAdded(true);
     setTimeout(() => { setAdded(false); router.push(`/${params.locale}/cart`); }, 900);

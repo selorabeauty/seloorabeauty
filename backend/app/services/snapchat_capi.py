@@ -42,10 +42,31 @@ async def fire_snapchat_purchase(order) -> None:
     if not settings.SNAPCHAT_ACCESS_TOKEN or not settings.SNAPCHAT_PIXEL_ID:
         logger.info("[snapchat-capi] skipped — token or pixel id not configured")
         return
-    phone_e164 = "+966" + order.phone[1:]
 
-    # Omit empty values — they reduce match quality
-    user_data = {"ph": [sha256(phone_e164)]}
+    # Normalize phone: both "+9665..." and "9665..." to maximize Snap match rate
+    raw_digits = "".join(c for c in order.phone if c.isdigit())
+    if raw_digits.startswith("0"):
+        digits_e164 = "966" + raw_digits[1:]
+    elif not raw_digits.startswith("966"):
+        digits_e164 = "966" + raw_digits
+    else:
+        digits_e164 = raw_digits
+
+    phone_hashes = [sha256("+" + digits_e164), sha256(digits_e164)]
+    user_data = {"ph": phone_hashes}
+
+    if order.name:
+        parts = order.name.strip().split()
+        if len(parts) >= 1 and parts[0]:
+            user_data["fn"] = [sha256(parts[0])]
+        if len(parts) >= 2 and parts[1]:
+            user_data["ln"] = [sha256(" ".join(parts[1:]))]
+
+    if order.city:
+        user_data["ct"] = [sha256(order.city.strip().lower())]
+
+    user_data["country"] = [sha256("sa")]
+
     if order.ip_address:
         user_data["client_ip_address"] = order.ip_address
     if order.user_agent:
@@ -54,6 +75,27 @@ async def fire_snapchat_purchase(order) -> None:
         user_data["sc_click_id"] = order.sc_cid
     if order.sc_cookie1:
         user_data["sc_cookie1"] = order.sc_cookie1
+
+    items = order.items or []
+    if items:
+        item_ids = [str(i.get("sku") or i.get("id") or order.product_id) for i in items]
+        contents = [
+            {
+                "id": str(i.get("sku") or i.get("id") or order.product_id),
+                "quantity": str(i.get("quantity") or 1),
+                "item_price": str(float(i.get("price") or order.unit_price)),
+            }
+            for i in items
+        ]
+        num_items = str(sum(int(i.get("quantity") or 1) for i in items))
+    else:
+        item_ids = [order.product_id]
+        contents = [{
+            "id": order.product_id,
+            "quantity": str(order.quantity),
+            "item_price": str(float(order.unit_price)),
+        }]
+        num_items = str(order.quantity)
 
     dedup_id = order.event_id or order.order_id
     event = {
@@ -68,11 +110,10 @@ async def fire_snapchat_purchase(order) -> None:
             "currency": "SAR",
             "value": str(float(order.total)),
             "order_id": order.order_id,
-            "contents": [{
-                "id": order.product_id,
-                "quantity": str(order.quantity),
-                "item_price": str(float(order.unit_price)),
-            }],
+            "item_ids": item_ids,
+            "number_items": num_items,
+            "contents": contents,
+            "item_category": "skincare",
         },
     }
     await _post(event, f"PURCHASE {order.order_id}")
@@ -137,11 +178,37 @@ async def fire_snap_event(event: str, event_id: str, click_ids: dict,
     if click_ids.get("sc_cookie1"):
         user_data["sc_cookie1"] = click_ids["sc_cookie1"]
 
-    custom_data = {"currency": "SAR"}
+    # Advanced matching PII signals if captured earlier in session
+    raw_phone = click_ids.get("user_phone")
+    if raw_phone:
+        raw_digits = "".join(c for c in str(raw_phone) if c.isdigit())
+        if raw_digits:
+            clean_digits = raw_digits if raw_digits.startswith("966") else "966" + raw_digits.lstrip("0")
+            user_data["ph"] = [sha256("+" + clean_digits), sha256(clean_digits)]
+
+    user_name = click_ids.get("user_name")
+    if user_name:
+        parts = str(user_name).strip().split()
+        if len(parts) >= 1 and parts[0]:
+            user_data["fn"] = [sha256(parts[0])]
+
+    user_email = click_ids.get("user_email")
+    if user_email and "@" in str(user_email):
+        user_data["em"] = [sha256(str(user_email).strip().lower())]
+
+    user_data["country"] = [sha256("sa")]
+
+    custom_data = {"currency": "SAR", "item_category": "skincare"}
     if value:
         custom_data["value"] = str(float(value))
     if product_id:
         custom_data["item_ids"] = [product_id]
+        custom_data["number_items"] = "1"
+        custom_data["contents"] = [{
+            "id": product_id,
+            "quantity": "1",
+            "item_price": str(float(value or 0)),
+        }]
 
     event = {
         "event_name": snap_event,

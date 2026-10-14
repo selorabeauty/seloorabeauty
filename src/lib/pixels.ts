@@ -24,24 +24,109 @@ async function sha256Hex(value: string): Promise<string> {
   return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+export interface UserIdentity {
+  phone?: string;
+  name?: string;
+  email?: string;
+}
+
+export interface ItemData {
+  id?: string;
+  sku?: string;
+  name?: string;
+  price?: number;
+  quantity?: number;
+}
+
 /**
- * Advanced Matching — call once we have the customer's phone (checkout).
- * TikTok: ttq.identify({ phone_number: sha256(e164) })
- * Snap:   re-init with user_hashed_phone_number (Snap hashes plain values
- *         natively, but passing the hash is equivalent and safer)
+ * Advanced Matching — pass customer identity signals as early as possible.
+ * Feeds both TikTok Pixel (ttq.identify) and Snap Pixel SDK (snaptr('init', ...)).
+ *
+ * Parameters passed to Snapchat:
+ * - user_phone_number: normalized E.164 digits without + (9665XXXXXXXX)
+ * - user_hashed_phone_number: SHA256 of +9665XXXXXXXX
+ * - user_hashed_first_name: SHA256 of first name
+ * - user_hashed_last_name: SHA256 of last name (if provided)
+ * - user_email / user_hashed_email: (if provided)
  */
-export async function identifyUser(phone: string) {
-  if (typeof window === 'undefined' || !phone) return;
-  const digits = phone.replace(/\D/g, '');
-  const e164 = digits.startsWith('966') ? `+${digits}` : `+966${digits.slice(1)}`;
-  try {
-    const hashed = await sha256Hex(e164.toLowerCase().trim());
-    window.ttq?.identify?.({ phone_number: hashed });
-    if (window.snaptr && window.__snapPixelId) {
-      window.snaptr('init', window.__snapPixelId, { user_hashed_phone_number: hashed });
+export async function identifyUser(
+  identityOrPhone: string | UserIdentity,
+  maybeName?: string,
+  maybeEmail?: string,
+) {
+  if (typeof window === 'undefined' || !identityOrPhone) return;
+
+  let phone = '';
+  let name = '';
+  let email = '';
+
+  if (typeof identityOrPhone === 'string') {
+    phone = identityOrPhone;
+    name = maybeName || '';
+    email = maybeEmail || '';
+  } else {
+    phone = identityOrPhone.phone || '';
+    name = identityOrPhone.name || '';
+    email = identityOrPhone.email || '';
+  }
+
+  const snapParams: Record<string, unknown> = {};
+  const ttqParams: Record<string, string> = {};
+
+  if (phone) {
+    const rawDigits = phone.replace(/\D/g, '');
+    if (rawDigits.length >= 7) {
+      const e164Digits = rawDigits.startsWith('966') ? rawDigits : `966${rawDigits.replace(/^0+/, '')}`;
+      const e164Plus = `+${e164Digits}`;
+
+      try {
+        const hashedE164 = await sha256Hex(e164Plus.toLowerCase().trim());
+        ttqParams.phone_number = hashedE164;
+        snapParams.user_hashed_phone_number = hashedE164;
+        snapParams.user_phone_number = e164Digits;
+        localStorage.setItem('slr_user_phone', e164Digits);
+      } catch {
+        snapParams.user_phone_number = e164Digits;
+      }
     }
-  } catch {
-    // crypto.subtle unavailable — skip silently
+  }
+
+  if (name && name.trim()) {
+    const cleanName = name.trim();
+    const parts = cleanName.split(/\s+/);
+    const firstName = parts[0];
+    const lastName = parts.length > 1 ? parts.slice(1).join(' ') : '';
+    try {
+      const hashedFn = await sha256Hex(firstName.toLowerCase().trim());
+      snapParams.user_hashed_first_name = hashedFn;
+      if (lastName) {
+        snapParams.user_hashed_last_name = await sha256Hex(lastName.toLowerCase().trim());
+      }
+      localStorage.setItem('slr_user_name', cleanName);
+    } catch {
+      // ignore
+    }
+  }
+
+  if (email && email.trim() && email.includes('@')) {
+    const cleanEmail = email.trim().toLowerCase();
+    try {
+      const hashedEm = await sha256Hex(cleanEmail);
+      ttqParams.email = hashedEm;
+      snapParams.user_hashed_email = hashedEm;
+      snapParams.user_email = cleanEmail;
+      localStorage.setItem('slr_user_email', cleanEmail);
+    } catch {
+      snapParams.user_email = cleanEmail;
+    }
+  }
+
+  if (Object.keys(ttqParams).length > 0) {
+    window.ttq?.identify?.(ttqParams);
+  }
+
+  if (Object.keys(snapParams).length > 0 && window.snaptr && window.__snapPixelId) {
+    window.snaptr('init', window.__snapPixelId, snapParams);
   }
 }
 
@@ -99,6 +184,9 @@ export function getClickIds(): {
   ttp?: string;
   sc_cookie1?: string;
   landing_url?: string;
+  user_phone?: string;
+  user_name?: string;
+  user_email?: string;
 } {
   if (typeof window === 'undefined') return {};
   const out: {
@@ -107,17 +195,27 @@ export function getClickIds(): {
     ttp?: string;
     sc_cookie1?: string;
     landing_url?: string;
+    user_phone?: string;
+    user_name?: string;
+    user_email?: string;
   } = {};
   const ttclid = localStorage.getItem('slr_ttclid');
   const scCid = localStorage.getItem('slr_sccid');
   const ttp = getCookie('_ttp');
   const scCookie = getCookie('_scid');
   const landingUrl = getLandingUrl();
+  const phone = localStorage.getItem('slr_user_phone');
+  const name = localStorage.getItem('slr_user_name');
+  const email = localStorage.getItem('slr_user_email');
+
   if (ttclid) out.ttclid = ttclid;
   if (scCid) out.sc_cid = scCid;
   if (ttp) out.ttp = ttp;
   if (scCookie) out.sc_cookie1 = scCookie;
   if (landingUrl) out.landing_url = landingUrl;
+  if (phone) out.user_phone = phone;
+  if (name) out.user_name = name;
+  if (email) out.user_email = email;
   return out;
 }
 
@@ -197,47 +295,89 @@ export function trackViewContent(product: { id: string; name: string; price: num
       value: product.price,
       currency: 'SAR',
     },
-    { item_ids: [product.id], price: product.price, currency: 'SAR' },
+    {
+      item_ids: [product.id],
+      item_category: 'skincare',
+      description: product.name,
+      price: product.price,
+      currency: 'SAR',
+      number_items: 1,
+    },
     { value: product.price, product_id: product.id },
   );
 }
 
-export function trackAddToCart(item: { id: string; name: string; price: number; quantity?: number }) {
+export function trackAddToCart(item: { id: string; name: string; price: number; quantity?: number; sku?: string }) {
   const qty = item.quantity ?? 1;
+  const itemId = item.sku || item.id;
+  const totalPrice = item.price * qty;
   fireFunnel(
     'add_to_cart',
     'AddToCart',
     'ADD_CART',
     {
-      contents: [{ content_id: item.id, content_name: item.name, quantity: qty, price: item.price }],
+      contents: [{ content_id: itemId, content_name: item.name, quantity: qty, price: item.price }],
       content_type: 'product',
-      value: item.price * qty,
+      value: totalPrice,
       currency: 'SAR',
     },
-    { item_ids: [item.id], price: item.price * qty, currency: 'SAR', number_items: qty },
-    { value: item.price * qty, product_id: item.id },
+    {
+      item_ids: [itemId],
+      item_category: 'skincare',
+      description: item.name,
+      price: totalPrice,
+      currency: 'SAR',
+      number_items: qty,
+    },
+    { value: totalPrice, product_id: itemId },
   );
 }
 
-export function trackInitiateCheckout(value: number) {
+export function trackInitiateCheckout(value: number, items?: ItemData[]) {
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
+  const contents = (items && items.length > 0)
+    ? items.map((i) => ({
+        content_id: i.sku || i.id || 'set-complete',
+        content_name: i.name || 'سيلورا بيوتي',
+        quantity: i.quantity || 1,
+        price: i.price || value,
+      }))
+    : [{ content_id: 'set-complete', content_name: 'طقم سيلورا بيوتي', quantity: 1, price: value }];
+
   fireFunnel(
     'checkout_start',
     'InitiateCheckout',
     'START_CHECKOUT',
-    { value, currency: 'SAR' },
-    { price: value, currency: 'SAR' },
-    { value },
+    { value, currency: 'SAR', contents },
+    {
+      price: value,
+      currency: 'SAR',
+      item_ids: itemIds,
+      number_items: numberItems,
+      item_category: 'skincare',
+    },
+    { value, product_id: itemIds[0] },
   );
 }
 
 /** Payment info provided — fires when the checkout form is submitted. */
-export function trackAddPaymentInfo(value: number) {
+export function trackAddPaymentInfo(value: number, items?: ItemData[]) {
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
+
   fireFunnel(
     'add_payment_info',
     'AddPaymentInfo',
     'ADD_BILLING',
     { value, currency: 'SAR' },
-    { price: value, currency: 'SAR' },
+    {
+      price: value,
+      currency: 'SAR',
+      item_ids: itemIds,
+      number_items: numberItems,
+      item_category: 'skincare',
+    },
     { value },
   );
 }
@@ -248,17 +388,45 @@ export function trackAddPaymentInfo(value: number) {
  * phone hash). `eventId` must equal the event_id sent in the order payload.
  * Both CompletePayment + PlaceAnOrder are sent — COD orders are "placed",
  * not paid online, and TikTok's ecommerce diagnostics expect PlaceAnOrder.
+ *
+ * For Snapchat: includes price, currency, transaction_id, item_ids, number_items,
+ * item_category, and client_dedup_id to ensure maximum Event Quality Score (EQS).
  */
-export function trackPurchase(value: number, orderId: string, eventId?: string) {
+export function trackPurchase(
+  value: number,
+  orderId: string,
+  eventId?: string,
+  items?: ItemData[],
+) {
   if (typeof window === 'undefined') return;
   const opts = eventId ? { event_id: eventId } : undefined;
-  const data = { value, currency: 'SAR', content_id: orderId };
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
+
+  const data = {
+    value,
+    currency: 'SAR',
+    content_id: orderId,
+    content_type: 'product',
+    contents: (items || []).map((i) => ({
+      content_id: i.sku || i.id || 'set-complete',
+      content_name: i.name || 'سيلورا بيوتي',
+      quantity: i.quantity || 1,
+      price: i.price || value,
+    })),
+  };
+
   window.ttq?.track('CompletePayment', data, opts);
   window.ttq?.track('PlaceAnOrder', data, opts);
+
   window.snaptr?.('track', 'PURCHASE', {
     price: value,
     currency: 'SAR',
     transaction_id: orderId,
+    item_ids: itemIds,
+    number_items: numberItems,
+    item_category: 'skincare',
+    description: (items || []).map((i) => i.name).join(' + ') || 'طقم سيلورا بيوتي',
     ...(eventId ? { client_dedup_id: eventId } : {}),
   });
 }

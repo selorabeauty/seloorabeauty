@@ -1,5 +1,5 @@
 'use client';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, Package, Truck, Phone, Star } from 'lucide-react';
@@ -9,6 +9,7 @@ import ProductCard from '@/components/ui/ProductCard';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import { PRODUCTS } from '@/lib/products';
 import { formatPrice } from '@/lib/utils';
+import { identifyUser, trackPurchase } from '@/lib/pixels';
 
 const DELIVERY_STEPS = [
   { icon: <CheckCircle2 size={20} />, title: 'تم استلام طلبك', desc: 'طلبك في نظامنا وجاري المعالجة', done: true },
@@ -22,6 +23,49 @@ function SuccessContent() {
   const orderId = params.get('id') ?? 'SLR-XXXX';
   const customerName = params.get('name') ?? '';
   const total = params.get('total') ? Number(params.get('total')) : null;
+
+  // Fire Purchase event with full details & Advanced Matching on thank you page
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let savedData: {
+      orderId?: string;
+      total?: number;
+      eventId?: string;
+      name?: string;
+      phone?: string;
+      items?: Array<{ id?: string; sku?: string; name?: string; price?: number; quantity?: number }>;
+    } = {};
+
+    try {
+      const raw = sessionStorage.getItem('slr_last_order');
+      if (raw) savedData = JSON.parse(raw);
+    } catch {}
+
+    const currentOrderId = (orderId && orderId !== 'SLR-XXXX') ? orderId : (savedData.orderId || 'SLR-ORDER');
+    const finalTotal = total || savedData.total || 279;
+    const finalName = customerName || savedData.name || '';
+    const finalPhone = savedData.phone || '';
+    const finalEventId = params.get('ev') || savedData.eventId || crypto.randomUUID();
+    const finalItems = savedData.items || [
+      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — علاج منزلي متكامل', quantity: 1, price: finalTotal },
+    ];
+
+    // Session deduplication guard so page reloads don't duplicate events
+    const dedupKey = `slr_tracked_success_${currentOrderId}`;
+    if (sessionStorage.getItem(dedupKey)) {
+      return;
+    }
+    sessionStorage.setItem(dedupKey, 'true');
+
+    // 1. Advanced Matching: identify buyer
+    if (finalPhone || finalName) {
+      identifyUser({ phone: finalPhone, name: finalName });
+    }
+
+    // 2. Fire PURCHASE event with full details (price, currency, transaction_id, item_ids, number_items, client_dedup_id)
+    trackPurchase(finalTotal, currentOrderId, finalEventId, finalItems);
+  }, [orderId, customerName, total, params]);
 
   // Suggest the other 2 products as upsells
   const upsells = PRODUCTS.slice(1, 3);

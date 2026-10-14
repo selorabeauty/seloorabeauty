@@ -20,7 +20,7 @@ export default function StickyBuyBar() {
   if (!visible) return null;
 
   const handleClick = () => {
-    trackAddToCart({ id: completeSet.id, name: completeSet.label, price: completeSet.totalPrice });
+    trackAddToCart({ id: completeSet.id, sku: completeSet.sku, name: completeSet.label, price: completeSet.totalPrice });
     setMainSet({
       id: completeSet.id,
       name: completeSet.label,

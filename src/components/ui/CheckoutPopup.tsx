@@ -71,7 +71,10 @@ export default function CheckoutPopup() {
 
   useEffect(() => {
     if (isCheckoutOpen) {
-      trackInitiateCheckout(total);   // fires pixel + CAPI mirror with shared event_id
+      trackInitiateCheckout(
+        total,
+        cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price }))
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheckoutOpen]);
@@ -92,7 +95,8 @@ export default function CheckoutPopup() {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    trackAddPaymentInfo(total);   // payment method chosen → AddPaymentInfo / ADD_BILLING
+    const itemData = cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price }));
+    trackAddPaymentInfo(total, itemData);   // payment method chosen → AddPaymentInfo / ADD_BILLING
 
     const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
@@ -108,7 +112,7 @@ export default function CheckoutPopup() {
       payment_method:  paymentMethod,
       quantity:        totalQty,
       total,
-      items:           cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price })),
+      items:           itemData,
       page_url:        landingUrl,
       landing_url:     landingUrl,
       event_id:        eventId,
@@ -127,14 +131,30 @@ export default function CheckoutPopup() {
       const result = await response.json();
       const serverOrderId = result.order_id || orderId;
 
-      // Advanced matching: identify with SHA-256-hashed phone before purchase
-      await identifyUser(phone.trim());
+      // Advanced matching: identify with name & phone
+      await identifyUser({ phone: phone.trim(), name: name.trim() });
+
+      // Save order context to sessionStorage for Thank You page
+      try {
+        sessionStorage.setItem(
+          'slr_last_order',
+          JSON.stringify({
+            orderId: serverOrderId,
+            total,
+            eventId,
+            name: name.trim(),
+            phone: phone.trim(),
+            items: itemData,
+          })
+        );
+      } catch {}
+
       // Purchase pixels fire ONLY on confirmed success — browser + CAPI share eventId for dedup
-      trackPurchase(total, serverOrderId, eventId);
+      trackPurchase(total, serverOrderId, eventId, itemData);
       track.purchase(serverOrderId);
       clearCart();
       closeCheckout();
-      router.push(`/ar/order/success?id=${serverOrderId}&name=${encodeURIComponent(name)}&total=${total}`);
+      router.push(`/ar/order/success?id=${serverOrderId}&name=${encodeURIComponent(name.trim())}&total=${total}&ev=${eventId}`);
     } catch (err) {
       console.error("❌ Order failed:", err);
       setSubmitting(false);
@@ -263,7 +283,19 @@ export default function CheckoutPopup() {
                 <input
                   type="tel"
                   value={phone}
-                  onChange={(e) => { setPhone(e.target.value); setErrors((p) => ({ ...p, phone: undefined })); }}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPhone(val);
+                    setErrors((p) => ({ ...p, phone: undefined }));
+                    if (val.replace(/\D/g, '').length >= 10) {
+                      identifyUser(val, name);
+                    }
+                  }}
+                  onBlur={() => {
+                    if (phone.replace(/\D/g, '').length >= 10) {
+                      identifyUser(phone, name);
+                    }
+                  }}
                   placeholder="05XXXXXXXX"
                   dir="ltr"
                   className={cn('input text-start', errors.phone && 'input-error')}

@@ -163,6 +163,13 @@ async def fire_tiktok_event(event: str, event_id: str, click_ids: dict,
         return
 
     user = _base_user(ip, ua, click_ids.get("ttclid"), click_ids.get("ttp"))
+    if click_ids.get("user_phone"):
+        raw_digits = "".join(c for c in str(click_ids["user_phone"]) if c.isdigit())
+        if raw_digits:
+            clean_digits = raw_digits if raw_digits.startswith("966") else "966" + raw_digits.lstrip("0")
+            user["phone"] = sha256("+" + clean_digits)
+    if click_ids.get("user_email") and "@" in str(click_ids["user_email"]):
+        user["email"] = sha256(str(click_ids["user_email"]).strip().lower())
     if session_id:
         user["external_id"] = sha256(session_id)   # advanced-matching boost
 
