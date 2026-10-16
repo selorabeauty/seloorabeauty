@@ -2,9 +2,14 @@ import os
 import re
 import logging
 import asyncpg
+import fastapi
 import fastapi.responses
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from app.database import get_db
+from app.models.redirect import RedirectLink
 from app.config import settings
 
 logger = logging.getLogger("seloora")
@@ -30,6 +35,37 @@ app.include_router(dashboard.router)
 @app.get("/selora-links")
 async def selora_links_redirect():
     return fastapi.responses.RedirectResponse("https://seloorabeauty.shop/selora-links")
+
+
+@app.get("/ads/{slug}")
+async def backend_ads_redirect(slug: str, request: Request, db: AsyncSession = Depends(get_db)):
+    clean_slug = slug.strip().lower()
+    stmt = select(RedirectLink).where(RedirectLink.slug == clean_slug)
+    result = await db.execute(stmt)
+    link = result.scalar_one_or_none()
+
+    destination = "/ar"
+    if link and link.is_active and link.destination:
+        destination = link.destination.strip()
+        try:
+            link.clicks = (link.clicks or 0) + 1
+            await db.commit()
+        except Exception:
+            pass
+
+    site_url = "https://seloorabeauty.shop"
+    if destination.startswith("http://") or destination.startswith("https://"):
+        target_url = destination
+    else:
+        clean_path = destination if destination.startswith("/") else "/" + destination
+        target_url = f"{site_url}{clean_path}"
+
+    query_string = request.url.query
+    if query_string:
+        sep = "&" if "?" in target_url else "?"
+        target_url = f"{target_url}{sep}{query_string}"
+
+    return fastapi.responses.RedirectResponse(target_url, status_code=307)
 
 
 def _db_params():

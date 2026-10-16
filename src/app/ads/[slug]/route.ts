@@ -11,23 +11,22 @@ export async function GET(
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.seloorabeauty.shop';
 
-  // Compute public site URL safely behind reverse proxy / Cloudflare
+  // Base production site URL
+  let siteUrl = 'https://seloorabeauty.shop';
+
+  // Allow host override only if it's a real valid domain (never 0.0.0.0 or localhost)
   const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host');
-  let cleanHost = 'seloorabeauty.shop';
   if (
     forwardedHost &&
     !forwardedHost.includes('0.0.0.0') &&
     !forwardedHost.includes('127.0.0.1') &&
-    !forwardedHost.includes('localhost')
+    !forwardedHost.includes('localhost') &&
+    forwardedHost.includes('.')
   ) {
-    cleanHost = forwardedHost.split(',')[0].trim();
-  } else if (process.env.NEXT_PUBLIC_SITE_URL) {
-    try {
-      cleanHost = new URL(process.env.NEXT_PUBLIC_SITE_URL).host;
-    } catch {}
+    const cleanHost = forwardedHost.split(',')[0].trim().replace(/:80$|:443$/, '');
+    const proto = request.headers.get('x-forwarded-proto') || 'https';
+    siteUrl = `${proto}://${cleanHost}`;
   }
-  const proto = request.headers.get('x-forwarded-proto') || 'https';
-  const siteUrl = `${proto}://${cleanHost}`;
 
   let destination = '/ar';
 
@@ -70,6 +69,9 @@ export async function GET(
     targetUrl.searchParams.set(key, value);
   });
 
+  // Absolutely guarantee that 0.0.0.0 never appears in the redirect location
+  const finalLocation = targetUrl.toString().replace(/^https?:\/\/0\.0\.0\.0(:\d+)?/i, 'https://seloorabeauty.shop');
+
   // 307 Temporary Redirect preserves HTTP method and avoids stale permanent browser caching
-  return NextResponse.redirect(targetUrl.toString(), 307);
+  return NextResponse.redirect(finalLocation, 307);
 }
