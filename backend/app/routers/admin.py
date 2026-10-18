@@ -160,6 +160,20 @@ async def metrics(
     co_cvr      = round(confirmed_orders / checkout_starts * 100, 2) if checkout_starts else 0
     upsell_rate = round(upsell_count    / total_orders * 100, 2)     if total_orders    else 0
 
+    # Lifetime stats for profit calculator (AOV, avg pieces per order)
+    life_q = await db.execute(text("""
+        SELECT COUNT(*), COALESCE(SUM(total), 0), COALESCE(SUM(quantity), 0)
+        FROM orders
+        WHERE status != 'cancelled'
+    """))
+    life_row = life_q.fetchone()
+    life_orders = life_row[0] or 0
+    life_rev = float(life_row[1] or 0)
+    life_qty = int(life_row[2] or 0)
+    life_aov_sar = round(life_rev / life_orders, 2) if life_orders else 279.0
+    life_aov_usd = round(life_aov_sar / 3.75, 2)
+    life_pieces = round(life_qty / life_orders, 2) if life_orders else 1.8
+
     return {
         "period":           {"start": str(start), "end": str(end)},
         "revenue":          revenue,
@@ -177,6 +191,13 @@ async def metrics(
         "chart":            chart,
         "top_products":     top_products,
         "cities":           cities,
+        "lifetime": {
+            "orders":      life_orders,
+            "revenue_sar": life_rev,
+            "aov_sar":     life_aov_sar,
+            "aov_usd":     life_aov_usd,
+            "avg_pieces":  life_pieces,
+        },
     }
 
 
