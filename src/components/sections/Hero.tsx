@@ -93,34 +93,34 @@ export default function Hero() {
 
           {/* ── HEADLINE ── */}
           <h1
-            className="text-[2.3rem] md:text-[2.9rem] lg:text-[3.25rem] leading-[1.18] tracking-tight"
+            className="text-2xl sm:text-3xl md:text-[2.25rem] lg:text-[2.5rem] leading-[1.28] tracking-tight"
             style={{
               fontWeight: 800,
               color: '#0F172A',
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            {/* Line 1 — emotional hook */}
-            <span style={{ color: '#0F172A' }}>استعيدي ثقتكِ بكل مرآة..</span>
+            {/* Line 1 — emotional hook for men & women */}
+            <span style={{ color: '#0F172A' }}>توقف/ي عن إخفاء خطوط جسمك..</span>
             <br />
             {/* Line 2 — rational promise */}
             <span style={{ color: '#1E3A8A' }}>
-              طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم.
+              بروتوكول ببتيدات النحاس والديرما رولر لردم التشققات العميقة.
             </span>
           </h1>
 
-          {/* ── SUB-HEADLINE — emotional + rational ── */}
+          {/* ── SUB-HEADLINE — emotional + rational (Women & Men) ── */}
           <p
-            className="text-lg pb-2"
+            className="text-base sm:text-lg pb-1"
             style={{
               color: '#334155',
               fontWeight: 500,
-              lineHeight: '2.05',
+              lineHeight: '1.9',
               letterSpacing: '0.01em',
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            هل تعبتِ من تجارب الزيوت التي لا تعطي نتيجة؟ سيلورا يقدم لكِ طقم الترميم المجهري الصيدلاني — ديرما رولر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس المركز 100ml لردم التمزقات وتفتيح الخطوط الحمراء والبيضاء.
+            سواء بسبب الحمل والولادة أو بناء العضلات بالجيم وتقلبات الوزن — طقم سيلورا الصيدلاني يجمع بين إبر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس الأزرق 100ml لردم التمزق وتفتيح الخطوط الحمراء والبيضاء.
           </p>
 
           {/* ── PAIN-POINT BULLETS ── */}
@@ -226,50 +226,48 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── LEFT: product visual ── */}
-        <div className="order-1 md:order-2 flex justify-center">
-          <div className="relative w-72 h-96 md:w-[360px] md:h-[480px]">
+        {/* ── LEFT: product visual (Enlarged and crystal clear) ── */}
+        <div className="order-1 md:order-2 flex justify-center w-full">
+          <div className="relative w-80 h-[420px] sm:w-[390px] sm:h-[480px] md:w-[440px] md:h-[530px] lg:w-[480px] lg:h-[560px]">
 
             {/* Glow ring */}
             <div
-              className="absolute inset-0 rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.12) 0%, transparent 70%)' }}
+              className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.16) 0%, transparent 70%)' }}
             />
 
-            {/* Hero image — routine duo shot */}
+            {/* Hero image container — Maximize image presence */}
             <div
-              className="absolute inset-6 rounded-[2.5rem] overflow-hidden"
-              style={{ background: '#fff', boxShadow: '0 8px 48px -6px rgba(58,40,24,0.18)' }}
+              className="absolute inset-2 sm:inset-3 rounded-3xl overflow-hidden border border-slate-200/80 bg-white flex items-center justify-center p-2 sm:p-3"
+              style={{ boxShadow: '0 20px 60px -15px rgba(15,23,42,0.14)' }}
             >
               <img
                 src="/images/copper-roller-duo.webp"
                 alt="طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم — سيلورا ديرما"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-contain"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
 
-            {/* Floating chip: stretch marks */}
+            {/* Floating chip: clinical results */}
             <div
-              className="absolute -top-2 -start-4 rounded-2xl px-3.5 py-2.5 border shadow-luxury animate-float"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="absolute -top-1 -start-3 sm:-start-5 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200 animate-float"
             >
-              <div className="text-xl font-bold" style={{ color: '#C4943E' }}>87%</div>
-              <div className="text-[10px] font-medium" style={{ color: '#6E5C50' }}>تحسن التشققات</div>
+              <div className="text-xl font-black text-blue-700">87%</div>
+              <div className="text-[10px] font-bold text-slate-600">ردم وتحسن التشققات</div>
             </div>
 
             {/* Floating chip: reviews */}
             <div
-              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-luxury"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200"
             >
               <div className="flex gap-0.5 mb-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="fill-current" style={{ color: '#C4943E' }} />
+                  <Star key={i} size={11} className="fill-current text-amber-500" />
                 ))}
               </div>
-              <div className="text-[10px] font-medium" style={{ color: '#6E5C50' }}>+٣٤٠٠ عميلة</div>
+              <div className="text-[10px] font-bold text-slate-700">+٣٤٠٠ عميل وعميلة</div>
             </div>
 
             {/* Floating chip: peptide */}
