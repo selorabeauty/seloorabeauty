@@ -47,8 +47,7 @@ export default function StickyBuyBar() {
           <span className="text-xs font-bold hidden md:flex items-center gap-1 text-[#DC2626]">
             <span>⚡ شحن سريع ١-٣ أيام من الرياض</span>
           </span>
-          <button onClick={handleClick} className="btn-gold flex items-center gap-2 py-3 px-6 shadow-lg animate-cta-pulse"
-            style={{ color: '#1A0F08', fontWeight: 800 }}>
+          <button onClick={handleClick} className="btn-gold flex items-center gap-2 py-3.5 px-6 shadow-xl animate-cta-pulse text-white font-black text-sm">
             <ShoppingBag size={17} />
             اطلبي الآن — الدفع عند الاستلام
           </button>

@@ -60,20 +60,21 @@
   }
   .btn-primary:hover { background-color: #1E293B; }
 
-  .btn-gold {
+  .btn-gold, .btn-blue {
     @apply inline-flex items-center justify-center gap-2
            px-7 py-4 rounded-2xl font-black text-base
            transition-all duration-200
            hover:scale-[1.02] active:scale-[0.97];
-    background: linear-gradient(135deg, #C5A059 0%, #D4AF37 60%, #B38F44 100%);
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #1E40AF 100%);
     background-size: 200% auto;
-    color: #0B132B;
-    box-shadow: 0 4px 24px -4px rgba(197,160,89,0.45);
+    color: #FFFFFF;
+    box-shadow: 0 4px 24px -4px rgba(37,99,235,0.45);
     letter-spacing: 0.01em;
   }
-  .btn-gold:hover {
+  .btn-gold:hover, .btn-blue:hover {
     background-position: right center;
-    box-shadow: 0 6px 32px -4px rgba(197,160,89,0.60);
+    box-shadow: 0 6px 32px -4px rgba(37,99,235,0.60);
+    color: #FFFFFF;
   }
 
   .btn-outline {
