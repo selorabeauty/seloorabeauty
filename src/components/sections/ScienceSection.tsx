@@ -34,14 +34,14 @@ export default function ScienceSection() {
           {STATS.map((s, i) => (
             <div
               key={i}
-              className="text-center p-6 rounded-3xl border transition-shadow hover:shadow-luxury"
-              style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}
+              className="text-center p-6 rounded-3xl border transition-all hover:shadow-md"
+              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.05)' }}
             >
-              {/* Gold gradient text on stat value */}
+              {/* Cobalt gradient text on stat value */}
               <div
-                className="text-4xl md:text-5xl font-bold mb-2"
+                className="text-4xl md:text-5xl font-black mb-2"
                 style={{
-                  background: 'linear-gradient(90deg, #C4943E, #D4A96A)',
+                  background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -49,8 +49,7 @@ export default function ScienceSection() {
               >
                 {s.value}
               </div>
-              {/* Darkened label — was #5A4A3F, now #2B1E16 */}
-              <div className="text-sm font-semibold leading-snug" style={{ color: '#2B1E16' }}>{s.label}</div>
+              <div className="text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>{s.label}</div>
             </div>
           ))}
         </div>

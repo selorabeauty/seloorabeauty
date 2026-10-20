@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════
-   SELORA BEAUTY — Luxury Design System
-   Palette: warm nude / beige · dark bark · antique gold
-   Font: Tajawal — 700 headlines / 400 body
+   SELORA DERMA — Clinical Luxury Design System
+   Palette: crisp slate · royal cobalt · titanium gold · pure white
+   Font: Tajawal — 800 headlines / 500 body
 ═══════════════════════════════════════ */
 
 @layer base {
@@ -15,10 +15,10 @@
   }
 
   body {
-    /* Warm off-white page background */
-    background-color: #FDFAF6;
-    /* Rich dark-brown body text — high contrast */
-    color: #1A0F08;
+    /* Crisp clinical canvas */
+    background-color: #F8FAFC;
+    /* Deep slate body text — high contrast readability */
+    color: #0F172A;
     font-family: var(--font-tajawal), 'Tajawal', 'Cairo', 'Segoe UI', Arial, sans-serif;
     font-weight: 400;
     line-height: 1.7;
@@ -26,21 +26,21 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    color: #1A0F08;
-    line-height: 1.15;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.2;
   }
 
-  p { color: #3D2B1F; }
+  p { color: #334155; }
 
   ::selection {
-    background: #C4943E;
+    background: #1D4ED8;
     color: #fff;
   }
 
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #F8F2EA; }
-  ::-webkit-scrollbar-thumb { background: #C4943E; border-radius: 99px; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #F1F5F9; }
+  ::-webkit-scrollbar-thumb { background: #1D4ED8; border-radius: 99px; }
 }
 
 /* ═══════════════════════════════════════
@@ -55,64 +55,63 @@
            transition-all duration-200
            hover:scale-[1.02] active:scale-[0.97]
            shadow-md hover:shadow-lg;
-    background-color: #1A0F08;
-    color: #FDFAF6;
+    background-color: #0F172A;
+    color: #F8FAFC;
   }
-  .btn-primary:hover { background-color: #2A1C12; }
+  .btn-primary:hover { background-color: #1E293B; }
 
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2
-           px-7 py-4 rounded-2xl font-bold text-base
+           px-7 py-4 rounded-2xl font-black text-base
            transition-all duration-200
            hover:scale-[1.02] active:scale-[0.97];
-    background: linear-gradient(135deg, #C4943E 0%, #D4A96A 60%, #C4943E 100%);
+    background: linear-gradient(135deg, #C5A059 0%, #D4AF37 60%, #B38F44 100%);
     background-size: 200% auto;
-    /* Dark brown on gold — crisp on all screens including mobile */
-    color: #1A0F08;
-    box-shadow: 0 4px 24px -4px rgba(196,148,62,0.40);
+    color: #0B132B;
+    box-shadow: 0 4px 24px -4px rgba(197,160,89,0.45);
     letter-spacing: 0.01em;
   }
   .btn-gold:hover {
     background-position: right center;
-    box-shadow: 0 6px 32px -4px rgba(196,148,62,0.55);
+    box-shadow: 0 6px 32px -4px rgba(197,160,89,0.60);
   }
 
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2
            px-7 py-4 rounded-2xl font-bold text-base
            transition-all duration-200 active:scale-[0.97];
-    border: 2px solid #1A0F08;
-    color: #1A0F08;
+    border: 2px solid #0F172A;
+    color: #0F172A;
     background: transparent;
   }
   .btn-outline:hover {
-    background-color: #1A0F08;
-    color: #FDFAF6;
+    background-color: #0F172A;
+    color: #F8FAFC;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2
            px-7 py-4 rounded-2xl font-bold text-base
            transition-all duration-200 active:scale-[0.97];
-    border: 1.5px solid #EFE4D4;
-    color: #3D2B1F;
-    background: #F8F2EA;
+    border: 1.5px solid #CBD5E1;
+    color: #1E293B;
+    background: #FFFFFF;
   }
   .btn-secondary:hover {
-    background-color: #EFE4D4;
-    border-color: #C4943E;
+    background-color: #F1F5F9;
+    border-color: #1D4ED8;
   }
 
   /* ── CARDS ── */
   .card {
-    background: #fff;
-    border: 1px solid #EFE4D4;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
     @apply rounded-3xl shadow-sm p-6;
   }
 
   .product-card {
-    background: #fff;
-    border: 1px solid #EFE4D4;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
     @apply rounded-3xl overflow-hidden
            shadow-sm hover:shadow-xl transition-all duration-300
            hover:-translate-y-1 cursor-pointer;
@@ -122,12 +121,12 @@
   .section-heading {
     @apply text-3xl md:text-4xl lg:text-5xl leading-tight;
     font-weight: 800;
-    color: #1A0F08;
+    color: #0F172A;
   }
 
   .section-sub {
     @apply text-lg mt-3 leading-relaxed max-w-2xl mx-auto;
-    color: #2B1E16;
+    color: #475569;
     font-weight: 500;
   }
 
@@ -135,17 +134,17 @@
   .badge {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
-    background: #F8F2EA;
-    color: #5A4A3F;
-    border: 1px solid #EFE4D4;
+    background: #F1F5F9;
+    color: #334155;
+    border: 1px solid #E2E8F0;
   }
 
   .badge-gold {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
-    background: #FBF3E3;
-    color: #8A611E;
-    border: 1px solid #E8C98A;
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
   }
 
   .badge-clinical {
@@ -159,34 +158,34 @@
   .badge-green {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
-    background: #EAF5EE;
-    color: #2D6B41;
-    border: 1px solid #A8D8B8;
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
   }
 
   /* ── FORM INPUTS ── */
   .input {
     @apply w-full px-4 py-3.5 rounded-xl text-base outline-none transition-all;
-    border: 1.5px solid #EFE4D4;
-    background: #FDFAF6;
-    color: #1A0F08;
+    border: 1.5px solid #CBD5E1;
+    background: #FFFFFF;
+    color: #0F172A;
     font-family: var(--font-tajawal), 'Tajawal', sans-serif;
   }
-  .input::placeholder { color: #C9AF97; }
+  .input::placeholder { color: #94A3B8; }
   .input:focus {
-    border-color: #C4943E;
-    box-shadow: 0 0 0 3px rgba(196,148,62,0.15);
+    border-color: #1D4ED8;
+    box-shadow: 0 0 0 3px rgba(29,78,216,0.15);
   }
 
   .input-error {
-    border-color: #C0392B;
+    border-color: #DC2626;
   }
   .input-error:focus {
-    box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.15);
   }
 
   /* ── STARS ── */
-  .star { color: #C4943E; }
+  .star { color: #D97706; }
 
   /* ── DIVIDER ── */
   .luxury-divider {
