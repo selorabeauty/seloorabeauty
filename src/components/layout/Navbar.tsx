@@ -9,10 +9,11 @@ import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
   { href: '/ar',              label: 'الرئيسية' },
-  { href: '/ar/products',     label: 'المنتجات' },
-  { href: '/ar#ingredients',  label: 'الروتين' },
-  { href: '/ar#reviews',      label: 'آراء العملاء' },
-  { href: '/ar/contact',      label: 'تواصلي معنا' },
+  { href: '/ar#results',      label: 'نتائج قبل وبعد' },
+  { href: '/ar#science',      label: 'العلم والميكانيزم' },
+  { href: '/ar#ingredients',  label: 'التركيبة الفعالة' },
+  { href: '/ar#reviews',      label: 'آراء العميلات' },
+  { href: '/ar#faq',          label: 'الأسئلة والضمان' },
 ];
 
 export default function Navbar() {
@@ -41,39 +42,41 @@ export default function Navbar() {
     >
       {/* ── Announcement bar ── */}
       <div
-        className="text-center text-xs py-2.5 px-4 font-medium tracking-wide"
-        style={{ backgroundColor: '#1A0F08', color: '#D4A96A' }}
+        className="text-center text-xs py-2 px-4 font-semibold tracking-wide flex items-center justify-center gap-2 flex-wrap"
+        style={{ backgroundColor: '#0B1B3D', color: '#E0E7FF' }}
       >
-        🚚 شحن سريع داخل المملكة &nbsp;·&nbsp;{' '}
-        <span className="inline-block animate-cta-pulse font-bold px-1 rounded" style={{ color: '#FFD98A' }}>
-          💰 الدفع عند الاستلام
+        <span>🇸🇦 شحن سريع لكافة مدن المملكة (١-٣ أيام)</span>
+        <span className="hidden sm:inline text-white/40">|</span>
+        <span className="font-bold text-[#FDE047] flex items-center gap-1">
+          <span>� الدفع عند الاستلام متاح بعد فحص الطلب</span>
         </span>
-        {' '}&nbsp;·&nbsp; ✨ ضمان استرداد ٣٠ يوماً
+        <span className="hidden sm:inline text-white/40">|</span>
+        <span className="text-[#93C5FD]">🛡️ ضمان استرجاع ٣٠ يوماً</span>
       </div>
 
       {/* ── Main nav ── */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-        {/* Logo — brand-color circular icon + wordmark */}
+        {/* Logo — Clinical Dermacosmetic branding */}
         <Link href="/ar" className="flex items-center gap-2.5 select-none group">
           <span
-            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"
+            style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)', border: '1px solid #3B82F6' }}
           >
-            <Sparkles size={16} style={{ color: '#FDFAF6' }} />
+            <Sparkles size={16} className="text-white" />
           </span>
           <span className="flex flex-col leading-none">
             <span
               className="text-xl font-bold tracking-tight transition-colors"
-              style={{ color: '#1A0F08', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
+              style={{ color: '#0F172A', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
             >
-              سيلورا بيوتي
+              سيلورا ديرما
             </span>
             <span
-              className="text-[9px] font-bold tracking-[0.28em] uppercase"
-              style={{ color: '#C4943E' }}
+              className="text-[9px] font-bold tracking-[0.25em] uppercase"
+              style={{ color: '#2563EB' }}
             >
-              Sellura Beauty
+              Selora Derma Laboratory
             </span>
           </span>
         </Link>
