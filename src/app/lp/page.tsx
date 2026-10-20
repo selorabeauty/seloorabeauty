@@ -78,8 +78,8 @@ const FEATURES = [
   },
   {
     icon: <Leaf size={22} className="text-[#2D6B41]" />,
-    title: 'مستخلصات نباتية ١٠٠٪',
-    desc: 'مزيج طبيعي نقي من زيت اللوز الحلو وزيت الأرجان وزبدة الشيا الغنية بمضادات الأكسدة وفيتامين E.',
+    title: 'تركيبة صيدلانية متقدمة',
+    desc: 'مزيج علمي دقيق من ببتيدات النحاس الزرقاء (GHK-Cu) وخلاصة السيكا الكورية لترميم وتجديد أنسجة البشرة.',
   },
   {
     icon: <Sparkles size={22} className="text-[#C4943E]" />,
@@ -228,7 +228,7 @@ export default function SoftLandingPage() {
           </h1>
 
           <p className="text-base text-[#8C7B6E] leading-relaxed max-w-lg">
-            تركيبة طبيعية لطيفة تجمع بين نقاء زيت اللوز الحلو وسحر زيت الأرجان المغربي. تمنح بشرتكِ ترطيباً عميقاً، ملمساً حريرياً، وإشراقة طبيعية تعكس جمالكِ اليومي بكل ثقة.
+            تركيبة معملية متطورة تجمع بين قوة ببتيدات النحاس الزرقاء وسيروم السيكا المرمم. تمنح بشرتكِ ترطيباً عميقاً وملمساً ناعماً يعيد مرونة خلايا الجلد بكل ثقة.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
@@ -279,8 +279,8 @@ export default function SoftLandingPage() {
               <Leaf size={20} />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#1A0F08]">مستخلصات عضوية نقية</div>
-              <div className="text-[10px] text-[#8C7B6E]">زيت اللوز الحلو + زيت الأرجان</div>
+              <div className="text-xs font-bold text-[#1A0F08]">تركيبة فعالة معتمدة</div>
+              <div className="text-[10px] text-[#8C7B6E]">ببتيدات النحاس الزرقاء + سيكا</div>
             </div>
           </div>
         </div>
@@ -417,7 +417,7 @@ export default function SoftLandingPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">روتين العناية والترطيب الفاخر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">زيت اللوز الحلو + الأرجان النقي</div>
+                      <div className="text-[11px] text-[#8C7B6E]">ببتيدات النحاس الزرقاء + سيكا</div>
                     </div>
                   </div>
                   <div className="text-right">

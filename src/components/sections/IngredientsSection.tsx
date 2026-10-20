@@ -16,12 +16,12 @@ export default function IngredientsSection() {
           <p className="section-sub">كل مكوّن اخترناه بعناية — ولكل واحد دور علمي واضح</p>
         </div>
 
-        {/* ── Real ingredients flat-lay ── */}
-        <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-3xl" style={{ boxShadow: '0 16px 48px -12px rgba(58,40,24,0.20)' }}>
+        {/* ── Real ingredients & system showcase ── */}
+        <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-2xl bg-white border border-blue-100 p-6 flex items-center justify-center" style={{ boxShadow: '0 16px 48px -12px rgba(30,58,138,0.12)' }}>
           <img
-            src="/images/ingredients-flatlay.webp"
-            alt="زبدة الشيا والأرجان واللوز الحلو وسنتيلا أسياتيكا"
-            className="w-full aspect-[16/9] object-cover"
+            src="/images/copper-roller-duo.webp"
+            alt="تركيبة ببتيدات النحاس الزرقاء وديرما رولر التيتانيوم — سيلورا ديرما"
+            className="w-full max-h-80 object-contain"
             loading="lazy"
             decoding="async"
           />

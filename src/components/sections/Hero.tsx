@@ -271,13 +271,13 @@ export default function Hero() {
               <div className="text-[10px] font-medium" style={{ color: '#6E5C50' }}>+٣٤٠٠ عميلة</div>
             </div>
 
-            {/* Floating chip: oils */}
+            {/* Floating chip: peptide */}
             <div
               className="absolute top-1/2 -translate-y-1/2 -end-6 rounded-2xl px-3 py-2 border shadow-luxury text-center"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              style={{ background: '#fff', borderColor: '#BFDBFE' }}
             >
-              <div className="text-xl">🌰🌿</div>
-              <div className="text-[9px] font-bold leading-tight" style={{ color: '#3D2B1F' }}>لوز<br />وأرجان</div>
+              <div className="text-xl">🧬✨</div>
+              <div className="text-[9px] font-bold leading-tight" style={{ color: '#1D4ED8' }}>ببتيدات<br />النحاس</div>
             </div>
           </div>
         </div>
