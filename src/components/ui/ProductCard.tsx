@@ -36,11 +36,11 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
     >
       {/* Image area */}
       <Link href={`/${locale}/products/${product.slug}`} className="block relative">
-        <div className="aspect-square flex items-center justify-center overflow-hidden" style={{ background: '#fff' }}>
+        <div className="aspect-square flex items-center justify-center overflow-hidden p-2" style={{ background: '#fff' }}>
           <img
             src={product.images[0]}
             alt={product.name}
-            className={`w-full h-full transition-transform duration-300 hover:scale-105 ${product.images[0].includes('stretch-') ? 'object-contain p-6' : 'object-cover'}`}
+            className="w-full h-full object-contain p-4 transition-transform duration-300 hover:scale-105"
             loading="lazy"
             decoding="async"
           />

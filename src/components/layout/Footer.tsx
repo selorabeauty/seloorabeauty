@@ -56,17 +56,17 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
               <span className="text-xs font-bold" style={{ color: '#FDFAF6' }}>S</span>
             </span>
             <div>
-              <span className="text-2xl font-bold block leading-none" style={{ color: '#FFFFFF' }}>سيلورا بيوتي</span>
+              <span className="text-2xl font-bold block leading-none" style={{ color: '#FFFFFF' }}>سيلورا ديرما</span>
               <span className="text-[10px] font-bold tracking-[0.22em] uppercase block"
-                style={{ color: '#C4943E' }}>
-                Sellura Beauty
+                style={{ color: '#38BDF8' }}>
+                Selora Derma Laboratory
               </span>
             </div>
           </div>
           {/* Brand tagline (customizable for compliance pages) */}
           {!hideTagline && (
             <p className="text-sm leading-relaxed font-medium" style={{ color: '#F5E6C8' }}>
-              {customTagline || 'علاج علمي لتشققات الجسم للمرأة السعودية. زيت اللوز الحلو والأرجان. نتائج حقيقية.'}
+              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
             </p>
           )}
           {/* Email clearly visible */}
