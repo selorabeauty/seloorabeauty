@@ -12,9 +12,9 @@ const TIMELINE = [
 ];
 
 const STATS = [
-  { label: 'تحسن مظهر وعمق التشققات',   pct: '+87%', sub: 'خلال ٤ أسابيع',       img: '/images/before-after-1.webp' },
-  { label: 'تفتيح لون الخطوط الملونة',    pct: '+82%', sub: 'خلال أسبوعين',      img: '/images/before-after-2.webp' },
-  { label: 'مرونة وكثافة الجلد العامة',   pct: '+94%', sub: 'تحسن سريري موثق',    img: '/images/before-after-3.webp' },
+  { label: 'ردم التشققات العميقة وتسطيح النسيج', pct: '+85%', sub: 'اليوم ١ ← اليوم ٢٨',   img: '/images/before-after-day28.webp' },
+  { label: 'تفتيح لون الخطوط الملونة',            pct: '+82%', sub: 'خلال أسبوعين',         img: '/images/before-after-2.webp' },
+  { label: 'مرونة وكثافة الجلد العامة',           pct: '+94%', sub: 'تحسن موثق بالاستخدام',  img: '/images/before-after-3.webp' },
 ];
 
 export default function ResultsSection() {
