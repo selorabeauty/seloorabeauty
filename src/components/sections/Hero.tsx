@@ -142,7 +142,7 @@ export default function Hero() {
 
           {/* ── Buy options — single piece vs. complete bundle, side by side ── */}
           <div className="grid grid-cols-2 gap-3 mt-1">
-            {/* Single piece — 199 SAR */}
+            {/* Single piece — 199 SAR (Serum) */}
             <button
               type="button"
               onClick={() => setSelectedSetId('set-serum-only')}
@@ -161,7 +161,7 @@ export default function Hero() {
               <div className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748B' }}>سيروم النحاس 100ml فقط</div>
             </button>
 
-            {/* Complete bundle — 279 SAR, best value */}
+            {/* Complete bundle — 249 SAR, best value */}
             <button
               type="button"
               onClick={() => setSelectedSetId('set-complete')}
@@ -183,7 +183,7 @@ export default function Hero() {
                 <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ١١٩ ريال</div>
+              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ٣٠ ريال</div>
             </button>
           </div>
           <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>

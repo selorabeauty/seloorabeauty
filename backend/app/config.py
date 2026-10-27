@@ -20,8 +20,9 @@ class Settings(BaseSettings):
     COD_FEE: float = 0.0
     VAT_RATE: float = 0.0
     SINGLE_PRICE: float = 199.0
-    COMPLETE_SET_PRICE: float = 279.0
-    DOUBLE_SET_PRICE: float = 389.0
+    ROLLER_PRICE: float = 49.0
+    COMPLETE_SET_PRICE: float = 249.0
+    DOUBLE_SET_PRICE: float = 447.0
     UPSELL_PRICE: float = 99.0
     SECRET_KEY: str = "changeme"
     MAXMIND_ACCOUNT_ID: str = ""

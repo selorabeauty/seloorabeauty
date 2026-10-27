@@ -43,7 +43,7 @@ function SuccessContent() {
     } catch {}
 
     const currentOrderId = (orderId && orderId !== 'SLR-XXXX') ? orderId : (savedData.orderId || 'SLR-ORDER');
-    const finalTotal = total || savedData.total || 279;
+    const finalTotal = total || savedData.total || 249;
     const finalName = customerName || savedData.name || '';
     const finalPhone = savedData.phone || '';
     const finalEventId = params.get('ev') || savedData.eventId || crypto.randomUUID();

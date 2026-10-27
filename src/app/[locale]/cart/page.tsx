@@ -115,7 +115,7 @@ export default function CartPage() {
                           <Sparkles size={15} />
                         </span>
                         <span className="text-xs font-black uppercase tracking-wider text-blue-700">
-                          {isSingle ? 'ترقية ذكية موصى بها — وفر ١١٩ ريال' : 'عرض الكورس المكثف — توفير ٤٠٧ ريال'}
+                          {isSingle ? 'ترقية ذكية موصى بها — وفر ٥٠ ريال' : 'عرض الكورس المكثف — توفير ٥١ ريال'}
                         </span>
                       </div>
                       <span className="text-xs font-bold bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full shadow-sm">
