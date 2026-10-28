@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import { validateKSAPhone, formatPrice } from '@/lib/utils';
-import { getLandingUrl, identifyUser, trackPurchase } from '@/lib/pixels';
+import { getLandingUrl, identifyUser, trackPurchase, captureClickIds, getClickIds } from '@/lib/pixels';
 
 const CITIES = [
   'الرياض',
@@ -103,6 +103,11 @@ export default function SoftLandingPage() {
   const [orderNumber, setOrderNumber] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Capture ad click IDs on page load for attribution
+  useEffect(() => {
+    captureClickIds();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -127,6 +132,8 @@ export default function SoftLandingPage() {
     setSubmitting(true);
 
     const landingUrl = getLandingUrl() || (typeof window !== 'undefined' ? window.location.href : '');
+    const eventId = crypto.randomUUID(); // shared browser+CAPI dedup id
+    const clickIds = getClickIds();
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.seloorabeauty.shop';
@@ -144,6 +151,8 @@ export default function SoftLandingPage() {
           items: [{ sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 }],
           page_url: landingUrl,
           landing_url: landingUrl,
+          event_id: eventId,
+          ...clickIds,
         }),
       });
 
@@ -157,7 +166,7 @@ export default function SoftLandingPage() {
 
       // Advanced Matching & Purchase Event for Snap and TikTok
       await identifyUser({ phone: phone.trim(), name: name.trim() });
-      trackPurchase(249, confirmedId, undefined, [
+      trackPurchase(249, confirmedId, eventId, [
         { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
       ]);
 
@@ -167,7 +176,7 @@ export default function SoftLandingPage() {
       const fallbackId = 'SD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
       setOrderNumber(fallbackId);
       await identifyUser({ phone: phone.trim(), name: name.trim() });
-      trackPurchase(249, fallbackId, undefined, [
+      trackPurchase(249, fallbackId, eventId, [
         { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
       ]);
       setSubmitted(true);
