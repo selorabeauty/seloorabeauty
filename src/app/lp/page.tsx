@@ -266,7 +266,7 @@ export default function SoftLandingPage() {
         <div className="relative mx-auto w-full max-w-md">
           <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#EFE4D4] bg-[#F8F2EA] relative aspect-[4/5]">
             <Image
-              src="/images/product-hero.webp"
+              src="/images/copper-roller-duo.webp"
               alt="طقم سيروم ببتيدات النحاس والديرما رولر — سيلورا ديرما"
               fill
               className="object-cover"
@@ -409,7 +409,7 @@ export default function SoftLandingPage() {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl bg-white overflow-hidden relative border border-[#EFE4D4] flex-shrink-0">
                       <Image
-                        src="/images/product-hero.webp"
+                        src="/images/copper-roller-duo.webp"
                         alt="طقم سيروم ببتيدات النحاس والديرما رولر"
                         fill
                         className="object-cover"
