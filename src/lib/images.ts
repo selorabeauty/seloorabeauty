@@ -20,3 +20,10 @@ export const IMG: Record<'serum' | 'roller' | 'duo', string | null> = {
 export function realImages(list: (string | null | undefined)[]): string[] {
   return list.filter((s): s is string => Boolean(s));
 }
+
+// Illustrative before/after visuals (not customer results). Always shown with a disclaimer.
+export const SHOWCASE = [
+  { src: '/images/showcase-legs.webp', title: 'الساق والفخذ', alt: 'صورة توضيحية: مظهر التشققات على الفخذ قبل وبعد روتين العناية' },
+  { src: '/images/showcase-abdomen.webp', title: 'البطن والخصر', alt: 'صورة توضيحية: مظهر التشققات على البطن قبل وبعد روتين العناية' },
+  { src: '/images/showcase-arm.webp', title: 'الكتف والذراع', alt: 'صورة توضيحية: مظهر التشققات على الكتف والذراع قبل وبعد روتين العناية' },
+] as const;

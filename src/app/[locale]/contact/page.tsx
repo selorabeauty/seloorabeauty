@@ -4,8 +4,8 @@ import ContactForm, { WHATSAPP_NUMBER } from '@/components/ui/ContactForm';
 import { Mail, Clock, MapPin, MessageCircle, Phone } from 'lucide-react';
 
 export const metadata = {
-  title: 'تواصلي معنا | سيلورا بيوتي',
-  description: 'تواصلي مع فريق دعم سيلورا بيوتي — عبر البريد الإلكتروني أو واتساب. نرد خلال ٢٤ ساعة.',
+  title: 'تواصل معنا | سيلورا بيوتي',
+  description: 'تواصل مع فريق دعم سيلورا بيوتي — عبر البريد الإلكتروني أو واتساب. نرد خلال ٢٤ ساعة.',
 };
 
 const INFO_CARDS = [
@@ -15,7 +15,7 @@ const INFO_CARDS = [
     bg: '#EAF5EE',
     border: '#A8D8B8',
     label: 'واتساب',
-    value: 'تواصلي مباشرة',
+    value: 'تواصل مباشرة',
     sub: 'رد سريع خلال ساعات',
     isWhatsapp: true,
   },
@@ -60,9 +60,9 @@ export default function ContactPage() {
 
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="section-heading mb-3">تواصلي معنا</h1>
+            <h1 className="section-heading mb-3">تواصل معنا</h1>
             <p className="section-sub">
-              فريقنا موجود لمساعدتكِ — استفساراتك، طلباتك، ملاحظاتك كلها مهمة لنا
+              فريقنا موجود لمساعدتك — استفساراتك، طلباتك، ملاحظاتك كلها مهمة لنا
             </p>
           </div>
 
@@ -105,14 +105,14 @@ export default function ContactPage() {
             }}
           >
             <MessageCircle size={22} />
-            تواصلي معنا عبر واتساب
+            تواصل معنا عبر واتساب
             <Phone size={18} style={{ opacity: 0.8 }} />
           </a>
 
           {/* Divider */}
           <div className="flex items-center gap-4 mb-8">
             <div className="flex-1 h-px" style={{ background: '#EFE4D4' }} />
-            <span className="text-sm font-bold" style={{ color: '#8C7B6E' }}>أو أرسلي رسالة</span>
+            <span className="text-sm font-bold" style={{ color: '#8C7B6E' }}>أو أرسل رسالة</span>
             <div className="flex-1 h-px" style={{ background: '#EFE4D4' }} />
           </div>
 
@@ -129,7 +129,7 @@ export default function ContactPage() {
                 <Mail size={18} style={{ color: '#C4943E' }} />
               </div>
               <div>
-                <h2 className="font-black text-lg" style={{ color: '#1A0F08' }}>أرسلي رسالتك</h2>
+                <h2 className="font-black text-lg" style={{ color: '#1A0F08' }}>أرسل رسالتك</h2>
                 <p className="text-xs" style={{ color: '#8C7B6E' }}>سنرد على بريدك الإلكتروني خلال ٢٤ ساعة</p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function ContactPage() {
             <p className="font-medium text-sm" style={{ color: '#8A611E' }}>
               هل سؤالك عن المنتج أو الطلب؟{' '}
               <a href="/ar#faq" className="font-black underline" style={{ color: '#C4943E' }}>
-                اطلعي على الأسئلة الشائعة أولاً ←
+                اطّلع على الأسئلة الشائعة أولاً ←
               </a>
             </p>
           </div>

@@ -8,13 +8,13 @@ const STATS = [
 const TIMELINE = [
   { when: 'أسبوع ١-٢', what: 'ترطيب ونعومة وملمس أكثر راحة.' },
   { when: 'أسبوع ٤-٨', what: 'كثير من المستخدمات يلاحظن تحسناً في ملمس ومظهر البشرة.' },
-  { when: 'أسبوع ٨-١٢', what: 'التشققات القديمة تحتاج التزاماً أطول؛ صوّري المنطقة كل أسبوعين.' },
+  { when: 'أسبوع ٨-١٢', what: 'التشققات القديمة تحتاج التزاماً أطول؛ صوّر المنطقة كل أسبوعين.' },
 ];
 
 const MECHANISM = [
   { step: '٠١', title: 'الخطوة الأولى — ديرما رولر 0.5mm (مرة إلى مرتين أسبوعياً)',  desc: '540 إبرة تيتانيوم بمقاس لطيف للمنزل تهيّئ سطح البشرة قبل السيروم. عقّميه قبل وبعد كل استخدام ولا تستخدميه على جلد متهيج.' },
   { step: '٠٢', title: 'الخطوة الثانية — سيروم ببتيدات النحاس (GHK-Cu) + سيكا',      desc: 'ببتيدات النحاس وخلاصة السيكا وحمض الهيالورونيك مكونات معروفة في أبحاث العناية بالبشرة لدعم مرونة الجلد وتهدئته وترطيبه.' },
-  { step: '٠٣', title: 'الالتزام هو السر',                                   desc: 'النتائج تختلف من بشرة لأخرى. التزمي ٨-١٢ أسبوعاً وصوّري المنطقة كل أسبوعين لتتابعي التقدم بنفسكِ.' },
+  { step: '٠٣', title: 'الالتزام هو السر',                                   desc: 'النتائج تختلف من بشرة لأخرى. التزم ٨-١٢ أسبوعاً وصوّر المنطقة كل أسبوعين لتتابع التقدم بنفسك.' },
 ];
 
 export default function ScienceSection() {
@@ -25,7 +25,7 @@ export default function ScienceSection() {
         <div className="text-center mb-14">
           <span className="badge mb-4">🔬 العلم وراء النتيجة</span>
           <h2 className="section-heading">كيف يعمل الروتين؟</h2>
-          <p className="section-sub">خطوتان بسيطتان: رولر لطيف يهيّئ بشرتكِ، وسيروم ببتيدات النحاس (GHK-Cu) يعتني بها كل يوم</p>
+          <p className="section-sub">خطوتان بسيطتان: رولر لطيف يهيّئ بشرتك، وسيروم ببتيدات النحاس (GHK-Cu) يعتني بها كل يوم</p>
         </div>
 
         {/* Stats */}
@@ -58,9 +58,9 @@ export default function ScienceSection() {
 
           {/* ── Realistic timeline ── */}
           <div className="card flex flex-col justify-center gap-6" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
-            <h3 className="text-xl font-bold" style={{ color: '#0F172A' }}>ماذا تتوقعين مع الالتزام؟</h3>
+            <h3 className="text-xl font-bold" style={{ color: '#0F172A' }}>ماذا تتوقع مع الالتزام؟</h3>
             <p className="text-sm leading-relaxed -mt-3" style={{ color: '#475569' }}>
-              ببتيدات النحاس (GHK-Cu) مكوّن معروف في أبحاث العناية بالبشرة. لا نعدكِ بنتيجة سحرية، بل بروتين واضح وصادق:
+              ببتيدات النحاس (GHK-Cu) مكوّن معروف في أبحاث العناية بالبشرة. لا نعدك بنتيجة سحرية، بل بروتين واضح وصادق:
             </p>
             {TIMELINE.map((t, i) => (
               <div key={i} className="flex gap-3 items-start">

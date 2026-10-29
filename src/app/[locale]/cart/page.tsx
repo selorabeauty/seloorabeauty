@@ -62,9 +62,9 @@ export default function CartPage() {
               <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-sm">
                 <ShoppingBag size={36} />
               </div>
-              <h2 className="text-xl font-extrabold text-slate-900 mb-2">سلتكِ فارغة حالياً</h2>
+              <h2 className="text-xl font-extrabold text-slate-900 mb-2">سلتك فارغة حالياً</h2>
               <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                ابدأ/ي باختيار الطقم المناسب لكِ للعناية بمظهر التشققات ومرونة الجلد.
+                ابدأ/ي باختيار الطقم المناسب لك للعناية بمظهر التشققات ومرونة الجلد.
               </p>
               <Link href="/ar" className="btn-gold inline-flex px-8 py-4 text-base font-bold shadow-md">
                 تصفح الطقم العلاجي
@@ -188,7 +188,7 @@ export default function CartPage() {
                   </button>
 
                   <p className="text-xs text-center font-bold text-emerald-700 mt-3">
-                    🔒 ادفع/ي للمندوب بعد استلام وفحص الطرد في منزلكِ
+                    🔒 ادفع/ي للمندوب بعد استلام وفحص الطرد في منزلك
                   </p>
 
                   <div className="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-slate-100">

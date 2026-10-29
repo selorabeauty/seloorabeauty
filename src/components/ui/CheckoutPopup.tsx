@@ -12,9 +12,9 @@ import { track } from '@/lib/track';
 const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة المكرمة', 'المدينة المنورة', 'الخبر', 'الطائف', 'تبوك', 'أبها', 'نجران', 'حائل', 'القصيم', 'الجوف', 'مدينة أخرى'];
 
 const PAYMENT_METHODS = [
-  { id: 'cod', label: 'الدفع عند الاستلام', sub: 'ادفعي للمندوب عند وصول طلبكِ', Icon: Banknote },
+  { id: 'cod', label: 'الدفع عند الاستلام', sub: 'ادفع للمندوب عند وصول طلبك', Icon: Banknote },
   { id: 'tabby_tamara', label: 'قسّطي مع Tabby أو Tamara', sub: 'بدون فوائد — قسمي المبلغ على ٤ دفعات', Icon: CreditCard },
-  { id: 'apple_pay_mada', label: 'Apple Pay / مدى', sub: 'ادفعي فوراً وبأمان عبر بطاقتكِ', Icon: Smartphone },
+  { id: 'apple_pay_mada', label: 'Apple Pay / مدى', sub: 'ادفع فوراً وبأمان عبر بطاقتك', Icon: Smartphone },
 ] as const;
 
 type PaymentMethod = typeof PAYMENT_METHODS[number]['id'];
@@ -154,7 +154,7 @@ export default function CheckoutPopup() {
     } catch (err) {
       console.error("❌ Order failed:", err);
       setSubmitting(false);
-      setErrors({ name: 'تعذر إرسال الطلب — تأكدي من الاتصال وحاولي مرة أخرى' });
+      setErrors({ name: 'تعذر إرسال الطلب — تأكد من الاتصال وحاول مرة أخرى' });
     }
   };
 
@@ -180,7 +180,7 @@ export default function CheckoutPopup() {
             style={{ background: '#FDFAF6', borderColor: '#EFE4D4' }}
           >
             <div>
-              <h2 className="font-bold text-xl" style={{ color: '#1A0F08' }}>أكملي طلبكِ</h2>
+              <h2 className="font-bold text-xl" style={{ color: '#1A0F08' }}>أكمل طلبك</h2>
               <p className="text-sm" style={{ color: '#8C7B6E' }}>بيانات التوصيل — الدفع عند الاستلام</p>
             </div>
             <button
@@ -310,7 +310,7 @@ export default function CheckoutPopup() {
                   onChange={(e) => { setCity(e.target.value); setErrors((p) => ({ ...p, city: undefined })); }}
                   className={cn('input', errors.city && 'input-error')}
                 >
-                  <option value="">-- اختاري مدينتك --</option>
+                  <option value="">-- اختر مدينتك --</option>
                   {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
                 {errors.city && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.city}</p>}
@@ -329,7 +329,7 @@ export default function CheckoutPopup() {
                 </div>
                 <div>
                   <div className="font-bold text-sm" style={{ color: '#1A4A2A' }}>الدفع عند الاستلام (COD)</div>
-                  <div className="text-xs font-semibold" style={{ color: '#2D6B41' }}>افحصي الشحنة وتأكدي منها عند وصول المندوب لباب بيتكِ ثم ادفعي بثقة</div>
+                  <div className="text-xs font-semibold" style={{ color: '#2D6B41' }}>افحص الشحنة وتأكد منها عند وصول المندوب لباب بيتك ثم ادفع بثقة</div>
                 </div>
               </div>
 
@@ -345,7 +345,7 @@ export default function CheckoutPopup() {
               </button>
 
               <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
-                ✓ سيصلكِ اتصال أو رسالة واتساب لتأكيد موعد التوصيل لباب منزلكِ خلال ٢٤-٤٨ ساعة
+                ✓ سيصلك اتصال أو رسالة واتساب لتأكيد موعد التوصيل لباب منزلك خلال ٢٤-٤٨ ساعة
               </p>
 
               {/* Trust row */}

@@ -130,7 +130,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
               {/* ── Pricing tiers — the set options ── */}
               <div className="flex flex-col gap-2.5">
-                <span className="font-extrabold text-slate-900 text-base">اختاري الباقة المناسبة لاحتياجكِ:</span>
+                <span className="font-extrabold text-slate-900 text-base">اختر الباقة المناسبة لاحتياجك:</span>
                 {SET_OPTIONS.map((set) => (
                   <button
                     key={set.id}
@@ -176,13 +176,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
               {/* CTAs */}
               <div className="flex flex-col gap-3">
                 <button onClick={handleBuyNow} className="btn-gold w-full text-lg py-5 shadow-xl font-black animate-cta-pulse">
-                  اطلبي الآن — {selectedSet.totalPrice} ر.س (دفع عند الاستلام)
+                  اطلب الآن — {selectedSet.totalPrice} ر.س (دفع عند الاستلام)
                 </button>
                 <button
                   onClick={handleAddToCart}
                   className={cn('btn-outline w-full py-4 text-base font-bold', added && 'bg-slate-900 text-white border-slate-900')}
                 >
-                  {added ? '✓ تمت الإضافة للسلة' : 'أضيفي للسلة'}
+                  {added ? '✓ تمت الإضافة للسلة' : 'أضف للسلة'}
                 </button>
               </div>
 
@@ -338,10 +338,10 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                       سيروم Daranca (Copper Peptide + CICA 30ml):
                     </div>
                     <ul className="text-xs text-blue-900 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
-                      <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
-                      <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
-                      <li>• عبوة 30ml بقطّارة وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
+                      <li>• ببتيدات النحاس GHK-Cu مكوّن معروف في أبحاث العناية بالبشرة لدعم مرونة الجلد.</li>
+                      <li>• مع الرولر المنزلي اللطيف يسهل توزيع السيروم على المنطقة.</li>
+                      <li>• السيكا والنياسيناميد للعناية بمظهر اللون وتهدئة البشرة.</li>
+                      <li>• عبوة 30ml بقطّارة وقوام مائي خفيف غير لزج.</li>
                     </ul>
                   </div>
 
@@ -351,10 +351,10 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                       زيوت وكريمات السوق العادية (بايو أويل / زبدة عادية):
                     </div>
                     <ul className="text-xs text-slate-600 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• جزيئات زيتية ضخمة (+500 Dalton) تعجز عن عبور حاجز الجلد الخارجي.</li>
-                      <li>• ترطيب سطحي مؤقت يزول بالماء دون أن تصل لطبقات الجلد العميقة.</li>
-                      <li>• صفر تحفيز للكولاجين الجديد في النسيج المتصلب.</li>
-                      <li>• ملمس زيتي ثقيل يلطخ الملابس ويسبب إزعاجاً مستمراً.</li>
+                      <li>• الزيوت والكريمات العادية ترطّب السطح وهذا مفيد، لكنها ليست روتيناً متكاملاً.</li>
+                      <li>• ترطيب سطحي يحتاج تكراراً مستمراً.</li>
+                      <li>• لا تتضمن خطوة الرولر ولا ببتيدات النحاس.</li>
+                      <li>• قوام زيتي ثقيل قد لا يناسب الجميع.</li>
                     </ul>
                   </div>
                 </div>
@@ -380,7 +380,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
           {/* ── Cross-sells ── */}
           {crossSells.length > 0 && (
             <div>
-              <h2 className="text-2xl font-black text-stone-900 mb-2">أكملي روتينكِ</h2>
+              <h2 className="text-2xl font-black text-stone-900 mb-2">أكمل روتينك</h2>
               <p className="text-stone-400 text-sm mb-8">
                 <Check size={14} className="inline text-emerald-600" /> يعمل بشكل مثالي مع {product.name}
               </p>

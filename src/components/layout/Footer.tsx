@@ -11,7 +11,7 @@ const TRUST = [
 const QUICK_LINKS = [
   { href: '/ar',          label: 'الرئيسية' },
   { href: '/ar/products', label: 'المنتجات' },
-  { href: '/ar/contact',  label: 'تواصلي معنا' },
+  { href: '/ar/contact',  label: 'تواصل معنا' },
 ];
 
 const POLICY_LINKS = [
@@ -64,7 +64,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
           {/* Brand tagline */}
           {!hideTagline && (
             <p className="text-sm leading-relaxed font-medium text-slate-400">
-              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
+              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتك.'}
             </p>
           )}
           {/* Email */}

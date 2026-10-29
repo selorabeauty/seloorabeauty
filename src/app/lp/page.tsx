@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Photo from '@/components/ui/Photo';
+import ShowcaseSection from '@/components/sections/ShowcaseSection';
 import { IMG } from '@/lib/images';
 import Link from 'next/link';
 import {
@@ -58,7 +59,7 @@ const FEATURES = [
   {
     icon: <Heart size={22} className="text-[#C4943E]" />,
     title: 'روتين بسيط وواقعي',
-    desc: 'سيروم صباحاً ومساءً + جلسة رولر أسبوعية. التشققات القديمة تحتاج صبراً؛ ننصحكِ بالالتزام ٨-١٢ أسبوعاً وتصوير بطنكِ كل أسبوعين لتري التقدم.',
+    desc: 'سيروم صباحاً ومساءً + جلسة رولر أسبوعية. التشققات القديمة تحتاج صبراً؛ ننصحك بالالتزام ٨-١٢ أسبوعاً وتصوير بطنك كل أسبوعين لترى التقدم.',
   },
 ];
 
@@ -138,7 +139,7 @@ export default function SoftLandingPage() {
 
       setSubmitted(true);
     } catch {
-      setErrorMsg('تعذر إرسال طلبكِ ولم يتم تسجيله. تأكدي من الاتصال وحاولي مرة أخرى، أو تواصلي معنا عبر واتساب.');
+      setErrorMsg('تعذر إرسال طلبك ولم يتم تسجيله. تأكد من الاتصال وحاول مرة أخرى، أو تواصل معنا عبر واتساب.');
     } finally {
       setSubmitting(false);
     }
@@ -179,7 +180,7 @@ export default function SoftLandingPage() {
           className="px-5 py-2.5 rounded-full text-xs font-bold text-white shadow-md hover:opacity-95 transition-all"
           style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
         >
-          اطلبي الآن
+          اطلب الآن
         </button>
       </header>
 
@@ -192,11 +193,11 @@ export default function SoftLandingPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight text-[#1A0F08]">
-            كفاية تخبّين جسمكِ.. ابدئي روتين يعتني بمظهر التشققات من أسبوعه الأول
+            كفاية تخبّئ جسمك.. ابدأ روتين يعتني بمظهر التشققات من أسبوعه الأول
           </h1>
 
           <p className="text-base text-[#8C7B6E] leading-relaxed max-w-lg">
-            تعرفين هذي اللحظة أمام المرآة؟ التشققات ما تعني أنكِ أهملتِ جسمكِ — هي أثر حمل أو وزن أو نمو. سيلورا يجمع سيروم ببتيدات النحاس GHK-Cu مع خلاصة السيكا وديرما رولر 0.5mm في روتين بسيط تطبقينه في البيت، لتحسين مظهر الجلد وملمسه ومرونته. كل أسبوع تتابعين الفرق بنفسكِ، والنتائج تختلف من بشرة لأخرى.
+            تعرف هذي اللحظة أمام المرآة؟ التشققات ما تعني أنك أهملت جسمك — هي أثر حمل أو وزن أو نمو. سيلورا يجمع سيروم ببتيدات النحاس GHK-Cu مع خلاصة السيكا وديرما رولر 0.5mm في روتين بسيط تطبقينه في البيت، لتحسين مظهر الجلد وملمسه ومرونته. كل أسبوع تتابع الفرق بنفسك، والنتائج تختلف من بشرة لأخرى.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
@@ -205,7 +206,7 @@ export default function SoftLandingPage() {
               className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-white shadow-xl hover:scale-[1.02] active:scale-98 transition-all"
               style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)' }}
             >
-              اطلبي الطقم الآن
+              اطلب الطقم الآن
             </button>
             <div className="text-xs text-[#8C7B6E] flex items-center gap-1.5 font-medium">
               <ShieldCheck size={16} className="text-[#2D6B41]" />
@@ -279,22 +280,24 @@ export default function SoftLandingPage() {
         </div>
       </section>
 
+      <ShowcaseSection />
+
       {/* Empathy + honest promise (no invented testimonials) */}
       <section className="py-16 px-4 max-w-3xl mx-auto text-center space-y-6">
         <h2 className="text-2xl sm:text-3xl font-black text-[#1A0F08] leading-snug">
-          التشققات ليست خطأكِ.. ومن حقكِ أن تشعري بالراحة في جسمكِ
+          التشققات ليست خطأك.. ومن حقك أن تشعر بالراحة في جسمك
         </h2>
         <p className="text-sm text-[#5C4B3F] leading-loose">
-          حمل، ولادة، رضاعة، نمو سريع، أو تغيّر في الوزن. جلدكِ تمدّد ليحتضن مراحل من حياتكِ، وأثر ذلك ليس عيباً. لكن نعرف شعور الوقوف أمام المرآة، واختيار الملابس الواسعة، وتجنب لحظات كنتِ تحبينها.
+          حمل، رضاعة، نمو سريع، رياضة وبناء عضلات، أو تغيّر في الوزن. جلدك تمدّد ليحتضن مراحل من حياتك، وأثر ذلك ليس عيباً. لكن نعرف شعور الوقوف أمام المرآة، واختيار الملابس الواسعة، وتجنب لحظات كنت تحبها.
         </p>
         <p className="text-sm text-[#5C4B3F] leading-loose">
-          لذلك نحن صريحون معكِ: لا نعدكِ بنتيجة سحرية ولا بتاريخ محدد. نعدكِ بروتين بسيط وواضح المكونات، وبأن تدفعي عند الاستلام، وبأن تجربي بضمان ٣٠ يوماً. النتائج تختلف من بشرة لأخرى، والالتزام ٨-١٢ أسبوعاً هو السر.
+          لذلك نحن صريحون معك: لا نعدك بنتيجة سحرية ولا بتاريخ محدد. نعدك بروتين بسيط وواضح المكونات، وبأن تدفع عند الاستلام، وبأن تجرّب بضمان ٣٠ يوماً. النتائج تختلف من بشرة لأخرى، والالتزام ٨-١٢ أسبوعاً هو السر.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-start">
           {[
-            { t: 'ادفعي عند الاستلام', d: 'افحصي الطلب ثم ادفعي للمندوب.' },
-            { t: 'ضمان ٣٠ يوماً', d: 'راجعي شروط الإرجاع قبل الطلب.' },
-            { t: 'نجيب على أسئلتكِ', d: 'بشرة حساسة أو حامل؟ راسلينا قبل الطلب.' },
+            { t: 'ادفع عند الاستلام', d: 'افحص الطلب ثم ادفع للمندوب.' },
+            { t: 'ضمان ٣٠ يوماً', d: 'راجع شروط الإرجاع قبل الطلب.' },
+            { t: 'نجيب على أسئلتك', d: 'بشرة حساسة أو حامل؟ راسلنا قبل الطلب.' },
           ].map((x) => (
             <div key={x.t} className="bg-[#F8F2EA] border border-[#EFE4D4] rounded-2xl p-4">
               <div className="font-bold text-sm text-[#1A0F08]">{x.t}</div>
@@ -312,10 +315,10 @@ export default function SoftLandingPage() {
               طلب سريع ومباشر
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-white">
-              ابدئي روتينكِ اليوم — وادفعي عند الاستلام فقط
+              ابدأ روتينك اليوم — وادفع عند الاستلام فقط
             </h2>
             <p className="text-xs text-[#F5E6C8]/80 leading-relaxed">
-              سجلي بيانات التوصيل وسيصلكِ مندوبنا حتى باب منزلكِ مع إمكانية الدفع عند الاستلام
+              سجلي بيانات التوصيل وسيصلك مندوبنا حتى باب منزلك مع إمكانية الدفع عند الاستلام
             </p>
           </div>
 
@@ -325,13 +328,13 @@ export default function SoftLandingPage() {
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 size={36} />
                 </div>
-                <h3 className="text-xl font-black text-[#1A0F08]">تم استلام طلبكِ بنجاح!</h3>
+                <h3 className="text-xl font-black text-[#1A0F08]">تم استلام طلبك بنجاح!</h3>
                 <p className="text-sm text-[#8C7B6E]">
-                  شكراً لثقتكِ بسيلورا بيوتي. رقم طلبكِ هو:{' '}
+                  شكراً لثقتك بسيلورا بيوتي. رقم طلبك هو:{' '}
                   <span className="font-mono font-bold text-[#1A0F08]">{orderNumber}</span>
                 </p>
                 <p className="text-xs text-[#8C7B6E]">
-                  سيتواصل معكِ المندوب قريباً لتأكيد موعد التوصيل. الدفع عند الاستلام.
+                  سيتواصل معك المندوب قريباً لتأكيد موعد التوصيل. الدفع عند الاستلام.
                 </p>
                 <div className="pt-4">
                   <button
@@ -423,7 +426,7 @@ export default function SoftLandingPage() {
                     className="w-full px-4 py-3 rounded-xl border border-[#EFE4D4] bg-white text-sm focus:outline-none focus:border-[#C4943E]"
                     required
                   >
-                    <option value="">-- اختاري مدينتكِ --</option>
+                    <option value="">-- اختر مدينتك --</option>
                     {CITIES.map((c) => (
                       <option key={c} value={c}>
                         {c}
@@ -435,7 +438,7 @@ export default function SoftLandingPage() {
                 {/* COD badge */}
                 <div className="p-3 rounded-xl bg-[#EAF5EE] border border-[#A8D8B8] flex items-center gap-2.5 text-[#1A4A2A]">
                   <Banknote size={18} className="text-[#2D6B41]" />
-                  <span className="text-xs font-bold">الدفع عند الاستلام — ادفعي للمندوب عند وصول طلبكِ</span>
+                  <span className="text-xs font-bold">الدفع عند الاستلام — ادفع للمندوب عند وصول طلبك</span>
                 </div>
 
                 <button
@@ -450,7 +453,7 @@ export default function SoftLandingPage() {
                       <span>جاري إرسال الطلب...</span>
                     </>
                   ) : (
-                    <span>أكّدي طلبي — ادفعي عند الاستلام</span>
+                    <span>أكّدي طلبي — ادفع عند الاستلام</span>
                   )}
                 </button>
 
@@ -472,7 +475,7 @@ export default function SoftLandingPage() {
       </section>
 
       {/* Compliance-safe Footer without medical / health claims */}
-      <Footer customTagline="سيلورا بيوتي — مستحضرات عناية تجميلية بالبشرة للمرأة في المملكة العربية السعودية. سيروم ببتيدات النحاس والديرما رولر للعناية بمظهر بشرة الجسم." />
+      <Footer customTagline="سيلورا بيوتي — مستحضرات عناية تجميلية بالبشرة للجنسين في المملكة العربية السعودية. سيروم ببتيدات النحاس والديرما رولر للعناية بمظهر بشرة الجسم." />
     </div>
   );
 }

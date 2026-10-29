@@ -14,8 +14,8 @@ import { identifyUser, trackPurchase } from '@/lib/pixels';
 const DELIVERY_STEPS = [
   { icon: <CheckCircle2 size={20} />, title: 'تم استلام طلبك', desc: 'طلبك في نظامنا وجاري المعالجة', done: true },
   { icon: <Package size={20} />, title: 'يُعبَّأ طلبك', desc: 'سيتم التعبئة والتجهيز خلال ٢٤ ساعة', done: false },
-  { icon: <Truck size={20} />, title: 'في الطريق إليكِ', desc: 'يصلكِ خلال ١-٣ أيام عمل', done: false },
-  { icon: <Phone size={20} />, title: 'اتصال قبل التوصيل', desc: 'سيتصل بكِ المندوب قبل الوصول', done: false },
+  { icon: <Truck size={20} />, title: 'في الطريق إليك', desc: 'يصلك خلال ١-٣ أيام عمل', done: false },
+  { icon: <Phone size={20} />, title: 'اتصال قبل التوصيل', desc: 'سيتصل بك المندوب قبل الوصول', done: false },
 ];
 
 function SuccessContent() {
@@ -133,17 +133,17 @@ function SuccessContent() {
               {[...Array(5)].map((_, i) => <Star key={i} size={16} className="text-amber-400 fill-amber-400" />)}
             </div>
             <p className="text-stone-700 font-medium text-sm">
-              انضممتِ لأكثر من{' '}
+              انضممت لأكثر من{' '}
               <strong className="text-stone-900">٣٤٠٠ امرأة سعودية</strong>{' '}
-              يثقن بسيلورا بيوتي — أهلاً بكِ في العائلة!
+              يثقن بسيلورا بيوتي — أهلاً بك في العائلة!
             </p>
           </div>
 
           {/* Upsell */}
           <div className="mb-8">
-            <h2 className="text-xl font-black text-stone-900 mb-2 text-center">أكملي روتينك</h2>
+            <h2 className="text-xl font-black text-stone-900 mb-2 text-center">أكمل روتينك</h2>
             <p className="text-sm text-stone-400 mb-6 text-center">
-              العملاء اللواتي يجمعن هذه المنتجات يحصلن على نتائج أسرع
+              العملاء الذين يجمعن هذه المنتجات يحصلن على نتائج أسرع
             </p>
             <div className="grid sm:grid-cols-2 gap-5">
               {upsells.map((p) => (

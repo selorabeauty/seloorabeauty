@@ -10,7 +10,7 @@ export default function ReturnsPage() {
         {/* Guarantee highlight */}
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 text-emerald-800">
           <div className="font-black text-base mb-1">🔄 ضمان ٣٠ يوماً — بلا أسئلة</div>
-          <p>إذا جربتِ منتجنا لمدة ٣٠ يوماً ولم تلاحظي أي فرق، تواصلي معنا وسنسترد مبلغكِ كاملاً.</p>
+          <p>إذا جربت منتجنا لمدة ٣٠ يوماً ولم تلاحظ أي فرق، تواصل معنا وسنسترد مبلغك كاملاً.</p>
         </div>
 
         <section>
@@ -18,14 +18,14 @@ export default function ReturnsPage() {
           <ul className="list-disc list-inside space-y-1">
             <li>مضى أقل من ٣٠ يوماً على استلام الطلب</li>
             <li>المنتج استُخدم بانتظام حسب التعليمات</li>
-            <li>لديكِ رقم الطلب</li>
+            <li>لديك رقم الطلب</li>
           </ul>
         </section>
 
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٢. كيفية التقديم</h2>
           <p>
-            تواصلي معنا عبر{' '}
+            تواصل معنا عبر{' '}
             <Link href="/ar/contact" className="text-amber-600 hover:underline font-bold">صفحة التواصل</Link>
             {' '}مع ذكر رقم طلبك وسبب الاسترجاع. سيرد فريقنا خلال ٢٤ ساعة.
           </p>
@@ -42,7 +42,7 @@ export default function ReturnsPage() {
 
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٤. طريقة الاسترداد</h2>
-          <p>يتم الاسترداد نقداً عند إعادة المنتج للمندوب، أو بتحويل مباشر لحسابكِ البنكي خلال ٥-٧ أيام عمل.</p>
+          <p>يتم الاسترداد نقداً عند إعادة المنتج للمندوب، أو بتحويل مباشر لحسابك البنكي خلال ٥-٧ أيام عمل.</p>
         </section>
       </div>
     </PolicyLayout>

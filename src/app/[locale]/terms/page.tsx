@@ -8,7 +8,7 @@ export default function TermsPage() {
       <div className="space-y-6 text-stone-600 text-sm leading-relaxed">
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">١. القبول بالشروط</h2>
-          <p>باستخدامك لموقع سيلورا بيوتي أو تقديم أي طلب، فإنك توافقين على هذه الشروط والأحكام.</p>
+          <p>باستخدامك لموقع سيلورا بيوتي أو تقديم أي طلب، فإنك توافق على هذه الشروط والأحكام.</p>
         </section>
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٢. الطلبات والأسعار</h2>
@@ -16,7 +16,7 @@ export default function TermsPage() {
         </section>
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٣. الدفع</h2>
-          <p>نقبل الدفع عند الاستلام (كاش) فقط. ادفعي للمندوب مباشرةً عند استلام طلبك.</p>
+          <p>نقبل الدفع عند الاستلام (كاش) فقط. ادفع للمندوب مباشرةً عند استلام طلبك.</p>
         </section>
         <section>
           <h2 className="text-base font-black text-stone-900 mb-2">٤. الملكية الفكرية</h2>

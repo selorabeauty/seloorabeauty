@@ -35,8 +35,8 @@ export default function HomePage({ params }: { params: { locale: string } }) {
         <section className="py-24 bg-white cv-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12">
-              <h2 className="section-heading">اكتشفي عناصر الطقم</h2>
-              <p className="section-sub">روتين معملي متكامل — ديرما رولر التيتانيوم لتحفيز القنوات الميكروسكوبية، وسيروم ببتيدات النحاس لردم التمزق الداخلي</p>
+              <h2 className="section-heading">اكتشف عناصر الطقم</h2>
+              <p className="section-sub">روتين من خطوتين — ديرما رولر التيتانيوم 0.5mm وسيروم Daranca ببتيدات النحاس للعناية بمظهر تشققات الجسم</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {PRODUCTS.map((product) => (

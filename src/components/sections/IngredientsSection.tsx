@@ -15,8 +15,8 @@ export default function IngredientsSection() {
 
         <div className="text-center mb-10">
           <span className="badge-clinical mb-3">🌿 ما بداخل العبوة</span>
-          <h2 className="section-heading">مكونات واضحة، نختارها لأجل بشرتكِ</h2>
-          <p className="section-sub">نؤمن أن من حقكِ أن تعرفي ما تضعينه على جلدكِ. هذه مكونات الروتين ولماذا نستخدمها.</p>
+          <h2 className="section-heading">مكونات واضحة، نختارها لأجل بشرتك</h2>
+          <p className="section-sub">نؤمن أن من حقك أن تعرف ما تضعه على جلدك. هذه مكونات الروتين ولماذا نستخدمها.</p>
         </div>
 
         {/* ── Real ingredients & system showcase ── */}
@@ -72,8 +72,8 @@ export default function IngredientsSection() {
         >
           {[
             { e: '🧴', t: 'قوام مائي خفيف', d: 'يُمتص بسرعة ويناسب الاستخدام الصباحي والمسائي' },
-            { e: '🧪', t: 'اختبري على منطقة صغيرة أولاً', d: 'نوصي بتجربة صغيرة على الجلد قبل أول استخدام' },
-            { e: '📋', t: 'قائمة المكونات على العبوة', d: 'راجعي المكونات على العبوة للتأكد من ملاءمتها لبشرتكِ' },
+            { e: '🧪', t: 'اختبر على منطقة صغيرة أولاً', d: 'نوصي بتجربة صغيرة على الجلد قبل أول استخدام' },
+            { e: '📋', t: 'قائمة المكونات على العبوة', d: 'راجع المكونات على العبوة للتأكد من ملاءمتها لبشرتك' },
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-1.5">
               <span className="text-2xl">{item.e}</span>

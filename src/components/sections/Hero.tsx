@@ -15,8 +15,8 @@ const singleSet = SET_OPTIONS.find((s) => s.id === 'set-serum-only')!;
 const PAIN_BULLETS = [
   {
     emoji: '🤍',
-    bold: 'أنتِ لستِ وحدكِ في هذا:',
-    rest: 'الحمل، النمو السريع، تغيّر الوزن، الرياضة. معظم النساء يمررن بها، وهي لا تقلل من جمالكِ ولا من قيمتكِ.',
+    bold: 'أنت لست وحدك في هذا:',
+    rest: 'الحمل، النمو السريع، تغيّر الوزن، الرياضة وبناء العضلات. معظمنا يمرّ بها، رجالاً ونساءً، وهي لا تقلل من جمالك ولا من قيمتك.',
   },
   {
     emoji: '🧬',
@@ -31,7 +31,7 @@ const PAIN_BULLETS = [
   {
     emoji: '🛡️',
     bold: 'جرّبي بدون خوف:',
-    rest: 'الدفع عند الاستلام، وضمان استرجاع ٣٠ يوماً. والنتائج تختلف من بشرة لأخرى، فالتزمي ٨-١٢ أسبوعاً.',
+    rest: 'الدفع عند الاستلام، وضمان استرجاع ٣٠ يوماً. والنتائج تختلف من بشرة لأخرى، فالتزم ٨-١٢ أسبوعاً.',
   },
 ];
 
@@ -91,10 +91,10 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            <span style={{ color: '#0F172A' }}>كل مرة تقفين أمام المرآة وتشدّين القميص لتغطي بطنكِ..</span>
+            <span style={{ color: '#0F172A' }}>كل مرة تقف أمام المرآة وتشدّ القميص لتغطي بطنك..</span>
             <br />
             <span style={{ color: '#1E3A8A' }}>
-              حان وقت روتين يعتني بجلدكِ بلطف وصبر.
+              حان وقت روتين يعتني بجلدك بلطف وصبر.
             </span>
           </h1>
 
@@ -109,7 +109,7 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            نعرف تلك اللحظة: تختارين الملابس الواسعة، وتتجنبين البحر والمسبح، وتتمنين لو أن جسمكِ يشبه ما قبل. التشققات أثر حياة عشتِها، ولا تحتاجين أن تخجلي منها. سيلورا روتين بسيط من خطوتين: سيروم ببتيدات النحاس مع السيكا، وديرما رولر 0.5mm، للعناية بمظهر الجلد وملمسه ومرونته أسبوعاً بعد أسبوع.
+            نعرف تلك اللحظة: تختار الملابس الواسعة، وتتجنب البحر والمسبح، وتتمنى لو أن جسمك يشبه ما قبل. التشققات أثر حياة عشتِها، ولا تحتاج أن تخجل منها. سيلورا روتين بسيط من خطوتين: سيروم ببتيدات النحاس مع السيكا، وديرما رولر 0.5mm، للعناية بمظهر الجلد وملمسه ومرونته أسبوعاً بعد أسبوع.
           </p>
 
           {/* ── PAIN-POINT BULLETS ── */}
@@ -172,7 +172,7 @@ export default function Hero() {
                 <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 30ml + ديرما رولر — وفري ٣٠ ريال</div>
+              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 30ml + ديرما رولر — وفّر ٣٠ ريال</div>
             </button>
           </div>
           <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>
@@ -182,7 +182,7 @@ export default function Hero() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">
             <button onClick={handleBuyNow} className="btn-gold flex-1 text-base py-4 font-black shadow-xl animate-cta-pulse">
-              احصلي على الطقم العلاجي — {selectedSet.totalPrice} ر.س
+              احصل على الطقم العلاجي — {selectedSet.totalPrice} ر.س
             </button>
             <Link
               href="/ar#results"
@@ -193,7 +193,7 @@ export default function Hero() {
           </div>
 
           <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
-            ✓ ادفعي للمندوب بعد استلام وفحص طلبكِ بيدكِ · شحن فوري من مستودعاتنا بالرياض
+            ✓ ادفع للمندوب بعد استلام وفحص طلبك بيدك · شحن فوري من مستودعاتنا بالرياض
           </p>
 
           {/* Trust micro-row */}
@@ -266,7 +266,7 @@ export default function Hero() {
         onMouseEnter={(e) => (e.currentTarget.style.color = '#C4943E')}
         onMouseLeave={(e) => (e.currentTarget.style.color = '#C9AF97')}
       >
-        <span className="text-xs font-medium">اكتشفي</span>
+        <span className="text-xs font-medium">اكتشف</span>
         <ArrowDown size={18} className="animate-bounce" />
       </a>
     </section>

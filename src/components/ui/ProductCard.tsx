@@ -96,7 +96,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           className="btn-gold w-full flex items-center justify-center gap-2 py-3.5 text-sm"
         >
           <ShoppingBag size={15} />
-          أضيفي للسلة
+          أضف للسلة
         </button>
 
         <Link
@@ -106,7 +106,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           onMouseEnter={(e) => (e.currentTarget.style.color = '#1A0F08')}
           onMouseLeave={(e) => (e.currentTarget.style.color = '#8C7B6E')}
         >
-          اعرفي أكثر ←
+          اعرف أكثر ←
         </Link>
       </div>
     </div>

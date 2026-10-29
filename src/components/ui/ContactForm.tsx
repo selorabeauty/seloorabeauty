@@ -66,7 +66,7 @@ export default function ContactForm() {
         <CheckCircle2 size={48} style={{ color: '#2D6B41' }} />
         <h3 className="font-black text-xl" style={{ color: '#1A4A2A' }}>تم إرسال رسالتك! ✅</h3>
         <p className="text-sm" style={{ color: '#2D6B41' }}>
-          سنرد عليكِ خلال ٢٤ ساعة على بريدك الإلكتروني.
+          سنرد عليك خلال ٢٤ ساعة على بريدك الإلكتروني.
         </p>
         <button
           onClick={() => setStatus('idle')}
@@ -136,7 +136,7 @@ export default function ContactForm() {
             onChange={(e) => setSubject(e.target.value)}
             className="input"
           >
-            <option value="">اختاري الموضوع</option>
+            <option value="">اختر الموضوع</option>
             <option value="استفسار عن طلبي">استفسار عن طلبي</option>
             <option value="استفسار عن المنتج">استفسار عن المنتج</option>
             <option value="طلب استرداد">طلب استرداد</option>
@@ -155,7 +155,7 @@ export default function ContactForm() {
           rows={4}
           value={message}
           onChange={(e) => { setMessage(e.target.value); setErrors((p) => ({ ...p, message: '' })); }}
-          placeholder="اكتبي رسالتك هنا..."
+          placeholder="اكتب رسالتك هنا..."
           className={cn('input resize-none', errors.message && 'input-error')}
         />
         {errors.message && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.message}</p>}

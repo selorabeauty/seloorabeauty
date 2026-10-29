@@ -46,7 +46,7 @@ export default function ShippingPage() {
           <h2 className="text-base font-black text-stone-900 mb-2">ملاحظات مهمة</h2>
           <ul className="list-disc list-inside space-y-1">
             <li>يُعالَج الطلب خلال ٢٤ ساعة من وقت التأكيد</li>
-            <li>ستصلكِ رسالة تأكيد عند شحن طلبك</li>
+            <li>ستصلك رسالة تأكيد عند شحن طلبك</li>
             <li>سيتصل المندوب قبل التوصيل للتنسيق</li>
             <li>في حالة الغياب، يُعاد التوصيل مرة أخرى مجاناً</li>
           </ul>

@@ -91,7 +91,7 @@ export default function SeloraLinksAdmin() {
         }
         return true;
       } else {
-        setAuthError('كلمة المرور غير صحيحة، تأكدي من إدخال الرمز الصحيح');
+        setAuthError('كلمة المرور غير صحيحة، تأكد من إدخال الرمز الصحيح');
         return false;
       }
     } catch {
@@ -231,7 +231,7 @@ export default function SeloraLinksAdmin() {
   };
 
   const handleDeleteLink = async (id: string, slug: string) => {
-    if (!confirm(`هل أنتِ متأكدة من حذف الرابط "${slug}"؟`)) return;
+    if (!confirm(`هل أنت متأكدة من حذف الرابط "${slug}"؟`)) return;
     try {
       const res = await fetch(`${apiUrl}/api/links/${id}`, {
         method: 'DELETE',
@@ -313,7 +313,7 @@ export default function SeloraLinksAdmin() {
             لوحة روابط الإعلانات
           </h1>
           <p className="text-sm text-center text-[#B0998A] mb-8">
-            أدخلي كلمة مرور لوحة الروابط (Redirects Dashboard)
+            أدخل كلمة مرور لوحة الروابط (Redirects Dashboard)
           </p>
 
           {authError && (
@@ -333,7 +333,7 @@ export default function SeloraLinksAdmin() {
                   type={showPass ? 'text' : 'password'}
                   value={inputPass}
                   onChange={(e) => setInputPass(e.target.value)}
-                  placeholder="أدخلي كلمة المرور..."
+                  placeholder="أدخل كلمة المرور..."
                   dir="ltr"
                   className="w-full px-4 py-3.5 rounded-xl border text-sm text-white focus:outline-none transition-colors"
                   style={{
@@ -493,7 +493,7 @@ export default function SeloraLinksAdmin() {
             </h2>
           </div>
           <p className="text-xs text-[#B0998A] mb-6">
-            اختاري الرابط ثم حددي المنصة الإعلانية ليتم توليد الرابط الكامل لنشره في تيك توك وسناب شات مع حفظ كافة المعاملات ونقلها للشيت.
+            اختر الرابط ثم حددي المنصة الإعلانية ليتم توليد الرابط الكامل لنشره في تيك توك وسناب شات مع حفظ كافة المعاملات ونقلها للشيت.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
@@ -599,7 +599,7 @@ export default function SeloraLinksAdmin() {
                 className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white"
                 style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
               >
-                أنشئي أول رابط إعلاني
+                أنشئ أول رابط إعلاني
               </button>
             </div>
           ) : (

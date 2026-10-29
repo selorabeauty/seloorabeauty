@@ -49,7 +49,7 @@ export default function StickyBuyBar() {
           </span>
           <button onClick={handleClick} className="btn-gold flex items-center gap-2 py-3.5 px-6 shadow-xl animate-cta-pulse text-white font-black text-sm">
             <ShoppingBag size={17} />
-            اطلبي الآن — الدفع عند الاستلام
+            اطلب الآن — الدفع عند الاستلام
           </button>
         </div>
       </div>
