@@ -363,19 +363,48 @@ export default function ProductPage({ params }: { params: { slug: string; locale
           </div>
 
           {/* ── Product Reviews: only genuine, collected reviews are shown ── */}
-          {REAL_REVIEWS.length > 0 && (
-            <div className="mb-16">
-              <h2 className="text-2xl font-black text-slate-900 mb-6">آراء العميلات</h2>
+          <div className="mb-16" id="reviews">
+            <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+              <h2 className="text-2xl font-black text-slate-900">آراء العملاء</h2>
+              {REAL_REVIEWS.length > 0 && (
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
+                  <span className="text-amber-500">
+                    {'★'.repeat(Math.round(REAL_REVIEWS.reduce((s, r) => s + r.rating, 0) / REAL_REVIEWS.length))}
+                  </span>
+                  {(REAL_REVIEWS.reduce((s, r) => s + r.rating, 0) / REAL_REVIEWS.length).toFixed(1)} / 5 ({REAL_REVIEWS.length})
+                </div>
+              )}
+            </div>
+
+            {REAL_REVIEWS.length > 0 ? (
               <div className="grid sm:grid-cols-3 gap-5">
                 {REAL_REVIEWS.map((r, i) => (
                   <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <div className="text-amber-500 text-sm mb-2" aria-label={`${r.rating} من 5`}>
+                      {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                    </div>
                     <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
                     <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
+                    <div className="text-xs text-slate-400 mt-1">{r.date}</div>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="grid sm:grid-cols-3 gap-5">
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="bg-white rounded-3xl p-6 border border-dashed border-slate-300">
+                    <div className="text-slate-300 text-sm mb-3" aria-hidden="true">☆☆☆☆☆</div>
+                    <div className="space-y-2" aria-hidden="true">
+                      <div className="h-3 bg-slate-100 rounded w-full" />
+                      <div className="h-3 bg-slate-100 rounded w-5/6" />
+                      <div className="h-3 bg-slate-100 rounded w-2/3" />
+                    </div>
+                    <div className="text-xs text-slate-400 mt-4">مكان تقييم العميل</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* ── Cross-sells ── */}
           {crossSells.length > 0 && (
