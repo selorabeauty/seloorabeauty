@@ -16,39 +16,35 @@ export default function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
+    <section id="faq" className="py-24 cv-auto" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
-          <h2 className="section-heading">أسئلة شائعة</h2>
+          <span className="badge-clinical mb-3">❓ إجابات شفافة ومباشرة</span>
+          <h2 className="section-heading">الأسئلة الشائعة والضمان</h2>
         </div>
         <div className="space-y-3">
           {FAQS.map((f, i) => (
             <div
               key={i}
-              className="rounded-2xl overflow-hidden border"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="rounded-2xl overflow-hidden border transition-all"
+              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 2px 10px rgba(15,23,42,0.03)' }}
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between gap-4 px-6 py-5 text-start transition-colors"
-                style={{ background: open === i ? '#F8F2EA' : 'transparent' }}
+                style={{ background: open === i ? '#EFF6FF' : 'transparent' }}
               >
-                {/* Bold dark brown question */}
-                <span style={{ color: '#1A0F08', fontWeight: 800, fontSize: '0.95rem', lineHeight: '1.5' }}>
+                <span className="font-extrabold text-base leading-snug text-slate-900">
                   {f.q}
                 </span>
-                {/* Gold chevron, properly sized for tap targets */}
                 <ChevronDown
                   size={20}
-                  className={cn('flex-shrink-0 transition-transform duration-200', open === i && 'rotate-180')}
-                  style={{ color: '#C4943E' }}
+                  className={cn('flex-shrink-0 transition-transform duration-200 text-blue-600', open === i && 'rotate-180')}
                 />
               </button>
               {open === i && (
                 <div
-                  className="px-6 pb-6 text-sm leading-[1.95] border-t pt-4"
-                  /* High-contrast dark charcoal answer — was #3D2B1F (too close to bg) */
-                  style={{ color: '#2B1E16', borderColor: '#EFE4D4', fontWeight: 500 }}
+                  className="px-6 pb-6 text-sm leading-[1.95] border-t pt-4 text-slate-700 border-slate-100 font-medium"
                 >
                   {f.a}
                 </div>

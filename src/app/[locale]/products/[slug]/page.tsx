@@ -68,24 +68,24 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-stone-50 pt-24 pb-28">
+      <main className="min-h-screen bg-slate-50 pt-24 pb-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* Breadcrumb */}
-          <nav className="text-xs text-stone-400 mb-6 flex items-center gap-2">
-            <a href="/ar" className="hover:text-stone-700 transition-colors">الرئيسية</a>
+          <nav className="text-xs text-slate-400 mb-6 flex items-center gap-2">
+            <a href="/ar" className="hover:text-slate-700 transition-colors">الرئيسية</a>
             <span>/</span>
-            <a href="/ar/products" className="hover:text-stone-700 transition-colors">المنتجات</a>
+            <a href="/ar/products" className="hover:text-slate-700 transition-colors">عناصر الطقم</a>
             <span>/</span>
-            <span className="text-stone-600 font-medium">{product.name}</span>
+            <span className="text-slate-600 font-bold">{product.name}</span>
           </nav>
 
           {/* ── Main grid ── */}
           <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
 
-            {/* Image gallery — 3 placeholders per product */}
+            {/* Image gallery */}
             <div className="md:sticky md:top-24">
-              <div className="relative bg-white rounded-3xl shadow-sm border border-stone-100 aspect-[3/4] flex items-center justify-center overflow-hidden">
+              <div className="relative bg-white rounded-3xl shadow-md border border-slate-200 aspect-[3/4] flex items-center justify-center overflow-hidden">
                 <img
                   src={activeImg}
                   alt={product.name}
@@ -96,9 +96,9 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
                 {/* Badges */}
                 <div className="absolute top-4 start-4 flex flex-col gap-1.5">
-                  <span className="bg-amber-500 text-white text-xs font-black px-2.5 py-1.5 rounded-xl shadow">{product.badge}</span>
+                  <span className="bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow">{product.badge}</span>
                 </div>
-                <div className="absolute top-4 end-4 bg-red-500 text-white text-sm font-black px-2.5 py-1.5 rounded-xl shadow">
+                <div className="absolute top-4 end-4 bg-red-600 text-white text-sm font-black px-3 py-1.5 rounded-xl shadow">
                   -{discount}%
                 </div>
               </div>
@@ -111,8 +111,8 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                       key={i}
                       type="button"
                       onClick={() => setActiveImg(src)}
-                      className={`bg-white rounded-xl border aspect-square flex items-center justify-center p-1.5 overflow-hidden transition-all cursor-pointer ${
-                        activeImg === src ? 'border-amber-500 ring-2 ring-amber-500/30' : 'border-stone-100 opacity-70 hover:opacity-100'
+                      className={`bg-white rounded-2xl border aspect-square flex items-center justify-center p-2 overflow-hidden transition-all cursor-pointer ${
+                        activeImg === src ? 'border-blue-600 ring-2 ring-blue-500/30' : 'border-slate-200 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" loading="lazy" decoding="async" />
@@ -125,86 +125,88 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             {/* Info */}
             <div className="flex flex-col gap-5">
               <div>
-                <p className="text-sm font-bold text-amber-600 mb-2">{product.tagline}</p>
-                <h1 className="text-3xl md:text-4xl font-black text-stone-900 leading-tight">{product.name}</h1>
+                <span className="badge-clinical mb-2">{product.tagline}</span>
+                <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight mt-1">{product.name}</h1>
               </div>
 
               {/* Stars */}
               <div className="flex items-center gap-3">
                 <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={17} className={i < Math.floor(product.rating) ? 'star fill-amber-400' : 'text-stone-200'} />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} size={17} className={i < Math.floor(product.rating) ? 'star fill-amber-400' : 'text-slate-200'} />)}
                 </div>
-                <span className="font-black text-stone-900">{product.rating}</span>
-                <span className="text-sm text-stone-400">({product.reviewCount.toLocaleString('ar-SA')} تقييم)</span>
+                <span className="font-black text-slate-900">{product.rating}</span>
+                <span className="text-sm text-slate-500">({product.reviewCount.toLocaleString('ar-SA')} تقييم موثق)</span>
               </div>
 
               {/* Description */}
-              <p className="text-base text-stone-600 leading-relaxed">{product.description}</p>
+              <p className="text-base text-slate-600 leading-relaxed">{product.description}</p>
 
-              {/* ── Pricing tiers — the 4 set options ── */}
+              {/* ── Pricing tiers — the set options ── */}
               <div className="flex flex-col gap-2.5">
-                <span className="font-bold text-stone-900">اختاري الطقم المناسب لكِ:</span>
+                <span className="font-extrabold text-slate-900 text-base">اختاري الباقة المناسبة لاحتياجكِ:</span>
                 {SET_OPTIONS.map((set) => (
                   <button
                     key={set.id}
                     onClick={() => setSelectedSetId(set.id)}
                     className={cn(
                       'flex items-center gap-4 rounded-2xl p-4 border-2 text-start transition-all relative',
-                      selectedSetId === set.id ? 'border-amber-500 bg-amber-50' : 'border-stone-100 bg-white hover:border-amber-200'
+                      selectedSetId === set.id ? 'border-blue-600 bg-blue-50/70 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'
                     )}
                   >
                     {set.badge && (
-                      <span className="absolute -top-2.5 start-4 bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">
+                      <span className="absolute -top-2.5 start-4 bg-blue-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow">
                         {set.badge}
                       </span>
                     )}
                     <img
                       src={set.image}
                       alt={set.label}
-                      className="w-12 h-12 rounded-xl object-cover border border-stone-100 flex-shrink-0"
+                      className="w-14 h-14 rounded-xl object-contain bg-white p-1 border border-slate-200 flex-shrink-0"
                       loading="lazy"
                       decoding="async"
                     />
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                      style={{ borderColor: selectedSetId === set.id ? '#C4943E' : '#D6C6B4' }}
+                      style={{ borderColor: selectedSetId === set.id ? '#1D4ED8' : '#94A3B8' }}
                     >
-                      {selectedSetId === set.id && <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#C4943E' }} />}
+                      {selectedSetId === set.id && <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />}
                     </div>
                     <div className="flex-1">
-                      <div className="font-black text-sm text-stone-900">{set.label}</div>
+                      <div className="font-black text-sm text-slate-900">{set.label}</div>
                       <div className="text-xs text-emerald-600 font-bold mt-0.5">{set.savingsLabel} · {set.perUnitLabel}</div>
                     </div>
                     <div className="text-end">
-                      <div className="font-black text-lg text-stone-900">{set.totalPrice} <span className="text-xs">ر.س</span></div>
-                      <div className="text-xs text-stone-400 line-through">{set.originalTotal}</div>
+                      <div className="font-black text-lg text-slate-900">{set.totalPrice} <span className="text-xs">ر.س</span></div>
+                      <div className="text-xs text-slate-400 line-through">{set.originalTotal}</div>
                     </div>
                   </button>
                 ))}
               </div>
 
-              <div className="bg-stone-50 rounded-2xl p-4 border border-stone-100">
-                <p className="text-sm text-stone-500">شامل ضريبة القيمة المضافة ١٥٪</p>
-                <p className="text-sm text-stone-500 font-medium mt-1">💳 دفع عند الاستلام · Tabby/Tamara · Apple Pay/مدى</p>
+              <div className="bg-white rounded-2xl p-4 border border-slate-200 text-slate-700 space-y-1 shadow-sm">
+                <p className="text-xs font-bold text-emerald-600 flex items-center gap-1.5">
+                  <span>✓ متاح الدفع عند الاستلام بعد فحص الطلب</span>
+                </p>
+                <p className="text-xs text-slate-500 font-medium">� شحن سريع لكافة مدن المملكة (١-٣ أيام لباب منزلك)</p>
               </div>
 
               {/* CTAs */}
               <div className="flex flex-col gap-3">
-                <button onClick={handleBuyNow} className="btn-gold w-full text-lg py-5 animate-cta-pulse">
-                  اطلبي الآن — {selectedSet.totalPrice} ر.س
+                <button onClick={handleBuyNow} className="btn-gold w-full text-lg py-5 shadow-xl font-black animate-cta-pulse">
+                  اطلبي الآن — {selectedSet.totalPrice} ر.س (دفع عند الاستلام)
                 </button>
                 <button
                   onClick={handleAddToCart}
-                  className={cn('btn-outline w-full', added && 'bg-stone-900 text-white border-stone-900')}
+                  className={cn('btn-outline w-full py-4 text-base font-bold', added && 'bg-slate-900 text-white border-slate-900')}
                 >
                   {added ? '✓ تمت الإضافة للسلة' : 'أضيفي للسلة'}
                 </button>
               </div>
 
               {/* Guarantee */}
-              <p className="text-sm text-emerald-700 font-medium flex items-center gap-2">
-                <RotateCcw size={14} />
-                ضمان استرداد كامل خلال ٣٠ يوماً إذا لم ترَي نتيجة
+              <p className="text-sm text-emerald-700 font-bold flex items-center gap-2">
+                <RotateCcw size={16} />
+                ضمان ذهبي لاسترداد كامل المبلغ خلال ٣٠ يوماً في حال عدم الرضا
               </p>
 
               {/* Trust */}
@@ -284,17 +286,110 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             </div>
           </div>
 
+          {/* ── Clinical Superiority Comparison Section ── */}
+          <div className="mb-20 pt-10 border-t border-slate-200">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="badge-clinical mb-3">🔬 الفرق العلمي الحاسم</span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+                لماذا يتفوق طقم سيلورا الصيدلاني على البدائل التقليدية؟
+              </h2>
+              <p className="text-sm text-slate-600 mt-2">
+                مقارنة صيدلانية توضح الفارق بين تقنية ترميم ألياف الأدمة والمنتجات السطحية في السوق
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Comparison 1: Needles */}
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                  <span className="text-2xl">🪡</span>
+                  <div>
+                    <h3 className="font-extrabold text-slate-900 text-lg">إبر التيتانيوم 540 مقابل الإبر القديمة</h3>
+                    <p className="text-xs text-slate-500">أمان الجلد ومنع الندبات والخدوش</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-2xl bg-emerald-50/90 border border-emerald-200">
+                    <div className="font-bold text-sm text-emerald-900 flex items-center gap-2 mb-1">
+                      <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">✓</span>
+                      إبر تيتانيوم سيلورا (Titanium 540 Medical 0.5mm):
+                    </div>
+                    <ul className="text-xs text-emerald-800 space-y-1 pe-2 leading-relaxed font-medium">
+                      <li>• تيتانيوم طبي صلب غير قابل للانثناء أو الصدأ مع الاستخدام المتكرر.</li>
+                      <li>• مقاس 0.5mm دقيق يفتح قنوات ميكروسكوبية نظيفة بدون جروح أو نزيف.</li>
+                      <li>• تحفيز ذاتي فوري لخلايا الكولاجين دون تمزيق الأنسجة.</li>
+                      <li>• معقمة مسبقاً بغاز EO الطبي داخل كبسولة حفظ محكمة.</li>
+                    </ul>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-rose-50/90 border border-rose-200">
+                    <div className="font-bold text-sm text-rose-900 flex items-center gap-2 mb-1">
+                      <span className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs">✕</span>
+                      الإبر القديمة الرخيصة (Stainless Steel التجارية):
+                    </div>
+                    <ul className="text-xs text-rose-800 space-y-1 pe-2 leading-relaxed font-medium">
+                      <li>• إبر ستانلس ستيل تنثني وتفقد حدتها وتتحول لرؤوس خطافية بعد أسبوعين.</li>
+                      <li>• الإبر المنثنية تخدش وتمزق الجلد وتزيد مظهر التشققات سوءاً!</li>
+                      <li>• تتأكسد مع الرطوبة وتسبب تهيجاً وعدوى بكتيرية.</li>
+                      <li>• غير معقمة وتفتقر لمعايير الأجهزة الطبية الموثوقة.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comparison 2: Serum */}
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                  <span className="text-2xl">🧬</span>
+                  <div>
+                    <h3 className="font-extrabold text-slate-900 text-lg">سيروم ببتيدات النحاس مقابل الزيوت التقليدية</h3>
+                    <p className="text-xs text-slate-500">الوصول لطبقة الأدمة العميقة مقابل الترطيب السطحي</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-2xl bg-blue-50/90 border border-blue-200">
+                    <div className="font-bold text-sm text-blue-950 flex items-center gap-2 mb-1">
+                      <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">✓</span>
+                      سيروم سيلورا (Blue Copper Peptide + CICA 100ml):
+                    </div>
+                    <ul className="text-xs text-blue-900 space-y-1 pe-2 leading-relaxed font-medium">
+                      <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
+                      <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
+                      <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
+                      <li>• حجم 100ml كبير وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
+                    </ul>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-100/90 border border-slate-200">
+                    <div className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-1">
+                      <span className="w-5 h-5 rounded-full bg-slate-400 text-white flex items-center justify-center text-xs">✕</span>
+                      زيوت وكريمات السوق العادية (بايو أويل / زبدة عادية):
+                    </div>
+                    <ul className="text-xs text-slate-600 space-y-1 pe-2 leading-relaxed font-medium">
+                      <li>• جزيئات زيتية ضخمة (+500 Dalton) تعجز عن عبور حاجز الجلد الخارجي.</li>
+                      <li>• ترطيب سطحي مؤقت يزول بالماء دون علاج التمزق الداخلي.</li>
+                      <li>• صفر تحفيز للكولاجين الجديد في النسيج المتصلب.</li>
+                      <li>• ملمس زيتي ثقيل يلطخ الملابس ويسبب إزعاجاً مستمراً.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* ── Product Reviews ── */}
           <div className="mb-16">
-            <h2 className="text-2xl font-black text-stone-900 mb-6">آراء العملاء</h2>
+            <h2 className="text-2xl font-black text-slate-900 mb-6">آراء وتجارب العملاء الموثقة</h2>
             <div className="grid sm:grid-cols-3 gap-5">
               {REVIEWS.map((r, i) => (
-                <div key={i} className="card">
+                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                   <div className="flex gap-0.5 mb-3">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} className={j < r.rating ? 'star fill-amber-400' : 'text-stone-200'} />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} size={14} className={j < r.rating ? 'star fill-amber-400' : 'text-slate-200'} />)}
                   </div>
-                  <p className="text-sm text-stone-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
-                  <div className="font-bold text-sm text-stone-900">{r.name}</div>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
+                  <div className="font-bold text-sm text-slate-900">{r.name}</div>
                 </div>
               ))}
             </div>

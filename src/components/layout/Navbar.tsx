@@ -35,10 +35,10 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-nude-50/97 backdrop-blur-xl shadow-luxury border-b border-nude-200'
+          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-slate-200'
           : 'bg-transparent'
       )}
-      style={scrolled ? { backgroundColor: 'rgba(253,250,246,0.97)' } : {}}
+      style={scrolled ? { backgroundColor: 'rgba(255,255,255,0.98)' } : {}}
     >
       {/* ── Announcement bar ── */}
       <div
@@ -134,8 +134,8 @@ export default function Navbar() {
       {/* ── Mobile drawer ── */}
       {mobileOpen && (
         <div
-          className="md:hidden border-t shadow-luxury-lg"
-          style={{ backgroundColor: '#FDFAF6', borderColor: '#EFE4D4' }}
+          className="md:hidden border-t shadow-lg"
+          style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' }}
         >
           <ul className="flex flex-col py-2">
             {NAV_LINKS.map((link) => (
@@ -144,9 +144,9 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="block px-6 py-3 text-base font-medium transition-colors"
-                  style={{ color: '#1A0F08' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#C4943E'; e.currentTarget.style.backgroundColor = '#F8F2EA'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#1A0F08'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                  style={{ color: '#0F172A' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#1D4ED8'; e.currentTarget.style.backgroundColor = '#F1F5F9'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#0F172A'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
                   {link.label}
                 </Link>

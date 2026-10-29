@@ -31,10 +31,8 @@ export default function CheckoutPopup() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
-  const [district, setDistrict] = useState('');
-  const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
-  const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string; address?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -82,11 +80,10 @@ export default function CheckoutPopup() {
   if (!isCheckoutOpen) return null;
 
   const validate = () => {
-    const e: { name?: string; phone?: string; city?: string; address?: string } = {};
+    const e: { name?: string; phone?: string; city?: string } = {};
     if (!name.trim()) e.name = 'الاسم مطلوب';
     if (!validateKSAPhone(phone)) e.phone = 'رقم الجوال غير صحيح — يجب أن يبدأ بـ 0 ويكون 10 أرقام';
     if (!city) e.city = 'المدينة مطلوبة';
-    if (!address.trim()) e.address = 'العنوان التفصيلي مطلوب';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -107,8 +104,6 @@ export default function CheckoutPopup() {
       name:            name.trim(),
       phone:           phone.trim(),
       city,
-      district:        district.trim(),
-      address:         address.trim(),
       payment_method:  paymentMethod,
       quantity:        totalQty,
       total,
@@ -320,35 +315,6 @@ export default function CheckoutPopup() {
                   {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
                 {errors.city && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.city}</p>}
-              </div>
-
-              {/* District (optional) */}
-              <div>
-                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
-                  الحي <span className="text-xs font-normal" style={{ color: '#8C7B6E' }}>(اختياري)</span>
-                </label>
-                <input
-                  type="text"
-                  value={district}
-                  onChange={(e) => setDistrict(e.target.value)}
-                  placeholder="مثال: حي النزهة"
-                  className="input"
-                />
-              </div>
-
-              {/* Detailed address */}
-              <div>
-                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
-                  العنوان التفصيلي <span style={{ color: '#C0392B' }}>*</span>
-                </label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: undefined })); }}
-                  placeholder="اسم الشارع، رقم المبنى، أقرب معلم"
-                  className={cn('input', errors.address && 'input-error')}
-                />
-                {errors.address && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.address}</p>}
               </div>
 
               {/* Payment method */}
