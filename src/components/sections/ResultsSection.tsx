@@ -5,16 +5,16 @@ import { SET_OPTIONS } from '@/lib/products';
 const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
 
 const TIMELINE = [
-  { period: 'الأسبوع ١', result: 'ترطيب عميق ونعومة ملحوظة في منطقة التشققات من الاستخدام الأول',    dot: '#EFE4D4' },
-  { period: 'الأسبوع ٢', result: 'بداية تحسن ملحوظ في لون التشققات الحمراء والبنفسجية',             dot: '#D4A96A' },
-  { period: 'الأسبوع ٤', result: 'تشققات أفتح وأقل بروزاً، ومرونة أعلى في البشرة المحيطة',           dot: '#C4943E' },
-  { period: 'الأسبوع ٨', result: 'تحول حقيقي — تشققات باهتة وشبه غير ملحوظة، بشرة موحدة وواثقة',    dot: '#1A0F08' },
+  { period: 'الأسبوع ١', result: 'تنشيط الدورة الدموية الدقيقة وتغذية الأنسجة بقطرات ببتيدات النحاس الزرقاء (GHK-Cu).', dot: '#BFDBFE' },
+  { period: 'الأسبوع ٢', result: 'تفتيح واضح وملموس في لون التشققات الحمراء والبنفسجية وتهدئة نسيج الجلد بالسيكا.',    dot: '#60A5FA' },
+  { period: 'الأسبوع ٤', result: 'تحفيز الكولاجين الذاتي بواسطة الديرما رولر — ردم التمزقات ونعومة حريرية للجلد.',      dot: '#1D4ED8' },
+  { period: 'الأسبوع ٨', result: 'تحول كامل وموثق — تشققات باهتة ومسطحة وشبه غير ملحوظة، واستعادة تامة للثقة.',         dot: '#0B1B3D' },
 ];
 
 const STATS = [
-  { label: 'تحسن مظهر التشققات',        pct: '+87%', sub: 'في ٤ أسابيع',       img: '/images/before-after-1.webp' },
-  { label: 'تفتيح لون التشققات الحمراء', pct: '+82%', sub: 'خلال أسبوعين',      img: '/images/before-after-2.webp' },
-  { label: 'مرونة البشرة العامة',        pct: '+94%', sub: 'تحسن ملحوظ',        img: '/images/before-after-3.webp' },
+  { label: 'تحسن مظهر وعمق التشققات',   pct: '+87%', sub: 'خلال ٤ أسابيع',       img: '/images/before-after-1.webp' },
+  { label: 'تفتيح لون الخطوط الملونة',    pct: '+82%', sub: 'خلال أسبوعين',      img: '/images/before-after-2.webp' },
+  { label: 'مرونة وكثافة الجلد العامة',   pct: '+94%', sub: 'تحسن سريري موثق',    img: '/images/before-after-3.webp' },
 ];
 
 export default function ResultsSection() {
@@ -26,8 +26,8 @@ export default function ResultsSection() {
       name: completeSet.label,
       price: completeSet.totalPrice,
       originalPrice: completeSet.originalTotal,
-      imageBg: 'from-bark-800 to-bark-900',
-      includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'],
+      imageBg: 'from-blue-900 to-slate-950',
+      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'],
       sku: completeSet.sku,
     });
     openCheckout();

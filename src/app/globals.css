@@ -148,6 +148,14 @@
     border: 1px solid #E8C98A;
   }
 
+  .badge-clinical {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5
+           text-xs font-bold rounded-full tracking-wide;
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+  }
+
   .badge-green {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
