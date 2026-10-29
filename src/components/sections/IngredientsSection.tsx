@@ -14,9 +14,9 @@ export default function IngredientsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-10">
-          <span className="badge-clinical mb-3">🔬 تركيبة معملية متقدمة</span>
-          <h2 className="section-heading">مكونات نشطة مدروسة سريرياً</h2>
-          <p className="section-sub">كل عنصر في طقم سيلورا الصيدلاني له وظيفة بيولوجية محددة لردم التمزق وتجديد الخلايا</p>
+          <span className="badge-clinical mb-3">🌿 ما بداخل العبوة</span>
+          <h2 className="section-heading">مكونات واضحة، نختارها لأجل بشرتكِ</h2>
+          <p className="section-sub">نؤمن أن من حقكِ أن تعرفي ما تضعينه على جلدكِ. هذه مكونات الروتين ولماذا نستخدمها.</p>
         </div>
 
         {/* ── Real ingredients & system showcase ── */}

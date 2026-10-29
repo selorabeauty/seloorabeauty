@@ -24,8 +24,8 @@ export default function ScienceSection() {
 
         <div className="text-center mb-14">
           <span className="badge mb-4">🔬 العلم وراء النتيجة</span>
-          <h2 className="section-heading">علم ترميم الأنسجة المجهري</h2>
-          <p className="section-sub">قوة ببتيدات النحاس الزرقاء (GHK-Cu) مع ديرما رولر التيتانيوم — الحل الصيدلاني الموجه لطبقة الأدمة</p>
+          <h2 className="section-heading">كيف يعمل الروتين؟</h2>
+          <p className="section-sub">خطوتان بسيطتان: رولر لطيف يهيّئ بشرتكِ، وسيروم ببتيدات النحاس (GHK-Cu) يعتني بها كل يوم</p>
         </div>
 
         {/* Stats */}

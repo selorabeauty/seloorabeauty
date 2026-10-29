@@ -1,4 +1,4 @@
-import { ShieldCheck, RotateCcw, Banknote, MessageCircle } from 'lucide-react';
+import { Star, ShieldCheck, RotateCcw, Banknote, MessageCircle } from 'lucide-react';
 import { REAL_REVIEWS } from '@/lib/reviews';
 
 const PROMISES = [
@@ -10,6 +10,7 @@ const PROMISES = [
 
 export default function ReviewsSection() {
   const hasReviews = REAL_REVIEWS.length > 0;
+  const avg = hasReviews ? REAL_REVIEWS.reduce((n, r) => n + r.rating, 0) / REAL_REVIEWS.length : 0;
 
   return (
     <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#FFFFFF' }}>
@@ -27,9 +28,20 @@ export default function ReviewsSection() {
         </div>
 
         {hasReviews && (
+          <div className="text-center mb-8 text-sm font-bold text-slate-700">
+            ⭐ {avg.toFixed(1)} من 5 · {REAL_REVIEWS.length.toLocaleString('ar-SA')} تقييم
+          </div>
+        )}
+
+        {hasReviews && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
             {REAL_REVIEWS.map((r, i) => (
               <div key={i} className="card flex flex-col gap-3 border border-slate-200 bg-white">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} size={13} className={j < r.rating ? 'fill-current text-amber-500' : 'text-slate-200'} />
+                  ))}
+                </div>
                 <p className="text-sm leading-relaxed text-slate-700">&ldquo;{r.text}&rdquo;</p>
                 <div className="mt-auto pt-3 border-t border-slate-100">
                   <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
