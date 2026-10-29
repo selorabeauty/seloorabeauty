@@ -22,7 +22,7 @@ export default function IngredientsSection() {
         {/* ── Real ingredients & system showcase ── */}
         <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-2xl bg-white border border-slate-200 p-6 flex items-center justify-center shadow-md">
           <div className="w-full h-56">
-            <Photo src={IMG.duo} alt="سيروم ببتيدات النحاس والديرما رولر — سيلورا بيوتي" label="سيروم ببتيدات النحاس + ديرما رولر" />
+            <Photo src={IMG.duo} alt="سيروم ببتيدات النحاس والديرما رولر — Daranca" label="سيروم ببتيدات النحاس + ديرما رولر" />
           </div>
         </div>
 
@@ -71,9 +71,9 @@ export default function IngredientsSection() {
           style={{ backgroundColor: '#0B132B', borderColor: '#1E293B' }}
         >
           {[
-            { e: '🚫', t: 'خالٍ من الكحول والعطور المهيجة', d: 'آمن للبشرة الحساسة وبشرة ما بعد الحمل والجيم' },
-            { e: '✅', t: 'مطابق لمعايير ISO 22716',    d: 'كل تشغيلة تمر بفحص تعقيم وجودة صيدلانية صارم' },
-            { e: '🌿', t: 'تركيبة نقية معتمدة',        d: 'ببتيدات وسيكا عالية النقاء بدون بارابين أو كبريتات' },
+            { e: '🧴', t: 'قوام مائي خفيف', d: 'يُمتص بسرعة ويناسب الاستخدام الصباحي والمسائي' },
+            { e: '🧪', t: 'اختبري على منطقة صغيرة أولاً', d: 'نوصي بتجربة صغيرة على الجلد قبل أول استخدام' },
+            { e: '📋', t: 'قائمة المكونات على العبوة', d: 'راجعي المكونات على العبوة للتأكد من ملاءمتها لبشرتكِ' },
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-1.5">
               <span className="text-2xl">{item.e}</span>

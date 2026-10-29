@@ -44,7 +44,7 @@ export default function CheckoutPopup() {
   const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
   const cartItems = items.length > 0
     ? items
-    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
 
   const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];

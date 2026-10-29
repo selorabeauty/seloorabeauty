@@ -21,7 +21,7 @@ export default function ResultsSection() {
       price: completeSet.totalPrice,
       originalPrice: completeSet.originalTotal,
       imageBg: 'from-blue-900 to-slate-950',
-      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'],
+      includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم 0.5mm'],
       sku: completeSet.sku,
     });
     openCheckout();

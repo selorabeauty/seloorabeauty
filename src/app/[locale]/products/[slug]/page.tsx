@@ -274,7 +274,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             <div className="text-center max-w-2xl mx-auto mb-10">
               <span className="badge-clinical mb-3">🔬 الفرق العلمي الحاسم</span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                لماذا يتفوق طقم سيلورا الصيدلاني على البدائل التقليدية؟
+                لماذا الجمع بين السيروم والرولر؟
               </h2>
               <p className="text-sm text-slate-600 mt-2">
                 مقارنة صيدلانية توضح الفارق بين تقنية ترميم ألياف الأدمة والمنتجات السطحية في السوق
@@ -335,13 +335,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                   <div className="p-4 rounded-2xl bg-blue-50/90 border border-blue-200">
                     <div className="font-bold text-sm text-blue-950 flex items-center gap-2 mb-1">
                       <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">✓</span>
-                      سيروم سيلورا (Blue Copper Peptide + CICA 100ml):
+                      سيروم Daranca (Copper Peptide + CICA 30ml):
                     </div>
                     <ul className="text-xs text-blue-900 space-y-1 pe-2 leading-relaxed font-medium">
                       <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
                       <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
                       <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
-                      <li>• حجم 100ml كبير وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
+                      <li>• عبوة 30ml بقطّارة وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
                     </ul>
                   </div>
 
@@ -352,7 +352,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                     </div>
                     <ul className="text-xs text-slate-600 space-y-1 pe-2 leading-relaxed font-medium">
                       <li>• جزيئات زيتية ضخمة (+500 Dalton) تعجز عن عبور حاجز الجلد الخارجي.</li>
-                      <li>• ترطيب سطحي مؤقت يزول بالماء دون علاج التمزق الداخلي.</li>
+                      <li>• ترطيب سطحي مؤقت يزول بالماء دون أن تصل لطبقات الجلد العميقة.</li>
                       <li>• صفر تحفيز للكولاجين الجديد في النسيج المتصلب.</li>
                       <li>• ملمس زيتي ثقيل يلطخ الملابس ويسبب إزعاجاً مستمراً.</li>
                     </ul>

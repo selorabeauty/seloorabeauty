@@ -7,10 +7,14 @@
  * e.g. serum: '/images/serum-real.webp'. See docs/11-CRO-VISUALS-AND-CONSISTENCY.md
  * for the shot list and prompts.
  */
+// Daranca serum + derma roller (supplier render, text-free crop), 800w WebP.
+// Replace per-product slots with individual shots when available.
+const PRODUCT_SHOT = '/images/daranca-duo-800.webp';
+
 export const IMG: Record<'serum' | 'roller' | 'duo', string | null> = {
-  serum: null,
-  roller: null,
-  duo: null,
+  serum: PRODUCT_SHOT,
+  roller: PRODUCT_SHOT,
+  duo: PRODUCT_SHOT,
 };
 
 export function realImages(list: (string | null | undefined)[]): string[] {

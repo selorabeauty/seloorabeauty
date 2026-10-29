@@ -43,7 +43,7 @@ const FEATURES = [
   {
     icon: <Sparkles size={22} className="text-[#C4943E]" />,
     title: 'ببتيدات النحاس GHK-Cu',
-    desc: 'ببتيد معروف في أبحاث العناية بالبشرة بدوره في دعم مظهر الجلد المرن والمتماسك. سيروم 100 مل يكفي البطن والفخذين والأرداف.',
+    desc: 'ببتيد معروف في أبحاث العناية بالبشرة بدوره في دعم مظهر الجلد المرن والمتماسك. سيروم 30 مل بقطّارة للاستخدام الدقيق.',
   },
   {
     icon: <Leaf size={22} className="text-[#2D6B41]" />,
@@ -233,7 +233,7 @@ export default function SoftLandingPage() {
         {/* Hero Visual */}
         <div className="relative mx-auto w-full max-w-md">
           <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#EFE4D4] bg-[#F8F2EA] relative aspect-[4/5]">
-            <Photo src={IMG.duo} alt="طقم سيروم ببتيدات النحاس والديرما رولر — سيلورا ديرما" label="سيروم ببتيدات النحاس + ديرما رولر" className="w-full h-full object-cover" />
+            <Photo src={IMG.duo} alt="طقم سيروم ببتيدات النحاس والديرما رولر — Daranca" label="سيروم ببتيدات النحاس + ديرما رولر" className="w-full h-full object-cover" />
           </div>
           <div className="absolute -bottom-4 -left-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-[#EFE4D4] flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#1E3A8A]/10 flex items-center justify-center text-[#1E3A8A]">
@@ -352,7 +352,7 @@ export default function SoftLandingPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">طقم سيروم ببتيدات النحاس + ديرما رولر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولر تيتانيوم</div>
+                      <div className="text-[11px] text-[#8C7B6E]">سيروم 30ml + ديرما رولر تيتانيوم</div>
                     </div>
                   </div>
                   <div className="text-right">

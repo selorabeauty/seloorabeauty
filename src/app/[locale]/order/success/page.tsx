@@ -50,7 +50,7 @@ function SuccessContent() {
     const finalPhone = savedData.phone || '';
     const finalEventId = params.get('ev') || savedData.eventId || crypto.randomUUID();
     const finalItems = savedData.items || [
-      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — علاج منزلي متكامل', quantity: 1, price: finalTotal },
+      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — سيروم + ديرما رولر', quantity: 1, price: finalTotal },
     ];
 
     // Session deduplication guard so page reloads don't duplicate events

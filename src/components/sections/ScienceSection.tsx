@@ -1,5 +1,5 @@
 const STATS = [
-  { value: '100ml',     label: 'سيروم يكفي الجسم كله' },
+  { value: '30ml',      label: 'سيروم بقطّارة' },
   { value: '540',       label: 'إبرة تيتانيوم بالرولر' },
   { value: '0.5mm',     label: 'مقاس لطيف للمنزل' },
   { value: '٨-١٢ أسبوعاً', label: 'التزام موصى به' },
@@ -80,7 +80,7 @@ export default function ScienceSection() {
           >
             {/* Header */}
             <h3 className="text-xl font-bold" style={{ color: '#93C5FD' }}>
-              كيف يعمل بروتوكول الترميم المجهري الصيدلاني؟
+              كيف يعمل الروتين خطوة بخطوة؟
             </h3>
             <p className="text-sm leading-relaxed -mt-4" style={{ color: '#CBD5E1' }}>
               روتين من خطوتين — رولر 0.5mm بإبر التيتانيوم يتبعه سيروم ببتيدات النحاس والسيكا للعناية بمظهر الجلد ومرونته.

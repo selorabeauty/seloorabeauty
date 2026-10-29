@@ -55,9 +55,9 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
               <span className="text-xs font-bold text-white">S</span>
             </span>
             <div>
-              <span className="text-2xl font-black block leading-none text-white">سيلورا ديرما</span>
+              <span className="text-2xl font-black block leading-none text-white">سيلورا بيوتي</span>
               <span className="text-[10px] font-bold tracking-[0.22em] uppercase block text-blue-400">
-                Selora Derma Laboratory
+                Selora Beauty
               </span>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
         className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center
                    justify-between gap-2 text-xs font-medium border-t border-slate-800 text-slate-400"
       >
-        <span>© ٢٠٢٦ Selora Derma Laboratory. جميع الحقوق محفوظة.</span>
+        <span>© ٢٠٢٦ Selora Beauty. جميع الحقوق محفوظة.</span>
         <span>🇸🇦 شحن سريع وتوصيل للمنزل · الدفع عند الاستلام</span>
       </div>
     </footer>

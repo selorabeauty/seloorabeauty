@@ -64,7 +64,7 @@ export default function CartPage() {
               </div>
               <h2 className="text-xl font-extrabold text-slate-900 mb-2">سلتكِ فارغة حالياً</h2>
               <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                ابدأ/ي باختيار الطقم العلاجي الصيدلاني لترميم التشققات واستعادة نعومة ومرونة الجلد.
+                ابدأ/ي باختيار الطقم المناسب لكِ للعناية بمظهر التشققات ومرونة الجلد.
               </p>
               <Link href="/ar" className="btn-gold inline-flex px-8 py-4 text-base font-bold shadow-md">
                 تصفح الطقم العلاجي
@@ -130,7 +130,7 @@ export default function CartPage() {
                         <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
                           {isSingle
                             ? 'أضف ديرما رولر التيتانيوم الطبية مع السيروم لمضاعفة امتصاص الكولاجين ٨٠٪ وسرعة النتائج.'
-                            : 'احصل على عبوتين سيروم 100ml + ديرما رولر لضمان كورس كامل يكفي كامل مساحات التمدد.'}
+                            : 'احصل على عبوتين سيروم 30ml + ديرما رولر لكورس أطول ومساحات أكبر.'}
                         </p>
                       </div>
 

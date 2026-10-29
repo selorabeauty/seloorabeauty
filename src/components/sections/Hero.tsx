@@ -21,7 +21,7 @@ const PAIN_BULLETS = [
   {
     emoji: '🧬',
     bold: 'ببتيدات النحاس GHK-Cu + سيكا:',
-    rest: 'مكونات معروفة في أبحاث العناية بالبشرة لدعم مرونة الجلد وتهدئته، في سيروم 100ml خفيف غير لزج.',
+    rest: 'مكونات معروفة في أبحاث العناية بالبشرة لدعم مرونة الجلد وتهدئته، في سيروم 30ml خفيف غير لزج.',
   },
   {
     emoji: '🪡',
@@ -51,8 +51,8 @@ export default function Hero() {
       originalPrice: selectedSet.originalTotal,
       imageBg: 'from-bark-800 to-bark-900',
       includes: selectedSetId === 'set-complete'
-        ? ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم']
-        : ['سيروم علاج تشققات الجسم'],
+        ? ['سيروم ببتيدات النحاس 30ml', 'ديرما رولر التيتانيوم 0.5mm']
+        : ['سيروم ببتيدات النحاس 30ml'],
       sku: selectedSet.sku,
     });
     openCheckout();
@@ -147,7 +147,7 @@ export default function Hero() {
                 <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{singleSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748B' }}>سيروم النحاس 100ml فقط</div>
+              <div className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748B' }}>سيروم النحاس 30ml فقط</div>
             </button>
 
             {/* Complete bundle — 249 SAR, best value */}
@@ -164,7 +164,7 @@ export default function Hero() {
                 className="absolute -top-2.5 end-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow"
                 style={{ backgroundColor: '#1E3A8A', color: '#FDE047' }}
               >
-                ⭐ الكورس الصيدلاني المتكامل
+                ⭐ الروتين المتكامل: سيروم + رولر
               </span>
               <div className="text-xs font-bold mb-1" style={{ color: '#1E3A8A' }}>الروتين العلاجي الأقوى</div>
               <div className="flex items-baseline gap-1.5">
@@ -172,7 +172,7 @@ export default function Hero() {
                 <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ٣٠ ريال</div>
+              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 30ml + ديرما رولر — وفري ٣٠ ريال</div>
             </button>
           </div>
           <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>
@@ -232,7 +232,7 @@ export default function Hero() {
             >
               <Photo
                 src={IMG.duo}
-                alt="سيروم ببتيدات النحاس والديرما رولر — سيلورا بيوتي"
+                alt="سيروم ببتيدات النحاس والديرما رولر — Daranca"
                 label="سيروم ببتيدات النحاس + ديرما رولر"
                 priority
               />
