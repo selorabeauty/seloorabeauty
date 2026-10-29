@@ -45,7 +45,7 @@ export default function CheckoutPopup() {
   const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
   const cartItems = items.length > 0
     ? items
-    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-bark-800 to-bark-900', includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'], sku: fallbackSet.sku }];
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
 
   const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];
@@ -363,8 +363,8 @@ export default function CheckoutPopup() {
                   <div className="w-2 h-2 rounded-full" style={{ background: '#2D6B41' }} />
                 </div>
                 <div>
-                  <div className="font-bold text-sm" style={{ color: '#1A4A2A' }}>الدفع عند الاستلام</div>
-                  <div className="text-xs" style={{ color: '#2D6B41' }}>ادفعي للمندوب عند وصول طلبكِ</div>
+                  <div className="font-bold text-sm" style={{ color: '#1A4A2A' }}>الدفع عند الاستلام (COD)</div>
+                  <div className="text-xs font-semibold" style={{ color: '#2D6B41' }}>افحصي الشحنة وتأكدي منها عند وصول المندوب لباب بيتكِ ثم ادفعي بثقة</div>
                 </div>
               </div>
 
@@ -372,12 +372,16 @@ export default function CheckoutPopup() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="btn-gold w-full text-lg py-5 mt-1 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 animate-cta-pulse"
+                className="btn-gold w-full text-lg py-5 mt-1 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 animate-cta-pulse font-black shadow-xl"
               >
                 {submitting
                   ? <><Loader2 size={18} className="animate-spin" /> جاري إرسال الطلب...</>
-                  : 'تأكيدي طلبي الآن'}
+                  : 'تأكيدي طلبي الآن — الدفع عند الاستلام'}
               </button>
+
+              <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
+                ✓ سيصلكِ اتصال أو رسالة واتساب لتأكيد موعد التوصيل لباب منزلكِ خلال ٢٤-٤٨ ساعة
+              </p>
 
               {/* Trust row */}
               <div className="flex items-center justify-center gap-5 text-xs pb-2" style={{ color: '#8C7B6E' }}>

@@ -204,7 +204,7 @@ const SET_IMAGES: Record<string, string> = {
 /** Map any product/set/cart item identifier to its image path(s). */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
   if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
-  const k = (item.id || '' + ' ' + (item.sku || '') + ' ' + (item.name || '')).toLowerCase();
+  const k = ((item.id || '') + ' ' + (item.sku || '') + ' ' + (item.name || '')).toLowerCase();
   if (k.includes('double') || k.includes('complete')) return ['/images/copper-roller-duo.webp'];
   if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return ['/images/derma-roller.webp'];
   return ['/images/copper-serum.webp'];

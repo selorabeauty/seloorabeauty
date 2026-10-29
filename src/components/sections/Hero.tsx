@@ -151,54 +151,60 @@ export default function Hero() {
                 background: selectedSetId === 'set-serum-only' ? '#FBF3E4' : '#fff',
               }}
             >
-              <div className="text-xs font-bold mb-1" style={{ color: '#6E5C50' }}>قطعة واحدة</div>
+              <div className="text-xs font-bold mb-1" style={{ color: '#6E5C50' }}>العبوة الفردية</div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-2xl font-bold" style={{ color: '#1A0F08' }}>{singleSet.totalPrice}</span>
                 <span className="text-xs font-bold" style={{ color: '#1A0F08' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#C9AF97' }}>{singleSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5" style={{ color: '#8C7B6E' }}>سيروم أو كريم فقط</div>
+              <div className="text-[11px] mt-0.5" style={{ color: '#8C7B6E' }}>سيروم النحاس 100ml فقط</div>
             </button>
 
             {/* Complete bundle — 279 SAR, best value */}
             <button
               type="button"
               onClick={() => setSelectedSetId('set-complete')}
-              className="relative text-start rounded-2xl border-2 px-4 py-3.5 transition-all"
+              className="relative text-start rounded-2xl border-2 px-4 py-3.5 transition-all shadow-md"
               style={{
-                borderColor: selectedSetId === 'set-complete' ? '#C4943E' : '#EFE4D4',
-                background: selectedSetId === 'set-complete' ? '#FBF3E4' : '#fff',
+                borderColor: selectedSetId === 'set-complete' ? '#1D4ED8' : '#BFDBFE',
+                background: selectedSetId === 'set-complete' ? '#EFF6FF' : '#fff',
               }}
             >
               <span
-                className="absolute -top-2.5 end-3 text-[10px] font-bold px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: '#1A0F08', color: '#D4A96A' }}
+                className="absolute -top-2.5 end-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow"
+                style={{ backgroundColor: '#1E3A8A', color: '#FDE047' }}
               >
-                ⭐ الروتين المتكامل
+                ⭐ الكورس الصيدلاني المتكامل
               </span>
-              <div className="text-xs font-bold mb-1" style={{ color: '#6E5C50' }}>علاج طبي منزلي</div>
+              <div className="text-xs font-bold mb-1" style={{ color: '#1E3A8A' }}>الروتين العلاجي الأقوى</div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-2xl font-bold" style={{ color: '#1A0F08' }}>{completeSet.totalPrice}</span>
                 <span className="text-xs font-bold" style={{ color: '#1A0F08' }}>ر.س</span>
-                <span className="text-xs line-through" style={{ color: '#C9AF97' }}>{completeSet.originalTotal}</span>
+                <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-semibold" style={{ color: '#2D6B41' }}>سيروم + كريم — وفري ٣٠٪</div>
+              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ١١٩ ريال</div>
             </button>
           </div>
-          <p className="text-xs -mt-1" style={{ color: '#8C7B6E' }}>💡 الروتين الكامل مصمم ليعمل السيروم على الطبقات العميقة والكريم كحاجز وقاية خارجي</p>
+          <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>
+            💡 ديرما رولر التيتانيوم تفتح قنوات ميكروسكوبية تضاعف امتصاص السيروم ٨٠٪ لردم التمزق الداخلي
+          </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button onClick={handleBuyNow} className="btn-gold flex-1 text-base py-4 animate-cta-pulse">
-              اطلبي الآن — {selectedSet.totalPrice} ر.س
+            <button onClick={handleBuyNow} className="btn-gold flex-1 text-base py-4 font-black shadow-xl animate-cta-pulse">
+              احصلي على الطقم العلاجي — {selectedSet.totalPrice} ر.س
             </button>
             <Link
-              href="/ar/products/stretch-mark-serum"
-              className="btn-outline flex-1 text-center py-4"
+              href="/ar#results"
+              className="btn-outline flex-1 text-center py-4 font-bold"
             >
-              اعرفي أكثر
+              شاهدي نتائج قبل وبعد
             </Link>
           </div>
+
+          <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
+            ✓ ادفعي للمندوب بعد استلام وفحص طلبكِ بيدكِ · شحن فوري من مستودعاتنا بالرياض
+          </p>
 
           {/* Trust micro-row */}
           <div className="grid grid-cols-3 gap-2">
