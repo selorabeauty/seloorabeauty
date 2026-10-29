@@ -97,7 +97,6 @@ export default function SoftLandingPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
-  const [address, setAddress] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
@@ -124,10 +123,6 @@ export default function SoftLandingPage() {
       setErrorMsg('يرجى اختيار المدينة');
       return;
     }
-    if (!address.trim()) {
-      setErrorMsg('العنوان التفصيلي مطلوب');
-      return;
-    }
 
     setSubmitting(true);
 
@@ -144,7 +139,6 @@ export default function SoftLandingPage() {
           name: name.trim(),
           phone: phone.trim(),
           city,
-          address: address.trim(),
           payment_method: 'cod',
           quantity: 1,
           total: 249,
@@ -504,20 +498,6 @@ export default function SoftLandingPage() {
                       </option>
                     ))}
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#1A0F08] mb-1.5">
-                    العنوان التفصيلي <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="اسم الحي، الشارع، أو أقرب معلم"
-                    className="w-full px-4 py-3 rounded-xl border border-[#EFE4D4] bg-white text-sm focus:outline-none focus:border-[#C4943E]"
-                    required
-                  />
                 </div>
 
                 {/* COD badge */}
