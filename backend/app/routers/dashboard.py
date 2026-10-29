@@ -297,8 +297,8 @@ input:focus,select:focus{border-color:var(--gold)}
         <div>
           <label style="font-size:12px;color:#aaa;display:block;margin-bottom:6px">متوسط قيمة السلة (AOV)</label>
           <div style="display:flex;gap:6px">
-            <input type="number" id="pc-aov-sar" value="249" min="10" step="1" oninput="onAovSarChange()" style="width:100%" placeholder="SAR">
-            <input type="number" id="pc-aov-usd" value="66.4" min="2" step="0.1" oninput="onAovUsdChange()" style="width:90px" placeholder="USD" title="المقابل بالدولار">
+            <input type="number" id="pc-aov-sar" value="279" min="10" step="1" oninput="onAovSarChange()" style="width:100%" placeholder="SAR">
+            <input type="number" id="pc-aov-usd" value="74.4" min="2" step="0.1" oninput="onAovUsdChange()" style="width:90px" placeholder="USD" title="المقابل بالدولار">
           </div>
         </div>
         <!-- Product Cost per Piece -->

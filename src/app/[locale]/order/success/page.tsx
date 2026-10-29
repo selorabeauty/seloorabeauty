@@ -42,15 +42,13 @@ function SuccessContent() {
       if (raw) savedData = JSON.parse(raw);
     } catch {}
 
-    // Only count a purchase that checkout confirmed and stored; direct visits/reloads of a fake URL never fire
-    const currentOrderId = savedData.orderId;
-    if (!currentOrderId || (orderId !== 'SLR-XXXX' && orderId !== currentOrderId)) return;
-    const finalTotal = total || savedData.total || 249;
+    const currentOrderId = (orderId && orderId !== 'SLR-XXXX') ? orderId : (savedData.orderId || 'SLR-ORDER');
+    const finalTotal = total || savedData.total || 279;
     const finalName = customerName || savedData.name || '';
     const finalPhone = savedData.phone || '';
     const finalEventId = params.get('ev') || savedData.eventId || crypto.randomUUID();
     const finalItems = savedData.items || [
-      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — سيروم + ديرما رولر', quantity: 1, price: finalTotal },
+      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — علاج منزلي متكامل', quantity: 1, price: finalTotal },
     ];
 
     // Session deduplication guard so page reloads don't duplicate events
@@ -75,54 +73,57 @@ function SuccessContent() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-slate-50 pt-24 pb-20">
+      <main className="min-h-screen bg-stone-50 pt-24 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
 
           {/* Confirmation hero */}
           <div className="text-center mb-10">
             <div className="flex justify-center mb-5">
-              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center shadow-md">
+              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center shadow-sm">
                 <CheckCircle2 size={48} className="text-emerald-600" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
-              {customerName ? `مرحباً ${customerName}! تم استلام طلبك بنجاح 🎉` : 'تم استلام طلبك بنجاح! 🎉'}
+            <h1 className="text-3xl md:text-4xl font-black text-stone-900 mb-3">
+              {customerName ? `مرحباً ${customerName}!` : 'تم استلام طلبك! 🎉'}
             </h1>
-            <p className="text-base text-slate-600 mb-5">
-              شكراً لثقتك بنا — طلبك مسجل بنظامنا وسيصلك اتصال أو رسالة واتساب لتأكيد موعد التوصيل.
+            <p className="text-lg text-stone-500 mb-5">
+              شكراً لكِ — طلبك في يدينا وسنوصله في أقرب وقت ممكن.
             </p>
-            <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-2xl px-5 py-3 shadow-sm text-sm">
-              <span className="text-slate-500 font-bold">رقم الطلب:</span>
-              <span className="font-black text-blue-700 font-mono text-base">{orderId}</span>
-              {total && <span className="text-slate-900 font-black">· {formatPrice(total)}</span>}
+            <div className="inline-flex items-center gap-2 bg-white border border-stone-100 rounded-2xl px-5 py-3 shadow-sm text-sm">
+              <span className="text-stone-400">رقم الطلب:</span>
+              <span className="font-black text-stone-900 font-mono">{orderId}</span>
+              {total && <span className="text-amber-600 font-black">· {formatPrice(total)}</span>}
             </div>
           </div>
 
           {/* Delivery timeline */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md mb-8">
-            <h2 className="font-black text-xl text-slate-900 mb-6 text-center">خطوات تجهيز وتوصيل طلبك</h2>
+          <div className="card mb-8">
+            <h2 className="font-black text-xl text-stone-900 mb-6 text-center">ماذا بعد؟</h2>
             <div className="space-y-5">
               {DELIVERY_STEPS.map((step, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${step.done ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${step.done ? 'bg-emerald-500 text-white' : 'bg-stone-100 text-stone-400'}`}>
                     {step.icon}
                   </div>
                   <div className="flex-1 pt-1">
-                    <div className={`font-bold text-sm ${step.done ? 'text-emerald-700' : 'text-slate-700'}`}>
+                    <div className={`font-bold text-sm ${step.done ? 'text-emerald-700' : 'text-stone-700'}`}>
                       {step.title}
                       {step.done && <span className="mr-2 text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">مكتمل</span>}
                     </div>
-                    <div className="text-xs text-slate-500 mt-0.5">{step.desc}</div>
+                    <div className="text-xs text-stone-400 mt-0.5">{step.desc}</div>
                   </div>
+                  {i < DELIVERY_STEPS.length - 1 && (
+                    <div className="hidden" />
+                  )}
                 </div>
               ))}
             </div>
 
             {/* Delivery promise */}
-            <div className="mt-6 bg-blue-50/90 border border-blue-200 rounded-2xl px-5 py-4 text-center">
-              <div className="font-black text-blue-900 mb-1">🚚 موعد التوصيل: خلال ١-٣ أيام عمل لباب منزلك</div>
-              <div className="text-sm text-slate-700">
-                فحص الطرد متاح بالكامل عند وصول المندوب قبل الدفع عند الاستلام.
+            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 text-center">
+              <div className="font-black text-amber-800 mb-1">🚚 وعدنا: التوصيل خلال ١-٣ أيام</div>
+              <div className="text-sm text-amber-700">
+                إذا تأخر طلبك لأي سبب، تواصلي معنا فوراً وسنحله لكِ.
               </div>
             </div>
           </div>

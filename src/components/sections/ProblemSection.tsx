@@ -1,64 +1,69 @@
 import { ArrowDown } from 'lucide-react';
 
-// ── EMOTIONAL + RATIONAL pain points — stretch marks deeply felt ──
+// ── EMOTIONAL problems — stretch marks pain points ──
 const PROBLEMS = [
-  { emoji: '💔', bold: 'تتجنبين المرآة:', text: 'تلمحين بطنكِ أو فخذيكِ فتشعرين بانقباض صغير، ثم تسحبين القميص وتكملين يومكِ كأن شيئاً لم يكن.' },
-  { emoji: '👗', bold: 'تتخلين عن ما تحبين:', text: 'فستان المناسبة، ملابس البحر، لبس البيت أمام الأهل. تختارين الأوسع والأغمق حتى لا يلاحظ أحد.' },
-  { emoji: '🤰', bold: 'جسمكِ فعل شيئاً عظيماً:', text: 'حمل، ولادة، رضاعة، أو تغيّر وزن. الجلد تمدّد ليحتضن حياتكِ، والتشققات أثر ذلك، ولا تعني أنكِ قصّرتِ في العناية.' },
-  { emoji: '😔', bold: 'جرّبتِ ولم ترتاحي:', text: 'كريمات وزيوت كثيرة وأمل يتجدد ثم يخيب. التعب من التجربة يجعل كل منتج جديد يبدو كوعد آخر لا يتحقق.' },
-  { emoji: '⏳', bold: 'وتسألين نفسكِ: هل فات الأوان؟', text: 'الخطوط القديمة تحتاج صبراً وروتيناً منتظماً أكثر من الجديدة، لكن العناية المنتظمة تظل أفضل من الانتظار.' },
+  { emoji: '💔', text: 'تتجنبين المايوه والملابس الكاشفة بسبب تشققات جسمكِ' },
+  { emoji: '🤰', text: 'تشققات الحمل ظهرت بسرعة ولم تختفِ بعد الولادة' },
+  { emoji: '😔', text: 'جربتِ زيوتاً وكريمات لا تُعدّ — ولا شيء أثّر في التشققات' },
+  { emoji: '⚖️', text: 'تشققات النحافة أو زيادة الوزن غيّرت شكل بشرتكِ' },
+  { emoji: '🪞', text: 'تنظرين للمرآة وتتمنين لو عادت بشرتكِ لما كانت عليه' },
 ];
 
 export default function ProblemSection() {
   return (
-    <section id="problem" className="py-20 cv-auto" style={{ backgroundColor: '#0B132B' }}>
+    <section id="problem" className="py-20 cv-auto" style={{ backgroundColor: '#1A0F08' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
         {/* ── Emotional headline ── */}
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-4 border" style={{ backgroundColor: '#1C2541', borderColor: '#3B82F6', color: '#93C5FD' }}>
-          <span>صوت العقل والقلب أمام المرآة</span>
-        </div>
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-3" style={{ color: '#F8FAFC' }}>
-          نعرف تماماً ما تشعر به..
+        <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: '#FDFAF6' }}>
+          نعرف بالضبط كيف تشعرين..
         </h2>
-        <p className="text-base mb-10 max-w-xl mx-auto leading-relaxed" style={{ color: '#94A3B8' }}>
-          لسنا هنا لنقول لكِ إن جسمكِ مشكلة. نحن هنا لأن كثيراً من النساء يشاركننا الشعور نفسه أمام المرآة، ولأنكِ تستحقين روتين عناية تثقين به.
+        <p className="text-base mb-10" style={{ color: '#C9AF97' }}>
+          تشققات الجسم — مشكلة حقيقية تؤثر على ثقتكِ كل يوم، ونحن هنا لحلّها من جذورها.
         </p>
 
+        {/* ── Real problem photo ── */}
+        <div className="mb-10 rounded-3xl overflow-hidden mx-auto max-w-lg" style={{ boxShadow: '0 16px 48px -12px rgba(0,0,0,0.5)' }}>
+          <img
+            src="/images/problem-belly.webp"
+            alt="تشققات الحمل على البطن"
+            className="w-full aspect-[4/5] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
         {/* ── Problem cards ── */}
-        <div className="flex flex-col gap-3.5 mb-10 text-start">
+        <div className="flex flex-col gap-3 mb-10">
           {PROBLEMS.map((p, i) => (
             <div
               key={i}
-              className="flex items-start gap-3.5 rounded-2xl p-4 border transition-all"
-              style={{ background: '#111D3B', borderColor: '#1E293B' }}
+              className="flex items-center gap-4 rounded-2xl px-5 py-4 text-start transition-colors"
+              style={{ background: 'rgba(253,250,246,0.04)', border: '1px solid rgba(253,250,246,0.07)' }}
             >
-              <span className="text-2xl flex-shrink-0 mt-0.5">{p.emoji}</span>
-              <div className="text-sm leading-relaxed">
-                <strong className="block text-white font-bold mb-0.5">{p.bold}</strong>
-                <span style={{ color: '#94A3B8' }}>{p.text}</span>
-              </div>
+              <span className="text-2xl flex-shrink-0">{p.emoji}</span>
+              <span className="text-base" style={{ color: '#EFE4D4' }}>{p.text}</span>
             </div>
           ))}
         </div>
 
-        <ArrowDown size={26} className="mx-auto mb-6 animate-bounce" style={{ color: '#60A5FA' }} />
+        <ArrowDown size={26} className="mx-auto mb-6 animate-bounce" style={{ color: '#C4943E' }} />
 
         {/* ── Rational reassurance ── */}
         <div
-          className="rounded-3xl p-8 border"
+          className="rounded-3xl p-8"
           style={{
-            background: 'linear-gradient(135deg, rgba(30,58,138,0.25) 0%, rgba(11,19,43,0.9) 100%)',
-            borderColor: 'rgba(59,130,246,0.3)',
+            background: 'linear-gradient(135deg, rgba(196,148,62,0.10) 0%, rgba(42,28,18,0.8) 100%)',
+            border: '1px solid rgba(196,148,62,0.18)',
           }}
         >
-          <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#F8FAFC' }}>
+          <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#FDFAF6' }}>
             أنتِ لستِ المشكلة.{' '}
-            <span className="font-bold text-[#60A5FA]">
-              التشققات جزء من قصتكِ، ومن حقكِ أن تعتني بها.
+            <span className="font-bold" style={{ color: '#D4A96A' }}>
+              المنتجات العادية التي جربتِها هي المشكلة.
             </span>
             <br />
-            لن نعدكِ بنتيجة سحرية أو بتاريخ محدد. نعدكِ بروتين بسيط (سيروم ببتيدات النحاس + السيكا وديرما رولر 0.5mm)، وبمتابعة صادقة، وبأن تدفعي عند الاستلام وتجربي بضمان ٣٠ يوماً. النتائج تختلف من بشرة لأخرى، والاستمرار هو السر.
+            علاج التشققات يتطلب علماً حقيقياً وتغلغلاً خلوياً عميقاً يصل لتمزقات الأنسجة — ثلاثية سيلورا (شيا، أرجان، لوز) هي العلم في صفكِ لاستعادة بشرتكِ.
           </p>
         </div>
       </div>

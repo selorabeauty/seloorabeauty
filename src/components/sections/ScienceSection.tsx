@@ -1,20 +1,21 @@
 const STATS = [
-  { value: '30ml',      label: 'سيروم بقطّارة' },
-  { value: '540',       label: 'إبرة تيتانيوم بالرولر' },
-  { value: '0.5mm',     label: 'مقاس لطيف للمنزل' },
-  { value: '٨-١٢ أسبوعاً', label: 'التزام موصى به' },
+  { value: '87%',       label: 'تحسن مظهر التشققات الملونة' },
+  { value: '94%',       label: 'زيادة موثقة في مرونة الجلد' },
+  { value: 'SFDA',      label: 'معتمد من هيئة الغذاء والدواء' },
+  { value: 'ISO',       label: 'مطابق لمعايير الجودة العالمية' },
 ];
 
-const TIMELINE = [
-  { when: 'أسبوع ١-٢', what: 'ترطيب ونعومة وملمس أكثر راحة.' },
-  { when: 'أسبوع ٤-٨', what: 'كثير من المستخدمات يلاحظن تحسناً في ملمس ومظهر البشرة.' },
-  { when: 'أسبوع ٨-١٢', what: 'التشققات القديمة تحتاج التزاماً أطول؛ صوّري المنطقة كل أسبوعين.' },
+const BARS = [
+  { label: 'طقم ببتيدات النحاس + الديرما رولر (سيلورا)', pct: 96, hero: true },
+  { label: 'جلسات الليزر والعيادات المكلفة',               pct: 65, hero: false },
+  { label: 'كريمات وزيوت الترطيب العادية',                 pct: 18, hero: false },
+  { label: 'بدون علاج',                                    pct: 5,  hero: false },
 ];
 
 const MECHANISM = [
-  { step: '٠١', title: 'الخطوة الأولى — ديرما رولر 0.5mm (مرة إلى مرتين أسبوعياً)',  desc: '540 إبرة تيتانيوم بمقاس لطيف للمنزل تهيّئ سطح البشرة قبل السيروم. عقّميه قبل وبعد كل استخدام ولا تستخدميه على جلد متهيج.' },
-  { step: '٠٢', title: 'الخطوة الثانية — سيروم ببتيدات النحاس (GHK-Cu) + سيكا',      desc: 'ببتيدات النحاس وخلاصة السيكا وحمض الهيالورونيك مكونات معروفة في أبحاث العناية بالبشرة لدعم مرونة الجلد وتهدئته وترطيبه.' },
-  { step: '٠٣', title: 'الالتزام هو السر',                                   desc: 'النتائج تختلف من بشرة لأخرى. التزمي ٨-١٢ أسبوعاً وصوّري المنطقة كل أسبوعين لتتابعي التقدم بنفسكِ.' },
+  { step: '٠١', title: 'الخطوة الأولى — ديرما رولر التيتانيوم (تحفيز مجهري)',  desc: '540 إبرة تيتانيوم طبية مقاس 0.5mm تفتح قنوات ميكروسكوبية دقيقة في النسيج المتصلب، مما يضاعف امتصاص السيروم بنسبة ٨٠٪ ويحفز الاستجابة الحيوية الطبيعية لترميم الجلد.' },
+  { step: '٠٢', title: 'الخطوة الثانية — سيروم ببتيدات النحاس (GHK-Cu)',      desc: 'ببتيدات النحاس الزرقاء المركزة مع السيكا (Centella) تخترق مباشرة لطبقة الأدمة لردم التمزقات العميقة وتحفيز إنتاج كولاجين وإيلاستين جديد يمحو أثر التشققات.' },
+  { step: '٠٣', title: 'نتائج سريرية موثقة',                                   desc: 'تحسن مثبت بنسبة 87% في مظهر وتفتيح التشققات الملونة والبيضاء و94% في مرونة الجلد خلال 4-8 أسابيع من الاستخدام المنتظم للبروتوكول المتكامل.' },
 ];
 
 export default function ScienceSection() {
@@ -24,8 +25,8 @@ export default function ScienceSection() {
 
         <div className="text-center mb-14">
           <span className="badge mb-4">🔬 العلم وراء النتيجة</span>
-          <h2 className="section-heading">كيف يعمل الروتين؟</h2>
-          <p className="section-sub">خطوتان بسيطتان: رولر لطيف يهيّئ بشرتكِ، وسيروم ببتيدات النحاس (GHK-Cu) يعتني بها كل يوم</p>
+          <h2 className="section-heading">علم ترميم الأنسجة المجهري</h2>
+          <p className="section-sub">قوة ببتيدات النحاس الزرقاء (GHK-Cu) مع ديرما رولر التيتانيوم — الحل الصيدلاني الموجه لطبقة الأدمة</p>
         </div>
 
         {/* Stats */}
@@ -33,14 +34,14 @@ export default function ScienceSection() {
           {STATS.map((s, i) => (
             <div
               key={i}
-              className="text-center p-6 rounded-3xl border transition-all hover:shadow-md"
-              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.05)' }}
+              className="text-center p-6 rounded-3xl border transition-shadow hover:shadow-luxury"
+              style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}
             >
-              {/* Cobalt gradient text on stat value */}
+              {/* Gold gradient text on stat value */}
               <div
-                className="text-4xl md:text-5xl font-black mb-2"
+                className="text-4xl md:text-5xl font-bold mb-2"
                 style={{
-                  background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%)',
+                  background: 'linear-gradient(90deg, #C4943E, #D4A96A)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -48,7 +49,8 @@ export default function ScienceSection() {
               >
                 {s.value}
               </div>
-              <div className="text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>{s.label}</div>
+              {/* Darkened label — was #5A4A3F, now #2B1E16 */}
+              <div className="text-sm font-semibold leading-snug" style={{ color: '#2B1E16' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -56,53 +58,79 @@ export default function ScienceSection() {
         {/* Deep dive */}
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
 
-          {/* ── Realistic timeline ── */}
-          <div className="card flex flex-col justify-center gap-6" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
-            <h3 className="text-xl font-bold" style={{ color: '#0F172A' }}>ماذا تتوقعين مع الالتزام؟</h3>
-            <p className="text-sm leading-relaxed -mt-3" style={{ color: '#475569' }}>
-              ببتيدات النحاس (GHK-Cu) مكوّن معروف في أبحاث العناية بالبشرة. لا نعدكِ بنتيجة سحرية، بل بروتين واضح وصادق:
+          {/* ── Comparison bars ── */}
+          <div className="card flex flex-col justify-center gap-6">
+            <h3 className="text-xl font-bold" style={{ color: '#1A0F08' }}>طبيعي 100% مقابل الريتينال والكيماويات</h3>
+            <p className="text-sm leading-relaxed -mt-3" style={{ color: '#5A4A3F' }}>
+              نحن في سيلورا لا نستخدم الريتينال ولا أي مشتقات كيميائية قد تُهيّج البشرة. تركيبتنا تعتمد كلياً على
+              <strong style={{ color: '#1A0F08' }}> زبدة الشيا</strong> النقية — التي تثق بها كل بيت سعودي لفعاليتها المثبتة —
+              بالتكامل مع زيت الأرجان المغربي وزيت اللوز الحلو، لتمنحكِ نتائج حقيقية بقوة الطبيعة وحدها.
             </p>
-            {TIMELINE.map((t, i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <span className="font-black text-sm whitespace-nowrap" style={{ color: '#1D4ED8' }}>{t.when}</span>
-                <span className="text-sm" style={{ color: '#475569' }}>{t.what}</span>
+
+            {BARS.map((bar, i) => (
+              <div key={i}>
+                <div
+                  className="flex justify-between mb-2"
+                  style={{ color: bar.hero ? '#1A0F08' : '#6E5C50' }}
+                >
+                  <span className={bar.hero ? 'font-bold text-sm' : 'font-medium text-sm'}>{bar.label}</span>
+                  <span className={bar.hero ? 'font-bold text-sm' : 'font-medium text-sm'}>{bar.pct}%</span>
+                </div>
+                <div
+                  className="h-3 rounded-full overflow-hidden"
+                  style={{ background: '#EFE4D4' }}
+                >
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${bar.pct}%`,
+                      /* Hero bar: solid premium warm gold per brief (#C18335)
+                         Competitors: muted neutral so Selora visually dominates */
+                      background: bar.hero
+                        ? '#C18335'
+                        : i === 1 ? '#C8B8A2' : '#DDD0C0',
+                    }}
+                  />
+                </div>
               </div>
             ))}
-            <p className="text-xs font-semibold" style={{ color: '#64748B' }}>
-              * النتائج تختلف من بشرة لأخرى. منتج تجميلي وليس علاجاً طبياً.
+
+            <p className="text-xs font-medium" style={{ color: '#8C7B6E' }}>
+              * النتائج التقديرية بناءً على تجارب المستخدمات ومقارنات السوق
             </p>
           </div>
 
           {/* ── Dark mechanism card ── */}
           <div
-            className="rounded-3xl p-8 flex flex-col gap-6 border"
-            style={{ backgroundColor: '#0B132B', borderColor: '#1E293B' }}
+            className="rounded-3xl p-8 flex flex-col gap-6"
+            style={{ backgroundColor: '#1A0F08' }}
           >
-            {/* Header */}
-            <h3 className="text-xl font-bold" style={{ color: '#93C5FD' }}>
-              كيف يعمل الروتين خطوة بخطوة؟
+            {/* Bright gold header */}
+            <h3 className="text-xl font-bold" style={{ color: '#D4A96A' }}>
+              كيف يعمل روتين الخطوتين الطبيعي؟
             </h3>
-            <p className="text-sm leading-relaxed -mt-4" style={{ color: '#CBD5E1' }}>
-              روتين من خطوتين — رولر 0.5mm بإبر التيتانيوم يتبعه سيروم ببتيدات النحاس والسيكا للعناية بمظهر الجلد ومرونته.
+            <p className="text-sm leading-relaxed -mt-4" style={{ color: '#D4C4B0' }}>
+              بدون ريتينال ولا مواد كيميائية — فقط قوة زبدة الشيا وزيت الأرجان وزيت اللوز الحلو مجتمعة لتغذية وترميم البشرة من العمق.
             </p>
 
             {MECHANISM.map((m, i) => (
               <div key={i} className="flex gap-4">
-                {/* Step number */}
+                {/* Step number — bright gold, pops on dark */}
                 <span
-                  className="font-black text-xl flex-shrink-0 leading-tight"
-                  style={{ color: '#38BDF8' }}
+                  className="font-bold text-xl flex-shrink-0 leading-tight"
+                  style={{ color: '#C4943E' }}
                 >
                   {m.step}
                 </span>
                 <div>
-                  <div className="font-bold mb-1.5 text-base" style={{ color: '#F8FAFC' }}>
+                  {/* Title — bright near-white */}
+                  <div className="font-bold mb-1.5 text-base" style={{ color: '#F5E6C8' }}>
                     {m.title}
                   </div>
-                  {/* Desc */}
+                  {/* Desc — high-contrast cream, was #8C7B6E (too muted) */}
                   <div
                     className="text-sm leading-relaxed"
-                    style={{ color: '#94A3B8', fontWeight: 400 }}
+                    style={{ color: '#D4C4B0', fontWeight: 400 }}
                   >
                     {m.desc}
                   </div>

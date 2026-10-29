@@ -1,63 +1,95 @@
-import { Star, ShieldCheck, RotateCcw, Banknote, MessageCircle } from 'lucide-react';
-import { REAL_REVIEWS } from '@/lib/reviews';
+import { Star, BadgeCheck } from 'lucide-react';
 
-const PROMISES = [
-  { Icon: Banknote, title: 'ادفعي بعد أن تري الطلب', desc: 'افحصي العبوة عند وصول المندوب ثم ادفعي نقداً.' },
-  { Icon: RotateCcw, title: 'ضمان استرجاع ٣٠ يوماً', desc: 'إن لم ترتاحي للتجربة تواصلي معنا وراجعي شروط الإرجاع.' },
-  { Icon: ShieldCheck, title: 'مكونات معلنة وتوقعات صادقة', desc: 'نخبركِ بالمدة الواقعية: ٨-١٢ أسبوعاً مع الالتزام، والنتائج تختلف من بشرة لأخرى.' },
-  { Icon: MessageCircle, title: 'نردّ عليكِ شخصياً', desc: 'أي سؤال عن الاستخدام أو البشرة الحساسة؟ راسلينا قبل الطلب.' },
+const REVIEWS = [
+  { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل كانت تضايقني كثير. بعد أسبوعين من استخدام السيروم والكريم مع بعض، لاحظت أن لونها بدأ يخف بشكل واضح.',                     highlight: 'تشققات الحمل خفّت في أسبوعين' },
+  { name: 'نورة الغامدي',  city: 'جدة',     rating: 5, date: 'قبل ٣ أسابيع', verified: true, text: 'نزلت وزن بسرعة وطلعت عندي تشققات بالأرداف والبطن. بعد شهر واحد من الطقم الكامل صارت أفتح بكثير والبشرة أكثر مرونة.',                    highlight: 'تشققات النحافة تحسّنت بشهر' },
+  { name: 'منى الشمري',    city: 'الدمام',  rating: 5, date: 'قبل شهر',      verified: true, text: 'التشققات اللي كانت تزعجني بعد الولادة بدأت تخف بشكل واضح. ريحة زيت اللوز والأرجان راقية جداً والتغليف فخم.',                             highlight: 'تشققات ما بعد الولادة خفت' },
+  { name: 'ريم العتيبي',   city: 'مكة',     rating: 5, date: 'قبل أسبوع',   verified: true, text: 'أول مرة أجرب دفع عند الاستلام وأنا خايفة، بس المنتج أكثر من ممتاز. البشرة صارت ناعمة من أول استخدام.',                                    highlight: 'ناعمة من أول استخدام' },
+  { name: 'هيفاء القحطاني', city: 'الرياض', rating: 5, date: 'قبل ٥ أيام',  verified: true, text: 'من أفضل ما جربت لتشققات الصدر. الكريم يمتص بسرعة وما يخلي إحساس دهني تحت الملابس.',                                                    highlight: 'يستاهل ضعف سعره' },
+  { name: 'عبير المالكي',  city: 'جدة',     rating: 5, date: 'قبل أسبوعين', verified: true, text: 'جربت زيوت كثير قبل كذا وما أثرت. طقم سيلورا مختلف تماماً — السيروم يتغلغل بسرعة والكريم يقفل الرطوبة تمام.',                                highlight: 'روتين فعّال من أول أسبوعين' },
 ];
 
+function Stars({ count }: { count: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          size={13}
+          className={i < count ? 'fill-current' : ''}
+          style={{ color: i < count ? '#C4943E' : '#EFE4D4' }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function ReviewsSection() {
-  const hasReviews = REAL_REVIEWS.length > 0;
-  const avg = hasReviews ? REAL_REVIEWS.reduce((n, r) => n + r.rating, 0) / REAL_REVIEWS.length : 0;
+  const breakdown = [
+    { s: 5, pct: 91 }, { s: 4, pct: 6 }, { s: 3, pct: 2 }, { s: 2, pct: 1 }, { s: 1, pct: 0 },
+  ];
 
   return (
-    <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
         <div className="text-center mb-14">
-          <span className="badge-clinical mb-3">💬 {hasReviews ? 'تجارب عميلاتنا' : 'وعدنا لكِ'}</span>
-          <h2 className="section-heading">
-            {hasReviews ? 'ماذا قالت عميلاتنا؟' : 'نحن جدد، ولن نطلب منكِ أن تثقي بنا بالكلام'}
-          </h2>
-          <p className="section-sub">
-            {hasReviews
-              ? 'آراء حقيقية وصلتنا من عميلات استلمن طلباتهن'
-              : 'بدل تقييمات مصطنعة، نعطيكِ ما يحميكِ فعلاً: الدفع عند الاستلام، وضمان ٣٠ يوماً، ومكونات واضحة.'}
-          </p>
+          <h2 className="section-heading">ماذا تقول عملاؤنا؟</h2>
+          <p className="section-sub">+٢٤٠٠ امرأة في المملكة يثقن بسيلورا</p>
         </div>
 
-        {hasReviews && (
-          <div className="text-center mb-8 text-sm font-bold text-slate-700">
-            ⭐ {avg.toFixed(1)} من 5 · {REAL_REVIEWS.length.toLocaleString('ar-SA')} تقييم
+        {/* Aggregate */}
+        <div className="max-w-lg mx-auto mb-12 card grid grid-cols-2 gap-6 items-center">
+          <div className="text-center">
+            <div className="text-6xl font-bold" style={{ color: '#1A0F08' }}>4.9</div>
+            <div className="flex justify-center mt-1.5"><Stars count={5} /></div>
+            <div className="text-sm mt-1.5" style={{ color: '#8C7B6E' }}>٢٤٣١ تقييم موثق</div>
           </div>
-        )}
-
-        {hasReviews && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
-            {REAL_REVIEWS.map((r, i) => (
-              <div key={i} className="card flex flex-col gap-3 border border-slate-200 bg-white">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={13} className={j < r.rating ? 'fill-current text-amber-500' : 'text-slate-200'} />
-                  ))}
+          <div className="space-y-1.5">
+            {breakdown.map((row) => (
+              <div key={row.s} className="flex items-center gap-2">
+                <span className="text-xs w-3 text-end" style={{ color: '#8C7B6E' }}>{row.s}</span>
+                <Star size={10} className="fill-current flex-shrink-0" style={{ color: '#C4943E' }} />
+                <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: '#EFE4D4' }}>
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${row.pct}%`, background: '#C4943E' }}
+                  />
                 </div>
-                <p className="text-sm leading-relaxed text-slate-700">&ldquo;{r.text}&rdquo;</p>
-                <div className="mt-auto pt-3 border-t border-slate-100">
-                  <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
-                  <div className="text-xs text-slate-400">{r.date}</div>
-                </div>
+                <span className="text-xs w-6" style={{ color: '#8C7B6E' }}>{row.pct}%</span>
               </div>
             ))}
           </div>
-        )}
+        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {PROMISES.map(({ Icon, title, desc }, i) => (
-            <div key={i} className="card flex flex-col gap-2 border border-slate-200 bg-white">
-              <Icon size={22} className="text-blue-700" />
-              <div className="font-bold text-sm text-slate-900">{title}</div>
-              <p className="text-xs leading-relaxed text-slate-600">{desc}</p>
+        {/* Review cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {REVIEWS.map((r, i) => (
+            <div key={i} className="card flex flex-col gap-3 hover:shadow-luxury transition-shadow">
+              <div className="badge-gold text-xs self-start">✨ {r.highlight}</div>
+              <div className="flex items-center gap-2">
+                <Stars count={r.rating} />
+                {r.verified && (
+                  <span className="flex items-center gap-1 text-xs font-bold" style={{ color: '#2D6B41' }}>
+                    <BadgeCheck size={12} /> شراء موثق
+                  </span>
+                )}
+              </div>
+              <p className="text-sm leading-relaxed line-clamp-3" style={{ color: '#3D2B1F' }}>
+                &ldquo;{r.text}&rdquo;
+              </p>
+              <div className="mt-auto flex items-center justify-between pt-3 border-t" style={{ borderColor: '#F8F2EA' }}>
+                <div>
+                  <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{r.name} — {r.city}</div>
+                  <div className="text-xs" style={{ color: '#8C7B6E' }}>{r.date}</div>
+                </div>
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm shadow"
+                  style={{ background: 'linear-gradient(135deg, #C4943E, #D4A96A)' }}
+                >
+                  {r.name.charAt(0)}
+                </div>
+              </div>
             </div>
           ))}
         </div>

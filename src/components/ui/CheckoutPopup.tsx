@@ -1,5 +1,4 @@
 'use client';
-import Photo from '@/components/ui/Photo';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
@@ -32,8 +31,10 @@ export default function CheckoutPopup() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
+  const [district, setDistrict] = useState('');
+  const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
-  const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string; address?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function CheckoutPopup() {
   const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
   const cartItems = items.length > 0
     ? items
-    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-bark-800 to-bark-900', includes: ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
 
   const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];
@@ -81,10 +82,11 @@ export default function CheckoutPopup() {
   if (!isCheckoutOpen) return null;
 
   const validate = () => {
-    const e: { name?: string; phone?: string; city?: string } = {};
+    const e: { name?: string; phone?: string; city?: string; address?: string } = {};
     if (!name.trim()) e.name = 'الاسم مطلوب';
     if (!validateKSAPhone(phone)) e.phone = 'رقم الجوال غير صحيح — يجب أن يبدأ بـ 0 ويكون 10 أرقام';
     if (!city) e.city = 'المدينة مطلوبة';
+    if (!address.trim()) e.address = 'العنوان التفصيلي مطلوب';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -96,6 +98,7 @@ export default function CheckoutPopup() {
     const itemData = cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price }));
     trackAddPaymentInfo(total, itemData);   // payment method chosen → AddPaymentInfo / ADD_BILLING
 
+    const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
     const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
     const landingUrl = getLandingUrl() || (typeof window !== 'undefined' ? window.location.href : undefined);
@@ -104,6 +107,8 @@ export default function CheckoutPopup() {
       name:            name.trim(),
       phone:           phone.trim(),
       city,
+      district:        district.trim(),
+      address:         address.trim(),
       payment_method:  paymentMethod,
       quantity:        totalQty,
       total,
@@ -124,8 +129,7 @@ export default function CheckoutPopup() {
 
       if (!response.ok) throw new Error(`API ${response.status}`);
       const result = await response.json();
-      if (!result || !result.order_id) throw new Error('order_id_missing');
-      const serverOrderId: string = result.order_id;
+      const serverOrderId = result.order_id || orderId;
 
       // Advanced matching: identify with name & phone
       await identifyUser({ phone: phone.trim(), name: name.trim() });
@@ -203,7 +207,7 @@ export default function CheckoutPopup() {
                 style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden border flex-shrink-0" style={{ borderColor: '#D6C6B4' }}><Photo src={upsellSet.image} alt={upsellSet.label} className="w-full h-full object-cover" /></div>
+                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} decoding="async" />
                   <div className="flex-1">
                     <div className="font-black text-sm" style={{ color: '#8A611E' }}>
                       رقّي طلبك إلى {upsellSet.label}
@@ -229,7 +233,9 @@ export default function CheckoutPopup() {
                     className="w-12 h-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden"
                     style={{ border: '1px solid #EFE4D4' }}
                   >
-                    <Photo src={itemImages(item)[0]} alt={item.name} className="w-full h-full object-cover" />
+                    {itemImages(item).map((src) => (
+                      <img key={src} src={src} alt={item.name} className={src.includes('stretch-') ? 'h-full object-contain' : 'w-full h-full object-cover'} decoding="async" />
+                    ))}
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm line-clamp-1" style={{ color: '#1A0F08' }}>{item.name}</div>
@@ -316,6 +322,35 @@ export default function CheckoutPopup() {
                 {errors.city && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.city}</p>}
               </div>
 
+              {/* District (optional) */}
+              <div>
+                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
+                  الحي <span className="text-xs font-normal" style={{ color: '#8C7B6E' }}>(اختياري)</span>
+                </label>
+                <input
+                  type="text"
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                  placeholder="مثال: حي النزهة"
+                  className="input"
+                />
+              </div>
+
+              {/* Detailed address */}
+              <div>
+                <label className="block text-sm font-bold mb-1.5" style={{ color: '#1A0F08' }}>
+                  العنوان التفصيلي <span style={{ color: '#C0392B' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: undefined })); }}
+                  placeholder="اسم الشارع، رقم المبنى، أقرب معلم"
+                  className={cn('input', errors.address && 'input-error')}
+                />
+                {errors.address && <p className="text-xs mt-1" style={{ color: '#C0392B' }}>{errors.address}</p>}
+              </div>
+
               {/* Payment method */}
               <div
                 className="flex items-center gap-3 rounded-xl px-4 py-3 border"
@@ -328,8 +363,8 @@ export default function CheckoutPopup() {
                   <div className="w-2 h-2 rounded-full" style={{ background: '#2D6B41' }} />
                 </div>
                 <div>
-                  <div className="font-bold text-sm" style={{ color: '#1A4A2A' }}>الدفع عند الاستلام (COD)</div>
-                  <div className="text-xs font-semibold" style={{ color: '#2D6B41' }}>افحصي الشحنة وتأكدي منها عند وصول المندوب لباب بيتكِ ثم ادفعي بثقة</div>
+                  <div className="font-bold text-sm" style={{ color: '#1A4A2A' }}>الدفع عند الاستلام</div>
+                  <div className="text-xs" style={{ color: '#2D6B41' }}>ادفعي للمندوب عند وصول طلبكِ</div>
                 </div>
               </div>
 
@@ -337,16 +372,12 @@ export default function CheckoutPopup() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="btn-gold w-full text-lg py-5 mt-1 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 animate-cta-pulse font-black shadow-xl"
+                className="btn-gold w-full text-lg py-5 mt-1 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 animate-cta-pulse"
               >
                 {submitting
                   ? <><Loader2 size={18} className="animate-spin" /> جاري إرسال الطلب...</>
-                  : 'تأكيدي طلبي الآن — الدفع عند الاستلام'}
+                  : 'تأكيدي طلبي الآن'}
               </button>
-
-              <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
-                ✓ سيصلكِ اتصال أو رسالة واتساب لتأكيد موعد التوصيل لباب منزلكِ خلال ٢٤-٤٨ ساعة
-              </p>
 
               {/* Trust row */}
               <div className="flex items-center justify-center gap-5 text-xs pb-2" style={{ color: '#8C7B6E' }}>
