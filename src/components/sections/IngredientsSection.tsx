@@ -1,3 +1,5 @@
+import Photo from '@/components/ui/Photo';
+import { IMG } from '@/lib/images';
 import { PRODUCTS } from '@/lib/products';
 
 // Combine unique ingredients from both the serum and the cream
@@ -19,13 +21,9 @@ export default function IngredientsSection() {
 
         {/* ── Real ingredients & system showcase ── */}
         <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-2xl bg-white border border-slate-200 p-6 flex items-center justify-center shadow-md">
-          <img
-            src="/images/copper-roller-duo.webp"
-            alt="تركيبة ببتيدات النحاس الزرقاء وديرما رولر التيتانيوم — سيلورا ديرما"
-            className="w-full max-h-80 object-contain"
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="w-full h-56">
+            <Photo src={IMG.duo} alt="سيروم ببتيدات النحاس والديرما رولر — سيلورا بيوتي" label="سيروم ببتيدات النحاس + ديرما رولر" />
+          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

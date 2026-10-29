@@ -1,4 +1,5 @@
 'use client';
+import Photo from '@/components/ui/Photo';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
@@ -95,7 +96,6 @@ export default function CheckoutPopup() {
     const itemData = cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price }));
     trackAddPaymentInfo(total, itemData);   // payment method chosen → AddPaymentInfo / ADD_BILLING
 
-    const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
     const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
     const landingUrl = getLandingUrl() || (typeof window !== 'undefined' ? window.location.href : undefined);
@@ -124,7 +124,8 @@ export default function CheckoutPopup() {
 
       if (!response.ok) throw new Error(`API ${response.status}`);
       const result = await response.json();
-      const serverOrderId = result.order_id || orderId;
+      if (!result || !result.order_id) throw new Error('order_id_missing');
+      const serverOrderId: string = result.order_id;
 
       // Advanced matching: identify with name & phone
       await identifyUser({ phone: phone.trim(), name: name.trim() });
@@ -202,7 +203,7 @@ export default function CheckoutPopup() {
                 style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
               >
                 <div className="flex items-center gap-3">
-                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} decoding="async" />
+                  <div className="w-12 h-12 rounded-xl overflow-hidden border flex-shrink-0" style={{ borderColor: '#D6C6B4' }}><Photo src={upsellSet.image} alt={upsellSet.label} className="w-full h-full object-cover" /></div>
                   <div className="flex-1">
                     <div className="font-black text-sm" style={{ color: '#8A611E' }}>
                       رقّي طلبك إلى {upsellSet.label}
@@ -228,9 +229,7 @@ export default function CheckoutPopup() {
                     className="w-12 h-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden"
                     style={{ border: '1px solid #EFE4D4' }}
                   >
-                    {itemImages(item).map((src) => (
-                      <img key={src} src={src} alt={item.name} className={src.includes('stretch-') ? 'h-full object-contain' : 'w-full h-full object-cover'} decoding="async" />
-                    ))}
+                    <Photo src={itemImages(item)[0]} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm line-clamp-1" style={{ color: '#1A0F08' }}>{item.name}</div>

@@ -1,3 +1,5 @@
+import { IMG, realImages } from './images';
+
 export interface Product {
   id: string;
   slug: string;
@@ -35,7 +37,7 @@ export interface SetOption {
   highlight: boolean;
   savingsLabel: string;
   sku: string;
-  image: string; // thumbnail for this pack
+  image: string | null; // thumbnail for this pack (null until a real photo exists)
 }
 
 export const SET_OPTIONS: SetOption[] = [
@@ -51,7 +53,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-SERUM-1',
-    image: '/images/copper-serum.webp',
+    image: IMG.serum,
   },
   {
     id: 'set-roller-only',
@@ -65,7 +67,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-ROLLER-1',
-    image: '/images/derma-roller.webp',
+    image: IMG.roller,
   },
   {
     id: 'set-complete',
@@ -79,7 +81,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: true,
     savingsLabel: 'وفري ٣٠ ريال',
     sku: 'SLR-SET-COMPLETE',
-    image: '/images/copper-roller-duo.webp',
+    image: IMG.duo,
   },
   {
     id: 'set-double',
@@ -93,7 +95,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥١ ريال',
     sku: 'SLR-SET-DOUBLE',
-    image: '/images/copper-roller-duo.webp',
+    image: IMG.duo,
   },
 ];
 
@@ -139,14 +141,8 @@ export const PRODUCTS: Product[] = [
       'في أيام جلسة الديرما رولر (مرة إلى مرتين أسبوعياً): مرري الرولر أولاً ثم ضعي السيروم مباشرة.',
       'كرري السيروم صباحاً ومساءً بانتظام ٨-١٢ أسبوعاً، وصوّري المنطقة كل أسبوعين لمتابعة التقدم.',
     ],
-    images: [
-      '/images/copper-serum.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
-      '/images/before-after-day28.webp',
-      '/images/roller-macro.webp',
-    ],
-    heroImage: '/images/copper-roller-duo.webp',
+    images: realImages([IMG.serum, IMG.duo]),
+    heroImage: IMG.duo ?? undefined,
     imageBg: 'from-blue-900 to-slate-950',
     isBestseller: true,
   },
@@ -184,13 +180,8 @@ export const PRODUCTS: Product[] = [
       'تُستخدم الديرما رولر مرة إلى مرتين أسبوعياً فقط مساءً.',
       'عقمي الرولر واحفظيها في كبسولتها بعد كل استخدام.',
     ],
-    images: [
-      '/images/derma-roller.webp',
-      '/images/roller-macro.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
-    ],
-    heroImage: '/images/copper-roller-duo.webp',
+    images: realImages([IMG.roller, IMG.duo]),
+    heroImage: IMG.duo ?? undefined,
     imageBg: 'from-amber-900 to-stone-950',
   },
 ];
@@ -203,19 +194,10 @@ export function getCrossSells(currentSlug: string): Product[] {
   return PRODUCTS.filter((p) => p.slug !== currentSlug);
 }
 
-const SET_IMAGES: Record<string, string> = {
-  'set-serum-only':  '/images/copper-serum.webp',
-  'set-cream-only':  '/images/derma-roller.webp',
-  'set-roller-only': '/images/derma-roller.webp',
-  'set-complete':    '/images/copper-roller-duo.webp',
-  'set-double':      '/images/copper-roller-duo.webp',
-};
-
-/** Map any product/set/cart item identifier to its image path(s). */
+/** Map any product/set/cart item identifier to its real image path(s); empty until real photos exist. */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
-  if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
   const k = ((item.id || '') + ' ' + (item.sku || '') + ' ' + (item.name || '')).toLowerCase();
-  if (k.includes('double') || k.includes('complete')) return ['/images/copper-roller-duo.webp'];
-  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return ['/images/derma-roller.webp'];
-  return ['/images/copper-serum.webp'];
+  if (k.includes('double') || k.includes('complete')) return realImages([IMG.duo]);
+  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return realImages([IMG.roller]);
+  return realImages([IMG.serum]);
 }

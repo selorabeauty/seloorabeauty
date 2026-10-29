@@ -1,4 +1,5 @@
 'use client';
+import Photo from '@/components/ui/Photo';
 import Link from 'next/link';
 import { Trash2, ShoppingBag, ShieldCheck, Truck, RotateCcw, Sparkles, CheckCircle2 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
@@ -77,9 +78,7 @@ export default function CartPage() {
                 {items.map((item) => (
                   <div key={item.id} className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex items-center gap-4 sm:gap-5">
                     <div className="w-20 h-20 bg-slate-50 rounded-2xl flex-shrink-0 flex items-center justify-center border border-slate-100 overflow-hidden p-2">
-                      {itemImages(item).map((src) => (
-                        <img key={src} src={src} alt={item.name} className="w-full h-full object-contain" decoding="async" />
-                      ))}
+                      <Photo src={itemImages(item)[0]} alt={item.name} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-extrabold text-slate-900 text-base leading-snug">{item.name}</div>

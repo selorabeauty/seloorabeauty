@@ -42,7 +42,9 @@ function SuccessContent() {
       if (raw) savedData = JSON.parse(raw);
     } catch {}
 
-    const currentOrderId = (orderId && orderId !== 'SLR-XXXX') ? orderId : (savedData.orderId || 'SLR-ORDER');
+    // Only count a purchase that checkout confirmed and stored; direct visits/reloads of a fake URL never fire
+    const currentOrderId = savedData.orderId;
+    if (!currentOrderId || (orderId !== 'SLR-XXXX' && orderId !== currentOrderId)) return;
     const finalTotal = total || savedData.total || 249;
     const finalName = customerName || savedData.name || '';
     const finalPhone = savedData.phone || '';

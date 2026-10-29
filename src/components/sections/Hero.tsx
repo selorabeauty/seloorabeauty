@@ -1,7 +1,9 @@
 'use client';
+import Photo from '@/components/ui/Photo';
+import { IMG } from '@/lib/images';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { ShieldCheck, Truck, RotateCcw, Star, ArrowDown } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw, ArrowDown } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { PRODUCTS, SET_OPTIONS } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
@@ -12,32 +14,31 @@ const singleSet = SET_OPTIONS.find((s) => s.id === 'set-serum-only')!;
 // ── EMOTIONAL + RATIONAL bullets — stretch marks pain points ──
 const PAIN_BULLETS = [
   {
-    emoji: '�',
-    bold: 'تقنية ببتيدات النحاس الزرقاء (GHK-Cu):',
-    rest: 'تخترق لعمق طبقة الأدمة حيث مكان التمزق لتحفز خلايا الفايبروبلاست لردم الخطوط وتجديد ألياف الإيلاستين.',
+    emoji: '🤍',
+    bold: 'أنتِ لستِ وحدكِ في هذا:',
+    rest: 'الحمل، النمو السريع، تغيّر الوزن، الرياضة. معظم النساء يمررن بها، وهي لا تقلل من جمالكِ ولا من قيمتكِ.',
+  },
+  {
+    emoji: '🧬',
+    bold: 'ببتيدات النحاس GHK-Cu + سيكا:',
+    rest: 'مكونات معروفة في أبحاث العناية بالبشرة لدعم مرونة الجلد وتهدئته، في سيروم 100ml خفيف غير لزج.',
   },
   {
     emoji: '🪡',
-    bold: 'ديرما رولر التيتانيوم الطبية (540 إبرة):',
-    rest: 'تفتح قنوات ميكروسكوبية لطيفة تضاعف امتصاص السيروم ٨٠٪ وتفكك النسيج المتصلب بأمان تام.',
+    bold: 'ديرما رولر 0.5mm مرة أسبوعياً:',
+    rest: 'خطوة لطيفة تهيّئ سطح البشرة قبل السيروم. تعقيم قبل وبعد الاستخدام، ولا تُستخدم على جلد متهيج.',
   },
   {
     emoji: '🛡️',
-    bold: 'نتائج موثقة وضمان ذهبي ٣٠ يوماً:',
-    rest: 'تحسن ملحوظ في مظهر التشققات الملونة والبيضاء خلال ٤ أسابيع — مع ضمان استرجاع كامل والدفع عند الاستلام.',
+    bold: 'جرّبي بدون خوف:',
+    rest: 'الدفع عند الاستلام، وضمان استرجاع ٣٠ يوماً. والنتائج تختلف من بشرة لأخرى، فالتزمي ٨-١٢ أسبوعاً.',
   },
 ];
 
 export default function Hero() {
   const { setMainSet, openCheckout } = useCartStore();
-  const [ordersToday, setOrdersToday] = useState(63);
   // Which purchase option is picked in the side-by-side selector below — bundle wins by default.
   const [selectedSetId, setSelectedSetId] = useState<'set-serum-only' | 'set-complete'>('set-complete');
-
-  useEffect(() => {
-    const t = setInterval(() => setOrdersToday((n) => n + 1), 11000);
-    return () => clearInterval(t);
-  }, []);
 
   const selectedSet = selectedSetId === 'set-complete' ? completeSet : singleSet;
 
@@ -77,18 +78,8 @@ export default function Hero() {
 
           {/* Social proof pills */}
           <div className="flex items-center gap-3 flex-wrap">
-            <div
-              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 border shadow-sm"
-              style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
-            >
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} className="fill-current" style={{ color: '#D97706' }} />
-              ))}
-              <span className="text-xs font-bold mr-1" style={{ color: '#0F172A' }}>4.9</span>
-              <span className="text-xs font-medium" style={{ color: '#64748B' }}>(٣٤١٨ تقييم موثق)</span>
-            </div>
-            <span className="badge-clinical">🧬 تركيبة صيدلانية معتمدة</span>
-            <span className="badge-gold">� {ordersToday} طلب اليوم في المملكة</span>
+            <span className="badge-gold">💳 الدفع عند الاستلام</span>
+            <span className="badge-clinical">↩️ ضمان استرجاع ٣٠ يوماً</span>
           </div>
 
           {/* ── HEADLINE ── */}
@@ -100,12 +91,10 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            {/* Line 1 — emotional hook for men & women */}
-            <span style={{ color: '#0F172A' }}>توقف/ي عن إخفاء خطوط جسمك..</span>
+            <span style={{ color: '#0F172A' }}>كل مرة تقفين أمام المرآة وتشدّين القميص لتغطي بطنكِ..</span>
             <br />
-            {/* Line 2 — rational promise */}
             <span style={{ color: '#1E3A8A' }}>
-              بروتوكول ببتيدات النحاس والديرما رولر لردم التشققات العميقة.
+              حان وقت روتين يعتني بجلدكِ بلطف وصبر.
             </span>
           </h1>
 
@@ -120,7 +109,7 @@ export default function Hero() {
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            سواء بسبب الحمل والولادة أو بناء العضلات بالجيم وتقلبات الوزن — طقم سيلورا الصيدلاني يجمع بين إبر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس الأزرق 100ml لردم التمزق وتفتيح الخطوط الحمراء والبيضاء.
+            نعرف تلك اللحظة: تختارين الملابس الواسعة، وتتجنبين البحر والمسبح، وتتمنين لو أن جسمكِ يشبه ما قبل. التشققات أثر حياة عشتِها، ولا تحتاجين أن تخجلي منها. سيلورا روتين بسيط من خطوتين: سيروم ببتيدات النحاس مع السيكا، وديرما رولر 0.5mm، للعناية بمظهر الجلد وملمسه ومرونته أسبوعاً بعد أسبوع.
           </p>
 
           {/* ── PAIN-POINT BULLETS ── */}
@@ -241,12 +230,11 @@ export default function Hero() {
               className="absolute inset-2 sm:inset-3 rounded-3xl overflow-hidden border border-slate-200/80 bg-white flex items-center justify-center p-2 sm:p-3"
               style={{ boxShadow: '0 20px 60px -15px rgba(15,23,42,0.14)' }}
             >
-              <img
-                src="/images/copper-roller-duo.webp"
-                alt="طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم — سيلورا ديرما"
-                className="w-full h-full object-contain"
-                fetchPriority="high"
-                decoding="async"
+              <Photo
+                src={IMG.duo}
+                alt="سيروم ببتيدات النحاس والديرما رولر — سيلورا بيوتي"
+                label="سيروم ببتيدات النحاس + ديرما رولر"
+                priority
               />
             </div>
 
@@ -256,18 +244,6 @@ export default function Hero() {
             >
               <div className="text-xl font-black text-blue-700">87%</div>
               <div className="text-[10px] font-bold text-slate-600">ردم وتحسن التشققات</div>
-            </div>
-
-            {/* Floating chip: reviews */}
-            <div
-              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200"
-            >
-              <div className="flex gap-0.5 mb-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="fill-current text-amber-500" />
-                ))}
-              </div>
-              <div className="text-[10px] font-bold text-slate-700">+٣٤٠٠ عميل وعميلة</div>
             </div>
 
             {/* Floating chip: peptide */}

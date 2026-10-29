@@ -1,4 +1,6 @@
 'use client';
+import { REAL_REVIEWS } from '@/lib/reviews';
+import Photo from '@/components/ui/Photo';
 import { notFound } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
@@ -9,14 +11,8 @@ import { getProduct, getCrossSells, SET_OPTIONS, getSetProducts } from '@/lib/pr
 import { useCartStore } from '@/store/cartStore';
 import { useState, useEffect } from 'react';
 import { trackAddToCart, trackViewContent } from '@/lib/pixels';
-import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const REVIEWS = [
-  { name: 'سارة م. — الرياض', rating: 5, text: 'تشققات الحمل بدأت تخف بشكل واضح بعد أسبوعين من استخدام الطقم الكامل. قوامه الزبدي يمتص بسرعة ويريح البشرة جداً.' },
-  { name: 'نورة الغامدي — جدة', rating: 5, text: 'ما أعطى أي تهيج أبداً. البشرة نعمت وصار لون التشققات أفتح بكثير. معتمد من الغذاء والدواء وهذا طمأنني جداً.' },
-  { name: 'منى الشمري — الدمام', rating: 5, text: 'جربت منتجات كثير قبل كذا وما أثرت. هذا الروتين فرق حقيقي — التغلغل سريع وملمس البشرة اختلف تماماً.' },
-];
 
 export default function ProductPage({ params }: { params: { slug: string; locale: string } }) {
   const product = getProduct(params.slug);
@@ -86,12 +82,12 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             {/* Image gallery */}
             <div className="md:sticky md:top-24">
               <div className="relative bg-white rounded-3xl shadow-md border border-slate-200 aspect-[3/4] flex items-center justify-center overflow-hidden">
-                <img
+                <Photo
                   src={activeImg}
                   alt={product.name}
+                  label={product.name}
                   className="w-full h-full object-contain p-4 md:p-8"
-                  fetchPriority="high"
-                  decoding="async"
+                  priority
                 />
 
                 {/* Badges */}
@@ -129,15 +125,6 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight mt-1">{product.name}</h1>
               </div>
 
-              {/* Stars */}
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={17} className={i < Math.floor(product.rating) ? 'star fill-amber-400' : 'text-slate-200'} />)}
-                </div>
-                <span className="font-black text-slate-900">{product.rating}</span>
-                <span className="text-sm text-slate-500">({product.reviewCount.toLocaleString('ar-SA')} تقييم موثق)</span>
-              </div>
-
               {/* Description */}
               <p className="text-base text-slate-600 leading-relaxed">{product.description}</p>
 
@@ -158,13 +145,9 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         {set.badge}
                       </span>
                     )}
-                    <img
-                      src={set.image}
-                      alt={set.label}
-                      className="w-14 h-14 rounded-xl object-contain bg-white p-1 border border-slate-200 flex-shrink-0"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-white border border-slate-200 flex-shrink-0">
+                      <Photo src={set.image} alt={set.label} className="w-full h-full object-contain p-1" />
+                    </div>
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
                       style={{ borderColor: selectedSetId === set.id ? '#1D4ED8' : '#94A3B8' }}
@@ -379,21 +362,20 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             </div>
           </div>
 
-          {/* ── Product Reviews ── */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-black text-slate-900 mb-6">آراء وتجارب العملاء الموثقة</h2>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {REVIEWS.map((r, i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-                  <div className="flex gap-0.5 mb-3">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} className={j < r.rating ? 'star fill-amber-400' : 'text-slate-200'} />)}
+          {/* ── Product Reviews: only genuine, collected reviews are shown ── */}
+          {REAL_REVIEWS.length > 0 && (
+            <div className="mb-16">
+              <h2 className="text-2xl font-black text-slate-900 mb-6">آراء العميلات</h2>
+              <div className="grid sm:grid-cols-3 gap-5">
+                {REAL_REVIEWS.map((r, i) => (
+                  <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
+                    <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
-                  <div className="font-bold text-sm text-slate-900">{r.name}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* ── Cross-sells ── */}
           {crossSells.length > 0 && (
