@@ -1,4 +1,6 @@
 'use client';
+import { REAL_REVIEWS } from '@/lib/reviews';
+import Photo from '@/components/ui/Photo';
 import { notFound } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
@@ -9,14 +11,8 @@ import { getProduct, getCrossSells, SET_OPTIONS, getSetProducts } from '@/lib/pr
 import { useCartStore } from '@/store/cartStore';
 import { useState, useEffect } from 'react';
 import { trackAddToCart, trackViewContent } from '@/lib/pixels';
-import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const REVIEWS = [
-  { name: 'سارة م. — الرياض', rating: 5, text: 'تشققات الحمل بدأت تخف بشكل واضح بعد أسبوعين من استخدام الطقم الكامل. قوامه الزبدي يمتص بسرعة ويريح البشرة جداً.' },
-  { name: 'نورة الغامدي — جدة', rating: 5, text: 'ما أعطى أي تهيج أبداً. البشرة نعمت وصار لون التشققات أفتح بكثير. معتمد من الغذاء والدواء وهذا طمأنني جداً.' },
-  { name: 'منى الشمري — الدمام', rating: 5, text: 'جربت منتجات كثير قبل كذا وما أثرت. هذا الروتين فرق حقيقي — التغلغل سريع وملمس البشرة اختلف تماماً.' },
-];
 
 export default function ProductPage({ params }: { params: { slug: string; locale: string } }) {
   const product = getProduct(params.slug);
@@ -86,12 +82,12 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             {/* Image gallery */}
             <div className="md:sticky md:top-24">
               <div className="relative bg-white rounded-3xl shadow-md border border-slate-200 aspect-[3/4] flex items-center justify-center overflow-hidden">
-                <img
+                <Photo
                   src={activeImg}
                   alt={product.name}
+                  label={product.name}
                   className="w-full h-full object-contain p-4 md:p-8"
-                  fetchPriority="high"
-                  decoding="async"
+                  priority
                 />
 
                 {/* Badges */}
@@ -129,15 +125,6 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight mt-1">{product.name}</h1>
               </div>
 
-              {/* Stars */}
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={17} className={i < Math.floor(product.rating) ? 'star fill-amber-400' : 'text-slate-200'} />)}
-                </div>
-                <span className="font-black text-slate-900">{product.rating}</span>
-                <span className="text-sm text-slate-500">({product.reviewCount.toLocaleString('ar-SA')} تقييم موثق)</span>
-              </div>
-
               {/* Description */}
               <p className="text-base text-slate-600 leading-relaxed">{product.description}</p>
 
@@ -158,13 +145,9 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         {set.badge}
                       </span>
                     )}
-                    <img
-                      src={set.image}
-                      alt={set.label}
-                      className="w-14 h-14 rounded-xl object-contain bg-white p-1 border border-slate-200 flex-shrink-0"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-white border border-slate-200 flex-shrink-0">
+                      <Photo src={set.image} alt={set.label} className="w-full h-full object-contain p-1" />
+                    </div>
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
                       style={{ borderColor: selectedSetId === set.id ? '#1D4ED8' : '#94A3B8' }}
@@ -291,7 +274,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             <div className="text-center max-w-2xl mx-auto mb-10">
               <span className="badge-clinical mb-3">🔬 الفرق العلمي الحاسم</span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                لماذا يتفوق طقم سيلورا الصيدلاني على البدائل التقليدية؟
+                لماذا الجمع بين السيروم والرولر؟
               </h2>
               <p className="text-sm text-slate-600 mt-2">
                 مقارنة صيدلانية توضح الفارق بين تقنية ترميم ألياف الأدمة والمنتجات السطحية في السوق
@@ -352,13 +335,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                   <div className="p-4 rounded-2xl bg-blue-50/90 border border-blue-200">
                     <div className="font-bold text-sm text-blue-950 flex items-center gap-2 mb-1">
                       <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">✓</span>
-                      سيروم سيلورا (Blue Copper Peptide + CICA 100ml):
+                      سيروم Daranca (Copper Peptide + CICA 30ml):
                     </div>
                     <ul className="text-xs text-blue-900 space-y-1 pe-2 leading-relaxed font-medium">
                       <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
                       <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
                       <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
-                      <li>• حجم 100ml كبير وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
+                      <li>• عبوة 30ml بقطّارة وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
                     </ul>
                   </div>
 
@@ -369,7 +352,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                     </div>
                     <ul className="text-xs text-slate-600 space-y-1 pe-2 leading-relaxed font-medium">
                       <li>• جزيئات زيتية ضخمة (+500 Dalton) تعجز عن عبور حاجز الجلد الخارجي.</li>
-                      <li>• ترطيب سطحي مؤقت يزول بالماء دون علاج التمزق الداخلي.</li>
+                      <li>• ترطيب سطحي مؤقت يزول بالماء دون أن تصل لطبقات الجلد العميقة.</li>
                       <li>• صفر تحفيز للكولاجين الجديد في النسيج المتصلب.</li>
                       <li>• ملمس زيتي ثقيل يلطخ الملابس ويسبب إزعاجاً مستمراً.</li>
                     </ul>
@@ -379,21 +362,20 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             </div>
           </div>
 
-          {/* ── Product Reviews ── */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-black text-slate-900 mb-6">آراء وتجارب العملاء الموثقة</h2>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {REVIEWS.map((r, i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-                  <div className="flex gap-0.5 mb-3">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} className={j < r.rating ? 'star fill-amber-400' : 'text-slate-200'} />)}
+          {/* ── Product Reviews: only genuine, collected reviews are shown ── */}
+          {REAL_REVIEWS.length > 0 && (
+            <div className="mb-16">
+              <h2 className="text-2xl font-black text-slate-900 mb-6">آراء العميلات</h2>
+              <div className="grid sm:grid-cols-3 gap-5">
+                {REAL_REVIEWS.map((r, i) => (
+                  <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
+                    <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
-                  <div className="font-bold text-sm text-slate-900">{r.name}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* ── Cross-sells ── */}
           {crossSells.length > 0 && (

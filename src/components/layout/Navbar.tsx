@@ -70,13 +70,13 @@ export default function Navbar() {
               className="text-xl font-bold tracking-tight transition-colors"
               style={{ color: '#0F172A', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
             >
-              سيلورا ديرما
+              سيلورا بيوتي
             </span>
             <span
               className="text-[9px] font-bold tracking-[0.25em] uppercase"
               style={{ color: '#2563EB' }}
             >
-              Selora Derma Laboratory
+              Selora Beauty
             </span>
           </span>
         </Link>

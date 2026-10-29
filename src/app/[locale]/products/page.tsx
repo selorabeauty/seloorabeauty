@@ -5,8 +5,8 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import { PRODUCTS } from '@/lib/products';
 
 export const metadata = {
-  title: 'عناصر الطقم الصيدلاني | سيلورا ديرما',
-  description: 'اكتشفي عناصر طقم سيلورا ديرما لعلاج تشققات الجسم — سيروم ببتيدات النحاس الأزرق 100ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
+  title: 'عناصر الطقم | سيلورا بيوتي',
+  description: 'اكتشفي عناصر طقم سيلورا بيوتي للعناية بتشققات الجسم — سيروم ببتيدات النحاس الأزرق 30ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
 };
 
 export default function CollectionPage({ params }: { params: { locale: string } }) {
@@ -39,7 +39,7 @@ export default function CollectionPage({ params }: { params: { locale: string } 
           <div className="mt-16 bg-stone-900 text-white rounded-3xl px-8 py-7 text-center">
             <p className="text-lg font-bold text-amber-300 mb-2">لماذا سيلورا؟</p>
             <p className="text-stone-300 leading-relaxed max-w-xl mx-auto">
-              كل منتجاتنا تُصنَّع بمعايير ISO 22716 وتمر بفحص دقيق قبل الشحن.
+              نراجع كل طلب بعناية قبل الشحن.
               نؤمن بالنتيجة — لذلك نضمنها.
             </p>
           </div>

@@ -1,3 +1,5 @@
+import { IMG, realImages } from './images';
+
 export interface Product {
   id: string;
   slug: string;
@@ -35,7 +37,7 @@ export interface SetOption {
   highlight: boolean;
   savingsLabel: string;
   sku: string;
-  image: string; // thumbnail for this pack
+  image: string | null; // thumbnail for this pack (null until a real photo exists)
 }
 
 export const SET_OPTIONS: SetOption[] = [
@@ -45,13 +47,13 @@ export const SET_OPTIONS: SetOption[] = [
     qty: 1,
     totalPrice: 199,
     originalTotal: 249,
-    label: 'سيروم ببتيدات النحاس المركز 100ml — عبوة واحدة',
+    label: 'سيروم ببتيدات النحاس المركز 30ml — عبوة واحدة',
     perUnitLabel: '199 ر.س',
     badge: null,
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-SERUM-1',
-    image: '/images/copper-serum.webp',
+    image: IMG.serum,
   },
   {
     id: 'set-roller-only',
@@ -65,7 +67,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفري ٥٠ ريال',
     sku: 'SLR-ROLLER-1',
-    image: '/images/derma-roller.webp',
+    image: IMG.roller,
   },
   {
     id: 'set-complete',
@@ -73,13 +75,13 @@ export const SET_OPTIONS: SetOption[] = [
     qty: 2,
     totalPrice: 249,
     originalTotal: 279,
-    label: 'طقم الترميم المجهري — سيروم ببتيدات النحاس 100ml + ديرما رولر التيتانيوم',
+    label: 'طقم الترميم المجهري — سيروم ببتيدات النحاس 30ml + ديرما رولر التيتانيوم',
     perUnitLabel: 'وفري ٣٠ ريال عند الطلب الآن',
     badge: '⭐ الأكثر طلباً — كورس الترميم المتكامل',
     highlight: true,
     savingsLabel: 'وفري ٣٠ ريال',
     sku: 'SLR-SET-COMPLETE',
-    image: '/images/copper-roller-duo.webp',
+    image: IMG.duo,
   },
   {
     id: 'set-double',
@@ -87,13 +89,13 @@ export const SET_OPTIONS: SetOption[] = [
     qty: 3,
     totalPrice: 447,
     originalTotal: 498,
-    label: 'طقم الكورس المكثف — ٢ سيروم 100ml + ديرما رولر التيتانيوم',
+    label: 'طقم الكورس المكثف — ٢ سيروم 30ml + ديرما رولر التيتانيوم',
     perUnitLabel: 'كورس ٣ أشهر كامل',
     badge: '🔥 باقة التوفير القصوى — كورس ٣ أشهر',
     highlight: false,
     savingsLabel: 'وفري ٥١ ريال',
     sku: 'SLR-SET-DOUBLE',
-    image: '/images/copper-roller-duo.webp',
+    image: IMG.duo,
   },
 ];
 
@@ -107,9 +109,9 @@ export const PRODUCTS: Product[] = [
   {
     id: 'stretch-serum',
     slug: 'stretch-mark-serum',
-    name: 'سيروم ببتيدات النحاس GHK-Cu + سيكا لتشققات الجسم (100ml)',
+    name: 'سيروم Daranca ببتيدات النحاس GHK-Cu + سيكا لتشققات الجسم (30ml)',
     subtitle: 'GHK-Cu Copper Peptide + Centella (CICA) + Matrixyl 3000',
-    tagline: 'ببتيدات النحاس + سيكا · حجم 100 مل يكفي الجسم كله',
+    tagline: 'ببتيدات النحاس + سيكا · عبوة 30 مل بقطّارة للاستخدام الدقيق',
     price: 199,
     originalPrice: 249,
     rating: 4.9,
@@ -118,13 +120,13 @@ export const PRODUCTS: Product[] = [
     badgeColor: 'gold',
     sku: 'SLR-SERUM-1',
     description:
-      'تعرفين لحظة المرآة حين تلمحين تشققات بطنكِ أو فخذيكِ وتفضّلين تغطيتها؟ هي أثر حمل أو نمو أو تغيّر وزن، ولا تقلل من قيمتكِ. سيروم سيلورا يجمع ببتيدات النحاس GHK-Cu وخلاصة السيكا (Centella) ومركب ماتريكسيل 3000 وحمض الهيالورونيك في قوام مائي خفيف يمتصه الجلد بسرعة، للعناية بمظهر التشققات الحمراء والبيضاء وتحسين مرونة الجلد وملمسه. عبوة 100 مل تكفي البطن والأرداف والفخذين والظهر. النتائج تختلف من بشرة لأخرى وتحتاج التزاماً منتظماً.',
+      'تعرفين لحظة المرآة حين تلمحين تشققات بطنكِ أو فخذيكِ وتفضّلين تغطيتها؟ هي أثر حمل أو نمو أو تغيّر وزن، ولا تقلل من قيمتكِ. سيروم Daranca يجمع ببتيدات النحاس GHK-Cu وخلاصة السيكا (Centella) ومركب ماتريكسيل 3000 وحمض الهيالورونيك في قوام مائي خفيف يمتصه الجلد بسرعة، للعناية بمظهر التشققات الحمراء والبيضاء وتحسين مرونة الجلد وملمسه. عبوة 30 مل بقطّارة تمنحكِ تحكماً في الكمية، ويُنصح بطلب عبوتين للمساحات الأكبر. النتائج تختلف من بشرة لأخرى وتحتاج التزاماً منتظماً.',
     benefits: [
       '🧬 ببتيدات النحاس GHK-Cu: مكوّن معروف في أبحاث العناية بالبشرة لدعم مظهر الجلد المرن والمتماسك.',
       '🌿 خلاصة السيكا (Centella): تهدّئ البشرة وتمنح راحة بعد الاستخدام.',
       '💧 هيالورونيك + نياسيناميد + B5: ترطيب ومظهر أكثر توحداً للون الجلد.',
       '⚡ قوام مائي خفيف غير لزج: يُمتص بسرعة ويناسب الاستخدام صباحاً ومساءً.',
-      '🔬 100 مل: عبوة كبيرة تكفي روتين البطن والأرداف والفخذين والظهر.',
+      '🔬 30 مل بقطّارة: جرعة دقيقة وسهلة الاستخدام.',
     ],
     ingredients: [
       { name: 'ببتيدات النحاس (GHK-Cu)', role: 'ببتيد العناية بالمرونة', benefit: 'مكوّن معروف في أبحاث العناية بالبشرة لدعم مظهر الجلد المتماسك والمرن', icon: '🧬' },
@@ -139,14 +141,8 @@ export const PRODUCTS: Product[] = [
       'في أيام جلسة الديرما رولر (مرة إلى مرتين أسبوعياً): مرري الرولر أولاً ثم ضعي السيروم مباشرة.',
       'كرري السيروم صباحاً ومساءً بانتظام ٨-١٢ أسبوعاً، وصوّري المنطقة كل أسبوعين لمتابعة التقدم.',
     ],
-    images: [
-      '/images/copper-serum.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
-      '/images/before-after-day28.webp',
-      '/images/roller-macro.webp',
-    ],
-    heroImage: '/images/copper-roller-duo.webp',
+    images: realImages([IMG.serum, IMG.duo]),
+    heroImage: IMG.duo ?? undefined,
     imageBg: 'from-blue-900 to-slate-950',
     isBestseller: true,
   },
@@ -184,13 +180,8 @@ export const PRODUCTS: Product[] = [
       'تُستخدم الديرما رولر مرة إلى مرتين أسبوعياً فقط مساءً.',
       'عقمي الرولر واحفظيها في كبسولتها بعد كل استخدام.',
     ],
-    images: [
-      '/images/derma-roller.webp',
-      '/images/roller-macro.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
-    ],
-    heroImage: '/images/copper-roller-duo.webp',
+    images: realImages([IMG.roller, IMG.duo]),
+    heroImage: IMG.duo ?? undefined,
     imageBg: 'from-amber-900 to-stone-950',
   },
 ];
@@ -203,19 +194,10 @@ export function getCrossSells(currentSlug: string): Product[] {
   return PRODUCTS.filter((p) => p.slug !== currentSlug);
 }
 
-const SET_IMAGES: Record<string, string> = {
-  'set-serum-only':  '/images/copper-serum.webp',
-  'set-cream-only':  '/images/derma-roller.webp',
-  'set-roller-only': '/images/derma-roller.webp',
-  'set-complete':    '/images/copper-roller-duo.webp',
-  'set-double':      '/images/copper-roller-duo.webp',
-};
-
-/** Map any product/set/cart item identifier to its image path(s). */
+/** Map any product/set/cart item identifier to its real image path(s); empty until real photos exist. */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
-  if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
   const k = ((item.id || '') + ' ' + (item.sku || '') + ' ' + (item.name || '')).toLowerCase();
-  if (k.includes('double') || k.includes('complete')) return ['/images/copper-roller-duo.webp'];
-  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return ['/images/derma-roller.webp'];
-  return ['/images/copper-serum.webp'];
+  if (k.includes('double') || k.includes('complete')) return realImages([IMG.duo]);
+  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return realImages([IMG.roller]);
+  return realImages([IMG.serum]);
 }

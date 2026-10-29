@@ -1,5 +1,5 @@
 const STATS = [
-  { value: '100ml',     label: 'سيروم يكفي الجسم كله' },
+  { value: '30ml',      label: 'سيروم بقطّارة' },
   { value: '540',       label: 'إبرة تيتانيوم بالرولر' },
   { value: '0.5mm',     label: 'مقاس لطيف للمنزل' },
   { value: '٨-١٢ أسبوعاً', label: 'التزام موصى به' },
@@ -24,8 +24,8 @@ export default function ScienceSection() {
 
         <div className="text-center mb-14">
           <span className="badge mb-4">🔬 العلم وراء النتيجة</span>
-          <h2 className="section-heading">علم ترميم الأنسجة المجهري</h2>
-          <p className="section-sub">قوة ببتيدات النحاس الزرقاء (GHK-Cu) مع ديرما رولر التيتانيوم — الحل الصيدلاني الموجه لطبقة الأدمة</p>
+          <h2 className="section-heading">كيف يعمل الروتين؟</h2>
+          <p className="section-sub">خطوتان بسيطتان: رولر لطيف يهيّئ بشرتكِ، وسيروم ببتيدات النحاس (GHK-Cu) يعتني بها كل يوم</p>
         </div>
 
         {/* Stats */}
@@ -78,20 +78,9 @@ export default function ScienceSection() {
             className="rounded-3xl p-8 flex flex-col gap-6 border"
             style={{ backgroundColor: '#0B132B', borderColor: '#1E293B' }}
           >
-            {/* Macro needle visual */}
-            <div className="rounded-2xl overflow-hidden border -mt-2" style={{ borderColor: '#1E293B' }}>
-              <img
-                src="/images/roller-macro.webp"
-                alt="لقطة مقربة لإبر التيتانيوم الدقيقة 0.5mm في ديرما رولر سيلورا"
-                className="w-full aspect-[16/9] object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-
             {/* Header */}
             <h3 className="text-xl font-bold" style={{ color: '#93C5FD' }}>
-              كيف يعمل بروتوكول الترميم المجهري الصيدلاني؟
+              كيف يعمل الروتين خطوة بخطوة؟
             </h3>
             <p className="text-sm leading-relaxed -mt-4" style={{ color: '#CBD5E1' }}>
               روتين من خطوتين — رولر 0.5mm بإبر التيتانيوم يتبعه سيروم ببتيدات النحاس والسيكا للعناية بمظهر الجلد ومرونته.

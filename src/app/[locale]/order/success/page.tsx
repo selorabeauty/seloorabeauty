@@ -42,13 +42,15 @@ function SuccessContent() {
       if (raw) savedData = JSON.parse(raw);
     } catch {}
 
-    const currentOrderId = (orderId && orderId !== 'SLR-XXXX') ? orderId : (savedData.orderId || 'SLR-ORDER');
+    // Only count a purchase that checkout confirmed and stored; direct visits/reloads of a fake URL never fire
+    const currentOrderId = savedData.orderId;
+    if (!currentOrderId || (orderId !== 'SLR-XXXX' && orderId !== currentOrderId)) return;
     const finalTotal = total || savedData.total || 249;
     const finalName = customerName || savedData.name || '';
     const finalPhone = savedData.phone || '';
     const finalEventId = params.get('ev') || savedData.eventId || crypto.randomUUID();
     const finalItems = savedData.items || [
-      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — علاج منزلي متكامل', quantity: 1, price: finalTotal },
+      { sku: 'SLR-SET-COMPLETE', name: 'الروتين الكامل — سيروم + ديرما رولر', quantity: 1, price: finalTotal },
     ];
 
     // Session deduplication guard so page reloads don't duplicate events

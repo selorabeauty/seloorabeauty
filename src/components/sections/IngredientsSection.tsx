@@ -1,3 +1,5 @@
+import Photo from '@/components/ui/Photo';
+import { IMG } from '@/lib/images';
 import { PRODUCTS } from '@/lib/products';
 
 // Combine unique ingredients from both the serum and the cream
@@ -12,20 +14,16 @@ export default function IngredientsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-10">
-          <span className="badge-clinical mb-3">🔬 تركيبة معملية متقدمة</span>
-          <h2 className="section-heading">مكونات نشطة مدروسة سريرياً</h2>
-          <p className="section-sub">كل عنصر في طقم سيلورا الصيدلاني له وظيفة بيولوجية محددة لردم التمزق وتجديد الخلايا</p>
+          <span className="badge-clinical mb-3">🌿 ما بداخل العبوة</span>
+          <h2 className="section-heading">مكونات واضحة، نختارها لأجل بشرتكِ</h2>
+          <p className="section-sub">نؤمن أن من حقكِ أن تعرفي ما تضعينه على جلدكِ. هذه مكونات الروتين ولماذا نستخدمها.</p>
         </div>
 
         {/* ── Real ingredients & system showcase ── */}
         <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-2xl bg-white border border-slate-200 p-6 flex items-center justify-center shadow-md">
-          <img
-            src="/images/copper-roller-duo.webp"
-            alt="تركيبة ببتيدات النحاس الزرقاء وديرما رولر التيتانيوم — سيلورا ديرما"
-            className="w-full max-h-80 object-contain"
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="w-full h-56">
+            <Photo src={IMG.duo} alt="سيروم ببتيدات النحاس والديرما رولر — Daranca" label="سيروم ببتيدات النحاس + ديرما رولر" />
+          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -73,9 +71,9 @@ export default function IngredientsSection() {
           style={{ backgroundColor: '#0B132B', borderColor: '#1E293B' }}
         >
           {[
-            { e: '🚫', t: 'خالٍ من الكحول والعطور المهيجة', d: 'آمن للبشرة الحساسة وبشرة ما بعد الحمل والجيم' },
-            { e: '✅', t: 'مطابق لمعايير ISO 22716',    d: 'كل تشغيلة تمر بفحص تعقيم وجودة صيدلانية صارم' },
-            { e: '🌿', t: 'تركيبة نقية معتمدة',        d: 'ببتيدات وسيكا عالية النقاء بدون بارابين أو كبريتات' },
+            { e: '🧴', t: 'قوام مائي خفيف', d: 'يُمتص بسرعة ويناسب الاستخدام الصباحي والمسائي' },
+            { e: '🧪', t: 'اختبري على منطقة صغيرة أولاً', d: 'نوصي بتجربة صغيرة على الجلد قبل أول استخدام' },
+            { e: '📋', t: 'قائمة المكونات على العبوة', d: 'راجعي المكونات على العبوة للتأكد من ملاءمتها لبشرتكِ' },
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-1.5">
               <span className="text-2xl">{item.e}</span>

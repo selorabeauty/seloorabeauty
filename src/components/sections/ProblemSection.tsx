@@ -2,11 +2,11 @@ import { ArrowDown } from 'lucide-react';
 
 // ── EMOTIONAL + RATIONAL pain points — stretch marks deeply felt ──
 const PROBLEMS = [
-  { emoji: '💔', bold: 'الإحراج المستمر وتجنب المرايا:', text: 'تفضّل اللبس الواسع وتتردد قبل ارتداء أي قطعة مفضلة بسبب خطوط التمدد على البطن أو الفخذين أو الظهر أو الأكتاف.' },
-  { emoji: '😔', bold: 'خيبة الأمل من زيوت وكريمات الصيدلية:', text: 'صرفت مئات الريالات على بايو أويل وزبدة الكاكاو بدون أي نتيجة... لأن الزيوت العادية تقف عند سطح الجلد ولا تصل لطبقة التمزق الداخلي.' },
-  { emoji: '🤰', bold: 'صدمة ما بعد الحمل أو تضخيم العضلات:', text: 'تمدد الجلد السريع — سواء بالحمل أو ببناء العضل في النادي — مزّق شبكة الإيلاستين وترك ندبات حمراء وبيضاء تسرق ثقتك بجسمك.' },
-  { emoji: '💸', bold: 'أسعار العيادات الخيالية بدون ضمان:', text: 'جلسات الفراكشنال ليزر تكلف من ٢٠٠٠ إلى ٥٠٠٠ ريال مع حروق مؤلمة ومخاطر تصبغات دون نتيجة مضمونة.' },
-  { emoji: '⏳', bold: 'سباق الوقت مع تحول لون الخطوط:', text: 'كل أسبوع تأخير يجعل الخطوط الملونة تتصلب لتصبح ندبات بيضاء باهتة أصعب وأبطأ بكثير في الترميم.' },
+  { emoji: '💔', bold: 'تتجنبين المرآة:', text: 'تلمحين بطنكِ أو فخذيكِ فتشعرين بانقباض صغير، ثم تسحبين القميص وتكملين يومكِ كأن شيئاً لم يكن.' },
+  { emoji: '👗', bold: 'تتخلين عن ما تحبين:', text: 'فستان المناسبة، ملابس البحر، لبس البيت أمام الأهل. تختارين الأوسع والأغمق حتى لا يلاحظ أحد.' },
+  { emoji: '🤰', bold: 'جسمكِ فعل شيئاً عظيماً:', text: 'حمل، ولادة، رضاعة، أو تغيّر وزن. الجلد تمدّد ليحتضن حياتكِ، والتشققات أثر ذلك، ولا تعني أنكِ قصّرتِ في العناية.' },
+  { emoji: '😔', bold: 'جرّبتِ ولم ترتاحي:', text: 'كريمات وزيوت كثيرة وأمل يتجدد ثم يخيب. التعب من التجربة يجعل كل منتج جديد يبدو كوعد آخر لا يتحقق.' },
+  { emoji: '⏳', bold: 'وتسألين نفسكِ: هل فات الأوان؟', text: 'الخطوط القديمة تحتاج صبراً وروتيناً منتظماً أكثر من الجديدة، لكن العناية المنتظمة تظل أفضل من الانتظار.' },
 ];
 
 export default function ProblemSection() {
@@ -22,36 +22,8 @@ export default function ProblemSection() {
           نعرف تماماً ما تشعر به..
         </h2>
         <p className="text-base mb-10 max-w-xl mx-auto leading-relaxed" style={{ color: '#94A3B8' }}>
-          علامات التمدد ليست مجرد جفاف سطحي، بل هي تمزق عميق في نسيج الكولاجين يسرق ثقتك يومياً — سواء بعد الحمل والولادة، أو بعد شهور التعب في الجيم وبناء العضلات.
+          لسنا هنا لنقول لكِ إن جسمكِ مشكلة. نحن هنا لأن كثيراً من النساء يشاركننا الشعور نفسه أمام المرآة، ولأنكِ تستحقين روتين عناية تثقين به.
         </p>
-
-        {/* ── Real problem photos — women & men ── */}
-        <div className="grid grid-cols-2 gap-4 mb-10 mx-auto max-w-2xl">
-          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#1E293B', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
-            <img
-              src="/images/problem-mirror-woman.webp"
-              alt="تشققات البطن بعد الحمل أمام المرآة"
-              className="w-full aspect-[4/5] object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#BFDBFE' }}>
-              بعد الحمل وتقلبات الوزن
-            </figcaption>
-          </figure>
-          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#1E293B', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
-            <img
-              src="/images/problem-gym-man.webp"
-              alt="تشققات الكتف والذراع بعد تضخيم العضلات في الجيم"
-              className="w-full aspect-[4/5] object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#BFDBFE' }}>
-              بعد التضخيم والجيم
-            </figcaption>
-          </figure>
-        </div>
 
         {/* ── Problem cards ── */}
         <div className="flex flex-col gap-3.5 mb-10 text-start">
@@ -81,12 +53,12 @@ export default function ProblemSection() {
           }}
         >
           <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#F8FAFC' }}>
-            أنت لست المشكلة.{' '}
+            أنتِ لستِ المشكلة.{' '}
             <span className="font-bold text-[#60A5FA]">
-              المنتجات والزيوت السطحية التي جربتها هي المشكلة.
+              التشققات جزء من قصتكِ، ومن حقكِ أن تعتني بها.
             </span>
             <br />
-            علاج التشققات الحقيقي يتطلب تغلغلاً مجهرياً يصل لطبقة الأدمة — طقم سيلورا الصيدلاني (ببتيدات النحاس الزرقاء + ديرما رولر التيتانيوم) صُمم خصيصاً لردم التمزق وإعادة بناء شبكة الكولاجين من المصدر — للرجال والنساء على حد سواء.
+            لن نعدكِ بنتيجة سحرية أو بتاريخ محدد. نعدكِ بروتين بسيط (سيروم ببتيدات النحاس + السيكا وديرما رولر 0.5mm)، وبمتابعة صادقة، وبأن تدفعي عند الاستلام وتجربي بضمان ٣٠ يوماً. النتائج تختلف من بشرة لأخرى، والاستمرار هو السر.
           </p>
         </div>
       </div>

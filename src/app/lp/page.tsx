@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import Photo from '@/components/ui/Photo';
+import { IMG } from '@/lib/images';
 import Link from 'next/link';
 import {
   Sparkles,
@@ -9,7 +10,6 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
-  Star,
   CheckCircle2,
   Loader2,
   Heart,
@@ -39,42 +39,11 @@ const CITIES = [
   'مدينة أخرى',
 ];
 
-const REVIEWS = [
-  {
-    name: 'نورة السعيد',
-    city: 'الرياض',
-    rating: 5,
-    date: 'قبل ٤ أيام',
-    text: 'استخدمت الطقم لمدة شهر على تشققات الحمل، والنتيجة مبهرة! الخطوط الحمراء faded بشكل ملحوظ والبشرة صارت أكثر نعومة ومرونة. التغليف احترافي والتوصيل سريع جداً.',
-  },
-  {
-    name: 'سارة الدوسري',
-    city: 'جدة',
-    rating: 5,
-    date: 'قبل أسبوع',
-    text: 'سيروم ببتيدات النحاس تركيبة مذهلة، امتص سريع ومفعله واضح بعد أول أسبوعين. الديرما رولر سهلة الاستخدام. أنصح بها لكل واحدة تعاني من التشققات.',
-  },
-  {
-    name: 'منى العتيبي',
-    city: 'الخبر',
-    rating: 5,
-    date: 'قبل أسبوعين',
-    text: 'الجودة عالية جداً مقارنة بالسعر. السيروم ناعم وغير لزج، والديرما رولر مريحة في اليد. بدأت ألاحظ تحسن في مرونة الجلد. شكراً سيلورا.',
-  },
-  {
-    name: 'لين الشهري',
-    city: 'أبها',
-    rating: 5,
-    date: 'قبل ٣ أسابيع',
-    text: 'طقم متكامل يعطي نتائج حقيقية. استخدمته على تشققات البطن والفخذ، والبشرة بدأت تستعيد توازنها. التوصيل كان ممتاز والدفع عند الاستلام راحتي كثير.',
-  },
-];
-
 const FEATURES = [
   {
     icon: <Sparkles size={22} className="text-[#C4943E]" />,
     title: 'ببتيدات النحاس GHK-Cu',
-    desc: 'ببتيد معروف في أبحاث العناية بالبشرة بدوره في دعم مظهر الجلد المرن والمتماسك. سيروم 100 مل يكفي البطن والفخذين والأرداف.',
+    desc: 'ببتيد معروف في أبحاث العناية بالبشرة بدوره في دعم مظهر الجلد المرن والمتماسك. سيروم 30 مل بقطّارة للاستخدام الدقيق.',
   },
   {
     icon: <Leaf size={22} className="text-[#2D6B41]" />,
@@ -151,14 +120,17 @@ export default function SoftLandingPage() {
       });
 
       if (!res.ok) {
-        throw new Error('تعذر إرسال الطلب، يرجى المحاولة مرة أخرى');
+        throw new Error('order_api_failed');
       }
 
       const data = await res.json();
-      const confirmedId = data.order_id || 'SLR-CONFIRMED';
+      if (!data || !data.order_id) {
+        throw new Error('order_id_missing');
+      }
+      const confirmedId: string = data.order_id;
       setOrderNumber(confirmedId);
 
-      // Advanced Matching & Purchase Event for Snap and TikTok
+      // Success + Purchase only after the backend confirmed the order was saved
       await identifyUser({ phone: phone.trim(), name: name.trim() });
       trackPurchase(249, confirmedId, eventId, [
         { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
@@ -166,14 +138,7 @@ export default function SoftLandingPage() {
 
       setSubmitted(true);
     } catch {
-      // Even if network fails, show graceful placeholder confirmation for ad review
-      const fallbackId = 'SD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-      setOrderNumber(fallbackId);
-      await identifyUser({ phone: phone.trim(), name: name.trim() });
-      trackPurchase(249, fallbackId, eventId, [
-        { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
-      ]);
-      setSubmitted(true);
+      setErrorMsg('تعذر إرسال طلبكِ ولم يتم تسجيله. تأكدي من الاتصال وحاولي مرة أخرى، أو تواصلي معنا عبر واتساب.');
     } finally {
       setSubmitting(false);
     }
@@ -255,8 +220,8 @@ export default function SoftLandingPage() {
               <div className="text-[11px] text-[#8C7B6E]">سيروم ببتيدات النحاس</div>
             </div>
             <div className="text-center md:text-start">
-              <div className="text-lg font-black text-[#1A0F08]">٤.٩ / ٥</div>
-              <div className="text-[11px] text-[#8C7B6E]">تقييم العميلات</div>
+              <div className="text-lg font-black text-[#1A0F08]">٣٠ يوماً</div>
+              <div className="text-[11px] text-[#8C7B6E]">ضمان استرجاع</div>
             </div>
             <div className="text-center md:text-start">
               <div className="text-lg font-black text-[#1A0F08]">١-٣ أيام</div>
@@ -268,14 +233,7 @@ export default function SoftLandingPage() {
         {/* Hero Visual */}
         <div className="relative mx-auto w-full max-w-md">
           <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#EFE4D4] bg-[#F8F2EA] relative aspect-[4/5]">
-            <Image
-              src="/images/copper-roller-duo.webp"
-              alt="طقم سيروم ببتيدات النحاس والديرما رولر — سيلورا ديرما"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 500px"
-              priority
-            />
+            <Photo src={IMG.duo} alt="طقم سيروم ببتيدات النحاس والديرما رولر — Daranca" label="سيروم ببتيدات النحاس + ديرما رولر" className="w-full h-full object-cover" />
           </div>
           <div className="absolute -bottom-4 -left-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-[#EFE4D4] flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#1E3A8A]/10 flex items-center justify-center text-[#1E3A8A]">
@@ -321,47 +279,26 @@ export default function SoftLandingPage() {
         </div>
       </section>
 
-      {/* Customer Reviews */}
-      <section className="py-16 px-4 max-w-6xl mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#C4943E]">
-            تجارب حقيقية
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#1A0F08]">
-            ماذا تقول عميلاتنا في المملكة؟
-          </h2>
-          <div className="flex items-center justify-center gap-1 text-[#C4943E] pt-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} fill="#C4943E" />
-            ))}
-            <span className="text-xs font-bold text-[#1A0F08] mr-2">٤.٩ من ٥ نجوم</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {REVIEWS.map((rev, idx) => (
-            <div
-              key={idx}
-              className="bg-[#F8F2EA] p-6 rounded-3xl border border-[#EFE4D4] shadow-sm space-y-4"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-sm text-[#1A0F08]">{rev.name}</div>
-                  <div className="text-xs text-[#8C7B6E]">{rev.city}</div>
-                </div>
-                <div className="flex items-center gap-0.5 text-[#C4943E]">
-                  {[...Array(rev.rating)].map((_, r) => (
-                    <Star key={r} size={13} fill="#C4943E" />
-                  ))}
-                </div>
-              </div>
-              <p className="text-xs text-[#3D2B1F] leading-relaxed font-medium">
-                &ldquo;{rev.text}&rdquo;
-              </p>
-              <div className="text-[10px] text-[#B0998A] pt-2 border-t border-[#EFE4D4] flex items-center justify-between">
-                <span>تجربة مؤكدة</span>
-                <span>{rev.date}</span>
-              </div>
+      {/* Empathy + honest promise (no invented testimonials) */}
+      <section className="py-16 px-4 max-w-3xl mx-auto text-center space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-black text-[#1A0F08] leading-snug">
+          التشققات ليست خطأكِ.. ومن حقكِ أن تشعري بالراحة في جسمكِ
+        </h2>
+        <p className="text-sm text-[#5C4B3F] leading-loose">
+          حمل، ولادة، رضاعة، نمو سريع، أو تغيّر في الوزن. جلدكِ تمدّد ليحتضن مراحل من حياتكِ، وأثر ذلك ليس عيباً. لكن نعرف شعور الوقوف أمام المرآة، واختيار الملابس الواسعة، وتجنب لحظات كنتِ تحبينها.
+        </p>
+        <p className="text-sm text-[#5C4B3F] leading-loose">
+          لذلك نحن صريحون معكِ: لا نعدكِ بنتيجة سحرية ولا بتاريخ محدد. نعدكِ بروتين بسيط وواضح المكونات، وبأن تدفعي عند الاستلام، وبأن تجربي بضمان ٣٠ يوماً. النتائج تختلف من بشرة لأخرى، والالتزام ٨-١٢ أسبوعاً هو السر.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-start">
+          {[
+            { t: 'ادفعي عند الاستلام', d: 'افحصي الطلب ثم ادفعي للمندوب.' },
+            { t: 'ضمان ٣٠ يوماً', d: 'راجعي شروط الإرجاع قبل الطلب.' },
+            { t: 'نجيب على أسئلتكِ', d: 'بشرة حساسة أو حامل؟ راسلينا قبل الطلب.' },
+          ].map((x) => (
+            <div key={x.t} className="bg-[#F8F2EA] border border-[#EFE4D4] rounded-2xl p-4">
+              <div className="font-bold text-sm text-[#1A0F08]">{x.t}</div>
+              <div className="text-xs text-[#8C7B6E] mt-1">{x.d}</div>
             </div>
           ))}
         </div>
@@ -411,16 +348,11 @@ export default function SoftLandingPage() {
                 <div className="p-3.5 rounded-2xl bg-[#F8F2EA] border border-[#EFE4D4] flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl bg-white overflow-hidden relative border border-[#EFE4D4] flex-shrink-0">
-                      <Image
-                        src="/images/copper-roller-duo.webp"
-                        alt="طقم سيروم ببتيدات النحاس والديرما رولر"
-                        fill
-                        className="object-cover"
-                      />
+                      <Photo src={IMG.duo} alt="طقم سيروم ببتيدات النحاس والديرما رولر" label="سيروم ببتيدات النحاس + ديرما رولر" className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">طقم سيروم ببتيدات النحاس + ديرما رولر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولر تيتانيوم</div>
+                      <div className="text-[11px] text-[#8C7B6E]">سيروم 30ml + ديرما رولر تيتانيوم</div>
                     </div>
                   </div>
                   <div className="text-right">

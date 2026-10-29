@@ -41,3 +41,15 @@ Empathy hook → reframe (stretch marks are not your fault) → mechanism (rolle
 - Add real review photos/videos once collected; show a date and city.
 - Make sure the ad's first frame shows the exact bottle and roller that appear on the page.
 - LP currently shows a fake success message and a client-side fallback order ID when the API fails (`src/app/lp/page.tsx` catch block) and fires a Purchase pixel anyway. Orders may be lost and pixel data polluted; show an error and a WhatsApp fallback instead.
+
+## 6. Placeholder prompts (no real stock / dropshipping)
+All AI-looking images were deleted. Slots live in `src/lib/images.ts` (`serum`, `roller`, `duo`) and render a neutral placeholder until you set a real path. Best source: your supplier's real product photos/videos (ask for raw unedited shots + a short unboxing video). For lifestyle/texture shots use stock you are licensed to use, or order one sample and shoot with a phone. Mood-board prompts (use for reference or licensed-stock search, never present as customer photos):
+1. Texture: "macro iPhone photo, clear gel serum droplet on a fingertip, visible skin pores and fine hair, soft window light, shallow depth of field, no filter"
+2. Application: "handheld POV, hand massaging serum onto upper thigh, natural skin with faint stretch marks untouched, bedroom daylight, slight grain"
+3. Product on shelf: "real bathroom shelf, slightly messy towel, amber serum bottle with pump and gold-handled derma roller in its capsule, label readable, daylight from window"
+4. Roller detail: "close-up of a 0.5mm titanium derma roller head resting on a palm, needles in focus, neutral background"
+5. Scale: "serum bottle held in one hand beside a phone, shows 100ml size"
+Never use generated images as before/after or customer proof.
+
+## 7. Why the merged update did not appear live
+PR #1 was merged and the Docker image build succeeded, but the "Deploy to EasyPanel" workflow failed instantly: both secrets `EASYPANEL_BACKEND_WEBHOOK` and `EASYPANEL_FRONTEND_WEBHOOK` are empty (`curl -X POST ""`), so EasyPanel was never told to pull the new image. Same failure on the previous push. Fix: add both secrets (EasyPanel → service → Deploy Webhook URL) in GitHub Settings → Secrets → Actions, or click **Deploy** in EasyPanel manually. The workflow now waits for the image build, and fails with a clear message if a secret is missing.

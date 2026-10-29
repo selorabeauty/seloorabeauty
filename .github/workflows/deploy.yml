@@ -1,21 +1,30 @@
 name: Deploy to EasyPanel
 
 on:
-  push:
+  # Run only after the Docker images were built and pushed successfully,
+  # so EasyPanel never redeploys the previous image.
+  workflow_run:
+    workflows: ["Build & Push Docker Images to Docker Hub"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
 jobs:
-  deploy-backend:
-    name: Trigger EasyPanel deploy (backend)
+  deploy:
+    name: Trigger EasyPanel deploy (backend + frontend)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    env:
+      BACKEND_HOOK: ${{ secrets.EASYPANEL_BACKEND_WEBHOOK }}
+      FRONTEND_HOOK: ${{ secrets.EASYPANEL_FRONTEND_WEBHOOK }}
     steps:
+      - name: Verify webhook secrets exist
+        run: |
+          if [ -z "$BACKEND_HOOK" ] || [ -z "$FRONTEND_HOOK" ]; then
+            echo "::error::EASYPANEL_BACKEND_WEBHOOK / EASYPANEL_FRONTEND_WEBHOOK secrets are empty. Add them in Settings > Secrets and variables > Actions (copy the Deploy Webhook URL from each EasyPanel service)."
+            exit 1
+          fi
       - name: Call backend deploy webhook
-        run: curl -fsSL -X POST "${{ secrets.EASYPANEL_BACKEND_WEBHOOK }}"
-
-  deploy-frontend:
-    name: Trigger EasyPanel deploy (frontend)
-    runs-on: ubuntu-latest
-    steps:
+        run: curl -fsSL -X POST "$BACKEND_HOOK"
       - name: Call frontend deploy webhook
-        run: curl -fsSL -X POST "${{ secrets.EASYPANEL_FRONTEND_WEBHOOK }}"
+        run: curl -fsSL -X POST "$FRONTEND_HOOK"
