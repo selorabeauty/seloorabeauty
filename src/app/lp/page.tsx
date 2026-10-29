@@ -52,14 +52,14 @@ const REVIEWS = [
     city: 'جدة',
     rating: 5,
     date: 'قبل أسبوع',
-    text: 'سيروم ببتيدات النحاس تركيبة مذهلة، امتص سريع ومفعله واضح بعد أول أسبوعين. الديرما رولer آمنة وسهلة الاستخدام. أنصح بها لكل واحدة تعاني من التشققات.',
+    text: 'سيروم ببتيدات النحاس تركيبة مذهلة، امتص سريع ومفعله واضح بعد أول أسبوعين. الديرما رولر سهلة الاستخدام. أنصح بها لكل واحدة تعاني من التشققات.',
   },
   {
     name: 'منى العتيبي',
     city: 'الخبر',
     rating: 5,
     date: 'قبل أسبوعين',
-    text: 'الجودة عالية جداً مقارنة بالسعر. السيروم ناعم وغير لزج، والديرما رولer مريحة في اليد. بدأت ألاحظ تحسن في مرونة الجلد. شكراً سيلورا ديرما على المنتج الفعال.',
+    text: 'الجودة عالية جداً مقارنة بالسعر. السيروم ناعم وغير لزج، والديرما رولر مريحة في اليد. بدأت ألاحظ تحسن في مرونة الجلد. شكراً سيلورا.',
   },
   {
     name: 'لين الشهري',
@@ -73,23 +73,23 @@ const REVIEWS = [
 const FEATURES = [
   {
     icon: <Sparkles size={22} className="text-[#C4943E]" />,
-    title: 'ببتيدات النحاس الزرقاء GHK-Cu',
-    desc: 'سيروم تركيبة معملية متقدمة يحتوي على ببتيدات النحاس الفعالة التي تساعد في تحسين مظهر الجلد وتنعيمه.',
+    title: 'ببتيدات النحاس GHK-Cu',
+    desc: 'ببتيد معروف في أبحاث العناية بالبشرة بدوره في دعم مظهر الجلد المرن والمتماسك. سيروم 100 مل يكفي البطن والفخذين والأرداف.',
   },
   {
-    icon: <ShieldCheck size={22} className="text-[#2D6B41]" />,
-    title: 'ديرما رولر تيتانيوم احترافي',
-    desc: 'إبر تيتانيوم طبية 0.5mm مصممة للاستخدام الآمن في المنزل، تساعد في تحسين امتصاص السيروم.',
+    icon: <Leaf size={22} className="text-[#2D6B41]" />,
+    title: 'سنتيلا أسياتيكا (سيكا)',
+    desc: 'خلاصة نباتية مشهورة بتهدئة البشرة، لتجربة مريحة بدون إحساس لزج أو ثقيل.',
   },
   {
-    icon: <Leaf size={22} className="text-[#C4943E]" />,
-    title: 'طقم ترميم متكامل',
-    desc: 'مزيج متزامن من السيروم والديرما رولer للعناية التجميلية ببشرة الجسم ومظهرها العام.',
+    icon: <ShieldCheck size={22} className="text-[#C4943E]" />,
+    title: 'ديرما رولر 0.5mm بإبر تيتانيوم',
+    desc: '540 إبرة بمقاس لطيف للاستخدام المنزلي، تأتي في كبسولة حافظة. عقّميها قبل وبعد كل استخدام، وتُستخدم مرة إلى مرتين أسبوعياً.',
   },
   {
     icon: <Heart size={22} className="text-[#C4943E]" />,
-    title: 'آمن للاستخدام المنزلي',
-    desc: 'منتجات تجميلية للعناية الخارجية، مصممة للاستخدام الآمن والسهل في روتينك اليومي.',
+    title: 'روتين بسيط وواقعي',
+    desc: 'سيروم صباحاً ومساءً + جلسة رولر أسبوعية. التشققات القديمة تحتاج صبراً؛ ننصحكِ بالالتزام ٨-١٢ أسبوعاً وتصوير بطنكِ كل أسبوعين لتري التقدم.',
   },
 ];
 
@@ -199,12 +199,12 @@ export default function SoftLandingPage() {
             className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md"
             style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)' }}
           >
-            SD
+            SB
           </span>
           <div>
-            <span className="text-xl font-bold tracking-tight block leading-none">سيلورا ديرما</span>
+            <span className="text-xl font-bold tracking-tight block leading-none">سيلورا بيوتي</span>
             <span className="text-[9px] font-bold tracking-[0.2em] text-[#2563EB] uppercase block">
-              Selora Derma Laboratory
+              Selora Beauty
             </span>
           </div>
         </div>
@@ -223,15 +223,15 @@ export default function SoftLandingPage() {
         <div className="space-y-6 text-center md:text-start">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8F0FE]/60 text-[#1E3A8A] text-xs font-bold border border-[#2563EB]/30">
             <Sparkles size={14} className="text-[#2563EB]" />
-            <span>طقم ترميم التشققات المجهري · ببتيدات النحاس + ديرما رولر</span>
+            <span>روتين العناية بتشققات الجسم · ببتيدات النحاس + سيكا + ديرما رولر</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight text-[#1A0F08]">
-            طقم سيروم ببتيدات النحاس والديرما رولر للعناية ببشرة الجسم
+            كفاية تخبّين جسمكِ.. ابدئي روتين يعتني بمظهر التشققات من أسبوعه الأول
           </h1>
 
           <p className="text-base text-[#8C7B6E] leading-relaxed max-w-lg">
-            سيروم تركيبة معملية متقدمة يحتوي على ببتيدات النحاس الزرقاء GHK-Cu مع ديرما رولer تيتانيوم 0.5mm. طقم متكامل للعناية التجميلية بمظهر البشرة وتنعيمها.
+            تعرفين هذي اللحظة أمام المرآة؟ التشققات ما تعني أنكِ أهملتِ جسمكِ — هي أثر حمل أو وزن أو نمو. سيلورا يجمع سيروم ببتيدات النحاس GHK-Cu مع خلاصة السيكا وديرما رولر 0.5mm في روتين بسيط تطبقينه في البيت، لتحسين مظهر الجلد وملمسه ومرونته. كل أسبوع تتابعين الفرق بنفسكِ، والنتائج تختلف من بشرة لأخرى.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
@@ -297,10 +297,10 @@ export default function SoftLandingPage() {
               مميزات الطقم
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-[#1A0F08]">
-              طقم متكامل للعناية ببشرة الجسم
+              لماذا الروتين المزدوج أفضل من كريم واحد؟
             </h2>
             <p className="text-xs text-[#8C7B6E]">
-              سيروم ببتيدات النحاس الزرقاء مع ديرما رولer تيتانيوم طبية
+              الرولر يهيّئ سطح البشرة، والسيروم يعتني بها يومياً — خطوتان تكمّلان بعضهما
             </p>
           </div>
 
@@ -375,7 +375,7 @@ export default function SoftLandingPage() {
               طلب سريع ومباشر
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-white">
-              احصلي على طقم سيروم ببتيدات النحاس والديرما رولر الآن
+              ابدئي روتينكِ اليوم — وادفعي عند الاستلام فقط
             </h2>
             <p className="text-xs text-[#F5E6C8]/80 leading-relaxed">
               سجلي بيانات التوصيل وسيصلكِ مندوبنا حتى باب منزلكِ مع إمكانية الدفع عند الاستلام
@@ -420,7 +420,7 @@ export default function SoftLandingPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">طقم سيروم ببتيدات النحاس + ديرما رولر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولer تيتانيوم</div>
+                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولر تيتانيوم</div>
                     </div>
                   </div>
                   <div className="text-right">
@@ -518,7 +518,7 @@ export default function SoftLandingPage() {
                       <span>جاري إرسال الطلب...</span>
                     </>
                   ) : (
-                    <span>تأكيدي طلبي الآن — الدفع عند الاستلام</span>
+                    <span>أكّدي طلبي — ادفعي عند الاستلام</span>
                   )}
                 </button>
 
@@ -540,7 +540,7 @@ export default function SoftLandingPage() {
       </section>
 
       {/* Compliance-safe Footer without medical / health claims */}
-      <Footer customTagline="سيلورا ديرما — مستحضرات عناية تجميلية متقدمة للبشرة للمرأة في المملكة العربية السعودية. طقم سيروم ببتيدات النحاس والديرما رولer للعناية بمظهر البشرة." />
+      <Footer customTagline="سيلورا بيوتي — مستحضرات عناية تجميلية بالبشرة للمرأة في المملكة العربية السعودية. سيروم ببتيدات النحاس والديرما رولر للعناية بمظهر بشرة الجسم." />
     </div>
   );
 }
