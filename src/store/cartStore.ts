@@ -49,6 +49,6 @@ export const useCartStore = create<CartState>()(
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
       subtotal: () => get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
     }),
-    { name: 'selora-cart-v2', partialize: (s) => ({ items: s.items }) }
+    { name: 'sellura-cart', partialize: (s) => ({ items: s.items }) }
   )
 );

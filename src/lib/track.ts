@@ -30,9 +30,8 @@ async function send(event: string, extra: Record<string, string> = {}) {
       }),
       keepalive: true,
     });
-  } catch (err) {
-    // Log for debugging but don't break UX
-    console.warn('[track] Failed to send event:', event, err);
+  } catch {
+    // silent — never break the user experience
   }
 }
 

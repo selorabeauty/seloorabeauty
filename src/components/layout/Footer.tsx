@@ -28,14 +28,15 @@ interface FooterProps {
 
 export default function Footer({ customTagline, hideTagline }: FooterProps = {}) {
   return (
-    <footer style={{ backgroundColor: '#0B132B', borderTop: '1px solid #1E293B' }}>
+    <footer style={{ backgroundColor: '#1A0F08' }}>
 
       {/* ── Trust strip ── */}
-      <div style={{ borderBottom: '1px solid #1E293B' }}>
+      <div style={{ borderBottom: '1px solid rgba(245,230,200,0.12)' }}>
         <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           {TRUST.map((item, i) => (
-            <div key={i} className="flex items-center gap-2 text-sm font-semibold text-slate-300">
-              <span className="text-blue-400">{item.icon}</span>
+            <div key={i} className="flex items-center gap-2 text-sm font-semibold"
+              style={{ color: '#F5E6C8' }}>
+              <span style={{ color: '#C4943E' }}>{item.icon}</span>
               {item.text}
             </div>
           ))}
@@ -49,39 +50,41 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
         <div>
           <div className="mb-4 flex items-center gap-2">
             <span
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow"
-              style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)', border: '1px solid #3B82F6' }}
+              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #C4943E, #8A611E)' }}
             >
-              <span className="text-xs font-bold text-white">S</span>
+              <span className="text-xs font-bold" style={{ color: '#FDFAF6' }}>S</span>
             </span>
             <div>
-              <span className="text-2xl font-black block leading-none text-white">سيلورا بيوتي</span>
-              <span className="text-[10px] font-bold tracking-[0.22em] uppercase block text-blue-400">
-                Selora Beauty
+              <span className="text-2xl font-bold block leading-none" style={{ color: '#FFFFFF' }}>سيلورا بيوتي</span>
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase block"
+                style={{ color: '#C4943E' }}>
+                Sellura Beauty
               </span>
             </div>
           </div>
-          {/* Brand tagline */}
+          {/* Brand tagline (customizable for compliance pages) */}
           {!hideTagline && (
-            <p className="text-sm leading-relaxed font-medium text-slate-400">
-              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
+            <p className="text-sm leading-relaxed font-medium" style={{ color: '#F5E6C8' }}>
+              {customTagline || 'علاج علمي لتشققات الجسم للمرأة السعودية. زيت اللوز الحلو والأرجان. نتائج حقيقية.'}
             </p>
           )}
-          {/* Email */}
-          <p className="text-sm mt-3 font-semibold text-slate-300">
-            ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline text-blue-400">support@seloorabeauty.shop</a>
+          {/* Email clearly visible */}
+          <p className="text-sm mt-3 font-semibold" style={{ color: '#F5E6C8' }}>
+            ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline">support@seloorabeauty.shop</a>
           </p>
         </div>
 
         {/* Quick links */}
         <div>
-          <h4 className="font-bold mb-4 text-sm text-white">روابط سريعة</h4>
+          <h4 className="font-bold mb-4 text-sm" style={{ color: '#FFFFFF' }}>روابط سريعة</h4>
           <ul className="space-y-2.5">
             {QUICK_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-medium transition-colors text-slate-400 hover:text-white"
+                  className="text-sm font-medium transition-colors hover:text-white"
+                  style={{ color: '#F5E6C8' }}
                 >
                   {link.label}
                 </Link>
@@ -92,13 +95,14 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
 
         {/* Policies */}
         <div>
-          <h4 className="font-bold mb-4 text-sm text-white">السياسات</h4>
+          <h4 className="font-bold mb-4 text-sm" style={{ color: '#FFFFFF' }}>السياسات</h4>
           <ul className="space-y-2.5">
             {POLICY_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-medium transition-colors text-slate-400 hover:text-white"
+                  className="text-sm font-medium transition-colors hover:text-white"
+                  style={{ color: '#F5E6C8' }}
                 >
                   {link.label}
                 </Link>
@@ -111,10 +115,11 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
       {/* ── Bottom bar ── */}
       <div
         className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center
-                   justify-between gap-2 text-xs font-medium border-t border-slate-800 text-slate-400"
+                   justify-between gap-2 text-xs font-medium border-t"
+        style={{ borderColor: 'rgba(245,230,200,0.12)', color: '#F5E6C8' }}
       >
-        <span>© ٢٠٢٦ Selora Beauty. جميع الحقوق محفوظة.</span>
-        <span>🇸🇦 شحن سريع وتوصيل للمنزل · الدفع عند الاستلام</span>
+        <span>© ٢٠٢٦ Sellura Beauty. جميع الحقوق محفوظة.</span>
+        <span>مسجل لدى هيئة الزكاة والضريبة — VAT</span>
       </div>
     </footer>
   );
