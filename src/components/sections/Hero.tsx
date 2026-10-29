@@ -65,9 +65,9 @@ export default function Hero() {
       {/* Soft decorative blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
         <div className="absolute -top-40 -end-40 w-[580px] h-[580px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.07) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)' }} />
         <div className="absolute bottom-0 -start-24 w-[420px] h-[420px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(61,43,31,0.04) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.05) 0%, transparent 70%)' }} />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 grid md:grid-cols-2 gap-14 items-center">
@@ -78,48 +78,49 @@ export default function Hero() {
           {/* Social proof pills */}
           <div className="flex items-center gap-3 flex-wrap">
             <div
-              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 border shadow-sm"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 border shadow-sm"
+              style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
             >
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} className="fill-current" style={{ color: '#C4943E' }} />
+                <Star key={i} size={12} className="fill-current" style={{ color: '#D97706' }} />
               ))}
-              <span className="text-xs font-bold mr-1" style={{ color: '#1A0F08' }}>4.9</span>
-              <span className="text-xs" style={{ color: '#8C7B6E' }}>(٣٤١٨ تقييم)</span>
+              <span className="text-xs font-bold mr-1" style={{ color: '#0F172A' }}>4.9</span>
+              <span className="text-xs font-medium" style={{ color: '#64748B' }}>(٣٤١٨ تقييم موثق)</span>
             </div>
-            <span className="badge-gold">🔴 {ordersToday} طلب اليوم</span>
+            <span className="badge-clinical">🧬 تركيبة صيدلانية معتمدة</span>
+            <span className="badge-gold">� {ordersToday} طلب اليوم في المملكة</span>
           </div>
 
           {/* ── HEADLINE ── */}
           <h1
-            className="text-[2.3rem] md:text-[2.9rem] lg:text-[3.25rem] leading-[1.18] tracking-tight"
+            className="text-2xl sm:text-3xl md:text-[2.25rem] lg:text-[2.5rem] leading-[1.28] tracking-tight"
             style={{
               fontWeight: 800,
-              color: '#1A0F08',
+              color: '#0F172A',
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            {/* Line 1 — emotional hook */}
-            <span style={{ color: '#1A0F08' }}>استعيدي ثقتكِ بكل مرآة..</span>
+            {/* Line 1 — emotional hook for men & women */}
+            <span style={{ color: '#0F172A' }}>توقف/ي عن إخفاء خطوط جسمك..</span>
             <br />
             {/* Line 2 — rational promise */}
-            <span style={{ color: '#3D2B1F' }}>
-              طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم.
+            <span style={{ color: '#1E3A8A' }}>
+              بروتوكول ببتيدات النحاس والديرما رولر لردم التشققات العميقة.
             </span>
           </h1>
 
-          {/* ── SUB-HEADLINE — emotional + rational ── */}
+          {/* ── SUB-HEADLINE — emotional + rational (Women & Men) ── */}
           <p
-            className="text-lg pb-2"
+            className="text-base sm:text-lg pb-1"
             style={{
-              color: '#333333',
+              color: '#334155',
               fontWeight: 500,
-              lineHeight: '2.05',
+              lineHeight: '1.9',
               letterSpacing: '0.01em',
               fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
             }}
           >
-            هل تعبتِ من تجارب الزيوت التي لا تعطي نتيجة؟ سيلورا يقدم لكِ طقم الترميم المجهري الصيدلاني — ديرما رولر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس المركز 100ml لردم التمزقات وتفتيح الخطوط الحمراء والبيضاء.
+            سواء بسبب الحمل والولادة أو بناء العضلات بالجيم وتقلبات الوزن — طقم سيلورا الصيدلاني يجمع بين إبر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس الأزرق 100ml لردم التمزق وتفتيح الخطوط الحمراء والبيضاء.
           </p>
 
           {/* ── PAIN-POINT BULLETS ── */}
@@ -127,12 +128,12 @@ export default function Hero() {
             {PAIN_BULLETS.map((b, i) => (
               <li
                 key={i}
-                className="flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm leading-relaxed"
-                style={{ background: '#F8F2EA', border: '1px solid #EFE4D4' }}
+                className="flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm leading-relaxed border shadow-sm"
+                style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
               >
                 <span className="text-xl flex-shrink-0 mt-0.5">{b.emoji}</span>
-                <span style={{ color: '#3D2B1F' }}>
-                  <strong style={{ color: '#1A0F08', fontWeight: 700 }}>{b.bold}</strong>{' '}
+                <span style={{ color: '#334155' }}>
+                  <strong style={{ color: '#0F172A', fontWeight: 800 }}>{b.bold}</strong>{' '}
                   {b.rest}
                 </span>
               </li>
@@ -141,33 +142,33 @@ export default function Hero() {
 
           {/* ── Buy options — single piece vs. complete bundle, side by side ── */}
           <div className="grid grid-cols-2 gap-3 mt-1">
-            {/* Single piece — 199 SAR */}
+            {/* Single piece — 199 SAR (Serum) */}
             <button
               type="button"
               onClick={() => setSelectedSetId('set-serum-only')}
               className="text-start rounded-2xl border-2 px-4 py-3.5 transition-all"
               style={{
-                borderColor: selectedSetId === 'set-serum-only' ? '#C4943E' : '#EFE4D4',
-                background: selectedSetId === 'set-serum-only' ? '#FBF3E4' : '#fff',
+                borderColor: selectedSetId === 'set-serum-only' ? '#1D4ED8' : '#E2E8F0',
+                background: selectedSetId === 'set-serum-only' ? '#EFF6FF' : '#FFFFFF',
               }}
             >
-              <div className="text-xs font-bold mb-1" style={{ color: '#6E5C50' }}>العبوة الفردية</div>
+              <div className="text-xs font-bold mb-1" style={{ color: '#64748B' }}>العبوة الفردية</div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold" style={{ color: '#1A0F08' }}>{singleSet.totalPrice}</span>
-                <span className="text-xs font-bold" style={{ color: '#1A0F08' }}>ر.س</span>
-                <span className="text-xs line-through" style={{ color: '#C9AF97' }}>{singleSet.originalTotal}</span>
+                <span className="text-2xl font-bold" style={{ color: '#0F172A' }}>{singleSet.totalPrice}</span>
+                <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
+                <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{singleSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5" style={{ color: '#8C7B6E' }}>سيروم النحاس 100ml فقط</div>
+              <div className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748B' }}>سيروم النحاس 100ml فقط</div>
             </button>
 
-            {/* Complete bundle — 279 SAR, best value */}
+            {/* Complete bundle — 249 SAR, best value */}
             <button
               type="button"
               onClick={() => setSelectedSetId('set-complete')}
               className="relative text-start rounded-2xl border-2 px-4 py-3.5 transition-all shadow-md"
               style={{
                 borderColor: selectedSetId === 'set-complete' ? '#1D4ED8' : '#BFDBFE',
-                background: selectedSetId === 'set-complete' ? '#EFF6FF' : '#fff',
+                background: selectedSetId === 'set-complete' ? '#EFF6FF' : '#FFFFFF',
               }}
             >
               <span
@@ -178,11 +179,11 @@ export default function Hero() {
               </span>
               <div className="text-xs font-bold mb-1" style={{ color: '#1E3A8A' }}>الروتين العلاجي الأقوى</div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold" style={{ color: '#1A0F08' }}>{completeSet.totalPrice}</span>
-                <span className="text-xs font-bold" style={{ color: '#1A0F08' }}>ر.س</span>
+                <span className="text-2xl font-bold" style={{ color: '#0F172A' }}>{completeSet.totalPrice}</span>
+                <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
                 <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ١١٩ ريال</div>
+              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ٣٠ ريال</div>
             </button>
           </div>
           <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>
@@ -216,68 +217,66 @@ export default function Hero() {
               <div
                 key={i}
                 className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 border text-xs font-bold shadow-sm"
-                style={{ background: '#fff', borderColor: '#EFE4D4', color: '#3D2B1F' }}
+                style={{ background: '#FFFFFF', borderColor: '#E2E8F0', color: '#1E293B' }}
               >
-                <Icon size={13} style={{ color: '#C4943E', flexShrink: 0 }} />
+                <Icon size={14} style={{ color: '#1D4ED8', flexShrink: 0 }} />
                 {text}
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── LEFT: product visual ── */}
-        <div className="order-1 md:order-2 flex justify-center">
-          <div className="relative w-72 h-96 md:w-[360px] md:h-[480px]">
+        {/* ── LEFT: product visual (Enlarged and crystal clear) ── */}
+        <div className="order-1 md:order-2 flex justify-center w-full">
+          <div className="relative w-80 h-[420px] sm:w-[390px] sm:h-[480px] md:w-[440px] md:h-[530px] lg:w-[480px] lg:h-[560px]">
 
             {/* Glow ring */}
             <div
-              className="absolute inset-0 rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.12) 0%, transparent 70%)' }}
+              className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.16) 0%, transparent 70%)' }}
             />
 
-            {/* Hero image — routine duo shot */}
+            {/* Hero image container — Maximize image presence */}
             <div
-              className="absolute inset-6 rounded-[2.5rem] overflow-hidden"
-              style={{ background: '#fff', boxShadow: '0 8px 48px -6px rgba(58,40,24,0.18)' }}
+              className="absolute inset-2 sm:inset-3 rounded-3xl overflow-hidden border border-slate-200/80 bg-white flex items-center justify-center p-2 sm:p-3"
+              style={{ boxShadow: '0 20px 60px -15px rgba(15,23,42,0.14)' }}
             >
               <img
                 src="/images/copper-roller-duo.webp"
                 alt="طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم — سيلورا ديرما"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-contain"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
 
-            {/* Floating chip: stretch marks */}
+            {/* Floating chip: clinical results */}
             <div
-              className="absolute -top-2 -start-4 rounded-2xl px-3.5 py-2.5 border shadow-luxury animate-float"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="absolute -top-1 -start-3 sm:-start-5 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200 animate-float"
             >
-              <div className="text-xl font-bold" style={{ color: '#C4943E' }}>87%</div>
-              <div className="text-[10px] font-medium" style={{ color: '#6E5C50' }}>تحسن التشققات</div>
+              <div className="text-xl font-black text-blue-700">87%</div>
+              <div className="text-[10px] font-bold text-slate-600">ردم وتحسن التشققات</div>
             </div>
 
             {/* Floating chip: reviews */}
             <div
-              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-luxury"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200"
             >
               <div className="flex gap-0.5 mb-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="fill-current" style={{ color: '#C4943E' }} />
+                  <Star key={i} size={11} className="fill-current text-amber-500" />
                 ))}
               </div>
-              <div className="text-[10px] font-medium" style={{ color: '#6E5C50' }}>+٣٤٠٠ عميلة</div>
+              <div className="text-[10px] font-bold text-slate-700">+٣٤٠٠ عميل وعميلة</div>
             </div>
 
-            {/* Floating chip: oils */}
+            {/* Floating chip: peptide */}
             <div
               className="absolute top-1/2 -translate-y-1/2 -end-6 rounded-2xl px-3 py-2 border shadow-luxury text-center"
-              style={{ background: '#fff', borderColor: '#EFE4D4' }}
+              style={{ background: '#fff', borderColor: '#BFDBFE' }}
             >
-              <div className="text-xl">🌰🌿</div>
-              <div className="text-[9px] font-bold leading-tight" style={{ color: '#3D2B1F' }}>لوز<br />وأرجان</div>
+              <div className="text-xl">🧬✨</div>
+              <div className="text-[9px] font-bold leading-tight" style={{ color: '#1D4ED8' }}>ببتيدات<br />النحاس</div>
             </div>
           </div>
         </div>

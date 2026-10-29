@@ -5,8 +5,8 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import { PRODUCTS } from '@/lib/products';
 
 export const metadata = {
-  title: 'المنتجات | سيلورا بيوتي',
-  description: 'اكتشفي طقم سيلورا الكامل لعلاج تشققات الجسم — سيروم وكريم بزيت اللوز والأرجان. الدفع عند الاستلام.',
+  title: 'عناصر الطقم الصيدلاني | سيلورا ديرما',
+  description: 'اكتشفي عناصر طقم سيلورا ديرما لعلاج تشققات الجسم — سيروم ببتيدات النحاس الأزرق 100ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
 };
 
 export default function CollectionPage({ params }: { params: { locale: string } }) {
@@ -17,9 +17,9 @@ export default function CollectionPage({ params }: { params: { locale: string } 
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="section-heading mb-3">روتين علاج التشققات</h1>
+            <h1 className="section-heading mb-3">بروتوكول ترميم التشققات المجهري</h1>
             <p className="section-sub">
-              سيروم + كريم بزيت اللوز والأرجان — روتين خطوتين مدروس لنتيجة حقيقية
+              سيروم ببتيدات النحاس الزرقاء + ديرما رولر التيتانيوم — روتين صيدلاني علاجي مثبت سريرياً
             </p>
             <div className="flex items-center justify-center gap-6 mt-5 text-sm font-bold text-stone-500">
               <span>✅ دفع عند الاستلام</span>

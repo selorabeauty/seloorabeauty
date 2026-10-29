@@ -11,28 +11,29 @@ const TRUST = [
 
 export default function TrustSection() {
   return (
-    <section className="py-24 cv-auto" style={{ backgroundColor: '#fff' }}>
+    <section className="py-24 cv-auto" style={{ backgroundColor: '#F8FAFC' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
-          <h2 className="section-heading">لماذا سيلورا؟</h2>
+          <span className="badge-clinical mb-3">🛡️ أعلى معايير الأمان والمصداقية</span>
+          <h2 className="section-heading">لماذا يثق الآلاف بمختبرات سيلورا؟</h2>
+          <p className="section-sub">التزام صارم بالمعايير الصيدلانية لضمان نتائج حقيقية وأمان تام لك ولعائلتكِ</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TRUST.map(({ Icon, title, desc }, i) => (
             <div
               key={i}
-              className="flex gap-4 p-6 rounded-2xl border transition-all hover:shadow-luxury hover:border-gold-400"
-              style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}
+              className="flex gap-4 p-6 rounded-3xl border transition-all hover:shadow-lg hover:border-blue-300"
+              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.05)' }}
             >
               <div
-                className="flex-shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center"
-                style={{ backgroundColor: '#1A0F08' }}
+                className="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center shadow-md"
+                style={{ background: 'linear-gradient(135deg, #1E3A8A 0%, #0F2C59 100%)' }}
               >
-                <Icon size={18} style={{ color: '#D4A96A' }} />
+                <Icon size={20} className="text-blue-200" />
               </div>
               <div>
-                <div className="mb-1" style={{ color: '#1A0F08', fontWeight: 800, fontSize: '0.95rem' }}>{title}</div>
-                {/* Darkened from #5A4A3F → #2B1E16 */}
-                <div className="text-sm leading-relaxed" style={{ color: '#2B1E16' }}>{desc}</div>
+                <div className="mb-1 text-slate-900 font-extrabold text-base">{title}</div>
+                <div className="text-sm leading-relaxed text-slate-600">{desc}</div>
               </div>
             </div>
           ))}

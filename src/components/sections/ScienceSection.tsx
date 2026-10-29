@@ -34,14 +34,14 @@ export default function ScienceSection() {
           {STATS.map((s, i) => (
             <div
               key={i}
-              className="text-center p-6 rounded-3xl border transition-shadow hover:shadow-luxury"
-              style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}
+              className="text-center p-6 rounded-3xl border transition-all hover:shadow-md"
+              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.05)' }}
             >
-              {/* Gold gradient text on stat value */}
+              {/* Cobalt gradient text on stat value */}
               <div
-                className="text-4xl md:text-5xl font-bold mb-2"
+                className="text-4xl md:text-5xl font-black mb-2"
                 style={{
-                  background: 'linear-gradient(90deg, #C4943E, #D4A96A)',
+                  background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -49,8 +49,7 @@ export default function ScienceSection() {
               >
                 {s.value}
               </div>
-              {/* Darkened label — was #5A4A3F, now #2B1E16 */}
-              <div className="text-sm font-semibold leading-snug" style={{ color: '#2B1E16' }}>{s.label}</div>
+              <div className="text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -59,78 +58,84 @@ export default function ScienceSection() {
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
 
           {/* ── Comparison bars ── */}
-          <div className="card flex flex-col justify-center gap-6">
-            <h3 className="text-xl font-bold" style={{ color: '#1A0F08' }}>طبيعي 100% مقابل الريتينال والكيماويات</h3>
-            <p className="text-sm leading-relaxed -mt-3" style={{ color: '#5A4A3F' }}>
-              نحن في سيلورا لا نستخدم الريتينال ولا أي مشتقات كيميائية قد تُهيّج البشرة. تركيبتنا تعتمد كلياً على
-              <strong style={{ color: '#1A0F08' }}> زبدة الشيا</strong> النقية — التي تثق بها كل بيت سعودي لفعاليتها المثبتة —
-              بالتكامل مع زيت الأرجان المغربي وزيت اللوز الحلو، لتمنحكِ نتائج حقيقية بقوة الطبيعة وحدها.
+          <div className="card flex flex-col justify-center gap-6" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
+            <h3 className="text-xl font-bold" style={{ color: '#0F172A' }}>القوة البيولوجية لببتيدات النحاس (GHK-Cu) مثبتة سريرياً</h3>
+            <p className="text-sm leading-relaxed -mt-3" style={{ color: '#475569' }}>
+              أثبتت الأبحاث الجلدية المعملية أن <strong style={{ color: '#1D4ED8' }}>ببتيدات النحاس الزرقاء (GHK-Cu)</strong> تتفوق على علاجات الليزر والريتينول في تحفيز خلايا الفايبروبلاست لإنتاج الكولاجين والإيلاستين لردم التمزق بنسبة تفوق ٧٠٪ دون أي تهيج، بينما تفتح ديرما رولر التيتانيوم مسارات تضاعف الامتصاص للأدمة.
             </p>
 
             {BARS.map((bar, i) => (
               <div key={i}>
                 <div
                   className="flex justify-between mb-2"
-                  style={{ color: bar.hero ? '#1A0F08' : '#6E5C50' }}
+                  style={{ color: bar.hero ? '#1D4ED8' : '#64748B' }}
                 >
-                  <span className={bar.hero ? 'font-bold text-sm' : 'font-medium text-sm'}>{bar.label}</span>
-                  <span className={bar.hero ? 'font-bold text-sm' : 'font-medium text-sm'}>{bar.pct}%</span>
+                  <span className={bar.hero ? 'font-black text-sm' : 'font-medium text-sm'}>{bar.label}</span>
+                  <span className={bar.hero ? 'font-black text-sm' : 'font-medium text-sm'}>{bar.pct}%</span>
                 </div>
                 <div
                   className="h-3 rounded-full overflow-hidden"
-                  style={{ background: '#EFE4D4' }}
+                  style={{ background: '#E2E8F0' }}
                 >
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${bar.pct}%`,
-                      /* Hero bar: solid premium warm gold per brief (#C18335)
-                         Competitors: muted neutral so Selora visually dominates */
                       background: bar.hero
-                        ? '#C18335'
-                        : i === 1 ? '#C8B8A2' : '#DDD0C0',
+                        ? 'linear-gradient(90deg, #1D4ED8 0%, #3B82F6 100%)'
+                        : i === 1 ? '#94A3B8' : '#CBD5E1',
                     }}
                   />
                 </div>
               </div>
             ))}
 
-            <p className="text-xs font-medium" style={{ color: '#8C7B6E' }}>
-              * النتائج التقديرية بناءً على تجارب المستخدمات ومقارنات السوق
+            <p className="text-xs font-semibold" style={{ color: '#64748B' }}>
+              * موثق سريرياً بناءً على دراسات تجديد ألياف الأدمة وتجارب المستخدمين المعتمدة
             </p>
           </div>
 
           {/* ── Dark mechanism card ── */}
           <div
-            className="rounded-3xl p-8 flex flex-col gap-6"
-            style={{ backgroundColor: '#1A0F08' }}
+            className="rounded-3xl p-8 flex flex-col gap-6 border"
+            style={{ backgroundColor: '#0B132B', borderColor: '#1E293B' }}
           >
-            {/* Bright gold header */}
-            <h3 className="text-xl font-bold" style={{ color: '#D4A96A' }}>
-              كيف يعمل روتين الخطوتين الطبيعي؟
+            {/* Macro needle visual */}
+            <div className="rounded-2xl overflow-hidden border -mt-2" style={{ borderColor: '#1E293B' }}>
+              <img
+                src="/images/roller-macro.webp"
+                alt="لقطة مقربة لإبر التيتانيوم الدقيقة 0.5mm في ديرما رولر سيلورا"
+                className="w-full aspect-[16/9] object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            {/* Header */}
+            <h3 className="text-xl font-bold" style={{ color: '#93C5FD' }}>
+              كيف يعمل بروتوكول الترميم المجهري الصيدلاني؟
             </h3>
-            <p className="text-sm leading-relaxed -mt-4" style={{ color: '#D4C4B0' }}>
-              بدون ريتينال ولا مواد كيميائية — فقط قوة زبدة الشيا وزيت الأرجان وزيت اللوز الحلو مجتمعة لتغذية وترميم البشرة من العمق.
+            <p className="text-sm leading-relaxed -mt-4" style={{ color: '#CBD5E1' }}>
+              مزيج سريري دقيق — تحفيز مجهري بإبر التيتانيوم 0.5mm يتبعه تغلغل فوري لببتيدات النحاس الزرقاء والسيكا لترميم طبقة الأدمة من الداخل.
             </p>
 
             {MECHANISM.map((m, i) => (
               <div key={i} className="flex gap-4">
-                {/* Step number — bright gold, pops on dark */}
+                {/* Step number */}
                 <span
-                  className="font-bold text-xl flex-shrink-0 leading-tight"
-                  style={{ color: '#C4943E' }}
+                  className="font-black text-xl flex-shrink-0 leading-tight"
+                  style={{ color: '#38BDF8' }}
                 >
                   {m.step}
                 </span>
                 <div>
-                  {/* Title — bright near-white */}
-                  <div className="font-bold mb-1.5 text-base" style={{ color: '#F5E6C8' }}>
+                  <div className="font-bold mb-1.5 text-base" style={{ color: '#F8FAFC' }}>
                     {m.title}
                   </div>
-                  {/* Desc — high-contrast cream, was #8C7B6E (too muted) */}
+                  {/* Desc */}
                   <div
                     className="text-sm leading-relaxed"
-                    style={{ color: '#D4C4B0', fontWeight: 400 }}
+                    style={{ color: '#94A3B8', fontWeight: 400 }}
                   >
                     {m.desc}
                   </div>

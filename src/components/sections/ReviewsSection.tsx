@@ -30,62 +30,81 @@ export default function ReviewsSection() {
   ];
 
   return (
-    <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#F8F2EA' }}>
+    <section id="reviews" className="py-24 cv-auto" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         <div className="text-center mb-14">
-          <h2 className="section-heading">ماذا تقول عملاؤنا؟</h2>
-          <p className="section-sub">+٢٤٠٠ امرأة في المملكة يثقن بسيلورا</p>
+          <span className="badge-clinical mb-3">💬 تجارب موثقة من أرض الواقع</span>
+          <h2 className="section-heading">ماذا يقول عملاؤنا في المملكة؟</h2>
+          <p className="section-sub">+٣٤٠٠ عميل وعميلة في كافة مدن المملكة استعادوا ثقتهم مع سيلورا ديرما</p>
         </div>
 
         {/* Aggregate */}
-        <div className="max-w-lg mx-auto mb-12 card grid grid-cols-2 gap-6 items-center">
+        <div className="max-w-lg mx-auto mb-12 rounded-3xl p-6 border border-slate-200 bg-slate-50 grid grid-cols-2 gap-6 items-center shadow-sm">
           <div className="text-center">
-            <div className="text-6xl font-bold" style={{ color: '#1A0F08' }}>4.9</div>
+            <div className="text-6xl font-black text-slate-900">4.9</div>
             <div className="flex justify-center mt-1.5"><Stars count={5} /></div>
-            <div className="text-sm mt-1.5" style={{ color: '#8C7B6E' }}>٢٤٣١ تقييم موثق</div>
+            <div className="text-xs font-semibold mt-1.5 text-slate-500">٣٤١٨ تقييم شراء موثق</div>
           </div>
           <div className="space-y-1.5">
             {breakdown.map((row) => (
               <div key={row.s} className="flex items-center gap-2">
-                <span className="text-xs w-3 text-end" style={{ color: '#8C7B6E' }}>{row.s}</span>
-                <Star size={10} className="fill-current flex-shrink-0" style={{ color: '#C4943E' }} />
-                <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: '#EFE4D4' }}>
+                <span className="text-xs w-3 text-end font-bold text-slate-600">{row.s}</span>
+                <Star size={10} className="fill-current flex-shrink-0 text-amber-500" />
+                <div className="flex-1 h-2 rounded-full overflow-hidden bg-slate-200">
                   <div
-                    className="h-full rounded-full"
-                    style={{ width: `${row.pct}%`, background: '#C4943E' }}
+                    className="h-full rounded-full bg-blue-600"
+                    style={{ width: `${row.pct}%` }}
                   />
                 </div>
-                <span className="text-xs w-6" style={{ color: '#8C7B6E' }}>{row.pct}%</span>
+                <span className="text-xs w-6 font-semibold text-slate-500">{row.pct}%</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* ── Real UGC photo — unfiltered customer proof ── */}
+        <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
+          <img
+            src="/images/ugc-car-hand.webp"
+            alt="لقطة حقيقية من جوال عميلة تستلم طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
+            className="w-full aspect-[4/5] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="flex items-center gap-2.5 p-4">
+            <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />
+            <p className="text-xs leading-relaxed text-slate-600">
+              <strong className="text-slate-900">لقطة من جوال عميلتنا — استلام فعلي في الرياض.</strong>{' '}
+              الطقم يصلك بهذا الشكل تماماً: السيروم الأزرق 100ml + الديرما رولر الذهبية بكبسولتها.
+            </p>
           </div>
         </div>
 
         {/* Review cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {REVIEWS.map((r, i) => (
-            <div key={i} className="card flex flex-col gap-3 hover:shadow-luxury transition-shadow">
-              <div className="badge-gold text-xs self-start">✨ {r.highlight}</div>
+            <div key={i} className="card flex flex-col gap-3.5 hover:shadow-lg transition-shadow border border-slate-200 bg-white">
+              <div className="badge-clinical text-xs self-start">✨ {r.highlight}</div>
               <div className="flex items-center gap-2">
                 <Stars count={r.rating} />
                 {r.verified && (
-                  <span className="flex items-center gap-1 text-xs font-bold" style={{ color: '#2D6B41' }}>
-                    <BadgeCheck size={12} /> شراء موثق
+                  <span className="flex items-center gap-1 text-xs font-bold text-emerald-600">
+                    <BadgeCheck size={13} /> استلام وشراء موثق
                   </span>
                 )}
               </div>
-              <p className="text-sm leading-relaxed line-clamp-3" style={{ color: '#3D2B1F' }}>
+              <p className="text-sm leading-relaxed text-slate-700">
                 &ldquo;{r.text}&rdquo;
               </p>
-              <div className="mt-auto flex items-center justify-between pt-3 border-t" style={{ borderColor: '#F8F2EA' }}>
+              <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100">
                 <div>
-                  <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{r.name} — {r.city}</div>
-                  <div className="text-xs" style={{ color: '#8C7B6E' }}>{r.date}</div>
+                  <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
+                  <div className="text-xs text-slate-400">{r.date}</div>
                 </div>
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm shadow"
-                  style={{ background: 'linear-gradient(135deg, #C4943E, #D4A96A)' }}
+                  style={{ background: 'linear-gradient(135deg, #1E3A8A, #3B82F6)' }}
                 >
                   {r.name.charAt(0)}
                 </div>
