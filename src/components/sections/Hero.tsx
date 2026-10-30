@@ -5,6 +5,7 @@ import { ShieldCheck, Truck, RotateCcw, Star, Gift, Sparkles, Leaf, PhoneCall, P
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const duo = SET_OPTIONS[0];
 
@@ -78,23 +79,15 @@ export default function Hero() {
             style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.20) 0%, transparent 70%)' }}
           />
           <div
-            className="relative rounded-[2rem] overflow-hidden bg-white p-3 sm:p-4"
-            style={{ border: '1px solid #EFE4D4', boxShadow: '0 24px 64px -16px rgba(58,40,24,0.20)' }}
+            className="relative rounded-[2rem] overflow-hidden p-3 sm:p-4"
+            style={{ border: '1px solid #EFE4D4', boxShadow: '0 24px 64px -16px rgba(58,40,24,0.20)', background: '#FDFAF6' }}
           >
-            <img
-              src="/images/copper-roller-duo.webp"
-              alt="طقم سيلورا بيوتي — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
-              className="w-full aspect-[4/5] object-contain"
-              fetchPriority="high"
-              decoding="async"
+            {/* TODO(asset): hero shot — replace with the real photo described below */}
+            <AssetPlaceholder
+              label="Hero Product Shot"
+              note="صورة استوديو حقيقية لصندوق الطقم: عبوة السيروم الزرقاء واقفة + ديرما رولر التيتانيوم مائلة بجوارها على قماش حريري بلون بيج دافئ، إضاءة ناعمة طبيعية، عمق حقل خفيف — بدون نص داخل الصورة. عمودية 4:5، خلفية نظيفة تمتزج مع لون الموقع #FBF7F1."
+              ratio="aspect-[4/5]"
             />
-            {/* Free-gift ribbon */}
-            <span
-              className="absolute top-4 start-4 flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-black text-white shadow-lg"
-              style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
-            >
-              <Gift size={13} /> الديرما رولر هدية مجانية
-            </span>
           </div>
 
           {/* Floating proof chip */}
@@ -116,9 +109,9 @@ export default function Hero() {
           className="animate-rise mt-8 text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.3] tracking-tight font-black"
           style={{ color: '#1A0F08', ['--rise-delay' as string]: '160ms' }}
         >
-          استعيدي نعومة بشرتكِ وثقتكِ..
+          ودّعي علامات التمدد الحمراء والبيضاء..
           <br />
-          <span className="text-gold">بطقم سيلورا للتشققات.</span>
+          <span className="text-gold">واستعيدي نقاء وصفاء بشرتكِ بكورس سيلورا.</span>
         </h1>
 
         {/* 3 · Persuasive copy */}
@@ -129,10 +122,16 @@ export default function Hero() {
           سيروم ببتيدات النحاس الأزرق 100ml مع ديرما رولر التيتانيوم هدية — روتين لطيف يعتني بخطوط التمدد بعد الحمل وتقلبات الوزن، ويمنح بشرتكِ مرونة ونعومة تلاحظينها.
         </p>
 
-        {/* Social proof pills */}
+        {/* Social proof pills + free-gift ribbon (kept off the headline) */}
         <div className="animate-rise mt-5 flex items-center gap-2.5 flex-wrap justify-center" style={{ ['--rise-delay' as string]: '320ms' }}>
           <span className="badge-gold"><Star size={12} className="fill-current" /> 4.9 · ٣٤١٨ تقييم</span>
           <span className="badge">{ordersToday} طلب اليوم في المملكة</span>
+          <span
+            className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-black text-white shadow-md"
+            style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
+          >
+            <Gift size={13} /> + ديرما رولر هدية مجانية
+          </span>
         </div>
 
         {/* Value bullets */}

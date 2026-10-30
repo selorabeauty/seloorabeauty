@@ -4,6 +4,7 @@ import { Star, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, type Product } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 // Bundle-only store: every "add to cart" adds the duo set
 const duo = SET_OPTIONS[0];
@@ -43,12 +44,13 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
       {/* Image area */}
       <Link href={`/${locale}/products/${product.slug}`} className="block relative">
         <div className="aspect-square flex items-center justify-center overflow-hidden p-2" style={{ background: '#fff' }}>
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="w-full h-full object-contain p-4 transition-transform duration-300 hover:scale-105"
-            loading="lazy"
-            decoding="async"
+          {/* TODO(asset): card product shot — replace with the real photo described below */}
+          <AssetPlaceholder
+            label={product.id === 'derma-roller' ? 'Gift Shot' : 'Product Shot'}
+            note={product.id === 'derma-roller'
+              ? 'نفس صورة «Free Gift Shot» في الصفحة الرئيسية — ديرما رولر داخل كبسولتها مع لمسة هدية ذهبية.'
+              : 'صورة المنتج على خلفية بيج فاتحة موحّدة مع بقية البطاقات — زاوية 45 درجة، إضاءة ناعمة، ظل خفيف. مربعة 1:1.'}
+            ratio="aspect-square"
           />
         </div>
 

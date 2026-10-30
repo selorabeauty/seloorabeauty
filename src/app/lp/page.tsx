@@ -20,6 +20,7 @@ import {
 import Footer from '@/components/layout/Footer';
 import { validateKSAPhone, formatPrice } from '@/lib/utils';
 import { getLandingUrl, identifyUser, trackPurchase, captureClickIds, getClickIds } from '@/lib/pixels';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const CITIES = [
   'الرياض',

@@ -44,13 +44,12 @@ export default function HomePage() {
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Serum — the paid hero */}
               <div className="product-card p-5">
-                <div className="rounded-2xl overflow-hidden mb-4" style={{ background: 'linear-gradient(135deg, #FBEEDC, #F5EEE4)' }}>
-                  <img
-                    src="/images/copper-serum.webp"
-                    alt="سيروم ببتيدات النحاس الزرقاء GHK-Cu — 100ml"
-                    className="w-full aspect-[4/3] object-contain p-4"
-                    loading="lazy"
-                    decoding="async"
+                <div className="rounded-2xl overflow-hidden mb-4">
+                  {/* TODO(asset): serum close-up — replace with the real photo described below */}
+                  <AssetPlaceholder
+                    label="Serum Close-Up"
+                    note="لقطة قريبة لعبوة السيروم الزرقاء 100ml فقط على خلفية بيج فاتحة مع قطرات سيروم/لمعة زجاجية خفيفة — تبين لون الببتيدات الأزرق الحقيقي. أفقية 4:3 بدون نص."
+                    ratio="aspect-[4/3]"
                   />
                 </div>
                 <div className="font-extrabold text-lg" style={{ color: '#1A0F08' }}>
@@ -69,13 +68,12 @@ export default function HomePage() {
                 >
                   <Gift size={12} /> هدية مجانية
                 </span>
-                <div className="rounded-2xl overflow-hidden mb-4" style={{ background: 'linear-gradient(135deg, #FBEEDC, #F5EEE4)' }}>
-                  <img
-                    src="/images/derma-roller.webp"
-                    alt="ديرما رولر التيتانيوم — هدية مجانية مع كل طقم"
-                    className="w-full aspect-[4/3] object-contain p-4"
-                    loading="lazy"
-                    decoding="async"
+                <div className="rounded-2xl overflow-hidden mb-4">
+                  {/* TODO(asset): gift shot — replace with the real photo described below */}
+                  <AssetPlaceholder
+                    label="Free Gift Shot"
+                    note="صورة ديرما رولر التيتانيوم داخل كبسولتها أو بجوار شريط هدية/فيونكة ذهبية صغيرة — توصّل إحساس «هدية» فوراً. أفقية 4:3، نفس خلفية صورة السيروم للتناسق."
+                    ratio="aspect-[4/3]"
                   />
                 </div>
                 <div className="font-extrabold text-lg" style={{ color: '#1A0F08' }}>

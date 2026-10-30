@@ -1,6 +1,7 @@
 'use client';
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const completeSet = SET_OPTIONS.find((s) => s.id === 'set-duo')!;
 
@@ -50,14 +51,12 @@ export default function ResultsSection() {
               className="rounded-3xl border overflow-hidden bg-white"
               style={{ borderColor: '#EFE4D4', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.06)' }}
             >
-              {/* Visual: real before/after photo */}
+              {/* TODO(asset): before/after — replace with the real photo described below */}
               {item.img && (
-                <img
-                  src={item.img}
-                  alt={`قبل وبعد — ${item.label}`}
-                  className="w-full aspect-[4/5] object-cover"
-                  loading="lazy"
-                  decoding="async"
+                <AssetPlaceholder
+                  label={`Before/After — ${item.label.split(' ').slice(0, 3).join(' ')}`}
+                  note="صورة قبل/بعد حقيقية لنفس المنطقة (بطن/فخذ/كتف): نفس الإضاءة والزاوية والمسافة، تقسيم واضح في المنتصف بخط رفيع ذهبي، بدون فلاتر — المصداقية هنا هي البيعة الوحيدة. عمودية 4:5."
+                  ratio="aspect-[4/5]"
                 />
               )}
 
