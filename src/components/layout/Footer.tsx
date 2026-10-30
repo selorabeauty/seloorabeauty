@@ -64,7 +64,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
           {/* Brand tagline */}
           {!hideTagline && (
             <p className="text-sm leading-relaxed font-medium text-stone-400">
-              {customTagline || 'سيلورا بيوتي — ببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
+              {customTagline || 'سيلورا بيوتي — ببتيدات النحاس الزرقاء والديرما رولر للعناية ببشرة جسمكِ واستعادة ثقتكِ.'}
             </p>
           )}
           {/* Email */}
