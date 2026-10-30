@@ -63,24 +63,6 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        {/* ── Real UGC photo — unfiltered customer proof ── */}
-        <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
-          <img
-            src="/images/ugc-car-hand.webp"
-            alt="لقطة حقيقية من جوال عميلة تستلم طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
-            className="w-full aspect-[4/5] object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="flex items-center gap-2.5 p-4">
-            <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />
-            <p className="text-xs leading-relaxed text-slate-600">
-              <strong className="text-slate-900">لقطة من جوال عميلتنا — استلام فعلي في الرياض.</strong>{' '}
-              الطقم يصلك بهذا الشكل تماماً: السيروم الأزرق 100ml + الديرما رولر الذهبية بكبسولتها.
-            </p>
-          </div>
-        </div>
-
         {/* Review cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {REVIEWS.map((r, i) => (
