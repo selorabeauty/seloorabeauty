@@ -55,16 +55,16 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
               <span className="text-xs font-bold text-white">S</span>
             </span>
             <div>
-              <span className="text-2xl font-black block leading-none text-white">Selora Beauty</span>
+              <span className="text-2xl font-black block leading-none text-white">سيلورا ديرما</span>
               <span className="text-[10px] font-bold tracking-[0.22em] uppercase block text-blue-400">
-                SELORA BEAUTY
+                Selora Derma Laboratory
               </span>
             </div>
           </div>
           {/* Brand tagline */}
           {!hideTagline && (
             <p className="text-sm leading-relaxed font-medium text-slate-400">
-              {customTagline || 'Selora Beauty — روتين العناية بالبشرة مع سيروم Daranca وديرما رولر.'}
+              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
             </p>
           )}
           {/* Email */}
@@ -113,7 +113,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
         className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center
                    justify-between gap-2 text-xs font-medium border-t border-slate-800 text-slate-400"
       >
-        <span>© ٢٠٢٦ Selora Beauty. جميع الحقوق محفوظة.</span>
+        <span>© ٢٠٢٦ Selora Derma Laboratory. جميع الحقوق محفوظة.</span>
         <span>🇸🇦 شحن سريع وتوصيل للمنزل · الدفع عند الاستلام</span>
       </div>
     </footer>

@@ -10,8 +10,9 @@ import { cn } from '@/lib/utils';
 const NAV_LINKS = [
   { href: '/ar',              label: 'الرئيسية' },
   { href: '/ar#results',      label: 'نتائج قبل وبعد' },
+  { href: '/ar#science',      label: 'العلم والميكانيزم' },
   { href: '/ar#ingredients',  label: 'التركيبة الفعالة' },
-  { href: '/ar#reviews',      label: 'آراء العملاء' },
+  { href: '/ar#reviews',      label: 'آراء العميلات' },
   { href: '/ar#faq',          label: 'الأسئلة والضمان' },
 ];
 
@@ -35,7 +36,7 @@ export default function Navbar() {
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
         scrolled
           ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-slate-200'
-          : 'bg-white'
+          : 'bg-transparent'
       )}
       style={scrolled ? { backgroundColor: 'rgba(255,255,255,0.98)' } : {}}
     >
@@ -69,13 +70,13 @@ export default function Navbar() {
               className="text-xl font-bold tracking-tight transition-colors"
               style={{ color: '#0F172A', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
             >
-              Selora Beauty
+              سيلورا ديرما
             </span>
             <span
               className="text-[9px] font-bold tracking-[0.25em] uppercase"
               style={{ color: '#2563EB' }}
             >
-              SELORA BEAUTY
+              Selora Derma Laboratory
             </span>
           </span>
         </Link>
