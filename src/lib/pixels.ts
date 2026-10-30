@@ -332,16 +332,16 @@ export function trackAddToCart(item: { id: string; name: string; price: number; 
 }
 
 export function trackInitiateCheckout(value: number, items?: ItemData[]) {
-  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-duo') : ['set-duo'];
   const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
   const contents = (items && items.length > 0)
     ? items.map((i) => ({
-        content_id: i.sku || i.id || 'set-complete',
+        content_id: i.sku || i.id || 'set-duo',
         content_name: i.name || 'سيلورا بيوتي',
         quantity: i.quantity || 1,
         price: i.price || value,
       }))
-    : [{ content_id: 'set-complete', content_name: 'طقم سيلورا بيوتي', quantity: 1, price: value }];
+    : [{ content_id: 'set-duo', content_name: 'طقم سيلورا بيوتي', quantity: 1, price: value }];
 
   fireFunnel(
     'checkout_start',
@@ -361,7 +361,7 @@ export function trackInitiateCheckout(value: number, items?: ItemData[]) {
 
 /** Payment info provided — fires when the checkout form is submitted. */
 export function trackAddPaymentInfo(value: number, items?: ItemData[]) {
-  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-duo') : ['set-duo'];
   const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
 
   fireFunnel(
@@ -398,7 +398,7 @@ export function trackPurchase(
 ) {
   if (typeof window === 'undefined') return;
   const opts = eventId ? { event_id: eventId } : undefined;
-  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-complete') : ['set-complete'];
+  const itemIds = (items && items.length > 0) ? items.map((i) => i.sku || i.id || 'set-duo') : ['set-duo'];
   const numberItems = (items && items.length > 0) ? items.reduce((s, i) => s + (i.quantity || 1), 0) : 1;
 
   const data = {
@@ -407,7 +407,7 @@ export function trackPurchase(
     content_id: orderId,
     content_type: 'product',
     contents: (items || []).map((i) => ({
-      content_id: i.sku || i.id || 'set-complete',
+      content_id: i.sku || i.id || 'set-duo',
       content_name: i.name || 'سيلورا بيوتي',
       quantity: i.quantity || 1,
       price: i.price || value,

@@ -1,298 +1,238 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { ShieldCheck, Truck, RotateCcw, Star, ArrowDown } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw, Star, Gift, Sparkles, Leaf, PhoneCall, PackageCheck, Banknote } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { PRODUCTS, SET_OPTIONS } from '@/lib/products';
+import { SET_OPTIONS } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
 
-const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
-const singleSet = SET_OPTIONS.find((s) => s.id === 'set-serum-only')!;
+const duo = SET_OPTIONS[0];
 
-// ── EMOTIONAL + RATIONAL bullets — stretch marks pain points ──
-const PAIN_BULLETS = [
+// ── Value bullets — soft, benefit-led, no lab phrasing ──
+const VALUE_BULLETS = [
   {
-    emoji: '�',
-    bold: 'تقنية ببتيدات النحاس الزرقاء (GHK-Cu):',
-    rest: 'تخترق لعمق طبقة الأدمة حيث مكان التمزق لتحفز خلايا الفايبروبلاست لردم الخطوط وتجديد ألياف الإيلاستين.',
+    Icon: Sparkles,
+    bold: 'ببتيدات النحاس الزرقاء (GHK-Cu):',
+    rest: 'تخترق لعمق البشرة لتحفز تجديد الكولاجين وتردم الخطوط من الداخل — بلمسة حريرية خفيفة.',
   },
   {
-    emoji: '🪡',
-    bold: 'ديرما رولر التيتانيوم الطبية (540 إبرة):',
-    rest: 'تفتح قنوات ميكروسكوبية لطيفة تضاعف امتصاص السيروم ٨٠٪ وتفكك النسيج المتصلب بأمان تام.',
+    Icon: Gift,
+    bold: 'ديرما رولر التيتانيوم هدية مجانية:',
+    rest: '٥٤٠ إبرة دقيقة تفتح مسارات لطيفة تضاعف امتصاص السيروم — تأتيكِ مجاناً داخل كل طقم.',
   },
   {
-    emoji: '🛡️',
-    bold: 'نتائج موثقة وضمان ذهبي ٣٠ يوماً:',
-    rest: 'تحسن ملحوظ في مظهر التشققات الملونة والبيضاء خلال ٤ أسابيع — مع ضمان استرجاع كامل والدفع عند الاستلام.',
+    Icon: Leaf,
+    bold: 'نتائج نراها وتحبينها — وضمان ٣٠ يوماً:',
+    rest: 'تحسّن ملحوظ في مظهر التشققات خلال أسابيع، مع دفع عند الاستلام وضمان استرجاع كامل.',
   },
+];
+
+// ── COD journey — what happens after they tap order ──
+const COD_STEPS = [
+  { Icon: PhoneCall,    text: 'نتواصل معكِ للتأكيد' },
+  { Icon: Truck,        text: 'شحن ١‑٣ أيام لباب بيتكِ' },
+  { Icon: PackageCheck, text: 'افحصي الطلب ثم ادفعي' },
 ];
 
 export default function Hero() {
   const { setMainSet, openCheckout } = useCartStore();
   const [ordersToday, setOrdersToday] = useState(63);
-  // Which purchase option is picked in the side-by-side selector below — bundle wins by default.
-  const [selectedSetId, setSelectedSetId] = useState<'set-serum-only' | 'set-complete'>('set-complete');
 
   useEffect(() => {
     const t = setInterval(() => setOrdersToday((n) => n + 1), 11000);
     return () => clearInterval(t);
   }, []);
 
-  const selectedSet = selectedSetId === 'set-complete' ? completeSet : singleSet;
-
   const handleBuyNow = () => {
-    trackAddToCart({ id: selectedSet.id, sku: selectedSet.sku, name: selectedSet.label, price: selectedSet.totalPrice });
+    trackAddToCart({ id: duo.id, sku: duo.sku, name: duo.label, price: duo.totalPrice });
     setMainSet({
-      id: selectedSet.id,
-      name: selectedSet.label,
-      price: selectedSet.totalPrice,
-      originalPrice: selectedSet.originalTotal,
-      imageBg: 'from-bark-800 to-bark-900',
-      includes: selectedSetId === 'set-complete'
-        ? ['سيروم علاج تشققات الجسم', 'كريم علاج تشققات الجسم']
-        : ['سيروم علاج تشققات الجسم'],
-      sku: selectedSet.sku,
+      id: duo.id,
+      name: duo.label,
+      price: duo.totalPrice,
+      originalPrice: duo.originalTotal,
+      imageBg: 'from-amber-100 to-stone-200',
+      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
+      sku: duo.sku,
     });
     openCheckout();
   };
 
-  const discount = Math.round((1 - completeSet.totalPrice / completeSet.originalTotal) * 100);
-
   return (
-    <section className="relative min-h-screen flex items-center bg-hero pt-20 pb-16 md:pb-0 overflow-hidden">
+    <section className="relative bg-hero pt-24 pb-10 md:pt-28 md:pb-14 overflow-hidden">
 
-      {/* Soft decorative blobs */}
+      {/* Soft decorative warmth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 -end-40 w-[580px] h-[580px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)' }} />
+        <div className="absolute -top-40 -end-40 w-[560px] h-[560px] rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.14) 0%, transparent 70%)' }} />
         <div className="absolute bottom-0 -start-24 w-[420px] h-[420px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.05) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(212,169,106,0.10) 0%, transparent 70%)' }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 grid md:grid-cols-2 gap-14 items-center">
+      {/* ── Stacked flow: image → headline → copy → offer → CTA ── */}
+      <div className="relative max-w-2xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
 
-        {/* ── RIGHT-reading content (text) ── */}
-        <div className="flex flex-col gap-6 order-2 md:order-1 pb-8 md:pb-0">
-
-          {/* Social proof pills */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <div
-              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 border shadow-sm"
-              style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
+        {/* 1 · Product image first */}
+        <div className="animate-reveal relative w-full max-w-sm sm:max-w-md" style={{ ['--reveal-delay' as string]: '60ms' }}>
+          <div
+            className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(196,148,62,0.20) 0%, transparent 70%)' }}
+          />
+          <div
+            className="relative rounded-[2rem] overflow-hidden bg-white p-3 sm:p-4"
+            style={{ border: '1px solid #EFE4D4', boxShadow: '0 24px 64px -16px rgba(58,40,24,0.20)' }}
+          >
+            <img
+              src="/images/copper-roller-duo.webp"
+              alt="طقم سيلورا بيوتي — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
+              className="w-full aspect-[4/5] object-contain"
+              fetchPriority="high"
+              decoding="async"
+            />
+            {/* Free-gift ribbon */}
+            <span
+              className="absolute top-4 start-4 flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-black text-white shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
             >
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} className="fill-current" style={{ color: '#D97706' }} />
-              ))}
-              <span className="text-xs font-bold mr-1" style={{ color: '#0F172A' }}>4.9</span>
-              <span className="text-xs font-medium" style={{ color: '#64748B' }}>(٣٤١٨ تقييم موثق)</span>
-            </div>
-            <span className="badge-clinical">🧬 تركيبة صيدلانية معتمدة</span>
-            <span className="badge-gold">� {ordersToday} طلب اليوم في المملكة</span>
+              <Gift size={13} /> الديرما رولر هدية مجانية
+            </span>
           </div>
 
-          {/* ── HEADLINE ── */}
-          <h1
-            className="text-2xl sm:text-3xl md:text-[2.25rem] lg:text-[2.5rem] leading-[1.28] tracking-tight"
-            style={{
-              fontWeight: 800,
-              color: '#0F172A',
-              fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
-            }}
+          {/* Floating proof chip */}
+          <div
+            className="absolute -bottom-3 -end-2 sm:-end-5 rounded-2xl px-3.5 py-2.5 shadow-lg bg-white animate-float"
+            style={{ border: '1px solid #EFE4D4' }}
           >
-            {/* Line 1 — emotional hook for men & women */}
-            <span style={{ color: '#0F172A' }}>توقف/ي عن إخفاء خطوط جسمك..</span>
-            <br />
-            {/* Line 2 — rational promise */}
-            <span style={{ color: '#1E3A8A' }}>
-              بروتوكول ببتيدات النحاس والديرما رولر لردم التشققات العميقة.
-            </span>
-          </h1>
+            <div className="flex gap-0.5 mb-0.5 justify-center">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={11} className="fill-current" style={{ color: '#C4943E' }} />
+              ))}
+            </div>
+            <div className="text-[10px] font-bold" style={{ color: '#3D2B1F' }}>+٣٤٠٠ عميلة سعيدة</div>
+          </div>
+        </div>
 
-          {/* ── SUB-HEADLINE — emotional + rational (Women & Men) ── */}
-          <p
-            className="text-base sm:text-lg pb-1"
-            style={{
-              color: '#334155',
-              fontWeight: 500,
-              lineHeight: '1.9',
-              letterSpacing: '0.01em',
-              fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif',
-            }}
-          >
-            سواء بسبب الحمل والولادة أو بناء العضلات بالجيم وتقلبات الوزن — طقم سيلورا الصيدلاني يجمع بين إبر التيتانيوم لتحفيز كولاجين الأدمة، وسيروم ببتيدات النحاس الأزرق 100ml لردم التمزق وتفتيح الخطوط الحمراء والبيضاء.
-          </p>
+        {/* 2 · Headline */}
+        <h1
+          className="animate-rise mt-8 text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.3] tracking-tight font-black"
+          style={{ color: '#1A0F08', ['--rise-delay' as string]: '160ms' }}
+        >
+          استعيدي نعومة بشرتكِ وثقتكِ..
+          <br />
+          <span className="text-gold">بطقم سيلورا للتشققات.</span>
+        </h1>
 
-          {/* ── PAIN-POINT BULLETS ── */}
-          <ul className="flex flex-col gap-3">
-            {PAIN_BULLETS.map((b, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm leading-relaxed border shadow-sm"
-                style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
-              >
-                <span className="text-xl flex-shrink-0 mt-0.5">{b.emoji}</span>
-                <span style={{ color: '#334155' }}>
-                  <strong style={{ color: '#0F172A', fontWeight: 800 }}>{b.bold}</strong>{' '}
-                  {b.rest}
-                </span>
-              </li>
-            ))}
-          </ul>
+        {/* 3 · Persuasive copy */}
+        <p
+          className="animate-rise mt-4 text-base sm:text-lg leading-[1.95] font-medium max-w-xl"
+          style={{ color: '#5A4A3F', ['--rise-delay' as string]: '260ms' }}
+        >
+          سيروم ببتيدات النحاس الأزرق 100ml مع ديرما رولر التيتانيوم هدية — روتين لطيف يعتني بخطوط التمدد بعد الحمل وتقلبات الوزن، ويمنح بشرتكِ مرونة ونعومة تلاحظينها.
+        </p>
 
-          {/* ── Buy options — single piece vs. complete bundle, side by side ── */}
-          <div className="grid grid-cols-2 gap-3 mt-1">
-            {/* Single piece — 199 SAR (Serum) */}
-            <button
-              type="button"
-              onClick={() => setSelectedSetId('set-serum-only')}
-              className="text-start rounded-2xl border-2 px-4 py-3.5 transition-all"
-              style={{
-                borderColor: selectedSetId === 'set-serum-only' ? '#1D4ED8' : '#E2E8F0',
-                background: selectedSetId === 'set-serum-only' ? '#EFF6FF' : '#FFFFFF',
-              }}
-            >
-              <div className="text-xs font-bold mb-1" style={{ color: '#64748B' }}>العبوة الفردية</div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold" style={{ color: '#0F172A' }}>{singleSet.totalPrice}</span>
-                <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
-                <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{singleSet.originalTotal}</span>
-              </div>
-              <div className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748B' }}>سيروم النحاس 100ml فقط</div>
-            </button>
+        {/* Social proof pills */}
+        <div className="animate-rise mt-5 flex items-center gap-2.5 flex-wrap justify-center" style={{ ['--rise-delay' as string]: '320ms' }}>
+          <span className="badge-gold"><Star size={12} className="fill-current" /> 4.9 · ٣٤١٨ تقييم</span>
+          <span className="badge">{ordersToday} طلب اليوم في المملكة</span>
+        </div>
 
-            {/* Complete bundle — 249 SAR, best value */}
-            <button
-              type="button"
-              onClick={() => setSelectedSetId('set-complete')}
-              className="relative text-start rounded-2xl border-2 px-4 py-3.5 transition-all shadow-md"
-              style={{
-                borderColor: selectedSetId === 'set-complete' ? '#1D4ED8' : '#BFDBFE',
-                background: selectedSetId === 'set-complete' ? '#EFF6FF' : '#FFFFFF',
-              }}
+        {/* Value bullets */}
+        <ul className="animate-rise mt-6 flex flex-col gap-3 w-full text-start" style={{ ['--rise-delay' as string]: '380ms' }}>
+          {VALUE_BULLETS.map(({ Icon, bold, rest }, i) => (
+            <li
+              key={i}
+              className="flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm leading-relaxed"
+              style={{ background: '#FFFFFF', border: '1px solid #EFE4D4', boxShadow: '0 2px 12px -4px rgba(58,40,24,0.06)' }}
             >
               <span
-                className="absolute -top-2.5 end-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow"
-                style={{ backgroundColor: '#1E3A8A', color: '#FDE047' }}
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: '#FBF3E4', color: '#A87830' }}
               >
-                ⭐ الكورس الصيدلاني المتكامل
+                <Icon size={17} />
               </span>
-              <div className="text-xs font-bold mb-1" style={{ color: '#1E3A8A' }}>الروتين العلاجي الأقوى</div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold" style={{ color: '#0F172A' }}>{completeSet.totalPrice}</span>
-                <span className="text-xs font-bold" style={{ color: '#0F172A' }}>ر.س</span>
-                <span className="text-xs line-through" style={{ color: '#94A3B8' }}>{completeSet.originalTotal}</span>
+              <span style={{ color: '#5A4A3F' }}>
+                <strong style={{ color: '#1A0F08', fontWeight: 800 }}>{bold}</strong>{' '}
+                {rest}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {/* ── The offer — one bundle, gift framing ── */}
+        <div
+          className="animate-rise mt-6 w-full rounded-3xl p-5 text-start relative"
+          style={{
+            background: 'linear-gradient(135deg, #FFFFFF 0%, #FBF3E4 100%)',
+            border: '1.5px solid #EBD9B4',
+            boxShadow: '0 12px 40px -8px rgba(196,148,62,0.25)',
+            ['--rise-delay' as string]: '440ms',
+          }}
+        >
+          <span
+            className="absolute -top-3 end-5 text-[11px] font-black px-3 py-1 rounded-full text-white shadow"
+            style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
+          >
+            ⭐ العرض الأفضل — وفري ٨٠ ريال
+          </span>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <div className="text-sm font-black" style={{ color: '#1A0F08' }}>طقم سيلورا الكامل</div>
+              <div className="text-xs mt-1 font-semibold" style={{ color: '#6E5C50' }}>
+                سيروم ببتيدات النحاس 100ml <span style={{ color: '#A87830' }}>+ ديرما رولر هدية</span>
               </div>
-              <div className="text-[11px] mt-0.5 font-bold" style={{ color: '#15803D' }}>سيروم 100ml + ديرما رولر — وفري ٣٠ ريال</div>
-            </button>
-          </div>
-          <p className="text-xs -mt-1 font-medium" style={{ color: '#475569' }}>
-            💡 ديرما رولر التيتانيوم تفتح قنوات ميكروسكوبية تضاعف امتصاص السيروم ٨٠٪ لردم التمزق الداخلي
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button onClick={handleBuyNow} className="btn-gold flex-1 text-base py-4 font-black shadow-xl animate-cta-pulse">
-              احصلي على الطقم العلاجي — {selectedSet.totalPrice} ر.س
-            </button>
-            <Link
-              href="/ar#results"
-              className="btn-outline flex-1 text-center py-4 font-bold"
-            >
-              شاهدي نتائج قبل وبعد
-            </Link>
-          </div>
-
-          <p className="text-xs text-center font-bold" style={{ color: '#15803D' }}>
-            ✓ ادفعي للمندوب بعد استلام وفحص طلبكِ بيدكِ · شحن فوري من مستودعاتنا بالرياض
-          </p>
-
-          {/* Trust micro-row */}
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { Icon: ShieldCheck, text: 'دفع عند الاستلام' },
-              { Icon: RotateCcw,   text: 'ضمان ٣٠ يوم' },
-              { Icon: Truck,       text: 'شحن ١‑٣ أيام' },
-            ].map(({ Icon, text }, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 border text-xs font-bold shadow-sm"
-                style={{ background: '#FFFFFF', borderColor: '#E2E8F0', color: '#1E293B' }}
-              >
-                <Icon size={14} style={{ color: '#1D4ED8', flexShrink: 0 }} />
-                {text}
+            </div>
+            <div className="text-end">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black" style={{ color: '#1A0F08' }}>199</span>
+                <span className="text-sm font-bold" style={{ color: '#1A0F08' }}>ر.س</span>
+                <span className="text-sm line-through" style={{ color: '#B0998A' }}>279</span>
               </div>
-            ))}
+              <div className="text-[11px] font-bold" style={{ color: '#2D6B41' }}>شامل الضريبة والشحن السريع</div>
+            </div>
           </div>
         </div>
 
-        {/* ── LEFT: product visual (Enlarged and crystal clear) ── */}
-        <div className="order-1 md:order-2 flex justify-center w-full">
-          <div className="relative w-80 h-[420px] sm:w-[390px] sm:h-[480px] md:w-[440px] md:h-[530px] lg:w-[480px] lg:h-[560px]">
+        {/* CTAs */}
+        <div className="animate-rise mt-6 w-full flex flex-col sm:flex-row gap-3" style={{ ['--rise-delay' as string]: '500ms' }}>
+          <button onClick={handleBuyNow} className="btn-gold animate-shimmer flex-1 text-base py-4 font-black">
+            اطلبي الطقم — 199 ر.س + هدية مجانية
+          </button>
+          <Link href="/ar#results" className="btn-outline flex-1 text-center py-4 font-bold">
+            شاهدي نتائج قبل وبعد
+          </Link>
+        </div>
 
-            {/* Glow ring */}
-            <div
-              className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.16) 0%, transparent 70%)' }}
-            />
+        <p className="animate-rise mt-3 text-xs font-bold" style={{ color: '#2D6B41', ['--rise-delay' as string]: '540ms' }}>
+          ✓ ادفعي للمندوب بعد استلام وفحص طلبكِ بيدكِ · شحن فوري من مستودعاتنا بالرياض
+        </p>
 
-            {/* Hero image container — Maximize image presence */}
+        {/* COD journey strip */}
+        <div className="animate-rise mt-5 w-full grid grid-cols-3 gap-2" style={{ ['--rise-delay' as string]: '580ms' }}>
+          {COD_STEPS.map(({ Icon, text }, i) => (
             <div
-              className="absolute inset-2 sm:inset-3 rounded-3xl overflow-hidden border border-slate-200/80 bg-white flex items-center justify-center p-2 sm:p-3"
-              style={{ boxShadow: '0 20px 60px -15px rgba(15,23,42,0.14)' }}
+              key={i}
+              className="flex flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-[11px] font-bold"
+              style={{ background: '#FFFFFF', border: '1px solid #EFE4D4', color: '#3D2B1F' }}
             >
-              <img
-                src="/images/copper-roller-duo.webp"
-                alt="طقم ببتيدات النحاس الزرقاء والديرما رولر لترميم تشققات الجسم — سيلورا ديرما"
-                className="w-full h-full object-contain"
-                fetchPriority="high"
-                decoding="async"
-              />
+              <Icon size={17} style={{ color: '#A87830' }} />
+              {text}
             </div>
+          ))}
+        </div>
 
-            {/* Floating chip: clinical results */}
-            <div
-              className="absolute -top-1 -start-3 sm:-start-5 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200 animate-float"
-            >
-              <div className="text-xl font-black text-blue-700">87%</div>
-              <div className="text-[10px] font-bold text-slate-600">ردم وتحسن التشققات</div>
+        {/* Trust micro-row */}
+        <div className="animate-rise mt-3 w-full grid grid-cols-3 gap-2" style={{ ['--rise-delay' as string]: '620ms' }}>
+          {[
+            { Icon: Banknote,    text: 'دفع عند الاستلام' },
+            { Icon: RotateCcw,   text: 'ضمان ٣٠ يوم' },
+            { Icon: ShieldCheck, text: 'منتج أصلي معتمد' },
+          ].map(({ Icon, text }, i) => (
+            <div key={i} className="flex items-center justify-center gap-1.5 text-[11px] font-bold" style={{ color: '#8C7B6E' }}>
+              <Icon size={13} style={{ color: '#C4943E', flexShrink: 0 }} />
+              {text}
             </div>
-
-            {/* Floating chip: reviews */}
-            <div
-              className="absolute -bottom-2 -end-2 rounded-2xl px-3.5 py-2.5 border shadow-lg bg-white border-slate-200"
-            >
-              <div className="flex gap-0.5 mb-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="fill-current text-amber-500" />
-                ))}
-              </div>
-              <div className="text-[10px] font-bold text-slate-700">+٣٤٠٠ عميل وعميلة</div>
-            </div>
-
-            {/* Floating chip: peptide */}
-            <div
-              className="absolute top-1/2 -translate-y-1/2 -end-6 rounded-2xl px-3 py-2 border shadow-luxury text-center"
-              style={{ background: '#fff', borderColor: '#BFDBFE' }}
-            >
-              <div className="text-xl">🧬✨</div>
-              <div className="text-[9px] font-bold leading-tight" style={{ color: '#1D4ED8' }}>ببتيدات<br />النحاس</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-
-      {/* Scroll cue */}
-      <a
-        href="#problem"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 transition-colors"
-        style={{ color: '#C9AF97' }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = '#C4943E')}
-        onMouseLeave={(e) => (e.currentTarget.style.color = '#C9AF97')}
-      >
-        <span className="text-xs font-medium">اكتشفي</span>
-        <ArrowDown size={18} className="animate-bounce" />
-      </a>
     </section>
   );
 }

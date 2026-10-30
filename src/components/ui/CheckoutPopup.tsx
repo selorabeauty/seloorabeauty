@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
+import { SET_OPTIONS, itemImages } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { captureClickIds, getClickIds, getLandingUrl, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
@@ -18,20 +18,13 @@ const PAYMENT_METHODS = [
 
 type PaymentMethod = typeof PAYMENT_METHODS[number]['id'];
 
-// Only ever suggest an upgrade to a bigger *real* bundle — never a made-up product
-const UPSELL_UPGRADE: Record<string, string> = {
-  'set-serum-only': 'set-complete',
-  'set-cream-only': 'set-complete',
-  'set-complete': 'set-double',
-};
-
 export default function CheckoutPopup() {
   const router = useRouter();
-  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setMainSet } = useCartStore();
+  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart } = useCartStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
+  const [paymentMethod] = useState<PaymentMethod>('cod');
   const [errors, setErrors] = useState<{ name?: string; phone?: string; city?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -40,28 +33,11 @@ export default function CheckoutPopup() {
     return () => { document.body.style.overflow = ''; };
   }, [isCheckoutOpen]);
 
-  const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
+  const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-duo')!;
   const cartItems = items.length > 0
     ? items
-    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-amber-900 to-stone-950', includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
-
-  const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];
-  const upsellSet = upsellSetId ? SET_OPTIONS.find((s) => s.id === upsellSetId) : undefined;
-
-  const handleUpgrade = () => {
-    if (!upsellSet) return;
-    const includedProducts = getSetProducts(upsellSet);
-    setMainSet({
-      id: upsellSet.id,
-      name: upsellSet.label,
-      price: upsellSet.totalPrice,
-      originalPrice: upsellSet.originalTotal,
-      imageBg: 'from-bark-800 to-bark-900',
-      includes: includedProducts.length > 1 ? includedProducts.map((p) => p.name) : undefined,
-      sku: upsellSet.sku,
-    });
-  };
 
   useEffect(() => {
     captureClickIds();
@@ -192,32 +168,6 @@ export default function CheckoutPopup() {
           </div>
 
           <div className="px-6 py-5">
-
-            {/* Upgrade banner — only ever a real bundle from SET_OPTIONS */}
-            {upsellSet && (
-              <button
-                type="button"
-                onClick={handleUpgrade}
-                className="w-full rounded-2xl p-4 mb-4 border-2 text-start transition-all"
-                style={{ background: '#FFF8E8', borderColor: '#C4943E' }}
-              >
-                <div className="flex items-center gap-3">
-                  <img src={upsellSet.image} alt={upsellSet.label} className="w-12 h-12 rounded-xl object-cover border" style={{ borderColor: '#D6C6B4' }} decoding="async" />
-                  <div className="flex-1">
-                    <div className="font-black text-sm" style={{ color: '#8A611E' }}>
-                      رقّي طلبك إلى {upsellSet.label}
-                    </div>
-                    <div className="text-xs font-bold" style={{ color: '#2D6B41' }}>
-                      {upsellSet.savingsLabel} · فقط {upsellSet.totalPrice} ر.س
-                      <span className="line-through mr-1 font-normal" style={{ color: '#B0998A' }}>{upsellSet.originalTotal} ر.س</span>
-                    </div>
-                  </div>
-                  <div className="text-xs font-black px-3 py-1.5 rounded-xl" style={{ background: '#C4943E', color: '#fff' }}>
-                    رقّي ←
-                  </div>
-                </div>
-              </button>
-            )}
 
             {/* Order summary */}
             <div className="rounded-2xl p-4 mb-5 border" style={{ background: '#F8F2EA', borderColor: '#EFE4D4' }}>

@@ -27,24 +27,24 @@ export default function FaqSection() {
             <div
               key={i}
               className="rounded-2xl overflow-hidden border transition-all"
-              style={{ background: '#FFFFFF', borderColor: '#E2E8F0', boxShadow: '0 2px 10px rgba(15,23,42,0.03)' }}
+              style={{ background: '#FFFFFF', borderColor: '#EFE4D4', boxShadow: '0 2px 10px rgba(15,23,42,0.03)' }}
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between gap-4 px-6 py-5 text-start transition-colors"
-                style={{ background: open === i ? '#EFF6FF' : 'transparent' }}
+                style={{ background: open === i ? '#FBF3E4' : 'transparent' }}
               >
-                <span className="font-extrabold text-base leading-snug text-slate-900">
+                <span className="font-extrabold text-base leading-snug text-stone-900">
                   {f.q}
                 </span>
                 <ChevronDown
                   size={20}
-                  className={cn('flex-shrink-0 transition-transform duration-200 text-blue-600', open === i && 'rotate-180')}
+                  className={cn('flex-shrink-0 transition-transform duration-200 text-amber-600', open === i && 'rotate-180')}
                 />
               </button>
               {open === i && (
                 <div
-                  className="px-6 pb-6 text-sm leading-[1.95] border-t pt-4 text-slate-700 border-slate-100 font-medium"
+                  className="px-6 pb-6 text-sm leading-[1.95] border-t pt-4 text-stone-700 border-stone-100 font-medium"
                 >
                   {f.a}
                 </div>

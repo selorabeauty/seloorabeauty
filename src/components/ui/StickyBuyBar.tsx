@@ -5,7 +5,7 @@ import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
 
-const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
+const completeSet = SET_OPTIONS.find((s) => s.id === 'set-duo')!;
 
 export default function StickyBuyBar() {
   const { setMainSet, openCheckout } = useCartStore();
@@ -26,7 +26,7 @@ export default function StickyBuyBar() {
       name: completeSet.label,
       price: completeSet.totalPrice,
       originalPrice: completeSet.originalTotal,
-      imageBg: 'from-blue-900 to-slate-950',
+      imageBg: 'from-amber-900 to-stone-950',
       includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'],
       sku: completeSet.sku,
     });
@@ -36,11 +36,11 @@ export default function StickyBuyBar() {
   return (
     <div
       className="fixed bottom-0 inset-x-0 z-40 backdrop-blur-md border-t"
-      style={{ background: 'rgba(253,250,246,0.98)', borderColor: '#BFDBFE', boxShadow: '0 -4px 32px rgba(15,23,42,0.12)' }}
+      style={{ background: 'rgba(253,250,246,0.98)', borderColor: '#EBD9B4', boxShadow: '0 -4px 32px rgba(15,23,42,0.12)' }}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
-          <div className="font-bold text-sm" style={{ color: '#0F172A' }}>{completeSet.label}</div>
+          <div className="font-bold text-sm" style={{ color: '#1A0F08' }}>{completeSet.label}</div>
           <div className="text-xs font-semibold" style={{ color: '#16A34A' }}>{completeSet.totalPrice} ر.س · فحص المنتج متاح قبل الدفع عند الاستلام</div>
         </div>
         <div className="flex items-center gap-3 flex-1 sm:flex-initial justify-end">

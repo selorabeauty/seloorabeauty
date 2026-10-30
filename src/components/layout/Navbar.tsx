@@ -35,48 +35,48 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-slate-200'
+          ? 'backdrop-blur-xl shadow-sm'
           : 'bg-transparent'
       )}
-      style={scrolled ? { backgroundColor: 'rgba(255,255,255,0.98)' } : {}}
+      style={scrolled ? { backgroundColor: 'rgba(251,247,241,0.95)', borderBottom: '1px solid #EFE4D4' } : {}}
     >
       {/* ── Announcement bar ── */}
       <div
         className="text-center text-xs py-2 px-4 font-semibold tracking-wide flex items-center justify-center gap-2 flex-wrap"
-        style={{ backgroundColor: '#0B1B3D', color: '#E0E7FF' }}
+        style={{ backgroundColor: '#2A1C12', color: '#F5E6C8' }}
       >
         <span>🇸🇦 شحن سريع لكافة مدن المملكة (١-٣ أيام)</span>
-        <span className="hidden sm:inline text-white/40">|</span>
-        <span className="font-bold text-[#FDE047] flex items-center gap-1">
-          <span>� الدفع عند الاستلام متاح بعد فحص الطلب</span>
+        <span className="hidden sm:inline text-white/30">|</span>
+        <span className="font-bold text-[#D4A96A] flex items-center gap-1">
+          <span>الدفع عند الاستلام متاح بعد فحص الطلب</span>
         </span>
-        <span className="hidden sm:inline text-white/40">|</span>
-        <span className="text-[#93C5FD]">🛡️ ضمان استرجاع ٣٠ يوماً</span>
+        <span className="hidden sm:inline text-white/30">|</span>
+        <span className="text-[#E8C98F]">🛡️ ضمان استرجاع ٣٠ يوماً</span>
       </div>
 
       {/* ── Main nav ── */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-        {/* Logo — Clinical Dermacosmetic branding */}
+        {/* Logo — Selora Beauty */}
         <Link href="/ar" className="flex items-center gap-2.5 select-none group">
           <span
             className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"
-            style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)', border: '1px solid #3B82F6' }}
+            style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
           >
             <Sparkles size={16} className="text-white" />
           </span>
           <span className="flex flex-col leading-none">
             <span
               className="text-xl font-bold tracking-tight transition-colors"
-              style={{ color: '#0F172A', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
+              style={{ color: '#1A0F08', fontFamily: 'var(--font-tajawal), Tajawal, Cairo, Arial, sans-serif' }}
             >
-              سيلورا ديرما
+              سيلورا بيوتي
             </span>
             <span
               className="text-[9px] font-bold tracking-[0.25em] uppercase"
-              style={{ color: '#2563EB' }}
+              style={{ color: '#C4943E' }}
             >
-              Selora Derma Laboratory
+              Selora Beauty
             </span>
           </span>
         </Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
           <Link
             href="/ar/cart"
             className="relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all hover:scale-105 active:scale-95"
-            style={{ backgroundColor: '#1A0F08', color: '#FDFAF6' }}
+            style={{ backgroundColor: '#2A1C12', color: '#FBF7F1' }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#2A1C12')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1A0F08')}
           >
@@ -135,7 +135,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div
           className="md:hidden border-t shadow-lg"
-          style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' }}
+          style={{ backgroundColor: '#FBF7F1', borderColor: '#EFE4D4' }}
         >
           <ul className="flex flex-col py-2">
             {NAV_LINKS.map((link) => (
@@ -144,9 +144,9 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="block px-6 py-3 text-base font-medium transition-colors"
-                  style={{ color: '#0F172A' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#1D4ED8'; e.currentTarget.style.backgroundColor = '#F1F5F9'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#0F172A'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                  style={{ color: '#2A1C12' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A87830'; e.currentTarget.style.backgroundColor = '#F8F2EA'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#2A1C12'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
                   {link.label}
                 </Link>

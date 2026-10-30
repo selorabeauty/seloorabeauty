@@ -52,14 +52,14 @@ const REVIEWS = [
     city: 'جدة',
     rating: 5,
     date: 'قبل أسبوع',
-    text: 'سيروم ببتيدات النحاس تركيبة مذهلة، امتص سريع ومفعله واضح بعد أول أسبوعين. الديرما رولer آمنة وسهلة الاستخدام. أنصح بها لكل واحدة تعاني من التشققات.',
+    text: 'سيروم ببتيدات النحاس تركيبة مذهلة، امتص سريع ومفعله واضح بعد أول أسبوعين. الديرما رولر آمنة وسهلة الاستخدام. أنصح بها لكل واحدة تعاني من التشققات.',
   },
   {
     name: 'منى العتيبي',
     city: 'الخبر',
     rating: 5,
     date: 'قبل أسبوعين',
-    text: 'الجودة عالية جداً مقارنة بالسعر. السيروم ناعم وغير لزج، والديرما رولer مريحة في اليد. بدأت ألاحظ تحسن في مرونة الجلد. شكراً سيلورا ديرما على المنتج الفعال.',
+    text: 'الجودة عالية جداً مقارنة بالسعر. السيروم ناعم وغير لزج، والديرما رولر مريحة في اليد. بدأت ألاحظ تحسن في مرونة الجلد. شكراً سيلورا بيوتي على المنتج الفعال.',
   },
   {
     name: 'لين الشهري',
@@ -74,17 +74,17 @@ const FEATURES = [
   {
     icon: <Sparkles size={22} className="text-[#C4943E]" />,
     title: 'ببتيدات النحاس الزرقاء GHK-Cu',
-    desc: 'سيروم تركيبة معملية متقدمة يحتوي على ببتيدات النحاس الفعالة التي تساعد في تحسين مظهر الجلد وتنعيمه.',
+    desc: 'سيروم تركيبة فاخرة مدروسة يحتوي على ببتيدات النحاس الفعالة التي تساعد في تحسين مظهر الجلد وتنعيمه.',
   },
   {
     icon: <ShieldCheck size={22} className="text-[#2D6B41]" />,
     title: 'ديرما رولر تيتانيوم احترافي',
-    desc: 'إبر تيتانيوم طبية 0.5mm مصممة للاستخدام الآمن في المنزل، تساعد في تحسين امتصاص السيروم.',
+    desc: 'إبر التيتانيوم 0.5mm مصممة للاستخدام الآمن في المنزل، تساعد في تحسين امتصاص السيروم.',
   },
   {
     icon: <Leaf size={22} className="text-[#C4943E]" />,
     title: 'طقم ترميم متكامل',
-    desc: 'مزيج متزامن من السيروم والديرما رولer للعناية التجميلية ببشرة الجسم ومظهرها العام.',
+    desc: 'مزيج متزامن من السيروم والديرما رولر للعناية التجميلية ببشرة الجسم ومظهرها العام.',
   },
   {
     icon: <Heart size={22} className="text-[#C4943E]" />,
@@ -141,8 +141,8 @@ export default function SoftLandingPage() {
           city,
           payment_method: 'cod',
           quantity: 1,
-          total: 249,
-          items: [{ sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 }],
+          total: 199,
+          items: [{ sku: 'SLR-SET-DUO', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 199 }],
           page_url: landingUrl,
           landing_url: landingUrl,
           event_id: eventId,
@@ -160,8 +160,8 @@ export default function SoftLandingPage() {
 
       // Advanced Matching & Purchase Event for Snap and TikTok
       await identifyUser({ phone: phone.trim(), name: name.trim() });
-      trackPurchase(249, confirmedId, eventId, [
-        { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
+      trackPurchase(199, confirmedId, eventId, [
+        { sku: 'SLR-SET-DUO', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 199 },
       ]);
 
       setSubmitted(true);
@@ -170,8 +170,8 @@ export default function SoftLandingPage() {
       const fallbackId = 'SD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
       setOrderNumber(fallbackId);
       await identifyUser({ phone: phone.trim(), name: name.trim() });
-      trackPurchase(249, fallbackId, eventId, [
-        { sku: 'SD-COPPER-ROLLER-SET', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 249 },
+      trackPurchase(199, fallbackId, eventId, [
+        { sku: 'SLR-SET-DUO', name: 'طقم سيروم ببتيدات النحاس والديرما رولر', quantity: 1, price: 199 },
       ]);
       setSubmitted(true);
     } finally {
@@ -197,14 +197,14 @@ export default function SoftLandingPage() {
         <div className="flex items-center gap-2.5">
           <span
             className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md"
-            style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)' }}
+            style={{ background: 'linear-gradient(135deg, #8A611E, #8A611E)' }}
           >
             SD
           </span>
           <div>
-            <span className="text-xl font-bold tracking-tight block leading-none">سيلورا ديرما</span>
-            <span className="text-[9px] font-bold tracking-[0.2em] text-[#2563EB] uppercase block">
-              Selora Derma Laboratory
+            <span className="text-xl font-bold tracking-tight block leading-none">سيلورا بيوتي</span>
+            <span className="text-[9px] font-bold tracking-[0.2em] text-[#C4943E] uppercase block">
+              Selora Beauty
             </span>
           </div>
         </div>
@@ -221,9 +221,9 @@ export default function SoftLandingPage() {
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-4 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div className="space-y-6 text-center md:text-start">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8F0FE]/60 text-[#1E3A8A] text-xs font-bold border border-[#2563EB]/30">
-            <Sparkles size={14} className="text-[#2563EB]" />
-            <span>طقم ترميم التشققات المجهري · ببتيدات النحاس + ديرما رولر</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FBF3E4] text-[#8A611E] text-xs font-bold border border-[#C4943E]/30">
+            <Sparkles size={14} className="text-[#C4943E]" />
+            <span>طقم العناية بالتشققات · ببتيدات النحاس + ديرما رولر</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight text-[#1A0F08]">
@@ -231,14 +231,14 @@ export default function SoftLandingPage() {
           </h1>
 
           <p className="text-base text-[#8C7B6E] leading-relaxed max-w-lg">
-            سيروم تركيبة معملية متقدمة يحتوي على ببتيدات النحاس الزرقاء GHK-Cu مع ديرما رولer تيتانيوم 0.5mm. طقم متكامل للعناية التجميلية بمظهر البشرة وتنعيمها.
+            سيروم تركيبة فاخرة مدروسة يحتوي على ببتيدات النحاس الزرقاء GHK-Cu مع ديرما رولر تيتانيوم 0.5mm. طقم متكامل للعناية التجميلية بمظهر البشرة وتنعيمها.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
             <button
               onClick={scrollToForm}
               className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-white shadow-xl hover:scale-[1.02] active:scale-98 transition-all"
-              style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)' }}
+              style={{ background: 'linear-gradient(135deg, #8A611E, #8A611E)' }}
             >
               اطلبي الطقم الآن
             </button>
@@ -270,7 +270,7 @@ export default function SoftLandingPage() {
           <div className="rounded-3xl overflow-hidden shadow-2xl border border-[#EFE4D4] bg-[#F8F2EA] relative aspect-[4/5]">
             <Image
               src="/images/copper-roller-duo.webp"
-              alt="طقم سيروم ببتيدات النحاس والديرما رولر — سيلورا ديرما"
+              alt="طقم سيروم ببتيدات النحاس والديرما رولر — سيلورا بيوتي"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 500px"
@@ -278,7 +278,7 @@ export default function SoftLandingPage() {
             />
           </div>
           <div className="absolute -bottom-4 -left-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-[#EFE4D4] flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#1E3A8A]/10 flex items-center justify-center text-[#1E3A8A]">
+            <div className="w-10 h-10 rounded-xl bg-[#8A611E]/10 flex items-center justify-center text-[#8A611E]">
               <Sparkles size={20} />
             </div>
             <div>
@@ -293,14 +293,14 @@ export default function SoftLandingPage() {
       <section className="bg-[#F8F2EA] py-16 px-4 border-y border-[#EFE4D4]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2563EB]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C4943E]">
               مميزات الطقم
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-[#1A0F08]">
               طقم متكامل للعناية ببشرة الجسم
             </h2>
             <p className="text-xs text-[#8C7B6E]">
-              سيروم ببتيدات النحاس الزرقاء مع ديرما رولer تيتانيوم طبية
+              سيروم ببتيدات النحاس الزرقاء مع ديرما رولر التيتانيوم
             </p>
           </div>
 
@@ -371,7 +371,7 @@ export default function SoftLandingPage() {
       <section id="order-section" className="bg-[#1A0F08] text-[#FDFAF6] py-16 px-4">
         <div className="max-w-xl mx-auto">
           <div className="text-center space-y-2 mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2563EB]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C4943E]">
               طلب سريع ومباشر
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-white">
@@ -420,13 +420,13 @@ export default function SoftLandingPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">طقم سيروم ببتيدات النحاس + ديرما رولر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولer تيتانيوم</div>
+                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولر تيتانيوم</div>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-2 justify-end">
                       <span className="text-xs text-[#999] line-through">٢٧٩ ر.س</span>
-                      <span className="text-sm font-black text-[#2563EB]">٢٤٩ ر.س</span>
+                      <span className="text-sm font-black text-[#C4943E]">١٩٩ ر.س</span>
                     </div>
                     <div className="text-[10px] text-[#2D6B41] font-bold">شحن سريع مجاني</div>
                   </div>
@@ -510,7 +510,7 @@ export default function SoftLandingPage() {
                   type="submit"
                   disabled={submitting}
                   className="w-full py-4 rounded-2xl font-bold text-white text-base shadow-xl flex items-center justify-center gap-2 transition-all hover:opacity-95 disabled:opacity-60"
-                  style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)' }}
+                  style={{ background: 'linear-gradient(135deg, #8A611E, #8A611E)' }}
                 >
                   {submitting ? (
                     <>
@@ -540,7 +540,7 @@ export default function SoftLandingPage() {
       </section>
 
       {/* Compliance-safe Footer without medical / health claims */}
-      <Footer customTagline="سيلورا ديرما — مستحضرات عناية تجميلية متقدمة للبشرة للمرأة في المملكة العربية السعودية. طقم سيروم ببتيدات النحاس والديرما رولer للعناية بمظهر البشرة." />
+      <Footer customTagline="سيلورا بيوتي — مستحضرات عناية تجميلية متقدمة للبشرة للمرأة في المملكة العربية السعودية. طقم سيروم ببتيدات النحاس والديرما رولر للعناية بمظهر البشرة." />
     </div>
   );
 }
