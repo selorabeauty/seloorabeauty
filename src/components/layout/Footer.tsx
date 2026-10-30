@@ -28,14 +28,14 @@ interface FooterProps {
 
 export default function Footer({ customTagline, hideTagline }: FooterProps = {}) {
   return (
-    <footer style={{ backgroundColor: '#0B132B', borderTop: '1px solid #1E293B' }}>
+    <footer style={{ backgroundColor: '#1A0F08', borderTop: '1px solid #3D2B1F' }}>
 
       {/* ── Trust strip ── */}
-      <div style={{ borderBottom: '1px solid #1E293B' }}>
+      <div style={{ borderBottom: '1px solid #3D2B1F' }}>
         <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           {TRUST.map((item, i) => (
-            <div key={i} className="flex items-center gap-2 text-sm font-semibold text-slate-300">
-              <span className="text-blue-400">{item.icon}</span>
+            <div key={i} className="flex items-center gap-2 text-sm font-semibold text-stone-300">
+              <span className="text-amber-400">{item.icon}</span>
               {item.text}
             </div>
           ))}
@@ -50,26 +50,26 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
           <div className="mb-4 flex items-center gap-2">
             <span
               className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow"
-              style={{ background: 'linear-gradient(135deg, #1E3A8A, #0F2C59)', border: '1px solid #3B82F6' }}
+              style={{ background: 'linear-gradient(135deg, #8A611E, #8A611E)', border: '1px solid #D4A96A' }}
             >
               <span className="text-xs font-bold text-white">S</span>
             </span>
             <div>
-              <span className="text-2xl font-black block leading-none text-white">سيلورا ديرما</span>
-              <span className="text-[10px] font-bold tracking-[0.22em] uppercase block text-blue-400">
-                Selora Derma Laboratory
+              <span className="text-2xl font-black block leading-none text-white">سيلورا بيوتي</span>
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase block text-amber-400">
+                Selora Beauty
               </span>
             </div>
           </div>
           {/* Brand tagline */}
           {!hideTagline && (
-            <p className="text-sm leading-relaxed font-medium text-slate-400">
-              {customTagline || 'مختبرات سيلورا للحلول الجلدية — القوة المعملية لببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
+            <p className="text-sm leading-relaxed font-medium text-stone-400">
+              {customTagline || 'سيلورا بيوتي — ببتيدات النحاس الزرقاء والديرما رولر لترميم أنسجة الجسم واستعادة ثقتكِ.'}
             </p>
           )}
           {/* Email */}
-          <p className="text-sm mt-3 font-semibold text-slate-300">
-            ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline text-blue-400">support@seloorabeauty.shop</a>
+          <p className="text-sm mt-3 font-semibold text-stone-300">
+            ✉️ <a href="mailto:support@seloorabeauty.shop" className="underline-offset-2 hover:underline text-amber-400">support@seloorabeauty.shop</a>
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-medium transition-colors text-slate-400 hover:text-white"
+                  className="text-sm font-medium transition-colors text-stone-400 hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -98,7 +98,7 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-medium transition-colors text-slate-400 hover:text-white"
+                  className="text-sm font-medium transition-colors text-stone-400 hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -111,9 +111,9 @@ export default function Footer({ customTagline, hideTagline }: FooterProps = {})
       {/* ── Bottom bar ── */}
       <div
         className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center
-                   justify-between gap-2 text-xs font-medium border-t border-slate-800 text-slate-400"
+                   justify-between gap-2 text-xs font-medium border-t border-stone-800 text-stone-400"
       >
-        <span>© ٢٠٢٦ Selora Derma Laboratory. جميع الحقوق محفوظة.</span>
+        <span>© ٢٠٢٦ Selora Beauty. جميع الحقوق محفوظة.</span>
         <span>🇸🇦 شحن سريع وتوصيل للمنزل · الدفع عند الاستلام</span>
       </div>
     </footer>

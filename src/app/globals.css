@@ -3,10 +3,19 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════
-   SELORA DERMA — Clinical Luxury Design System
-   Palette: crisp slate · royal cobalt · titanium gold · pure white
+   SELORA BEAUTY — Soft Luxury Design System
+   Palette: warm ivory · deep bark · antique gold · soft rose
    Font: Tajawal — 800 headlines / 500 body
+   Motion: exponential ease-out, <300ms routine, authored entrances
 ═══════════════════════════════════════ */
+
+:root {
+  /* Custom easing curves — stronger than CSS defaults */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
 
 @layer base {
   html {
@@ -15,10 +24,10 @@
   }
 
   body {
-    /* Crisp clinical canvas */
-    background-color: #F8FAFC;
-    /* Deep slate body text — high contrast readability */
-    color: #0F172A;
+    /* Warm ivory canvas — soft, welcoming, never clinical */
+    background-color: #FBF7F1;
+    /* Deep warm bark body text */
+    color: #2A1C12;
     font-family: var(--font-tajawal), 'Tajawal', 'Cairo', 'Segoe UI', Arial, sans-serif;
     font-weight: 400;
     line-height: 1.7;
@@ -27,20 +36,30 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 800;
-    color: #0F172A;
-    line-height: 1.2;
+    color: #1A0F08;
+    line-height: 1.25;
+    text-wrap: balance;
   }
 
-  p { color: #334155; }
+  p { color: #5A4A3F; }
 
   ::selection {
-    background: #1D4ED8;
+    background: #C4943E;
     color: #fff;
   }
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #F1F5F9; }
-  ::-webkit-scrollbar-thumb { background: #1D4ED8; border-radius: 99px; }
+  /* Focus ring — themed from palette, keyboard-visible */
+  :focus-visible {
+    outline: 2px solid #C4943E;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Themed scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #F5EEE4; }
+  ::-webkit-scrollbar-thumb { background: #C9AF97; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #C4943E; }
 }
 
 /* ═══════════════════════════════════════
@@ -52,82 +71,92 @@
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2
            px-7 py-4 rounded-2xl font-bold text-base
-           transition-all duration-200
-           hover:scale-[1.02] active:scale-[0.97]
            shadow-md hover:shadow-lg;
-    background-color: #0F172A;
-    color: #F8FAFC;
+    background-color: #2A1C12;
+    color: #FBF7F1;
+    transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
   }
-  .btn-primary:hover { background-color: #1E293B; }
+  .btn-primary:hover { background-color: #3D2B1F; transform: scale(1.02); }
+  .btn-primary:active { transform: scale(0.97); }
 
+  /* Gold CTA — the one conversion button */
   .btn-gold, .btn-blue {
     @apply inline-flex items-center justify-center gap-2
-           px-7 py-4 rounded-2xl font-black text-base
-           transition-all duration-200
-           hover:scale-[1.02] active:scale-[0.97];
-    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #1E40AF 100%);
+           px-7 py-4 rounded-2xl font-black text-base;
+    background: linear-gradient(135deg, #B98A44 0%, #C4943E 50%, #A87830 100%);
     background-size: 200% auto;
     color: #FFFFFF;
-    box-shadow: 0 4px 24px -4px rgba(37,99,235,0.45);
+    box-shadow: 0 4px 24px -4px rgba(196,148,62,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
     letter-spacing: 0.01em;
+    transition: transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out), background-position 300ms var(--ease-out);
   }
   .btn-gold:hover, .btn-blue:hover {
-    background-position: right center;
-    box-shadow: 0 6px 32px -4px rgba(37,99,235,0.60);
+    background-position: left center;
+    box-shadow: 0 8px 32px -4px rgba(196,148,62,0.60), inset 0 1px 0 rgba(255,255,255,0.25);
+    transform: scale(1.02);
     color: #FFFFFF;
   }
+  .btn-gold:active, .btn-blue:active { transform: scale(0.97); }
 
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2
-           px-7 py-4 rounded-2xl font-bold text-base
-           transition-all duration-200 active:scale-[0.97];
-    border: 2px solid #0F172A;
-    color: #0F172A;
-    background: transparent;
+           px-7 py-4 rounded-2xl font-bold text-base;
+    border: 1.5px solid #E0CEBA;
+    color: #3D2B1F;
+    background: #FFFFFF;
+    transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out);
   }
   .btn-outline:hover {
-    background-color: #0F172A;
-    color: #F8FAFC;
+    background-color: #2A1C12;
+    border-color: #2A1C12;
+    color: #FBF7F1;
   }
+  .btn-outline:active { transform: scale(0.97); }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2
-           px-7 py-4 rounded-2xl font-bold text-base
-           transition-all duration-200 active:scale-[0.97];
-    border: 1.5px solid #CBD5E1;
-    color: #1E293B;
+           px-7 py-4 rounded-2xl font-bold text-base;
+    border: 1.5px solid #E0CEBA;
+    color: #3D2B1F;
     background: #FFFFFF;
+    transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
   }
   .btn-secondary:hover {
-    background-color: #F1F5F9;
-    border-color: #1D4ED8;
+    background-color: #F8F2EA;
+    border-color: #C4943E;
   }
+  .btn-secondary:active { transform: scale(0.97); }
 
   /* ── CARDS ── */
   .card {
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    @apply rounded-3xl shadow-sm p-6;
+    border: 1px solid #EFE4D4;
+    @apply rounded-3xl p-6;
+    box-shadow: 0 4px 24px -6px rgba(58,40,24,0.08);
   }
 
   .product-card {
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    @apply rounded-3xl overflow-hidden
-           shadow-sm hover:shadow-xl transition-all duration-300
-           hover:-translate-y-1 cursor-pointer;
+    border: 1px solid #EFE4D4;
+    @apply rounded-3xl overflow-hidden cursor-pointer;
+    box-shadow: 0 4px 20px -4px rgba(58,40,24,0.08);
+    transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px -8px rgba(58,40,24,0.18);
   }
 
   /* ── SECTION TYPOGRAPHY ── */
   .section-heading {
     @apply text-3xl md:text-4xl lg:text-5xl leading-tight;
     font-weight: 800;
-    color: #0F172A;
+    color: #1A0F08;
   }
 
   .section-sub {
     @apply text-lg mt-3 leading-relaxed max-w-2xl mx-auto;
-    color: #475569;
+    color: #6E5C50;
     font-weight: 500;
   }
 
@@ -135,25 +164,25 @@
   .badge {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
-    background: #F1F5F9;
-    color: #334155;
-    border: 1px solid #E2E8F0;
+    background: #F8F2EA;
+    color: #6E5C50;
+    border: 1px solid #EFE4D4;
   }
 
   .badge-gold {
     @apply inline-flex items-center gap-1.5 px-3 py-1
            text-xs font-bold rounded-full;
-    background: #FEF3C7;
-    color: #92400E;
-    border: 1px solid #FDE68A;
+    background: #FBF3E4;
+    color: #8A611E;
+    border: 1px solid #EBD9B4;
   }
 
   .badge-clinical {
     @apply inline-flex items-center gap-1.5 px-3.5 py-1.5
            text-xs font-bold rounded-full tracking-wide;
-    background: #EFF6FF;
-    color: #1D4ED8;
-    border: 1px solid #BFDBFE;
+    background: #FBF3E4;
+    color: #8A611E;
+    border: 1px solid #EBD9B4;
   }
 
   .badge-green {
@@ -166,16 +195,17 @@
 
   /* ── FORM INPUTS ── */
   .input {
-    @apply w-full px-4 py-3.5 rounded-xl text-base outline-none transition-all;
-    border: 1.5px solid #CBD5E1;
+    @apply w-full px-4 py-3.5 rounded-xl text-base outline-none;
+    border: 1.5px solid #E0CEBA;
     background: #FFFFFF;
-    color: #0F172A;
+    color: #1A0F08;
     font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+    transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
   }
-  .input::placeholder { color: #94A3B8; }
+  .input::placeholder { color: #B0998A; }
   .input:focus {
-    border-color: #1D4ED8;
-    box-shadow: 0 0 0 3px rgba(29,78,216,0.15);
+    border-color: #C4943E;
+    box-shadow: 0 0 0 3px rgba(196,148,62,0.15);
   }
 
   .input-error {
@@ -186,7 +216,7 @@
   }
 
   /* ── STARS ── */
-  .star { color: #D97706; }
+  .star { color: #C4943E; }
 
   /* ── DIVIDER ── */
   .luxury-divider {
@@ -202,27 +232,27 @@
 
   /* Gold gradient text */
   .text-gold {
-    background: linear-gradient(90deg, #C4943E, #D4A96A);
+    background: linear-gradient(90deg, #A87830, #C4943E);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Luxury warm hero background */
+  /* Warm ivory hero background — soft, welcoming */
   .bg-hero {
-    background-color: #FDFAF6;
+    background-color: #FBF7F1;
     background-image:
-      radial-gradient(ellipse 70% 55% at 85% 5%,  rgba(196,148,62,0.08) 0%, transparent 65%),
-      radial-gradient(ellipse 55% 50% at 15% 95%, rgba(61,43,31,0.04)   0%, transparent 65%);
+      radial-gradient(ellipse 70% 55% at 85% 5%,  rgba(196,148,62,0.10) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 50% at 15% 95%, rgba(212,169,106,0.07) 0%, transparent 65%);
   }
 
   /* Nude section bg */
   .bg-nude { background-color: #F8F2EA; }
 
-  /* Dark luxury section bg */
+  /* Dark luxury section bg — warm bark, not navy */
   .bg-bark {
     background-color: #1A0F08;
-    color: #FDFAF6;
+    color: #FBF7F1;
   }
 
   /* Float animation — transform only, GPU-composited */
@@ -238,6 +268,29 @@
   /* CTA pulse — hint compositor so scaling stays off the main thread */
   .animate-cta-pulse {
     will-change: transform;
+  }
+
+  /* Authored entrance — one focal sequence for the hero.
+     Exponential ease-out, staggered by --rise-delay. */
+  .animate-rise {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 600ms var(--ease-expo-out) forwards;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Soft image reveal — scale from 0.96 + fade, feels like it settles */
+  .animate-reveal {
+    opacity: 0;
+    transform: scale(0.96);
+    animation: reveal 700ms var(--ease-expo-out) forwards;
+    animation-delay: var(--reveal-delay, 80ms);
+  }
+  @keyframes reveal {
+    to { opacity: 1; transform: scale(1); }
   }
 
   /* Gold shimmer on CTA — translated pseudo-element (compositor-only,

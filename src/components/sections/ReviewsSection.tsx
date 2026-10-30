@@ -4,7 +4,7 @@ const REVIEWS = [
   { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل على بطني كانت تضايقني بكل لبس. بعد ٣ أسابيع من استخدام الديرما رولر مع سيروم ببتيدات النحاس الأزرق، لاحظت أن الخطوط العميقة بدأت تنردم ولونها فتح بشكل غير متوقع!', highlight: 'تشققات الحمل خفّت بشكل ملحوظ' },
   { name: 'فهد العنزي (جيم)', city: 'الرياض',  rating: 5, date: 'قبل ٥ أيام',   verified: true, text: 'كنت أعاني من خطوط تشققات حمراء عريضة في الكتف والبايسبس بسبب تضخيم العضلات. الطقم صراحة فاجأني — الديرما رولر سهلة والسيروم يمتص بثواني بدون أي لزوجة، وخف البروز بنسبة ٨٠٪.', highlight: 'حل تشققات النادي وبناء العضلات' },
   { name: 'نورة الغامدي',  city: 'جدة',     rating: 5, date: 'قبل ٣ أسابيع', verified: true, text: 'نزلت وزن بسرعة وطلعت عندي تشققات بالأرداف والبطن. جربت بايو أويل شهور بدون فايدة. طقم سيلورا من ثاني أسبوع حسيت بفرق حقيقي في مرونة النسيج، وحجم العبوة 100ml سخي جداً.', highlight: 'أفضل بديل لجلسات العيادات' },
-  { name: 'منى الشمري',    city: 'الدمام',  rating: 5, date: 'قبل شهر',      verified: true, text: 'الدفع عند الاستلام مريح وفحصت العبوة قبل الدفع. السيروم لونه أزرق نقي وجودته صيدلانية واضحة، ما فيه أي تحسس ومع الديرما رولر النتيجة سريعة جداً.', highlight: 'جودة صيدلانية وثقة تامة' },
+  { name: 'منى الشمري',    city: 'الدمام',  rating: 5, date: 'قبل شهر',      verified: true, text: 'الدفع عند الاستلام مريح وفحصت العبوة قبل الدفع. السيروم لونه أزرق نقي وجودته فاخرة واضحة، ما فيه أي تحسس ومع الديرما رولر النتيجة سريعة جداً.', highlight: 'جودة فاخرة وثقة تامة' },
   { name: 'ريم العتيبي',   city: 'مكة',     rating: 5, date: 'قبل أسبوع',   verified: true, text: 'كنت خايفة من إبر الديرما رولر بس مقاس 0.5mm لطيف جداً ولا يوجع أبداً. السيروم بعدها يعطي إحساس ترميم وبرودة حلوة للبشرة.', highlight: 'استخدام منزلي آمن وبسيط' },
   { name: 'عبير المالكي',  city: 'الخبر',   rating: 5, date: 'قبل أسبوعين', verified: true, text: 'خدمة العملاء والتوصيل في الشرقية وصلني خلال ٤٨ ساعة فقط لباب البيت. شكراً سيلورا على المنتج اللي يستاهل كل ريال.', highlight: 'توصيل سريع وخدمة راقية' },
 ];
@@ -36,35 +36,35 @@ export default function ReviewsSection() {
         <div className="text-center mb-14">
           <span className="badge-clinical mb-3">💬 تجارب موثقة من أرض الواقع</span>
           <h2 className="section-heading">ماذا يقول عملاؤنا في المملكة؟</h2>
-          <p className="section-sub">+٣٤٠٠ عميل وعميلة في كافة مدن المملكة استعادوا ثقتهم مع سيلورا ديرما</p>
+          <p className="section-sub">+٣٤٠٠ عميل وعميلة في كافة مدن المملكة استعادوا ثقتهم مع سيلورا بيوتي</p>
         </div>
 
         {/* Aggregate */}
-        <div className="max-w-lg mx-auto mb-12 rounded-3xl p-6 border border-slate-200 bg-slate-50 grid grid-cols-2 gap-6 items-center shadow-sm">
+        <div className="max-w-lg mx-auto mb-12 rounded-3xl p-6 border border-stone-200 bg-stone-50 grid grid-cols-2 gap-6 items-center shadow-sm">
           <div className="text-center">
-            <div className="text-6xl font-black text-slate-900">4.9</div>
+            <div className="text-6xl font-black text-stone-900">4.9</div>
             <div className="flex justify-center mt-1.5"><Stars count={5} /></div>
-            <div className="text-xs font-semibold mt-1.5 text-slate-500">٣٤١٨ تقييم شراء موثق</div>
+            <div className="text-xs font-semibold mt-1.5 text-stone-500">٣٤١٨ تقييم شراء موثق</div>
           </div>
           <div className="space-y-1.5">
             {breakdown.map((row) => (
               <div key={row.s} className="flex items-center gap-2">
-                <span className="text-xs w-3 text-end font-bold text-slate-600">{row.s}</span>
+                <span className="text-xs w-3 text-end font-bold text-stone-600">{row.s}</span>
                 <Star size={10} className="fill-current flex-shrink-0 text-amber-500" />
-                <div className="flex-1 h-2 rounded-full overflow-hidden bg-slate-200">
+                <div className="flex-1 h-2 rounded-full overflow-hidden bg-stone-200">
                   <div
-                    className="h-full rounded-full bg-blue-600"
+                    className="h-full rounded-full bg-amber-600"
                     style={{ width: `${row.pct}%` }}
                   />
                 </div>
-                <span className="text-xs w-6 font-semibold text-slate-500">{row.pct}%</span>
+                <span className="text-xs w-6 font-semibold text-stone-500">{row.pct}%</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* ── Real UGC photo — unfiltered customer proof ── */}
-        <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
+        <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-stone-200 shadow-md bg-white">
           <img
             src="/images/ugc-car-hand.webp"
             alt="لقطة حقيقية من جوال عميلة تستلم طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
@@ -74,8 +74,8 @@ export default function ReviewsSection() {
           />
           <div className="flex items-center gap-2.5 p-4">
             <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />
-            <p className="text-xs leading-relaxed text-slate-600">
-              <strong className="text-slate-900">لقطة من جوال عميلتنا — استلام فعلي في الرياض.</strong>{' '}
+            <p className="text-xs leading-relaxed text-stone-600">
+              <strong className="text-stone-900">لقطة من جوال عميلتنا — استلام فعلي في الرياض.</strong>{' '}
               الطقم يصلك بهذا الشكل تماماً: السيروم الأزرق 100ml + الديرما رولر الذهبية بكبسولتها.
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function ReviewsSection() {
         {/* Review cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {REVIEWS.map((r, i) => (
-            <div key={i} className="card flex flex-col gap-3.5 hover:shadow-lg transition-shadow border border-slate-200 bg-white">
+            <div key={i} className="card flex flex-col gap-3.5 hover:shadow-lg transition-shadow border border-stone-200 bg-white">
               <div className="badge-clinical text-xs self-start">✨ {r.highlight}</div>
               <div className="flex items-center gap-2">
                 <Stars count={r.rating} />
@@ -94,17 +94,17 @@ export default function ReviewsSection() {
                   </span>
                 )}
               </div>
-              <p className="text-sm leading-relaxed text-slate-700">
+              <p className="text-sm leading-relaxed text-stone-700">
                 &ldquo;{r.text}&rdquo;
               </p>
-              <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100">
+              <div className="mt-auto flex items-center justify-between pt-3 border-t border-stone-100">
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{r.name} — {r.city}</div>
-                  <div className="text-xs text-slate-400">{r.date}</div>
+                  <div className="font-bold text-sm text-stone-900">{r.name} — {r.city}</div>
+                  <div className="text-xs text-stone-400">{r.date}</div>
                 </div>
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm shadow"
-                  style={{ background: 'linear-gradient(135deg, #1E3A8A, #3B82F6)' }}
+                  style={{ background: 'linear-gradient(135deg, #8A611E, #D4A96A)' }}
                 >
                   {r.name.charAt(0)}
                 </div>

@@ -2,8 +2,11 @@
 import Link from 'next/link';
 import { Star, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import type { Product } from '@/lib/products';
+import { SET_OPTIONS, type Product } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
+
+// Bundle-only store: every "add to cart" adds the duo set
+const duo = SET_OPTIONS[0];
 
 interface Props {
   product: Product;
@@ -15,19 +18,22 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
-    trackAddToCart({ id: product.id, sku: product.sku, name: product.name, price: product.price });
+    trackAddToCart({ id: duo.id, sku: duo.sku, name: duo.label, price: duo.totalPrice });
     setMainSet({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice,
+      id: duo.id,
+      name: duo.label,
+      price: duo.totalPrice,
+      originalPrice: duo.originalTotal,
       imageBg: product.imageBg,
-      sku: product.sku,
+      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
+      sku: duo.sku,
     });
     openCheckout();
   };
 
-  const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+  const discount = product.price > 0 && product.originalPrice > product.price
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : null;
 
   return (
     <div
@@ -60,12 +66,14 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
             </span>
           )}
         </div>
-        <div
-          className="absolute top-3 end-3 text-xs font-bold px-2.5 py-1.5 rounded-xl shadow"
-          style={{ background: '#C0392B', color: '#fff' }}
-        >
-          -{discount}%
-        </div>
+        {discount && (
+          <div
+            className="absolute top-3 end-3 text-xs font-bold px-2.5 py-1.5 rounded-xl shadow"
+            style={{ background: '#C0392B', color: '#fff' }}
+          >
+            -{discount}%
+          </div>
+        )}
       </Link>
 
       {/* Info */}
@@ -104,10 +112,18 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
 
         {/* Price — bold and large */}
         <div className="flex items-baseline gap-2 mt-auto">
-          <span className="text-2xl" style={{ color: '#1A0F08', fontWeight: 800 }}>
-            {product.price} <span className="text-base font-bold">ر.س</span>
-          </span>
-          <span className="text-sm line-through" style={{ color: '#A08870' }}>{product.originalPrice}</span>
+          {product.price === 0 ? (
+            <span className="text-2xl" style={{ color: '#A87830', fontWeight: 800 }}>
+              مجاناً <span className="text-sm font-bold" style={{ color: '#6E5C50' }}>داخل الطقم</span>
+            </span>
+          ) : (
+            <>
+              <span className="text-2xl" style={{ color: '#1A0F08', fontWeight: 800 }}>
+                {product.price} <span className="text-base font-bold">ر.س</span>
+              </span>
+              <span className="text-sm line-through" style={{ color: '#A08870' }}>{product.originalPrice}</span>
+            </>
+          )}
         </div>
 
         {/* CTA */}
@@ -116,7 +132,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           className="btn-gold w-full flex items-center justify-center gap-2 py-3.5 text-sm"
         >
           <ShoppingBag size={15} />
-          أضيفي للسلة
+          اطلبي الطقم — 199 ر.س
         </button>
 
         <Link

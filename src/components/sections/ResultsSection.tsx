@@ -2,13 +2,13 @@
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
 
-const completeSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
+const completeSet = SET_OPTIONS.find((s) => s.id === 'set-duo')!;
 
 const TIMELINE = [
-  { period: 'الأسبوع ١', result: 'تنشيط الدورة الدموية الدقيقة وتغذية الأنسجة بقطرات ببتيدات النحاس الزرقاء (GHK-Cu).', dot: '#BFDBFE' },
-  { period: 'الأسبوع ٢', result: 'تفتيح واضح وملموس في لون التشققات الحمراء والبنفسجية وتهدئة نسيج الجلد بالسيكا.',    dot: '#60A5FA' },
-  { period: 'الأسبوع ٤', result: 'تحفيز الكولاجين الذاتي بواسطة الديرما رولر — ردم التمزقات ونعومة حريرية للجلد.',      dot: '#1D4ED8' },
-  { period: 'الأسبوع ٨', result: 'تحول كامل وموثق — تشققات باهتة ومسطحة وشبه غير ملحوظة، واستعادة تامة للثقة.',         dot: '#0B1B3D' },
+  { period: 'الأسبوع ١', result: 'تنشيط الدورة الدموية الدقيقة وتغذية الأنسجة بقطرات ببتيدات النحاس الزرقاء (GHK-Cu).', dot: '#EBD9B4' },
+  { period: 'الأسبوع ٢', result: 'تفتيح واضح وملموس في لون التشققات الحمراء والبنفسجية وتهدئة نسيج الجلد بالسيكا.',    dot: '#D4A96A' },
+  { period: 'الأسبوع ٤', result: 'تحفيز الكولاجين الذاتي بواسطة الديرما رولر — ردم التمزقات ونعومة حريرية للجلد.',      dot: '#A87830' },
+  { period: 'الأسبوع ٨', result: 'تحول كامل وموثق — تشققات باهتة ومسطحة وشبه غير ملحوظة، واستعادة تامة للثقة.',         dot: '#2A1C12' },
 ];
 
 const STATS = [
@@ -26,7 +26,7 @@ export default function ResultsSection() {
       name: completeSet.label,
       price: completeSet.totalPrice,
       originalPrice: completeSet.originalTotal,
-      imageBg: 'from-blue-900 to-slate-950',
+      imageBg: 'from-amber-900 to-stone-950',
       includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'],
       sku: completeSet.sku,
     });
@@ -48,7 +48,7 @@ export default function ResultsSection() {
             <div
               key={i}
               className="rounded-3xl border overflow-hidden bg-white"
-              style={{ borderColor: '#E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.06)' }}
+              style={{ borderColor: '#EFE4D4', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.06)' }}
             >
               {/* Visual: real before/after photo */}
               {item.img && (
@@ -63,14 +63,14 @@ export default function ResultsSection() {
 
               {/* Stat info */}
               <div className="p-4 text-center bg-white">
-                <div className="font-bold text-sm leading-snug text-slate-900">
+                <div className="font-bold text-sm leading-snug text-stone-900">
                   {item.label}
                 </div>
                 {/* Large cobalt percentage */}
                 <div
                   className="font-black text-3xl my-1"
                   style={{
-                    background: 'linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%)',
+                    background: 'linear-gradient(135deg, #A87830 0%, #D4A96A 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -78,7 +78,7 @@ export default function ResultsSection() {
                 >
                   {item.pct}
                 </div>
-                <div className="text-xs font-semibold text-slate-500">{item.sub}</div>
+                <div className="text-xs font-semibold text-stone-500">{item.sub}</div>
               </div>
             </div>
           ))}
@@ -86,15 +86,15 @@ export default function ResultsSection() {
 
         {/* ── Timeline ── */}
         <div className="mb-14">
-          <h3 className="text-xl font-bold text-center mb-8 text-slate-900">
+          <h3 className="text-xl font-bold text-center mb-8 text-stone-900">
             الجدول الزمني للترميم الخلوي
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TIMELINE.map((step, i) => (
-              <div key={i} className="card relative border-slate-200 hover:shadow-md transition-shadow">
+              <div key={i} className="card relative border-stone-200 hover:shadow-md transition-shadow">
                 <div className="w-3.5 h-3.5 rounded-full mb-3 shadow-sm" style={{ background: step.dot }} />
-                <div className="font-extrabold text-sm mb-2 text-slate-900">{step.period}</div>
-                <p className="text-sm leading-relaxed text-slate-600">{step.result}</p>
+                <div className="font-extrabold text-sm mb-2 text-stone-900">{step.period}</div>
+                <p className="text-sm leading-relaxed text-stone-600">{step.result}</p>
               </div>
             ))}
           </div>

@@ -11,23 +11,23 @@ const PROBLEMS = [
 
 export default function ProblemSection() {
   return (
-    <section id="problem" className="py-20 cv-auto" style={{ backgroundColor: '#0B132B' }}>
+    <section id="problem" className="py-20 cv-auto" style={{ backgroundColor: '#1A0F08' }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
         {/* ── Emotional headline ── */}
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-4 border" style={{ backgroundColor: '#1C2541', borderColor: '#3B82F6', color: '#93C5FD' }}>
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-4 border" style={{ backgroundColor: '#3D2B1F', borderColor: '#D4A96A', color: '#E8C98F' }}>
           <span>صوت العقل والقلب أمام المرآة</span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-3" style={{ color: '#F8FAFC' }}>
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-3" style={{ color: '#FBF7F1' }}>
           نعرف تماماً ما تشعر به..
         </h2>
-        <p className="text-base mb-10 max-w-xl mx-auto leading-relaxed" style={{ color: '#94A3B8' }}>
+        <p className="text-base mb-10 max-w-xl mx-auto leading-relaxed" style={{ color: '#B0998A' }}>
           علامات التمدد ليست مجرد جفاف سطحي، بل هي تمزق عميق في نسيج الكولاجين يسرق ثقتك يومياً — سواء بعد الحمل والولادة، أو بعد شهور التعب في الجيم وبناء العضلات.
         </p>
 
         {/* ── Real problem photos — women & men ── */}
         <div className="grid grid-cols-2 gap-4 mb-10 mx-auto max-w-2xl">
-          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#1E293B', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
+          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
             <img
               src="/images/problem-mirror-woman.webp"
               alt="تشققات البطن بعد الحمل أمام المرآة"
@@ -35,11 +35,11 @@ export default function ProblemSection() {
               loading="lazy"
               decoding="async"
             />
-            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#BFDBFE' }}>
+            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#EBD9B4' }}>
               بعد الحمل وتقلبات الوزن
             </figcaption>
           </figure>
-          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#1E293B', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
+          <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
             <img
               src="/images/problem-gym-man.webp"
               alt="تشققات الكتف والذراع بعد تضخيم العضلات في الجيم"
@@ -47,7 +47,7 @@ export default function ProblemSection() {
               loading="lazy"
               decoding="async"
             />
-            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#BFDBFE' }}>
+            <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#EBD9B4' }}>
               بعد التضخيم والجيم
             </figcaption>
           </figure>
@@ -59,18 +59,18 @@ export default function ProblemSection() {
             <div
               key={i}
               className="flex items-start gap-3.5 rounded-2xl p-4 border transition-all"
-              style={{ background: '#111D3B', borderColor: '#1E293B' }}
+              style={{ background: '#2A1C12', borderColor: '#3D2B1F' }}
             >
               <span className="text-2xl flex-shrink-0 mt-0.5">{p.emoji}</span>
               <div className="text-sm leading-relaxed">
                 <strong className="block text-white font-bold mb-0.5">{p.bold}</strong>
-                <span style={{ color: '#94A3B8' }}>{p.text}</span>
+                <span style={{ color: '#B0998A' }}>{p.text}</span>
               </div>
             </div>
           ))}
         </div>
 
-        <ArrowDown size={26} className="mx-auto mb-6 animate-bounce" style={{ color: '#60A5FA' }} />
+        <ArrowDown size={26} className="mx-auto mb-6 animate-bounce" style={{ color: '#D4A96A' }} />
 
         {/* ── Rational reassurance ── */}
         <div
@@ -80,13 +80,13 @@ export default function ProblemSection() {
             borderColor: 'rgba(59,130,246,0.3)',
           }}
         >
-          <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#F8FAFC' }}>
+          <p className="text-lg md:text-xl leading-relaxed font-medium" style={{ color: '#FBF7F1' }}>
             أنت لست المشكلة.{' '}
-            <span className="font-bold text-[#60A5FA]">
+            <span className="font-bold text-[#D4A96A]">
               المنتجات والزيوت السطحية التي جربتها هي المشكلة.
             </span>
             <br />
-            علاج التشققات الحقيقي يتطلب تغلغلاً مجهرياً يصل لطبقة الأدمة — طقم سيلورا الصيدلاني (ببتيدات النحاس الزرقاء + ديرما رولر التيتانيوم) صُمم خصيصاً لردم التمزق وإعادة بناء شبكة الكولاجين من المصدر — للرجال والنساء على حد سواء.
+            علاج التشققات الحقيقي يتطلب تغلغلاً مجهرياً يصل لطبقة الأدمة — طقم سيلورا (ببتيدات النحاس الزرقاء + ديرما رولر التيتانيوم) صُمم خصيصاً لردم التمزق وإعادة بناء شبكة الكولاجين من المصدر — للرجال والنساء على حد سواء.
           </p>
         </div>
       </div>
