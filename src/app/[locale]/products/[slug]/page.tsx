@@ -4,19 +4,16 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
+import ReviewsSection from '@/components/sections/ReviewsSection';
+import ResultsSection from '@/components/sections/ResultsSection';
+import StickyBuyBar from '@/components/ui/StickyBuyBar';
 import ProductCard from '@/components/ui/ProductCard';
 import { getProduct, getCrossSells, SET_OPTIONS, getSetProducts } from '@/lib/products';
 import { useCartStore } from '@/store/cartStore';
 import { useState, useEffect } from 'react';
 import { trackAddToCart, trackViewContent } from '@/lib/pixels';
-import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const REVIEWS = [
-  { name: 'سارة م. — الرياض', rating: 5, text: 'تشققات الحمل بدأت تخف بشكل واضح بعد أسبوعين من استخدام الطقم الكامل. قوامه الزبدي يمتص بسرعة ويريح البشرة جداً.' },
-  { name: 'نورة الغامدي — جدة', rating: 5, text: 'ما أعطى أي تهيج أبداً. البشرة نعمت وصار لون التشققات أفتح بكثير. معتمد من الغذاء والدواء وهذا طمأنني جداً.' },
-  { name: 'منى الشمري — الدمام', rating: 5, text: 'جربت منتجات كثير قبل كذا وما أثرت. هذا الروتين فرق حقيقي — التغلغل سريع وملمس البشرة اختلف تماماً.' },
-];
 
 export default function ProductPage({ params }: { params: { slug: string; locale: string } }) {
   const product = getProduct(params.slug);
@@ -129,15 +126,6 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight mt-1">{product.name}</h1>
               </div>
 
-              {/* Stars */}
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={17} className={i < Math.floor(product.rating) ? 'star fill-amber-400' : 'text-slate-200'} />)}
-                </div>
-                <span className="font-black text-slate-900">{product.rating}</span>
-                <span className="text-sm text-slate-500">({product.reviewCount.toLocaleString('ar-SA')} تقييم موثق)</span>
-              </div>
-
               {/* Description */}
               <p className="text-base text-slate-600 leading-relaxed">{product.description}</p>
 
@@ -192,7 +180,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
               {/* CTAs */}
               <div className="flex flex-col gap-3">
-                <button onClick={handleBuyNow} className="btn-gold w-full text-lg py-5 shadow-xl font-black animate-cta-pulse">
+                <button onClick={handleBuyNow} className="bg-orange-600 hover:bg-orange-700 text-white rounded-2xl w-full text-lg py-5 shadow-xl font-black">
                   اطلبي الآن — {selectedSet.totalPrice} ر.س (دفع عند الاستلام)
                 </button>
                 <button
@@ -286,114 +274,8 @@ export default function ProductPage({ params }: { params: { slug: string; locale
             </div>
           </div>
 
-          {/* ── Clinical Superiority Comparison Section ── */}
-          <div className="mb-20 pt-10 border-t border-slate-200">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="badge-clinical mb-3">🔬 الفرق العلمي الحاسم</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                لماذا يتفوق طقم سيلورا الصيدلاني على البدائل التقليدية؟
-              </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                مقارنة صيدلانية توضح الفارق بين تقنية ترميم ألياف الأدمة والمنتجات السطحية في السوق
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Comparison 1: Needles */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-                  <span className="text-2xl">🪡</span>
-                  <div>
-                    <h3 className="font-extrabold text-slate-900 text-lg">إبر التيتانيوم 540 مقابل الإبر القديمة</h3>
-                    <p className="text-xs text-slate-500">أمان الجلد ومنع الندبات والخدوش</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-emerald-50/90 border border-emerald-200">
-                    <div className="font-bold text-sm text-emerald-900 flex items-center gap-2 mb-1">
-                      <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">✓</span>
-                      إبر تيتانيوم سيلورا (Titanium 540 Medical 0.5mm):
-                    </div>
-                    <ul className="text-xs text-emerald-800 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• تيتانيوم طبي صلب غير قابل للانثناء أو الصدأ مع الاستخدام المتكرر.</li>
-                      <li>• مقاس 0.5mm دقيق يفتح قنوات ميكروسكوبية نظيفة بدون جروح أو نزيف.</li>
-                      <li>• تحفيز ذاتي فوري لخلايا الكولاجين دون تمزيق الأنسجة.</li>
-                      <li>• معقمة مسبقاً بغاز EO الطبي داخل كبسولة حفظ محكمة.</li>
-                    </ul>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-rose-50/90 border border-rose-200">
-                    <div className="font-bold text-sm text-rose-900 flex items-center gap-2 mb-1">
-                      <span className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs">✕</span>
-                      الإبر القديمة الرخيصة (Stainless Steel التجارية):
-                    </div>
-                    <ul className="text-xs text-rose-800 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• إبر ستانلس ستيل تنثني وتفقد حدتها وتتحول لرؤوس خطافية بعد أسبوعين.</li>
-                      <li>• الإبر المنثنية تخدش وتمزق الجلد وتزيد مظهر التشققات سوءاً!</li>
-                      <li>• تتأكسد مع الرطوبة وتسبب تهيجاً وعدوى بكتيرية.</li>
-                      <li>• غير معقمة وتفتقر لمعايير الأجهزة الطبية الموثوقة.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Comparison 2: Serum */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-                  <span className="text-2xl">🧬</span>
-                  <div>
-                    <h3 className="font-extrabold text-slate-900 text-lg">سيروم ببتيدات النحاس مقابل الزيوت التقليدية</h3>
-                    <p className="text-xs text-slate-500">الوصول لطبقة الأدمة العميقة مقابل الترطيب السطحي</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-blue-50/90 border border-blue-200">
-                    <div className="font-bold text-sm text-blue-950 flex items-center gap-2 mb-1">
-                      <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">✓</span>
-                      سيروم سيلورا (Blue Copper Peptide + CICA 100ml):
-                    </div>
-                    <ul className="text-xs text-blue-900 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
-                      <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
-                      <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
-                      <li>• حجم 100ml كبير وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
-                    </ul>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-slate-100/90 border border-slate-200">
-                    <div className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-1">
-                      <span className="w-5 h-5 rounded-full bg-slate-400 text-white flex items-center justify-center text-xs">✕</span>
-                      زيوت وكريمات السوق العادية (بايو أويل / زبدة عادية):
-                    </div>
-                    <ul className="text-xs text-slate-600 space-y-1 pe-2 leading-relaxed font-medium">
-                      <li>• جزيئات زيتية ضخمة (+500 Dalton) تعجز عن عبور حاجز الجلد الخارجي.</li>
-                      <li>• ترطيب سطحي مؤقت يزول بالماء دون علاج التمزق الداخلي.</li>
-                      <li>• صفر تحفيز للكولاجين الجديد في النسيج المتصلب.</li>
-                      <li>• ملمس زيتي ثقيل يلطخ الملابس ويسبب إزعاجاً مستمراً.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Product Reviews ── */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-black text-slate-900 mb-6">آراء وتجارب العملاء الموثقة</h2>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {REVIEWS.map((r, i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-                  <div className="flex gap-0.5 mb-3">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} className={j < r.rating ? 'star fill-amber-400' : 'text-slate-200'} />)}
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-3">&ldquo;{r.text}&rdquo;</p>
-                  <div className="font-bold text-sm text-slate-900">{r.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ResultsSection />
+          <ReviewsSection />
 
           {/* ── Cross-sells ── */}
           {crossSells.length > 0 && (
@@ -412,6 +294,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
         </div>
       </main>
       <Footer />
+      <StickyBuyBar />
       <CheckoutPopup />
     </>
   );

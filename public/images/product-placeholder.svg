@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <rect width="800" height="800" rx="40" fill="#eef3f8"/>
+  <rect x="34" y="34" width="732" height="732" rx="30" fill="none" stroke="#bccddd" stroke-width="3" stroke-dasharray="14 12"/>
+  <path d="M354 245h92v63h-92zM332 309h136v216c0 25-20 45-45 45h-46c-25 0-45-20-45-45z" fill="#0f2c59" opacity=".14"/>
+  <text x="400" y="651" text-anchor="middle" fill="#334e6b" font-family="Arial,sans-serif" font-size="24">PRODUCT IMAGE</text>
+</svg>

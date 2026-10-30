@@ -5,8 +5,8 @@ import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import { PRODUCTS } from '@/lib/products';
 
 export const metadata = {
-  title: 'عناصر الطقم الصيدلاني | سيلورا ديرما',
-  description: 'اكتشفي عناصر طقم سيلورا ديرما لعلاج تشققات الجسم — سيروم ببتيدات النحاس الأزرق 100ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
+  title: 'عناصر الطقم | Selora Beauty',
+  description: 'اكتشف سيروم Daranca بببتيدات النحاس 30ml وديرما رولر 0.5mm. الدفع عند الاستلام.',
 };
 
 export default function CollectionPage({ params }: { params: { locale: string } }) {
@@ -19,7 +19,7 @@ export default function CollectionPage({ params }: { params: { locale: string } 
           <div className="text-center mb-12">
             <h1 className="section-heading mb-3">بروتوكول ترميم التشققات المجهري</h1>
             <p className="section-sub">
-              سيروم ببتيدات النحاس الزرقاء + ديرما رولر التيتانيوم — روتين صيدلاني علاجي مثبت سريرياً
+              سيروم Daranca بببتيدات النحاس 30ml وديرما رولر تيتانيوم 0.5mm
             </p>
             <div className="flex items-center justify-center gap-6 mt-5 text-sm font-bold text-stone-500">
               <span>✅ دفع عند الاستلام</span>
