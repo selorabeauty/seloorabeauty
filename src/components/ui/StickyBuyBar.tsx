@@ -27,7 +27,7 @@ export default function StickyBuyBar() {
       price: completeSet.totalPrice,
       originalPrice: completeSet.originalTotal,
       imageBg: 'from-blue-900 to-slate-950',
-      includes: ['سيروم Daranca ببتيدات النحاس 30ml', 'ديرما رولر التيتانيوم 0.5mm'],
+      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'],
       sku: completeSet.sku,
     });
     openCheckout();
@@ -39,17 +39,17 @@ export default function StickyBuyBar() {
       style={{ background: 'rgba(253,250,246,0.98)', borderColor: '#BFDBFE', boxShadow: '0 -4px 32px rgba(15,23,42,0.12)' }}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <div className="min-w-0">
-          <div className="font-bold text-xs sm:text-sm text-slate-900">طقم Daranca · 30ml</div>
-          <div className="text-sm font-black text-slate-900">{completeSet.totalPrice} ر.س</div>
+        <div className="hidden sm:block">
+          <div className="font-bold text-sm" style={{ color: '#0F172A' }}>{completeSet.label}</div>
+          <div className="text-xs font-semibold" style={{ color: '#16A34A' }}>{completeSet.totalPrice} ر.س · فحص المنتج متاح قبل الدفع عند الاستلام</div>
         </div>
         <div className="flex items-center gap-3 flex-1 sm:flex-initial justify-end">
           <span className="text-xs font-bold hidden md:flex items-center gap-1 text-[#DC2626]">
             <span>⚡ شحن سريع ١-٣ أيام من الرياض</span>
           </span>
-          <button onClick={handleClick} className="rounded-xl bg-orange-600 hover:bg-orange-700 flex items-center justify-center gap-2 py-3 px-4 shadow-xl text-white font-black text-xs sm:text-sm">
+          <button onClick={handleClick} className="btn-gold flex items-center gap-2 py-3.5 px-6 shadow-xl animate-cta-pulse text-white font-black text-sm">
             <ShoppingBag size={17} />
-            اطلب الآن — الدفع عند الاستلام
+            اطلبي الآن — الدفع عند الاستلام
           </button>
         </div>
       </div>

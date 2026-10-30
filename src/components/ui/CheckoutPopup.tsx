@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS, getSetProducts, itemImages } from '@/lib/products';
-import { validateKSAPhone, formatPrice, cn } from '@/lib/utils';
+import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { captureClickIds, getClickIds, getLandingUrl, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
 
@@ -43,7 +43,7 @@ export default function CheckoutPopup() {
   const fallbackSet = SET_OPTIONS.find((s) => s.id === 'set-complete')!;
   const cartItems = items.length > 0
     ? items
-    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
+    : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-blue-900 to-slate-950', includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
 
   const upsellSetId = UPSELL_UPGRADE[cartItems[0]?.id];
@@ -95,6 +95,7 @@ export default function CheckoutPopup() {
     const itemData = cartItems.map((i) => ({ sku: i.sku ?? i.id, name: i.name, quantity: i.quantity, price: i.price }));
     trackAddPaymentInfo(total, itemData);   // payment method chosen → AddPaymentInfo / ADD_BILLING
 
+    const orderId = generateOrderId();
     const eventId = crypto.randomUUID();   // shared browser+CAPI dedup id
     const totalQty = cartItems.reduce((s, i) => s + i.quantity, 0);
     const landingUrl = getLandingUrl() || (typeof window !== 'undefined' ? window.location.href : undefined);
@@ -123,8 +124,7 @@ export default function CheckoutPopup() {
 
       if (!response.ok) throw new Error(`API ${response.status}`);
       const result = await response.json();
-      if (!result.order_id) throw new Error('Order response did not contain an order ID');
-      const serverOrderId = result.order_id;
+      const serverOrderId = result.order_id || orderId;
 
       // Advanced matching: identify with name & phone
       await identifyUser({ phone: phone.trim(), name: name.trim() });

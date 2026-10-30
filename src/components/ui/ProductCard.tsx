@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ShoppingBag } from 'lucide-react';
+import { Star, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import type { Product } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
@@ -81,6 +81,26 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
           {/* Darkened tagline — was #8C7B6E */}
           <p className="text-xs mt-0.5 font-medium" style={{ color: '#4A3E3D' }}>{product.tagline}</p>
         </Link>
+
+        {/* Stars + rating */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={13}
+                className={i < Math.floor(product.rating) ? 'fill-current' : ''}
+                style={{ color: i < Math.floor(product.rating) ? '#C4943E' : '#EFE4D4' }}
+              />
+            ))}
+          </div>
+          {/* Bold dark rating number */}
+          <span className="text-sm font-bold" style={{ color: '#1A0F08' }}>{product.rating}</span>
+          {/* Darkened review count */}
+          <span className="text-xs font-medium" style={{ color: '#4A3E3D' }}>
+            ({product.reviewCount.toLocaleString('ar-SA')})
+          </span>
+        </div>
 
         {/* Price — bold and large */}
         <div className="flex items-baseline gap-2 mt-auto">
