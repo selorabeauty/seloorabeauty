@@ -12,9 +12,9 @@ const TIMELINE = [
 ];
 
 const STATS = [
-  { label: 'ردم التشققات العميقة وتسطيح النسيج', pct: '+85%', sub: 'اليوم ١ ← اليوم ٢٨',   img: '/images/before-after-day28.webp' },
-  { label: 'تفتيح لون الخطوط الملونة',            pct: '+82%', sub: 'خلال أسبوعين',         img: '/images/before-after-2.webp' },
-  { label: 'مرونة وكثافة الجلد العامة',           pct: '+94%', sub: 'تحسن موثق بالاستخدام',  img: '/images/before-after-3.webp' },
+  { label: 'ردم التشققات العميقة وتسطيح النسيج', pct: '+85%', sub: 'اليوم ١ ← اليوم ٢٨',   img: '/images/beforeafter-belly.webp' },
+  { label: 'تفتيح لون الخطوط الملونة',            pct: '+82%', sub: 'خلال أسبوعين',         img: '/images/beforeafter-hip.webp' },
+  { label: 'مرونة وكثافة الجلد العامة',           pct: '+94%', sub: 'تحسن موثق بالاستخدام',  img: '/images/beforeafter-torso.webp' },
 ];
 
 export default function ResultsSection() {
@@ -50,7 +50,7 @@ export default function ResultsSection() {
               className="rounded-3xl border overflow-hidden bg-white"
               style={{ borderColor: '#EFE4D4', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.06)' }}
             >
-              {/* Visual: real before/after photo */}
+              {/* Real before/after photo */}
               {item.img && (
                 <img
                   src={item.img}

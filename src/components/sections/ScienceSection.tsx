@@ -103,7 +103,7 @@ export default function ScienceSection() {
             {/* Macro needle visual */}
             <div className="rounded-2xl overflow-hidden border -mt-2" style={{ borderColor: '#3D2B1F' }}>
               <img
-                src="/images/roller-macro.webp"
+                src="/images/needle-macro.webp"
                 alt="لقطة مقربة لإبر التيتانيوم الدقيقة 0.5mm في ديرما رولر سيلورا"
                 className="w-full aspect-[16/9] object-cover"
                 loading="lazy"

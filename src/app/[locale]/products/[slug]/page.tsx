@@ -26,7 +26,6 @@ export default function ProductPage({ params }: { params: { slug: string; locale
   const router = useRouter();
   const { setMainSet, openCheckout } = useCartStore();
   const gallery = Array.from(new Set([...product.images.filter(i => i !== product.heroImage), product.heroImage].filter(Boolean))) as string[];
-  const [activeImg, setActiveImg] = useState(gallery[0]);
   const [selectedSetId, setSelectedSetId] = useState('set-duo');
   const [activeTab, setActiveTab] = useState<'benefits' | 'ingredients' | 'howto'>('benefits');
   const [added, setAdded] = useState(false);
@@ -85,11 +84,11 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
             {/* Image gallery */}
             <div className="md:sticky md:top-24">
-              <div className="relative bg-white rounded-3xl shadow-md border border-stone-200 aspect-[3/4] flex items-center justify-center overflow-hidden">
+              <div className="relative rounded-3xl shadow-md border border-stone-200 aspect-[3/4] overflow-hidden bg-white">
                 <img
-                  src={activeImg}
+                  src={gallery[0]}
                   alt={product.name}
-                  className="w-full h-full object-contain p-4 md:p-8"
+                  className="w-full h-full object-cover"
                   fetchPriority="high"
                   decoding="async"
                 />
@@ -103,20 +102,16 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 </div>
               </div>
 
-              {/* Thumbnails */}
+              {/* Gallery thumbnails */}
               {gallery.length > 1 && (
                 <div className="grid grid-cols-3 gap-2 mt-3">
-                  {gallery.map((src, i) => (
-                    <button
+                  {gallery.slice(1).map((src, i) => (
+                    <div
                       key={i}
-                      type="button"
-                      onClick={() => setActiveImg(src)}
-                      className={`bg-white rounded-2xl border aspect-square flex items-center justify-center p-2 overflow-hidden transition-all cursor-pointer ${
-                        activeImg === src ? 'border-amber-600 ring-2 ring-amber-500/30' : 'border-stone-200 opacity-70 hover:opacity-100'
-                      }`}
+                      className="bg-white rounded-2xl border border-stone-200 aspect-square overflow-hidden"
                     >
-                      <img src={src} alt={`${product.name} ${i + 1}`} className="w-full h-full object-contain" loading="lazy" decoding="async" />
-                    </button>
+                      <img src={src} alt={`${product.name} ${i + 2}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                    </div>
                   ))}
                 </div>
               )}
@@ -161,7 +156,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                     <img
                       src={set.image}
                       alt={set.label}
-                      className="w-14 h-14 rounded-xl object-contain bg-white p-1 border border-stone-200 flex-shrink-0"
+                      className="w-14 h-14 rounded-xl object-cover bg-white p-1 border border-stone-200 flex-shrink-0"
                       loading="lazy"
                       decoding="async"
                     />

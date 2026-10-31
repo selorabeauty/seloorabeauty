@@ -29,8 +29,8 @@ export default function ProblemSection() {
         <div className="grid grid-cols-2 gap-4 mb-10 mx-auto max-w-2xl">
           <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
             <img
-              src="/images/problem-mirror-woman.webp"
-              alt="تشققات البطن بعد الحمل أمام المرآة"
+              src="/images/problem-postpartum.webp"
+              alt="تشققات البطن بعد الحمل وتقلبات الوزن"
               className="w-full aspect-[4/5] object-cover"
               loading="lazy"
               decoding="async"
@@ -41,8 +41,8 @@ export default function ProblemSection() {
           </figure>
           <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
             <img
-              src="/images/problem-gym-man.webp"
-              alt="تشققات الكتف والذراع بعد تضخيم العضلات في الجيم"
+              src="/images/problem-gym.webp"
+              alt="تشققات الذراع والكتف بعد تضخيم العضلات في الجيم"
               className="w-full aspect-[4/5] object-cover"
               loading="lazy"
               decoding="async"

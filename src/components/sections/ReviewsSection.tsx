@@ -66,8 +66,8 @@ export default function ReviewsSection() {
         {/* ── Real UGC photo — unfiltered customer proof ── */}
         <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-stone-200 shadow-md bg-white">
           <img
-            src="/images/ugc-car-hand.webp"
-            alt="لقطة حقيقية من جوال عميلة تستلم طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
+            src="/images/ugc-woman.webp"
+            alt="عميلة تحمل طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
             className="w-full aspect-[4/5] object-cover"
             loading="lazy"
             decoding="async"

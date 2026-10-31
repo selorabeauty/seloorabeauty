@@ -10,7 +10,6 @@ import TrustSection from '@/components/sections/TrustSection';
 import FaqSection from '@/components/sections/FaqSection';
 import StickyBuyBar from '@/components/ui/StickyBuyBar';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 import { Gift } from 'lucide-react';
 
 export const metadata = {
@@ -44,11 +43,11 @@ export default function HomePage() {
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Serum — the paid hero */}
               <div className="product-card p-5">
-                <div className="rounded-2xl overflow-hidden mb-4" style={{ background: 'linear-gradient(135deg, #FBEEDC, #F5EEE4)' }}>
+                <div className="rounded-2xl overflow-hidden mb-4">
                   <img
-                    src="/images/copper-serum.webp"
+                    src="/images/serum-pedestal.webp"
                     alt="سيروم ببتيدات النحاس الزرقاء GHK-Cu — 100ml"
-                    className="w-full aspect-[4/3] object-contain p-4"
+                    className="w-full aspect-[4/3] object-cover"
                     loading="lazy"
                     decoding="async"
                   />
@@ -69,11 +68,11 @@ export default function HomePage() {
                 >
                   <Gift size={12} /> هدية مجانية
                 </span>
-                <div className="rounded-2xl overflow-hidden mb-4" style={{ background: 'linear-gradient(135deg, #FBEEDC, #F5EEE4)' }}>
+                <div className="rounded-2xl overflow-hidden mb-4">
                   <img
-                    src="/images/derma-roller.webp"
-                    alt="ديرما رولر التيتانيوم — هدية مجانية مع كل طقم"
-                    className="w-full aspect-[4/3] object-contain p-4"
+                    src="/images/gift-roller.webp"
+                    alt="ديرما رولر التيتانيوم داخل كبسولتها مع فيونكة هدية — هدية مجانية مع كل طقم"
+                    className="w-full aspect-[4/3] object-cover"
                     loading="lazy"
                     decoding="async"
                   />
@@ -89,24 +88,37 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Conversion asset slots ──
-            Placeholders for the creative team: swap each block for the real
-            asset described inside it. They are intentionally visible. */}
+        {/* ── Social proof strip — UGC · before/after · COD assurance ── */}
         <section className="py-16 bg-white cv-auto">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="grid sm:grid-cols-3 gap-5">
-              <AssetPlaceholder
-                label="Social Proof"
-                note="فيديو UGC قصير (١٥-٣٠ ث) لعميلة حقيقية تفتح الطقم وتتحدث عن تجربتها — يصوَّر بالجوال بإضاءة طبيعية."
-              />
-              <AssetPlaceholder
-                label="Before / After"
-                note="صورة قبل وبعد حقيقية (٤-٦ أسابيع استخدام) لمنطقة تشققات واضحة — نفس الزاوية والإضاءة."
-              />
-              <AssetPlaceholder
-                label="COD Delivery"
-                note="صورة/جرافيك للطرد الفاخر أثناء استلامه من المندوب مع شارة «الدفع عند الاستلام — افحصي أولاً»."
-              />
+              <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
+                <img
+                  src="/images/ugc-woman.webp"
+                  alt="عميلة تحمل طقم سيلورا — السيروم وديرما رولر"
+                  className="w-full aspect-video object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
+                <img
+                  src="/images/beforeafter-torso.webp"
+                  alt="قبل وبعد — تشققات الخصر قبل وبعد كورس سيلورا"
+                  className="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
+                <img
+                  src="/images/cod-delivery.webp"
+                  alt="مندوب يسلم الطرد ليد العميلة — الدفع عند الاستلام"
+                  className="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
             </div>
           </div>
         </section>

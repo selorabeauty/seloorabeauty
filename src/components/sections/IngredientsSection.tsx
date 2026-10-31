@@ -18,11 +18,11 @@ export default function IngredientsSection() {
         </div>
 
         {/* ── Real ingredients & system showcase ── */}
-        <div className="mb-14 rounded-3xl overflow-hidden mx-auto max-w-2xl bg-white border border-stone-200 p-6 flex items-center justify-center shadow-md">
+        <div className="mb-14 mx-auto max-w-2xl rounded-3xl overflow-hidden border border-stone-200 shadow-md" style={{ background: '#FDFAF6' }}>
           <img
-            src="/images/copper-roller-duo.webp"
-            alt="تركيبة ببتيدات النحاس الزرقاء وديرما رولر التيتانيوم — سيلورا بيوتي"
-            className="w-full max-h-80 object-contain"
+            src="/images/ingredients-infographic.webp"
+            alt="مجموعة الترميم المكثف لعلاج تشققات الجلد — الببتيد النحاسي، ماتريكسيل 3000، الأرجيريلين، وتقنية الديرما رولر"
+            className="w-full object-contain"
             loading="lazy"
             decoding="async"
           />
