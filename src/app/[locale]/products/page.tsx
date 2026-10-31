@@ -6,7 +6,7 @@ import { PRODUCTS } from '@/lib/products';
 
 export const metadata = {
   title: 'طقم سيلورا الكامل | سيلورا بيوتي',
-  description: 'اكتشفي عناصر طقم سيلورا بيوتي لعلاج تشققات الجسم — سيروم ببتيدات النحاس الأزرق 100ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
+  description: 'اكتشفي عناصر طقم سيلورا بيوتي لعلاج تشققات الجسم — سيروم ببتيدات النحاس الأزرق 30ml وديرما رولر التيتانيوم 0.5mm. الدفع عند الاستلام.',
 };
 
 export default function CollectionPage({ params }: { params: { locale: string } }) {

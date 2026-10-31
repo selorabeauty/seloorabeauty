@@ -38,7 +38,9 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
   const selectedSet = SET_OPTIONS.find((s) => s.id === selectedSetId)!;
   const setProducts = getSetProducts(selectedSet);
-  const includesLabels = setProducts.map((p) => p.name);
+  const counts = new Map<string, number>();
+  setProducts.forEach((p) => counts.set(p.name, (counts.get(p.name) ?? 0) + 1));
+  const includesLabels = Array.from(counts).map(([name, n]) => (n > 1 ? `${name} ×${n}` : name));
 
   const buildCartItem = () => ({
     id: selectedSet.id,
@@ -105,7 +107,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
               {/* Gallery thumbnails */}
               {gallery.length > 1 && (
                 <div className="grid grid-cols-3 gap-2 mt-3">
-                  {gallery.slice(1).map((src, i) => (
+                  {gallery.slice(1, 4).map((src, i) => (
                     <div
                       key={i}
                       className="bg-white rounded-2xl border border-stone-200 aspect-square overflow-hidden"
@@ -138,7 +140,7 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
               {/* ── Pricing tiers — the set options ── */}
               <div className="flex flex-col gap-2.5">
-                <span className="font-extrabold text-stone-900 text-base">طقمكِ الكامل — عرض واحد واضح:</span>
+                <span className="font-extrabold text-stone-900 text-base">اختاري باقتكِ — كل ما زاد الكورس زاد التوفير:</span>
                 {SET_OPTIONS.map((set) => (
                   <button
                     key={set.id}
@@ -347,13 +349,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                   <div className="p-4 rounded-2xl bg-amber-50/90 border border-amber-200">
                     <div className="font-bold text-sm text-amber-950 flex items-center gap-2 mb-1">
                       <span className="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs">✓</span>
-                      سيروم سيلورا (Blue Copper Peptide + CICA 100ml):
+                      سيروم سيلورا (Blue Copper Peptide + CICA 30ml):
                     </div>
                     <ul className="text-xs text-amber-900 space-y-1 pe-2 leading-relaxed font-medium">
                       <li>• جزيئات نانو دقيقة تخترق مباشرة لطبقة الأدمة حيث مكان التمزق.</li>
                       <li>• تحفيز مباشر لخلايا الفايبروبلاست لردم الخطوط وإعادة نسج الإيلاستين.</li>
                       <li>• تفتيح مثبت للتشققات الحمراء والبنفسجية بفضل السيكا والنياسيناميد.</li>
-                      <li>• حجم 100ml كبير وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
+                      <li>• حجم 30ml مركز وقوام مائي فائق الامتصاص بدون أي لزوجة أو دهون.</li>
                     </ul>
                   </div>
 

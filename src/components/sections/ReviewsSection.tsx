@@ -1,9 +1,10 @@
 import { Star, BadgeCheck } from 'lucide-react';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const REVIEWS = [
   { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل على بطني كانت تضايقني بكل لبس. بعد ٣ أسابيع من استخدام الديرما رولر مع سيروم ببتيدات النحاس الأزرق، لاحظت أن الخطوط العميقة بدأت تنردم ولونها فتح بشكل غير متوقع!', highlight: 'تشققات الحمل خفّت بشكل ملحوظ' },
   { name: 'فهد العنزي (جيم)', city: 'الرياض',  rating: 5, date: 'قبل ٥ أيام',   verified: true, text: 'كنت أعاني من خطوط تشققات حمراء عريضة في الكتف والبايسبس بسبب تضخيم العضلات. الطقم صراحة فاجأني — الديرما رولر سهلة والسيروم يمتص بثواني بدون أي لزوجة، وخف البروز بنسبة ٨٠٪.', highlight: 'حل تشققات النادي وبناء العضلات' },
-  { name: 'نورة الغامدي',  city: 'جدة',     rating: 5, date: 'قبل ٣ أسابيع', verified: true, text: 'نزلت وزن بسرعة وطلعت عندي تشققات بالأرداف والبطن. جربت بايو أويل شهور بدون فايدة. طقم سيلورا من ثاني أسبوع حسيت بفرق حقيقي في مرونة النسيج، وحجم العبوة 100ml سخي جداً.', highlight: 'أفضل بديل لجلسات العيادات' },
+  { name: 'نورة الغامدي',  city: 'جدة',     rating: 5, date: 'قبل ٣ أسابيع', verified: true, text: 'نزلت وزن بسرعة وطلعت عندي تشققات بالأرداف والبطن. جربت بايو أويل شهور بدون فايدة. طقم سيلورا من ثاني أسبوع حسيت بفرق حقيقي في مرونة النسيج، والعبوة تدوم معي طوال الكورس.', highlight: 'أفضل بديل لجلسات العيادات' },
   { name: 'منى الشمري',    city: 'الدمام',  rating: 5, date: 'قبل شهر',      verified: true, text: 'الدفع عند الاستلام مريح وفحصت العبوة قبل الدفع. السيروم لونه أزرق نقي وجودته فاخرة واضحة، ما فيه أي تحسس ومع الديرما رولر النتيجة سريعة جداً.', highlight: 'جودة فاخرة وثقة تامة' },
   { name: 'ريم العتيبي',   city: 'مكة',     rating: 5, date: 'قبل أسبوع',   verified: true, text: 'كنت خايفة من إبر الديرما رولر بس مقاس 0.5mm لطيف جداً ولا يوجع أبداً. السيروم بعدها يعطي إحساس ترميم وبرودة حلوة للبشرة.', highlight: 'استخدام منزلي آمن وبسيط' },
   { name: 'عبير المالكي',  city: 'الخبر',   rating: 5, date: 'قبل أسبوعين', verified: true, text: 'خدمة العملاء والتوصيل في الشرقية وصلني خلال ٤٨ ساعة فقط لباب البيت. شكراً سيلورا على المنتج اللي يستاهل كل ريال.', highlight: 'توصيل سريع وخدمة راقية' },
@@ -63,20 +64,18 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        {/* ── Real UGC photo — unfiltered customer proof ── */}
+        {/* ── UGC photo slot — unfiltered customer proof ── */}
         <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-stone-200 shadow-md bg-white">
-          <img
-            src="/images/ugc-woman.webp"
-            alt="عميلة تحمل طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
-            className="w-full aspect-[4/5] object-cover"
-            loading="lazy"
-            decoding="async"
+          <AssetPlaceholder
+            label="New UGC Photo"
+            note="مكان محجوز لصورة عميلة جديدة — لقطة طبيعية بجوال لعميلة تحمل الطقم أو تستلمه عند الباب."
+            ratio="aspect-[4/5]"
           />
           <div className="flex items-center gap-2.5 p-4">
             <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />
-            <p className="text-xs leading-relaxed text-stone-600">
-              <strong className="text-stone-900">لقطة من جوال عميلتنا — استلام فعلي في الرياض.</strong>{' '}
-              الطقم يصلك بهذا الشكل تماماً: السيروم الأزرق 100ml + الديرما رولر الذهبية بكبسولتها.
+            <p className="text-sm leading-relaxed text-stone-700">
+              <strong className="text-stone-900">&ldquo;أنا أيضاً تعبت من التشققات.. وأخيراً لقيت الحل.&rdquo;</strong>{' '}
+              الطقم يصلك بهذا الشكل تماماً: السيروم الأزرق 30ml + الديرما رولر الذهبية بكبسولتها.
             </p>
           </div>
         </div>
