@@ -1,5 +1,4 @@
 import { Star, BadgeCheck } from 'lucide-react';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const REVIEWS = [
   { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل على بطني كانت تضايقني بكل لبس. بعد ٣ أسابيع من استخدام الديرما رولر مع سيروم ببتيدات النحاس الأزرق، لاحظت أن الخطوط العميقة بدأت تنردم ولونها فتح بشكل غير متوقع!', highlight: 'تشققات الحمل خفّت بشكل ملحوظ' },
@@ -66,10 +65,12 @@ export default function ReviewsSection() {
 
         {/* ── UGC photo slot — unfiltered customer proof ── */}
         <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-stone-200 shadow-md bg-white">
-          <AssetPlaceholder
-            label="New UGC Photo"
-            note="مكان محجوز لصورة عميلة جديدة — لقطة طبيعية بجوال لعميلة تحمل الطقم أو تستلمه عند الباب."
-            ratio="aspect-[4/5]"
+          <img
+            src="/images/ugc-customer-2.webp"
+            alt="عميلة تستلم طرد سيلورا عند باب بيتها وتحمل سيروم ببتيدات النحاس"
+            className="w-full aspect-[4/5] object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div className="flex items-center gap-2.5 p-4">
             <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />
