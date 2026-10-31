@@ -1,6 +1,6 @@
 'use client';
 
-import { SET_OPTIONS } from '@/lib/products';
+import { SET_OPTIONS, setIncludesLabels } from '@/lib/products';
 import { useCartStore } from '@/store/cartStore';
 import { BadgeCheck, Gift } from 'lucide-react';
 
@@ -25,9 +25,7 @@ export default function PackSelector() {
               originalPrice: set.originalTotal,
               imageBg: 'from-amber-100 to-stone-200',
               sku: set.sku,
-              includes: set.includes.map((id) =>
-                id === 'stretch-serum' ? 'سيروم ببتيدات النحاس الأزرق 30ml' : 'ديرما رولر التيتانيوم — هدية مجانية'
-              ),
+              includes: setIncludesLabels(set),
             });
             openCheckout();
           }}

@@ -67,7 +67,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: true,
     savingsLabel: 'وفّري ٢٧٩ ريال',
     sku: 'SLR-SET-DUO2',
-    image: '/images/hero-duo.webp',
+    image: '/images/pack-2-serum.webp',
   },
   {
     id: 'set-duo-3',
@@ -81,7 +81,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: false,
     savingsLabel: 'وفّري ٤٨٨ ريال',
     sku: 'SLR-SET-DUO3',
-    image: '/images/hero-duo.webp',
+    image: '/images/pack-3-serum.webp',
   },
 ];
 
@@ -89,6 +89,13 @@ export function getSetProducts(set: SetOption): Product[] {
   return set.includes
     .map((id) => PRODUCTS.find((p) => p.id === id))
     .filter((p): p is Product => Boolean(p));
+}
+
+/** Human-readable contents of a set, with repeated products collapsed as "×n". */
+export function setIncludesLabels(set: SetOption): string[] {
+  const counts = new Map<string, number>();
+  getSetProducts(set).forEach((p) => counts.set(p.name, (counts.get(p.name) ?? 0) + 1));
+  return Array.from(counts).map(([name, n]) => (n > 1 ? `${name} ×${n}` : name));
 }
 
 export const PRODUCTS: Product[] = [
@@ -194,8 +201,8 @@ export function getCrossSells(currentSlug: string): Product[] {
 
 const SET_IMAGES: Record<string, string> = {
   'set-duo':         '/images/hero-duo.webp',
-  'set-duo-2':       '/images/hero-duo.webp',
-  'set-duo-3':       '/images/hero-duo.webp',
+  'set-duo-2':       '/images/pack-2-serum.webp',
+  'set-duo-3':       '/images/pack-3-serum.webp',
   // legacy ids kept so old persisted carts still resolve an image
   'set-serum-only':  '/images/serum-pedestal.webp',
   'set-cream-only':  '/images/gift-roller.webp',
