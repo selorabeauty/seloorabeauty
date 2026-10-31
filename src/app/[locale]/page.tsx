@@ -11,7 +11,6 @@ import FaqSection from '@/components/sections/FaqSection';
 import StickyBuyBar from '@/components/ui/StickyBuyBar';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
 import PackSelector from '@/components/ui/PackSelector';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 import { Gift } from 'lucide-react';
 
 export const metadata = {
@@ -111,10 +110,12 @@ export default function HomePage() {
                 />
               </figure>
               <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
-                <AssetPlaceholder
-                  label="New Photo Slot"
-                  note="مكان محجوز لصورة جديدة — مثلاً صورة عبوة المنتج بيد عميلة، أو لقطة محتوى UGC إضافية."
-                  ratio="aspect-[4/3]"
+                <img
+                  src="/images/unboxing-lifestyle.webp"
+                  alt="عميلة تفتح طرد سيلورا — السيروم وديرما رولر على الطاولة"
+                  className="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               </figure>
               <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">

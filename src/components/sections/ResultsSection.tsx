@@ -14,7 +14,7 @@ const TIMELINE = [
 const STATS = [
   { label: 'ردم التشققات العميقة وتسطيح النسيج', pct: '+85%', sub: 'اليوم ١ ← اليوم ٢٨',   img: '/images/beforeafter-belly.webp' },
   { label: 'تفتيح لون الخطوط الملونة',            pct: '+82%', sub: 'خلال أسبوعين',         img: '/images/beforeafter-hip.webp' },
-  { label: 'مرونة وكثافة الجلد العامة',           pct: '+94%', sub: 'تحسن موثق بالاستخدام',  img: '/images/beforeafter-torso.webp' },
+  { label: 'مرونة وكثافة الجلد العامة',           pct: '+94%', sub: 'تحسن موثق بالاستخدام',  img: '/images/beforeafter-thigh.webp' },
 ];
 
 export default function ResultsSection() {
