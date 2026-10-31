@@ -51,7 +51,7 @@ export default function Hero() {
       price: duo.totalPrice,
       originalPrice: duo.originalTotal,
       imageBg: 'from-amber-100 to-stone-200',
-      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
+      includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
       sku: duo.sku,
     });
     openCheckout();
@@ -83,7 +83,7 @@ export default function Hero() {
           >
             <img
               src="/images/hero-duo.webp"
-              alt="طقم سيلورا — سيروم ببتيدات النحاس 100ml وديرما رولر التيتانيوم هدية"
+              alt="طقم سيلورا — سيروم ببتيدات النحاس 30ml وديرما رولر التيتانيوم هدية"
               className="w-full aspect-[4/5] object-cover"
               width={1080}
               height={1350}
@@ -121,7 +121,7 @@ export default function Hero() {
           className="animate-rise mt-4 text-base sm:text-lg leading-[1.95] font-medium max-w-xl"
           style={{ color: '#5A4A3F', ['--rise-delay' as string]: '260ms' }}
         >
-          سيروم ببتيدات النحاس الأزرق 100ml مع ديرما رولر التيتانيوم هدية — روتين لطيف يعتني بخطوط التمدد بعد الحمل وتقلبات الوزن، ويمنح بشرتكِ مرونة ونعومة تلاحظينها.
+          سيروم ببتيدات النحاس الأزرق 30ml مع ديرما رولر التيتانيوم هدية — روتين لطيف يعتني بخطوط التمدد بعد الحمل وتقلبات الوزن، ويمنح بشرتكِ مرونة ونعومة تلاحظينها.
         </p>
 
         {/* Social proof pills + free-gift ribbon (kept off the headline) */}
@@ -178,7 +178,7 @@ export default function Hero() {
             <div>
               <div className="text-sm font-black" style={{ color: '#1A0F08' }}>طقم سيلورا الكامل</div>
               <div className="text-xs mt-1 font-semibold" style={{ color: '#6E5C50' }}>
-                سيروم ببتيدات النحاس 100ml <span style={{ color: '#A87830' }}>+ ديرما رولر هدية</span>
+                سيروم ببتيدات النحاس 30ml <span style={{ color: '#A87830' }}>+ ديرما رولر هدية</span>
               </div>
             </div>
             <div className="text-end">

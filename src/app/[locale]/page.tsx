@@ -10,11 +10,13 @@ import TrustSection from '@/components/sections/TrustSection';
 import FaqSection from '@/components/sections/FaqSection';
 import StickyBuyBar from '@/components/ui/StickyBuyBar';
 import CheckoutPopup from '@/components/ui/CheckoutPopup';
+import PackSelector from '@/components/ui/PackSelector';
+import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 import { Gift } from 'lucide-react';
 
 export const metadata = {
   title: 'سيلورا بيوتي | طقم العناية بالتشققات — سيروم ببتيدات النحاس + ديرما رولر هدية',
-  description: 'طقم سيلورا بيوتي للعناية بتشققات الجسم — سيروم ببتيدات النحاس الزرقاء (GHK-Cu) 100ml مع ديرما رولر التيتانيوم هدية مجانية، بسعر 199 ر.س بدلاً من 279. دفع عند الاستلام وضمان استرجاع ٣٠ يوماً.',
+  description: 'طقم سيلورا بيوتي للعناية بتشققات الجسم — سيروم ببتيدات النحاس الزرقاء (GHK-Cu) 30ml مع ديرما رولر التيتانيوم هدية مجانية، بسعر 199 ر.س بدلاً من 279. دفع عند الاستلام وضمان استرجاع ٣٠ يوماً.',
 };
 
 export default function HomePage() {
@@ -46,14 +48,14 @@ export default function HomePage() {
                 <div className="rounded-2xl overflow-hidden mb-4">
                   <img
                     src="/images/serum-pedestal.webp"
-                    alt="سيروم ببتيدات النحاس الزرقاء GHK-Cu — 100ml"
+                    alt="سيروم ببتيدات النحاس الزرقاء GHK-Cu — 30ml"
                     className="w-full aspect-[4/3] object-cover"
                     loading="lazy"
                     decoding="async"
                   />
                 </div>
                 <div className="font-extrabold text-lg" style={{ color: '#1A0F08' }}>
-                  سيروم ببتيدات النحاس الزرقاء 100ml
+                  سيروم ببتيدات النحاس الزرقاء 30ml
                 </div>
                 <p className="text-sm mt-1 leading-relaxed" style={{ color: '#6E5C50' }}>
                   بملمس حريري خفيف وسريع الامتصاص — العنصر الأساسي في طقمكِ.
@@ -85,6 +87,13 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
+
+            {/* ── Upsell packs — bigger course, bigger savings ── */}
+            <div className="text-center mt-16 mb-8">
+              <h3 className="section-heading">اختاري باقتكِ — كل ما زاد الكورس زاد التوفير</h3>
+              <p className="section-sub">ديرما رولر التيتانيوم هدية مجانية مع أي باقة تختارينها</p>
+            </div>
+            <PackSelector />
           </div>
         </section>
 
@@ -102,12 +111,10 @@ export default function HomePage() {
                 />
               </figure>
               <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
-                <img
-                  src="/images/beforeafter-torso.webp"
-                  alt="قبل وبعد — تشققات الخصر قبل وبعد كورس سيلورا"
-                  className="w-full aspect-[4/3] object-cover"
-                  loading="lazy"
-                  decoding="async"
+                <AssetPlaceholder
+                  label="New Photo Slot"
+                  note="مكان محجوز لصورة جديدة — مثلاً صورة عبوة المنتج بيد عميلة، أو لقطة محتوى UGC إضافية."
+                  ratio="aspect-[4/3]"
                 />
               </figure>
               <figure className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm">

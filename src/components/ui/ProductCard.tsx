@@ -25,7 +25,7 @@ export default function ProductCard({ product, locale = 'ar' }: Props) {
       price: duo.totalPrice,
       originalPrice: duo.originalTotal,
       imageBg: product.imageBg,
-      includes: ['سيروم ببتيدات النحاس الأزرق 100ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
+      includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم — هدية مجانية'],
       sku: duo.sku,
     });
     openCheckout();

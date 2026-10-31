@@ -420,7 +420,7 @@ export default function SoftLandingPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-[#1A0F08]">طقم سيروم ببتيدات النحاس + ديرما رولر</div>
-                      <div className="text-[11px] text-[#8C7B6E]">سيروم 100ml + ديرما رولر تيتانيوم</div>
+                      <div className="text-[11px] text-[#8C7B6E]">سيروم 30ml + ديرما رولر تيتانيوم</div>
                     </div>
                   </div>
                   <div className="text-right">
