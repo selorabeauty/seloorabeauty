@@ -11,7 +11,6 @@ import { useState, useEffect } from 'react';
 import { trackAddToCart, trackViewContent } from '@/lib/pixels';
 import { Star, ShieldCheck, Truck, RotateCcw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const REVIEWS = [
   { name: 'سارة م. — الرياض', rating: 5, text: 'تشققات الحمل بدأت تخف بشكل واضح بعد أسبوعين من استخدام الطقم الكامل. قوامه الزبدي يمتص بسرعة ويريح البشرة جداً.' },
@@ -85,12 +84,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
 
             {/* Image gallery */}
             <div className="md:sticky md:top-24">
-              <div className="relative rounded-3xl shadow-md border border-stone-200 aspect-[3/4] overflow-hidden" style={{ background: '#FDFAF6' }}>
-                {/* TODO(asset): product hero — replace with the real photo described below */}
-                <AssetPlaceholder
-                  label="Product Hero Shot"
-                  note="صورة المنتج الرئيسية للصفحة: العبوة بزاوية 45° على خلفية بيج فاتحة، إضاءة استوديو ناعمة، ظل أرضي خفيف — عالية الدقة لأنها أكبر صورة في الصفحة. عمودية 3:4."
-                  ratio="aspect-[3/4]"
+              <div className="relative rounded-3xl shadow-md border border-stone-200 aspect-[3/4] overflow-hidden bg-white">
+                <img
+                  src={gallery[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  decoding="async"
                 />
 
                 {/* Badges */}
@@ -102,24 +102,17 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                 </div>
               </div>
 
-              {/* Thumbnails → gallery asset slots */}
+              {/* Gallery thumbnails */}
               {gallery.length > 1 && (
                 <div className="grid grid-cols-3 gap-2 mt-3">
-                  {gallery.map((src, i) => {
-                    const notes = [
-                      'لقطة قريبة للملمس: قطرة سيروم زرقاء على البشرة تُظهر القوام الحريري.',
-                      'صورة استخدام: يد تضع الرولر على الذراع/البطن — تبيع «طريقة الاستعمال» بدون شرح.',
-                      'صورة الطقم معاً: السيروم + الرولر + العبوة الخارجية — تبني إحساس القيمة.',
-                    ];
-                    return (
-                      <AssetPlaceholder
-                        key={i}
-                        label={`Gallery Shot ${i + 1}`}
-                        note={notes[i] || 'صورة لقطة إضافية للمنتج بنفس الجلسة التصويرية.'}
-                        ratio="aspect-square"
-                      />
-                    );
-                  })}
+                  {gallery.slice(1).map((src, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-2xl border border-stone-200 aspect-square overflow-hidden"
+                    >
+                      <img src={src} alt={`${product.name} ${i + 2}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -160,13 +153,13 @@ export default function ProductPage({ params }: { params: { slug: string; locale
                         {set.badge}
                       </span>
                     )}
-                    <div
-                      className="w-14 h-14 rounded-xl border border-stone-200 flex-shrink-0 flex items-center justify-center"
-                      style={{ background: '#FBF3E4' }}
-                      title="TODO(asset): أيقونة مصغرة للطقم — نفس Hero Product Shot مصغّرة"
-                    >
-                      <span className="text-xl">🎁</span>
-                    </div>
+                    <img
+                      src={set.image}
+                      alt={set.label}
+                      className="w-14 h-14 rounded-xl object-cover bg-white p-1 border border-stone-200 flex-shrink-0"
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div
                       className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0"
                       style={{ borderColor: selectedSetId === set.id ? '#A87830' : '#B0998A' }}

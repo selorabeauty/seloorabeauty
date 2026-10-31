@@ -1,4 +1,3 @@
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 const STATS = [
   { value: '87%',       label: 'تحسن مظهر التشققات الملونة' },
   { value: '94%',       label: 'زيادة موثقة في مرونة الجلد' },
@@ -103,11 +102,12 @@ export default function ScienceSection() {
           >
             {/* Macro needle visual */}
             <div className="rounded-2xl overflow-hidden border -mt-2" style={{ borderColor: '#3D2B1F' }}>
-              {/* TODO(asset): mechanism visual — replace with the real visual described below */}
-              <AssetPlaceholder
-                label="Needle Macro Shot"
-                note="لقطة ماكرو فاخرة لرأس ديرما رولر تُبرز إبر التيتانيوم 0.5mm بوضوح مع إضاءة درامية دافئة — أو رسم توضيحي 3D بسيط يوضح دخول الإبر للأدمة. أفقية 16:9، تتناسب مع خلفية القسم الداكنة."
-                ratio="aspect-[16/9]"
+              <img
+                src="/images/needle-macro.webp"
+                alt="لقطة مقربة لإبر التيتانيوم الدقيقة 0.5mm في ديرما رولر سيلورا"
+                className="w-full aspect-[16/9] object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 

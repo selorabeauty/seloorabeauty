@@ -1,5 +1,4 @@
 import { ArrowDown } from 'lucide-react';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 // ── EMOTIONAL + RATIONAL pain points — stretch marks deeply felt ──
 const PROBLEMS = [
@@ -29,22 +28,24 @@ export default function ProblemSection() {
         {/* ── Real problem photos — women & men ── */}
         <div className="grid grid-cols-2 gap-4 mb-10 mx-auto max-w-2xl">
           <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
-            {/* TODO(asset): problem photo 1 — replace with the real photo described below */}
-            <AssetPlaceholder
-              label="Problem Photo — Postpartum"
-              note="صورة واقعية (ليست ستوك) لامرأة تنظر إلى تشققات بطنها أمام المرآة — إضاءة منزلية دافئة، تكوين صادق بدون مبالغة، تبرز التشققات بوضوح بدون أن تكون مزعجة. عمودية 4:5."
-              ratio="aspect-[4/5]"
+            <img
+              src="/images/problem-postpartum.webp"
+              alt="تشققات البطن بعد الحمل وتقلبات الوزن"
+              className="w-full aspect-[4/5] object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#EBD9B4' }}>
               بعد الحمل وتقلبات الوزن
             </figcaption>
           </figure>
           <figure className="rounded-3xl overflow-hidden border relative" style={{ borderColor: '#3D2B1F', boxShadow: '0 16px 48px -12px rgba(0,0,0,0.6)' }}>
-            {/* TODO(asset): problem photo 2 — replace with the real photo described below */}
-            <AssetPlaceholder
-              label="Problem Photo — Gym"
-              note="صورة واقعية لرجل في الجيم تظهر تشققات الكتف/الذراع بعد تضخيم العضلات — إضاءة جيم طبيعية، تركيز قريب على التشققات مع جزء من شكل الجسم. عمودية 4:5."
-              ratio="aspect-[4/5]"
+            <img
+              src="/images/problem-gym.webp"
+              alt="تشققات الذراع والكتف بعد تضخيم العضلات في الجيم"
+              className="w-full aspect-[4/5] object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <figcaption className="absolute bottom-0 inset-x-0 text-xs font-bold py-2 px-3 text-center" style={{ background: 'linear-gradient(to top, rgba(11,19,43,0.9), transparent)', color: '#EBD9B4' }}>
               بعد التضخيم والجيم

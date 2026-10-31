@@ -53,7 +53,7 @@ export const SET_OPTIONS: SetOption[] = [
     highlight: true,
     savingsLabel: 'وفري ٨٠ ريال',
     sku: 'SLR-SET-DUO',
-    image: '/images/copper-roller-duo.webp',
+    image: '/images/hero-duo.webp',
   },
 ];
 
@@ -100,13 +100,13 @@ export const PRODUCTS: Product[] = [
       'كرري استخدام السيروم يومياً صباحاً ومساءً للحصول على أقصى نتيجة خلال ٤-٨ أسابيع.',
     ],
     images: [
-      '/images/copper-serum.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
-      '/images/before-after-day28.webp',
-      '/images/roller-macro.webp',
+      '/images/serum-pedestal.webp',
+      '/images/texture-drop.webp',
+      '/images/roller-in-use.webp',
+      '/images/hero-duo.webp',
+      '/images/ingredients-infographic.webp',
     ],
-    heroImage: '/images/copper-serum.webp',
+    heroImage: '/images/serum-pedestal.webp',
     imageBg: 'from-amber-100 to-stone-200',
     isBestseller: true,
   },
@@ -146,12 +146,12 @@ export const PRODUCTS: Product[] = [
       'عقمي الرولر واحفظيها في كبسولتها بعد كل استخدام.',
     ],
     images: [
-      '/images/derma-roller.webp',
-      '/images/roller-macro.webp',
-      '/images/copper-roller-duo.webp',
-      '/images/ugc-car-hand.webp',
+      '/images/gift-roller.webp',
+      '/images/needle-macro.webp',
+      '/images/roller-in-use.webp',
+      '/images/hero-duo.webp',
     ],
-    heroImage: '/images/derma-roller.webp',
+    heroImage: '/images/gift-roller.webp',
     imageBg: 'from-amber-100 to-stone-200',
   },
 ];
@@ -165,20 +165,20 @@ export function getCrossSells(currentSlug: string): Product[] {
 }
 
 const SET_IMAGES: Record<string, string> = {
-  'set-duo':         '/images/copper-roller-duo.webp',
+  'set-duo':         '/images/hero-duo.webp',
   // legacy ids kept so old persisted carts still resolve an image
-  'set-serum-only':  '/images/copper-serum.webp',
-  'set-cream-only':  '/images/derma-roller.webp',
-  'set-roller-only': '/images/derma-roller.webp',
-  'set-complete':    '/images/copper-roller-duo.webp',
-  'set-double':      '/images/copper-roller-duo.webp',
+  'set-serum-only':  '/images/serum-pedestal.webp',
+  'set-cream-only':  '/images/gift-roller.webp',
+  'set-roller-only': '/images/gift-roller.webp',
+  'set-complete':    '/images/hero-duo.webp',
+  'set-double':      '/images/hero-duo.webp',
 };
 
 /** Map any product/set/cart item identifier to its image path(s). */
 export function itemImages(item: { id?: string; sku?: string; name?: string }): string[] {
   if (item.id && SET_IMAGES[item.id]) return [SET_IMAGES[item.id]];
   const k = ((item.id || '') + ' ' + (item.sku || '') + ' ' + (item.name || '')).toLowerCase();
-  if (k.includes('double') || k.includes('complete')) return ['/images/copper-roller-duo.webp'];
-  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return ['/images/derma-roller.webp'];
-  return ['/images/copper-serum.webp'];
+  if (k.includes('double') || k.includes('complete')) return ['/images/hero-duo.webp'];
+  if (k.includes('roller') || k.includes('رولر') || k.includes('cream') || k.includes('كريم')) return ['/images/gift-roller.webp'];
+  return ['/images/serum-pedestal.webp'];
 }

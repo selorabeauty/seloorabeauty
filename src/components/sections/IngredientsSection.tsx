@@ -1,5 +1,4 @@
 import { PRODUCTS } from '@/lib/products';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 // Combine unique ingredients from both the serum and the cream
 const ALL_INGREDIENTS = [...PRODUCTS[0].ingredients, ...PRODUCTS[1].ingredients];
@@ -19,12 +18,13 @@ export default function IngredientsSection() {
         </div>
 
         {/* ── Real ingredients & system showcase ── */}
-        <div className="mb-14 mx-auto max-w-2xl">
-          {/* TODO(asset): ingredients visual — replace with the real photo described below */}
-          <AssetPlaceholder
-            label="Ingredients Flat-Lay"
-            note="صورة flat-lay أنيقة: عبوة السيروم + ديرما رولر على سطح رخامي/قماشي مع قطرة سيروم زرقاء ولمسة خضراء (ورقة سيكا) — توصّل «مكونات فاخرة طبيعية». أفقية 4:3."
-            ratio="aspect-[4/3]"
+        <div className="mb-14 mx-auto max-w-2xl rounded-3xl overflow-hidden border border-stone-200 shadow-md" style={{ background: '#FDFAF6' }}>
+          <img
+            src="/images/ingredients-infographic.webp"
+            alt="مجموعة الترميم المكثف لعلاج تشققات الجلد — الببتيد النحاسي، ماتريكسيل 3000، الأرجيريلين، وتقنية الديرما رولر"
+            className="w-full object-contain"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

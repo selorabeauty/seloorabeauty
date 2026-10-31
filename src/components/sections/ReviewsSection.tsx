@@ -1,5 +1,4 @@
 import { Star, BadgeCheck } from 'lucide-react';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const REVIEWS = [
   { name: 'سارة م.',        city: 'الرياض',  rating: 5, date: 'قبل أسبوعين',  verified: true, text: 'تشققات الحمل على بطني كانت تضايقني بكل لبس. بعد ٣ أسابيع من استخدام الديرما رولر مع سيروم ببتيدات النحاس الأزرق، لاحظت أن الخطوط العميقة بدأت تنردم ولونها فتح بشكل غير متوقع!', highlight: 'تشققات الحمل خفّت بشكل ملحوظ' },
@@ -66,11 +65,12 @@ export default function ReviewsSection() {
 
         {/* ── Real UGC photo — unfiltered customer proof ── */}
         <div className="max-w-lg mx-auto mb-12 rounded-3xl overflow-hidden border border-stone-200 shadow-md bg-white">
-          {/* TODO(asset): UGC proof — replace with the real photo described below */}
-          <AssetPlaceholder
-            label="UGC Unboxing Photo"
-            note="لقطة حقيقية ملتقطة بهاتف عميلة: يدها تمسك الطقم عند الاستلام (داخل السيارة أو أمام باب البيت) — بدون تنسيق أو فلتر، تبدو مصادفة تماماً. صورة UGC خام تتفوق أي تصميم. عمودية 4:5."
-            ratio="aspect-[4/5]"
+          <img
+            src="/images/ugc-woman.webp"
+            alt="عميلة تحمل طقم سيلورا — سيروم ببتيدات النحاس وديرما رولر التيتانيوم"
+            className="w-full aspect-[4/5] object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div className="flex items-center gap-2.5 p-4">
             <BadgeCheck size={16} className="text-emerald-600 flex-shrink-0" />

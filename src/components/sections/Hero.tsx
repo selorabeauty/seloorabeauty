@@ -5,7 +5,6 @@ import { ShieldCheck, Truck, RotateCcw, Star, Gift, Sparkles, Leaf, PhoneCall, P
 import { useCartStore } from '@/store/cartStore';
 import { SET_OPTIONS } from '@/lib/products';
 import { trackAddToCart } from '@/lib/pixels';
-import AssetPlaceholder from '@/components/ui/AssetPlaceholder';
 
 const duo = SET_OPTIONS[0];
 
@@ -82,11 +81,14 @@ export default function Hero() {
             className="relative rounded-[2rem] overflow-hidden p-3 sm:p-4"
             style={{ border: '1px solid #EFE4D4', boxShadow: '0 24px 64px -16px rgba(58,40,24,0.20)', background: '#FDFAF6' }}
           >
-            {/* TODO(asset): hero shot — replace with the real photo described below */}
-            <AssetPlaceholder
-              label="Hero Product Shot"
-              note="صورة استوديو حقيقية لصندوق الطقم: عبوة السيروم الزرقاء واقفة + ديرما رولر التيتانيوم مائلة بجوارها على قماش حريري بلون بيج دافئ، إضاءة ناعمة طبيعية، عمق حقل خفيف — بدون نص داخل الصورة. عمودية 4:5، خلفية نظيفة تمتزج مع لون الموقع #FBF7F1."
-              ratio="aspect-[4/5]"
+            <img
+              src="/images/hero-duo.webp"
+              alt="طقم سيلورا — سيروم ببتيدات النحاس 100ml وديرما رولر التيتانيوم هدية"
+              className="w-full aspect-[4/5] object-cover"
+              width={1080}
+              height={1350}
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
 
