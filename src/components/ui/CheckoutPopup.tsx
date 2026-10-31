@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone } from 'lucide-react';
+import { X, ShieldCheck, Truck, RotateCcw, Loader2, Banknote, CreditCard, Smartphone, TrendingUp } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { SET_OPTIONS, itemImages } from '@/lib/products';
+import { SET_OPTIONS, itemImages, setIncludesLabels, type SetOption } from '@/lib/products';
 import { validateKSAPhone, generateOrderId, formatPrice, cn } from '@/lib/utils';
 import { captureClickIds, getClickIds, getLandingUrl, identifyUser, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } from '@/lib/pixels';
 import { track } from '@/lib/track';
@@ -20,7 +20,7 @@ type PaymentMethod = typeof PAYMENT_METHODS[number]['id'];
 
 export default function CheckoutPopup() {
   const router = useRouter();
-  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart } = useCartStore();
+  const { items, isCheckoutOpen, closeCheckout, subtotal, clearCart, setMainSet } = useCartStore();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
@@ -38,6 +38,23 @@ export default function CheckoutPopup() {
     ? items
     : [{ id: fallbackSet.id, name: fallbackSet.label, price: fallbackSet.totalPrice, originalPrice: fallbackSet.originalTotal, quantity: 1, imageBg: 'from-amber-900 to-stone-950', includes: ['سيروم ببتيدات النحاس الأزرق 30ml', 'ديرما رولر التيتانيوم 0.5mm'], sku: fallbackSet.sku }];
   const total = items.length > 0 ? subtotal() : fallbackSet.totalPrice;
+
+  // AOV upsell: bigger packs than the one currently in the cart
+  const currentSetId = items[0]?.id ?? 'set-duo';
+  const currentIdx = SET_OPTIONS.findIndex((s) => s.id === currentSetId);
+  const upgrades = SET_OPTIONS.slice((currentIdx >= 0 ? currentIdx : 0) + 1);
+
+  const upgradeTo = (set: SetOption) => {
+    setMainSet({
+      id: set.id,
+      name: set.label,
+      price: set.totalPrice,
+      originalPrice: set.originalTotal,
+      imageBg: 'from-amber-100 to-stone-200',
+      sku: set.sku,
+      includes: setIncludesLabels(set),
+    });
+  };
 
   useEffect(() => {
     captureClickIds();
@@ -202,6 +219,57 @@ export default function CheckoutPopup() {
                 </div>
               </div>
             </div>
+
+            {/* ── AOV upsell — upgrade to a bigger pack ── */}
+            {upgrades.length > 0 && (
+              <div
+                className="rounded-2xl p-4 mb-5 border-2"
+                style={{ background: 'linear-gradient(135deg, #FDF6E7, #FBF3E4)', borderColor: '#C4943E' }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <TrendingUp size={16} style={{ color: '#A87830' }} />
+                  <h3 className="font-black text-sm" style={{ color: '#1A0F08' }}>
+                    وفّري أكثر قبل تأكيد الطلب
+                  </h3>
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  {upgrades.map((set) => (
+                    <div
+                      key={set.id}
+                      className="flex items-center gap-3 rounded-xl bg-white p-3 border border-stone-200"
+                    >
+                      <img
+                        src={set.image}
+                        alt={set.label}
+                        className="w-14 h-14 rounded-lg object-cover flex-shrink-0 border border-stone-100"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-black text-xs leading-snug line-clamp-2" style={{ color: '#1A0F08' }}>
+                          {set.label}
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="font-black text-sm" style={{ color: '#1A0F08' }}>{set.totalPrice} ر.س</span>
+                          <span className="text-xs line-through" style={{ color: '#B0998A' }}>{set.originalTotal}</span>
+                          <span className="rounded-full px-2 py-0.5 text-[10px] font-black text-white" style={{ background: '#1E8A5A' }}>
+                            {set.savingsLabel}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => upgradeTo(set)}
+                        className="flex-shrink-0 rounded-xl px-3.5 py-2 text-xs font-black text-white shadow"
+                        style={{ background: 'linear-gradient(135deg, #C4943E, #A87830)' }}
+                      >
+                        رقّي طلبي
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
